@@ -1,0 +1,8 @@
+{
+  "name": "boilerplate-s2022",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
+  "author": "danielbarra24 <72272441+danielbarra24@users.noreply.github.com>",
+  "license": "MIT"
+}
