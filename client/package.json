@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "boilerplate-s2022-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
