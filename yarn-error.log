@@ -1,0 +1,40 @@
+Arguments: 
+  /Users/adibhati/.nvm/versions/node/v11.15.0/bin/node /usr/local/Cellar/yarn/1.22.17_1/libexec/bin/yarn.js add eslint —-save-dev
+
+PATH: 
+  /Users/adibhati/.rvm/gems/ruby-2.6.3/bin:/Users/adibhati/.rvm/gems/ruby-2.6.3@global/bin:/Users/adibhati/.rvm/rubies/ruby-2.6.3/bin:/Users/adibhati/miniconda3/bin:/Users/adibhati/miniconda3/condabin:/Users/adibhati/.nvm/versions/node/v11.15.0/bin:/Users/adibhati/.poetry/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/adibhati/.rvm/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  11.15.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  TypeError [ERR_UNESCAPED_CHARACTERS]: https://registry.yarnpkg.com/—-save-dev: Request path contains unescaped characters
+      at new ClientRequest (_http_client.js:127:13)
+      at Object.request (https.js:303:10)
+      at Request.module.exports.Request.start (/usr/local/Cellar/yarn/1.22.17_1/libexec/lib/cli.js:141445:32)
+      at Request.module.exports.Request.end (/usr/local/Cellar/yarn/1.22.17_1/libexec/lib/cli.js:142204:10)
+      at end (/usr/local/Cellar/yarn/1.22.17_1/libexec/lib/cli.js:141258:14)
+      at Immediate.<anonymous> (/usr/local/Cellar/yarn/1.22.17_1/libexec/lib/cli.js:141272:7)
+      at processImmediate (internal/timers.js:443:21)
+
+npm manifest: 
+  {
+    "name": "boilerplate-s2022",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
+    "author": "danielbarra24 <72272441+danielbarra24@users.noreply.github.com>",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
