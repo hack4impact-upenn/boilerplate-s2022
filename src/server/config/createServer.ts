@@ -6,8 +6,8 @@ import 'dotenv/config';
 const createServer = (): express.Express => {
   const app = express();
   // sets the port for the app
-  app.set('port', process.env.PORT || 5000);
-  // gives express the ability to parse requessts with JSON and turn the JSON into objects
+  app.set('port', process.env.PORT || 4000);
+  // gives express the ability to parse requests with JSON and turn the JSON into objects
   app.use(express.json());
   // gives express the ability to parse urlencoded payloads
   app.use(

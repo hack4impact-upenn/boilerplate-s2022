@@ -43,7 +43,9 @@ class MongoConnection {
         await mongoose.connect(mongoUrl, opts);
       } else {
         console.log('Connecting to MongoDB...');
-        mongoose.connect(process.env.ATLAS_URI || 'mongodb://localhost:27017/myproject', opts);
+        const uri = process.env.ATLAS_URI || 'mongodb+srv://NO:CONNECTION@STRING.FOUND.mongodb.net/FAILURE?retryWrites=true&w=majority';
+        mongoose.connect(uri, opts).catch((e)=>
+        console.error(`Connection to MongoDB failed at: ${uri}. Please check your env file to ensure you have the correct link. ${e}`));
       }
 
       mongoose.connection.on('connected', () => {
