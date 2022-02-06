@@ -1,6 +1,6 @@
 import React from 'react';
-import { COLORS } from '../assets/colors';
-import { FONTS } from '../assets/fonts';
+import COLORS from '../assets/colors';
+import FONTS from '../assets/fonts';
 
 function LoginView() {
   return (
@@ -10,7 +10,7 @@ function LoginView() {
         width: '100px',
         height: '100px',
         fontFamily: FONTS.headerFont,
-        fontWeight: FONTS.headerWeight
+        fontWeight: FONTS.headerWeight,
       }}
     >
       Login page

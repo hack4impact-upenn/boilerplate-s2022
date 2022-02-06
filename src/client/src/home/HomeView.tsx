@@ -1,6 +1,6 @@
 import React from 'react';
-import { COLORS } from '../assets/colors';
-import { FONTS } from '../assets/fonts';
+import COLORS from '../assets/colors';
+import FONTS from '../assets/fonts';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         width: '100px',
         height: '100px',
         fontFamily: FONTS.headerFont,
-        fontWeight: FONTS.headerWeight
+        fontWeight: FONTS.headerWeight,
       }}
     >
       Entry page

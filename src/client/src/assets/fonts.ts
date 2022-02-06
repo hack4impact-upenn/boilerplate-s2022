@@ -1,5 +1,7 @@
-export const FONTS = {
+const FONTS = {
   // your fonts
   headerFont: 'Roboto',
-  headerWeight: 'bold'
+  headerWeight: 'bold',
 };
+
+export default FONTS;
