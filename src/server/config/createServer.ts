@@ -14,10 +14,9 @@ const createServer = (): express.Express => {
     express.urlencoded({
       extended: true,
     }),
-  );  
+  );
   // gives express the ability accept origins outside its own to accept requests from
   app.use(cors());
-
 
   // Serving static files
   if (process.env.NODE_ENV === 'production') {
