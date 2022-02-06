@@ -14,7 +14,5 @@ const main = async () => {
   });
 };
 
-let a = 2;
-
 // instantiate app
 main();
