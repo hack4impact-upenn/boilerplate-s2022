@@ -1,6 +1,8 @@
 export const COLORS = {
-  white: "#fff",
-  black: "#000",
-  header: "#4469cf",
+  white: '#fff',
+  black: '#000',
+  header: '#4469cf'
   // your colors
 };
+
+var hi = 'hello';
