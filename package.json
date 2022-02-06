@@ -1,0 +1,30 @@
+{
+  "name": "boilerplate-s2022",
+  "version": "1.0.0",
+  "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "setup": "yarn install && concurrently \"yarn --cwd src/client install\" \"yarn --cwd src/server install\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"yarn server\" \"yarn client\"",
+    "server": "cd src/server && cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
+    "client": "cd src/client && yarn start"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "ts-node-dev": "^1.1.8"
+  }
+}
