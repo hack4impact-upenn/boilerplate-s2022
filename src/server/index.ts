@@ -13,6 +13,5 @@ const main = async () => {
     console.log('  Press Control-C to stop\n');
   });
 };
-
 // instantiate app
 main();

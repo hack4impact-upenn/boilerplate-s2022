@@ -4,4 +4,5 @@ const COLORS = {
   header: '#4469cf',
   // your colors
 };
+
 export default COLORS;
