@@ -1,5 +1,5 @@
-import createServer from './config/createServer';
-import db from './config/database';
+import createServer from './src/config/createServer';
+import db from './src/config/database';
 
 const main = async () => {
   // listen for termination
@@ -13,8 +13,6 @@ const main = async () => {
     console.log('  Press Control-C to stop\n');
   });
 };
-
-let a = 2;
 
 // instantiate app
 main();
