@@ -11,6 +11,12 @@
     "express": "^4.17.2",
     "mongoose": "^6.1.10"
   },
+  "scripts": {
+    "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
+    "start": "yarn server",
+    "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
+    "postinstall": "echo \"Package install attempted in server directory\""
+  },
   "devDependencies": {
     "dotenv": "^16.0.0",
     "mongodb-memory-server": "^8.2.0"
