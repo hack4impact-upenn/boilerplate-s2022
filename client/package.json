@@ -21,6 +21,7 @@
     "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
     "build": "react-scripts build",
     "test": "react-scripts test",
+<<<<<<< HEAD:client/package.json
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' ",
     "lint": "eslint --fix 'src/**/*.{js,jsx,ts,tsx} .'",
@@ -31,6 +32,9 @@
       "react-app",
       "react-app/jest"
     ]
+=======
+    "eject": "react-scripts eject"
+>>>>>>> master:src/client/package.json
   },
   "browserslist": {
     "production": [
