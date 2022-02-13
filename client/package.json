@@ -1,5 +1,5 @@
 {
-  "name": "boilerplate-s2022-client",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,16 +13,18 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
-    "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "client": "yarn start",
+    "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' ",
-    "lint": "eslint --fix 'src/**/*.{js,jsx,ts,tsx} .'"
+    "lint": "eslint --fix 'src/**/*.{js,jsx,ts,tsx} .'",
+    "postinstall": "echo \"Package install attempted in client directory\""
   },
   "eslintConfig": {
     "extends": [

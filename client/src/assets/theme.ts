@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createTheme } from '@mui/material/styles';
-import COLORS from './color';
+import COLORS from './colors';
 
 const theme = createTheme({
   palette: {
