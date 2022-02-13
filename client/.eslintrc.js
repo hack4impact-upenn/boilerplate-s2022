@@ -1,6 +1,5 @@
 module.exports = {
-  extends: ['airbnb-typescript-prettier'],
   rules: {
-    'no-console': 'off',
+    // Add overriden rules specific to client here
   },
 };
