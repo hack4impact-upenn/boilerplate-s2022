@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createTheme } from '@mui/material/styles';
+import COLORS from './color';
 
 const theme = createTheme({
   palette: {
@@ -7,10 +8,10 @@ const theme = createTheme({
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
-      main: '#065798',
+      main: COLORS.primary,
     },
     secondary: {
-      main: '#83E4C7',
+      main: COLORS.secondary,
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
