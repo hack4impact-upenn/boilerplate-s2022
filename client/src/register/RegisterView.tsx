@@ -1,20 +1,17 @@
 import React from 'react';
-import COLORS from '../assets/colors';
-import FONTS from '../assets/fonts';
+import theme from '../assets/theme';
+import { ThemeProvider } from '@mui/material/styles';
+
 
 function RegisterView() {
   return (
-    <div
-      style={{
-        backgroundColor: COLORS.header,
-        width: '100px',
-        height: '100px',
-        fontFamily: FONTS.headerFont,
-        fontWeight: FONTS.headerWeight,
-      }}
-    >
-      Register page
-    </div>
+   
+      <ThemeProvider theme={theme}>
+        <div>
+          Register page
+        </div>
+      </ThemeProvider>
+      
   );
 }
 

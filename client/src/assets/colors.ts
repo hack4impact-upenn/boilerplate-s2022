@@ -1,7 +1,6 @@
 const COLORS = {
-  white: '#fff',
-  black: '#000',
-  header: '#4469cf',
+  primary: '#065798',
+  secondary: '#83E4C7',
   // your colors
 };
 
