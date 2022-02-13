@@ -1,5 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { createTheme } from '@mui/material/styles';
-
 
 const theme = createTheme({
   palette: {
@@ -21,7 +21,7 @@ const theme = createTheme({
     tonalOffset: 0.2,
   },
   typography: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
   },
 });
 
