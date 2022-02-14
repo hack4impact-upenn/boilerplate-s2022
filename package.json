@@ -8,8 +8,8 @@
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "setup": "yarn install && concurrently --kill-others-on-fail \"yarn --cwd client install\" \"yarn --cwd server install\"",
-    "dev": "cross-env NODE_ENV=development concurrently \"yarn server\" \"yarn client\"",
+    "setup": "yarn install && concurrently \"yarn --cwd client install\" \"yarn --cwd server install\"",
+    "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "server": "cd server && yarn start",
     "postinstall": "echo \"Package install attempted in global directory\"",
     "client": "cd client && yarn start"
