@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
   "license": "MIT",
-  "workspaces": ["client", "server"],
   "private": true,
+  "workspaces": ["client", "server"],
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
