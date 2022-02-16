@@ -1,20 +1,19 @@
-import express from 'express'
-import passport from 'passport'
-import jwt from 'jsonwebtoken'
+import express from 'express';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import { hash, compare } from 'bcrypt';
 
 import { User, IUser } from '../models/user';
 import login from '../auth/login'
 
 const router = express.Router();
+const saltRounds = 10;
 var expirationtimeInMs: string;
 var secret: string;
-if (process.env.JWT_EXPIRATION_TIME) {
-    expirationtimeInMs = process.env.JWT_EXPIRATION_TIME
-}
+process.env.JWT_EXPIRATION_TIME && (expirationtimeInMs = process.env.JWT_EXPIRATION_TIME);
 
-if (process.env.JWT_SECRET) {
-    secret = process.env.JWT_SECRET;
-}
+process.env.JWT_SECRET && (secret = process.env.JWT_SECRET);
+
 
 router.post('/register', async (req, res) => {
     const { email } = req.body;
@@ -27,15 +26,26 @@ router.post('/register', async (req, res) => {
         });
     };
 
-    const newUser = new User({
-        email,
-        password
-    });
+      // hash + salt password
+    return hash(password, saltRounds, (err : any, hashedPassword : String) => {
+        if (err) {
+            res.status(400).send({
+                success: false,
+                message: err.message
+            });
+        }
 
-    return newUser
-        .save()
-        .then(() => res.status(200).send({ success: true }))
-        .catch((e) => res.status(400).send({ errorMessage: e}));
+
+        const newUser = new User({
+            email,
+            password
+        });
+
+        return newUser
+            .save()
+            .then(() => res.status(200).send({ success: true }))
+            .catch((e) => res.status(400).send({ errorMessage: e}));
+    });
 });
 
 router.post('/login',
