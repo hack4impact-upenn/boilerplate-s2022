@@ -43,7 +43,8 @@ class MongoConnection {
         await mongoose.connect(mongoUrl, opts);
       } else {
         console.log('Connecting to MongoDB...');
-        const uri = process.env.ATLAS_URI || 'mongodb+srv://NO:CONNECTION@STRING.FOUND.mongodb.net/FAILURE?retryWrites=true&w=majority';
+        // const uri = process.env.ATLAS_URI || 'mongodb+srv://NO:CONNECTION@STRING.FOUND.mongodb.net/FAILURE?retryWrites=true&w=majority';
+        const uri = 'mongodb+srv://hack4impact:boilerplate@cluster0.4jd7b.mongodb.net/Boilerplate?retryWrites=true&w=majority'
         mongoose.connect(uri, opts).catch((e)=>
         console.error(`Connection to MongoDB failed at: ${uri}. Please check your env file to ensure you have the correct link. ${e}`));
       }

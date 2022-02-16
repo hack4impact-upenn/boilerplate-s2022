@@ -35,10 +35,11 @@ router.post('/register', async (req, res) => {
             });
         }
 
+        console.log(hashedPassword)
 
         const newUser = new User({
             email,
-            password
+            password: hashedPassword
         });
 
         return newUser
@@ -48,37 +49,69 @@ router.post('/register', async (req, res) => {
     });
 });
 
-router.post('/login',
-    login,
+router.post('/login', 
     async (req, res) => {
-        let user;
+        const { email } = req.body;
+        const { password } = req.body;
+        let user : IUser;
 
-        if (res.locals.user) {
-            user = res.locals.user;
-        } else {
-            res.status(400).json({
-                error: 'user not found'
-            });
-        };
-
-        const payload = {
-            username: user.username,
-            expiration: Date.now() + parseInt(expirationtimeInMs)
-        };
-
-        const token = jwt.sign(JSON.stringify(payload), secret);
-
-        res
-        .cookie('jwt',
-            token, {
-                httpOnly: true,
-                secure: false //--> TODO: SET TO TRUE ON PRODUCTION
+        
+        User.findOne({email: email}, function(err: any, userObj: any) {
+            if (err) {
+                console.log(err);
+                res
+                .status(400)
+                .send({
+                    success: false,
+                    message: err.message
+                });
+            } else if (userObj) {
+                user = userObj;
+                // ************************************************************
+                return compare(password, user.password, (err, result) => {
+                    if (err) {
+                        res
+                        .status(400)
+                        .send({
+                            success: false,
+                            message: err.message
+                        })
+                    };
+        
+                    if (result) {
+                        // password matched
+                        const payload = {
+                        username: user,
+                        expiration: Date.now() + parseInt(expirationtimeInMs)
+                        }
+                        secret = "somethingrandom"
+                        const token = jwt.sign(JSON.stringify(payload), secret);
+                        
+                        res
+                        .cookie('jwt',
+                            token, {
+                                httpOnly: true,
+                                secure: false //--> TODO: SET TO TRUE ON PRODUCTION
+                            }
+                        )
+                        .status(200)
+                        .json({
+                            message: 'You have logged in :D'
+                        });
+                    }; 
+                })
+                // ******************************************************************
+            } else {
+                res
+                .status(400)
+                .send({
+                    success: false,
+                    message: `User with email ${email} not found.`
+                });
             }
-        )
-        .status(200)
-        .json({
-            message: 'You have logged in :D'
-        });
+        }); 
+
+        console.log("user object found");
     }
 );
 
