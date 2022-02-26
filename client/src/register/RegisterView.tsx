@@ -7,7 +7,7 @@ import SignUpForm from '../components/signup-form';
 
 function RegisterView() {
   return (
-    <SignUpForm></SignUpForm>
+    <SignUpForm />
   );
 }
 

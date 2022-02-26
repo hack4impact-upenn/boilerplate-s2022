@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import HomeView from './home/HomeView';
+import SignUpForm from './components/signup-form';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HomeView />
+    <SignUpForm />
   </React.StrictMode>,
   document.getElementById('root'),
 );

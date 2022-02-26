@@ -4,7 +4,10 @@
   "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
   "license": "MIT",
   "private": true,
-  "workspaces": ["client", "server"],
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
@@ -20,6 +23,7 @@
     "@mui/material": "^5.4.1",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.5"
   },
   "devDependencies": {
