@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import Input from './input';
 import Button from './button';
-import { useForm, Form } from './controls/submitForm';
+import { useForm, Form } from './submitForm';
 
 const initialFValues = {
   fullName: '',
