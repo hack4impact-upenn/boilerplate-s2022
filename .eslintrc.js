@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     // Add overriden rules here
     'no-console': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'import/no-extraneous-dependencies': [
       'error',
       {

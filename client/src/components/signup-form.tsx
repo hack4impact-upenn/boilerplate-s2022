@@ -1,104 +1,91 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@mui/material';
 import Input from './controls/input';
 import Button from './controls/button';
 import { useForm, Form } from './controls/submitForm';
 
 const initialFValues = {
-    fullName: '',
-    email: '',
-    password: '',
-    conPassword: ''
-}
+  fullName: '',
+  email: '',
+  password: '',
+  conPassword: '',
+};
 
 export default function EmployeeForm() {
+  const validate = (fieldValues = values) => {
+    const temp = { ...errors };
+    if ('fullName' in fieldValues)
+      temp.fullName = fieldValues.fullName ? '' : 'This field is required.';
+    if ('email' in fieldValues)
+      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+        ? ''
+        : 'Email is not valid.';
+    if (('password', 'conPassword' in fieldValues))
+      temp.password =
+        fieldValues.password === fieldValues.conPassword
+          ? ''
+          : 'Passwords do not Match';
+    setErrors({
+      ...temp,
+    });
 
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ('fullName' in fieldValues)
-            temp.fullName = fieldValues.fullName ? "" : "This field is required."
-        if ('email' in fieldValues)
-            temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-        if ('password', 'conPassword' in fieldValues)
-            temp.password = fieldValues.password == fieldValues.conPassword ? "" : "Passwords do not Match"
-            setErrors({
-            ...temp
-        })
+    if (fieldValues == values) return Object.values(temp).every((x) => x == '');
+  };
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
+    useForm(initialFValues, true, validate);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      resetForm();
     }
+  };
 
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useForm(initialFValues, true, validate);
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Grid container>
+        <Grid item xs={6}>
+          <Input
+            name="fullName"
+            label="Full Name"
+            value={values.fullName}
+            onChange={handleInputChange}
+            error={errors.fullName}
+          />
+          <Input
+            label="Email"
+            name="email"
+            value={values.email}
+            onChange={handleInputChange}
+            error={errors.email}
+          />
+          <Input
+            label="Password"
+            name="password"
+            value={values.password}
+            onChange={handleInputChange}
+            error={errors.password}
+          />
+          <Input
+            label="Confirm Password"
+            name="conPassword"
+            value={values.conPassword}
+            onChange={handleInputChange}
+            error={errors.conPassword}
+          />
+        </Grid>
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (validate()){
-            alert()
-            resetForm()
-        }
-    }
-
-    return (
-        <Form onSubmit={handleSubmit}>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Input
-                        name="fullName"
-                        label="Full Name"
-                        value={values.fullName}
-                        onChange={handleInputChange}
-                        error={errors.fullName}
-                    />
-                    <Input
-                        label="Email"
-                        name="email"
-                        value={values.email}
-                        onChange={handleInputChange}
-                        error={errors.email}
-                    />
-                    <Input
-                        label="Password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleInputChange}
-                        error={errors.password}
-                    />
-                    <Input
-                        label="Confirm Password"
-                        name="conPassword"
-                        value={values.conPassword}
-                        onChange={handleInputChange}
-                        error={errors.conPassword}
-                    />
-
-            </Grid>
-
-              <div>
-                <Button
-                  type="submit"
-                  text="Submit" />
-                <Button
-                    text="Reset"
-                    color="default"
-                    onClick={resetForm} />
-                </div>
-          </Grid>
-        </Form>
-    )
+        <div>
+          <Button type="submit" text="Submit" />
+          <Button text="Reset" color="default" onClick={resetForm} />
+        </div>
+      </Grid>
+    </Form>
+  );
 }
 
-
-
-
-/**import React, { useState } from 'react';
+/** import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -156,4 +143,4 @@ const SignUpForm = () => {
   )
 }
 
-export default SignUpForm;**/
+export default SignUpForm;* */
