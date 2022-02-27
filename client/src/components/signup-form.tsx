@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, } from '@mui/material';
 import Input from './controls/input';
 import Button from './controls/button';
-import { useForm, Form } from './controls/submitForm';
+import { useForm, Form } from './submitForm';
 
 const initialFValues = {
     fullName: '',
@@ -11,7 +11,7 @@ const initialFValues = {
     conPassword: ''
 }
 
-export default function EmployeeForm() {
+export default function SignUpForm() {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
