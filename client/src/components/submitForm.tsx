@@ -1,60 +1,56 @@
-import React, { useState } from 'react'
-import { makeStyles, Theme } from "@mui/material";
+import React, { useState } from 'react';
+import { makeStyles, Theme } from '@mui/material';
 
-export function useForm(initialFValues, validateOnChange = false, validate) {
+export function useForm(
+  initialFValues: any,
+  validate: any,
+  validateOnChange = false,
+) {
+  const [values, setValues] = useState(initialFValues);
+  const [errors, setErrors] = useState({});
 
+  const handleInputChange = (e: React.FormEvent) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    if (validateOnChange) validate({ [name]: value });
+  };
 
-    const [values, setValues] = useState(initialFValues);
-    const [errors, setErrors] = useState({});
+  const resetForm = () => {
+    setValues(initialFValues);
+    setErrors({});
+  };
 
-    const handleInputChange = (e: React.FormEvent) => {
-        const { name, value } = e.target;
-        setValues({
-            ...values,
-            [name]: value
-        })
-        if (validateOnChange)
-            validate({ [name]: value })
-    }
-
-    const resetForm = () => {
-        setValues(initialFValues);
-        setErrors({})
-    }
-
-
-    return {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-
-    }
+  return {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  };
 }
-
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        '& .MuiFormControl-root': {
-            width: '80%',
-            margin: theme.spacing(1)
-        }
-    }
-}))
+  root: {
+    '& .MuiFormControl-root': {
+      width: '80%',
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 export function Form(props: any) {
-
-    const classes = useStyles();
-    const { children, ...other } = props;
-    return (
-        <form className={classes.root} autoComplete="off" {...other}>
-            {props.children}
-        </form>
-    )
+  const classes = useStyles();
+  const { children, ...other } = props;
+  return (
+    <form className={classes.root} autoComplete="off" {...other}>
+      {props.children}
+    </form>
+  );
 }
-
 
 /**
 import { useState, useEffect, ReactElement } from 'react';

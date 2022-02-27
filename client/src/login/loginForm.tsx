@@ -9,11 +9,6 @@ function LoginForm() {
   const [email, getEmail] = useState('');
   const [password, getPassword] = useState('');
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   alert(email + password);
-  // };
-
   return (
     <ThemeProvider theme={theme}>
       <FormControl>

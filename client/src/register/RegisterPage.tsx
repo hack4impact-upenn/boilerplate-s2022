@@ -1,14 +1,10 @@
 import React from 'react';
-import theme from '../assets/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import theme from '../assets/theme';
 import SignUpForm from '../components/signup-form';
 
-
-
 function RegisterView() {
-  return (
-    <SignUpForm />
-  );
+  return <SignUpForm />;
 }
 
 export default RegisterView;
