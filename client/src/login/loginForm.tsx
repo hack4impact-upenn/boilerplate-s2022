@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import theme from '../assets/theme';
 
 function LoginForm() {
-  const [email, getEmail] = useState('');
-  const [password, getPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
@@ -18,7 +18,7 @@ function LoginForm() {
           required
           label="Email"
           value={email}
-          onChange={(e) => getEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           id="login-text"
@@ -26,7 +26,7 @@ function LoginForm() {
           required
           label="Password"
           value={password}
-          onChange={(e) => getPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <div>
           <Button type="submit" variant="contained" color="primary">

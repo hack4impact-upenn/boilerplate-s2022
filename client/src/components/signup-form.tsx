@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import Input from './controls/input';
-import Button from './controls/button';
+import Input from './input';
+import Button from './button';
 import { useForm, Form } from './controls/submitForm';
 
 const initialFValues = {
