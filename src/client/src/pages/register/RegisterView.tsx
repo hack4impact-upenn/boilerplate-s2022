@@ -13,7 +13,7 @@ function RegisterView() {
         fontWeight: FONTS.headerWeight,
       }}
     >
-      Register page
+      <h1>Hello!</h1>
     </div>
   );
 }
