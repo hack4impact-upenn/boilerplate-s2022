@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomeView from './home/HomeView';
-import LoginPage from './login_or_register/LoginPage';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './assets/theme';
 import reportWebVitals from './reportWebVitals';
+import LoginView from './LoginRegister/LoginView';
 
 ReactDOM.render(
   <React.StrictMode>
-    <LoginPage />
+    <ThemeProvider theme={theme}>
+      <LoginView />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

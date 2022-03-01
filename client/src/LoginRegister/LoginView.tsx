@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import theme from '../assets/theme';
+import { useNavigate } from 'react-router-dom';
+import { LoginValidation } from './inputValidation';
+import ErrorMessage from './errorMessage';
 
-function LoginForm() {
+function LoginView() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  async function onSubmit() {
+    const result = await LoginValidation(email, password, setError);
+    if (result === '') {
+      navigate('/main');
+    }
+  }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      {/* <ErrorMessage error={error} />
       <FormControl>
         <TextField
           id="login-text"
@@ -29,13 +39,19 @@ function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onSubmit={() => onSubmit()}
+          >
             Login
           </Button>
         </div>
-      </FormControl>
-    </ThemeProvider>
+      </FormControl> */}
+      <div>h</div>
+    </>
   );
 }
 
-export default LoginForm;
+export default LoginView;

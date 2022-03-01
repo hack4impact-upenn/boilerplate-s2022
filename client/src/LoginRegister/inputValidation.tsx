@@ -1,4 +1,6 @@
-function LoginValidation(
+import { login, register } from './api';
+
+async function LoginValidation(
   email: string,
   password: string,
   setError: (a: string) => void,
@@ -10,7 +12,11 @@ function LoginValidation(
     setError('empty');
     return 'empty';
   }
-  if (!password.match(passwordRegex) || !email.match(emailRegex)) {
+  if (
+    !password.match(passwordRegex) ||
+    !email.match(emailRegex) ||
+    !(await login(email, password))
+  ) {
     setError('fail');
     return 'fail';
   }
@@ -18,7 +24,7 @@ function LoginValidation(
   return '';
 }
 
-function RegisterValidation(
+async function RegisterValidation(
   email: string,
   password: string,
   confirmPassword: string,
@@ -32,17 +38,22 @@ function RegisterValidation(
     return 'empty';
   }
   if (!email.match(emailRegex)) {
-    setError('invalidUsername');
-    return 'invalidUsername';
+    setError('badEmail');
+    return 'badEmail';
   }
   if (!password.match(passwordRegex)) {
-    setError('invalidPassword');
-    return 'invalidPassword';
+    setError('badPassword');
+    return 'badPassword';
   }
   if (!(confirmPassword === password)) {
-    setError('badMatch');
-    return 'badMatch';
+    setError('mismatch');
+    return 'mismatch';
   }
+  if (!(await register(email))) {
+    setError('duplicate');
+    return 'duplicate';
+  }
+
   setError('');
   return '';
 }
