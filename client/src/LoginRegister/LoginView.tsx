@@ -14,13 +14,16 @@ function LoginView() {
   async function onSubmit() {
     const result = await LoginValidation(email, password, setError);
     if (result === '') {
-      navigate('/main');
+      alert(email + password);
+      navigate('/');
+    } else {
+      alert('fail');
     }
   }
 
   return (
     <>
-      {/* <ErrorMessage error={error} />
+      <ErrorMessage error={error} />
       <FormControl>
         <TextField
           id="login-text"
@@ -38,18 +41,15 @@ function LoginView() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onSubmit={() => onSubmit()}
-          >
-            Login
-          </Button>
-        </div>
-      </FormControl> */}
-      <div>h</div>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => onSubmit()}
+        >
+          Login
+        </Button>
+      </FormControl>
     </>
   );
 }

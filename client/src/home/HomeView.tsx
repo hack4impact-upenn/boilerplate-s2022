@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../assets/theme';
 
-function App() {
+function HomeView() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -21,4 +21,4 @@ function App() {
     </ThemeProvider>
   );
 }
-export default App;
+export default HomeView;
