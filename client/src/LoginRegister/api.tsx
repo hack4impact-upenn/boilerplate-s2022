@@ -10,4 +10,16 @@ async function register(email: string) {
   return true;
 }
 
-export { register, login };
+async function forgotPassword(email: string) {
+  alert('if email is registered, send email to reset password');
+  return true;
+}
+
+async function resetPassword(email: string) {
+  alert(
+    'if email is registered, change password from old password to new password',
+  );
+  return true;
+}
+
+export { register, login, forgotPassword, resetPassword };

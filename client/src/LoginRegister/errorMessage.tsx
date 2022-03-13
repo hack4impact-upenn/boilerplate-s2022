@@ -10,13 +10,13 @@ function ErrorMessage({ error }: InferProps<typeof ErrorMessage.propTypes>) {
   let text = null;
   switch (error) {
     case 'empty':
-      text = <ErrorText> Please fill out all fields! </ErrorText>;
+      text = <ErrorText> Please fill out all fields. </ErrorText>;
       break;
     case 'fail':
       text = <ErrorText> Invalid username or password. </ErrorText>;
       break;
     case 'badEmail':
-      text = <ErrorText> Invalid email address </ErrorText>;
+      text = <ErrorText> Invalid email address. </ErrorText>;
       break;
     case 'badPassword':
       text = (
@@ -33,10 +33,12 @@ function ErrorMessage({ error }: InferProps<typeof ErrorMessage.propTypes>) {
     case 'duplicate':
       text = (
         <ErrorText>
-          Email already exists! Try resetting your password or a different email
-          address
+          Email already exists! Try resetting your password.
         </ErrorText>
       );
+      break;
+    case 'accountDNE':
+      text = <ErrorText> Account does not exist. </ErrorText>;
       break;
     default:
       text = null;

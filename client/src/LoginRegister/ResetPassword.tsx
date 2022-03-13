@@ -1,28 +1,21 @@
 import React, { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import { Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { RegisterValidation } from './inputValidation';
+import { ResetValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
 
-function RegisterPage() {
+function ResetPage() {
   const [email, setEmail] = useState('');
-  const [first, setFirst] = useState('');
-  const [last, setLast] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   async function onSubmit() {
-    const result = await RegisterValidation(
-      email,
-      password1,
-      password2,
-      setError,
-    );
+    const result = await ResetValidation(email, password1, password2, setError);
     if (result === '') {
       alert(email + password1);
       navigate('/');
@@ -34,29 +27,7 @@ function RegisterPage() {
   return (
     <FormControl>
       <TextField
-        error={error === 'empty'}
-        helperText={<ErrorMessage error={error} />}
-        id="login-text"
-        type="text"
-        required
-        label="First Name"
-        value={first}
-        onChange={(e) => setFirst(e.target.value)}
-      />
-      <TextField
-        error={error === 'empty'}
-        helperText={<ErrorMessage error={error} />}
-        id="login-text"
-        type="text"
-        required
-        label="Last Name"
-        value={last}
-        onChange={(e) => setLast(e.target.value)}
-      />
-      <TextField
-        error={
-          error === 'empty' || error === 'badEmail' || error === 'duplicate'
-        }
+        error={error === 'empty' || error === 'accountDNE'}
         helperText={<ErrorMessage error={error} />}
         id="login-text"
         type="email"
@@ -67,7 +38,6 @@ function RegisterPage() {
       />
       <TextField
         error={error === 'empty' || error === 'badPassword'}
-        helperText={<ErrorMessage error={error} />}
         id="login-text"
         type="password"
         required
@@ -90,7 +60,7 @@ function RegisterPage() {
         color="primary"
         onClick={() => onSubmit()}
       >
-        Signup
+        Reset Password
       </Button>
       <Typography>
         Back to
@@ -102,4 +72,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default ResetPage;
