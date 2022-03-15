@@ -13,9 +13,5 @@ const main = async () => {
     console.log('  Press Control-C to stop\n');
   });
 };
-<<<<<<< HEAD:server/index.ts
 
-=======
->>>>>>> master:src/server/index.ts
-// instantiate app
 main();
