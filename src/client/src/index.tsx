@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-<<<<<<< HEAD
-// import HomeView from './pages/home/HomeView';
-=======
->>>>>>> 7b9907432d8bab78d981c73155bc234bd9b960bb
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
