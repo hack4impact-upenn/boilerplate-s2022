@@ -5,11 +5,16 @@ import { hash, compare } from 'bcrypt';
 
 import { User, IUser } from '../models/user';
 import login from '../auth/login';
+import 'dotenv/config';
 
 const router = express.Router();
+
 const saltRounds = 10;
-var expirationtimeInMs: string;
-var secret: string;
+let expirationtimeInMs: string;
+let secret: string;
+
+// what is this doing?
+
 process.env.JWT_EXPIRATION_TIME &&
   (expirationtimeInMs = process.env.JWT_EXPIRATION_TIME);
 
@@ -21,21 +26,20 @@ router.post('/register', async (req, res) => {
 
   if (await User.findOne({ email })) {
     res.status(400).send({
-      success: false,
       message: `User with email: ${email} already has an account.`,
     });
   }
 
   // hash + salt password
-  return hash(password, saltRounds, (err: any, hashedPassword: String) => {
+  // return should be seperate
+  // we should not do nested
+
+  return hash(password, saltRounds, (err: any, hashedPassword: string) => {
     if (err) {
       res.status(400).send({
-        success: false,
         message: err.message,
       });
     }
-
-    console.log(hashedPassword);
 
     const newUser = new User({
       email,
@@ -44,28 +48,22 @@ router.post('/register', async (req, res) => {
 
     return newUser
       .save()
-      .then(() => res.status(200).send({ success: true }))
-      .catch((e) => res.status(400).send({ errorMessage: e }));
+      .then(() => res.sendStatus(201))
+      .catch((e) => res.status(400).send({ message: e }));
   });
 });
 
+// what is going on here?
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
-router.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  },
-);
+router.get('/auth/google/callback', passport.authenticate('google'));
 
 router.post('/login', async (req, res) => {
   const { email } = req.body;
   const { password } = req.body;
   let user: IUser;
 
-  User.findOne({ email: email }, function (err: any, userObj: any) {
+  User.findOne({ email }, function (err: any, userObj: any) {
     if (err) {
       console.log(err);
       res.status(400).send({
@@ -95,7 +93,7 @@ router.post('/login', async (req, res) => {
           res
             .cookie('jwt', token, {
               httpOnly: true,
-              secure: false, //--> TODO: SET TO TRUE ON PRODUCTION
+              secure: false, // --> TODO: SET TO TRUE ON PRODUCTION
             })
             .status(200)
             .json({
@@ -116,7 +114,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  if (req.cookies['jwt']) {
+  if (req.cookies.jwt) {
     res.clearCookie('jwt').status(200).json({
       message: 'You have logged out',
     });
@@ -137,4 +135,4 @@ router.get(
   },
 );
 
-export { router as userRouter };
+export default router;

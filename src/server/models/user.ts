@@ -13,6 +13,7 @@ interface IGoogleUser extends mongoose.Document {
   firstName: string;
   lastName: string;
   image: string;
+  createdAt: Date;
 }
 
 interface IUser extends mongoose.Document {
@@ -56,10 +57,13 @@ const InternalUserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    match:
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g,
   },
   password: {
     type: String,
     required: true,
+    match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
   },
 });
 
@@ -67,6 +71,7 @@ const UserSchema = new mongoose.Schema({
   accountType: {
     type: String,
     required: true,
+    match: /^internal$|^google$/g,
   },
   internalAccount: {
     type: InternalUserSchema,
@@ -76,30 +81,22 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre('validate', function (next) {
-  console.log(this);
-  if (this.accountType !== 'internal' || this.accountType !== 'google') {
-    next(new Error('Account type is not internal or google.'));
-  }
+// UserSchema.pre('validate', function () {
+//   console.log(this);
+//   if (this.accountType !== 'internal' || this.accountType !== 'google') {
+//     throw new Error('Account type is not internal or google.');
+//   }
 
-  if (
-    (this.accountType === 'internal' && !this.internalAccount) ||
-    (this.accountType === 'google' && !this.googleAccount)
-  ) {
-    next(new Error('Account type must match account info provided.'));
-  } else {
-    next();
-  }
-});
+//   if (
+//     (this.accountType === 'internal' && !this.internalAccount) ||
+//     (this.accountType === 'google' && !this.googleAccount)
+//   ) {
+//     next(new Error('Account type must match account info provided.'));
+//   } else {
+//     next();
+//   }
+// });
 
 const User = mongoose.model<IUser>('User', UserSchema);
 
-export {
-  IInternalUser,
-  IGoogleUser,
-  IUser,
-  InternalUserSchema,
-  GoogleUserSchema,
-  UserSchema,
-  User,
-};
+export { IInternalUser, IGoogleUser, IUser, User };
