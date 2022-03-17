@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	}
+],
+  "settings": {
+    "git.ignoreLimitWarning": true,
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact"
+    }
+  }
+}

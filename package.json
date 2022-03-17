@@ -9,22 +9,48 @@
     "setup": "yarn install && concurrently \"yarn --cwd src/client install\" \"yarn --cwd src/server install\"",
     "dev": "cross-env NODE_ENV=development concurrently \"yarn server\" \"yarn client\"",
     "server": "cd src/server && cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
-    "client": "cd src/client && yarn start"
+    "client": "cd src/client && yarn start",
+    "test": "jest"
   },
   "dependencies": {
+    "@jest-mock/express": "^1.4.5",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/passport": "^1.0.7",
+    "@types/passport-jwt": "^3.0.6",
     "concurrently": "^7.0.0",
-    "cross-env": "^7.0.3",
-    "typescript": "^4.5.5"
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.2",
+    "express-request-mock": "^3.1.0",
+    "express-session": "^1.17.2",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.3",
+    "mongoose-findorcreate": "^3.0.0",
+    "morgan": "^1.10.0",
+    "passport": "^0.5.2",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.6.2"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
     "ts-node-dev": "^1.1.8"
-  }
+  },
+  "main": "index.js",
+  "author": "taran317 <67604374+taran317@users.noreply.github.com>"
 }

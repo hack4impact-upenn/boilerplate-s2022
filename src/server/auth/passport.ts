@@ -1,12 +1,11 @@
 import passport from 'passport';
 import passportJWT from 'passport-jwt';
 import express from 'express';
-import mongoose from 'mongoose';
 import passport_google_oauth20 from 'passport-google-oauth20';
 
 import { User } from '../models/user';
 
-const JWTStrategy = passportJWT.Strategy;
+// const JWTStrategy = passportJWT.Strategy;
 const GoogleStrategy = passport_google_oauth20.Strategy;
 
 passport.use(
@@ -23,10 +22,9 @@ passport.use(
       profile: any,
       callback: any,
     ) {
-      console.log(profile);
-      // User.findOne({ googleId: profile.id }, function (err: any, user: any) {
-      //   return callback(err, user);
-      // });
+      User.findOne({ googleId: profile.id }, function (err: any, user: any) {
+        return callback(err, user);
+      });
     },
   ),
 );
@@ -43,21 +41,23 @@ const cookieExtractor = (req: express.Request) => {
   return jwt;
 };
 
-passport.use(
-  'jwt',
-  new JWTStrategy(
-    {
-      jwtFromRequest: cookieExtractor,
-      secretOrKey: secret,
-    },
-    (jwtPayload, done) => {
-      const { expiration } = jwtPayload;
+// passport.use(
+//   'jwt',
+//   new JWTStrategy(
+//     {
+//       jwtFromRequest: cookieExtractor,
+//       secretOrKey: secret,
+//     },
+//     (jwtPayload, done) => {
+//       const { expiration } = jwtPayload;
 
-      if (Date.now() > expiration) {
-        done('Unauthorized', false);
-      }
+//       if (Date.now() > expiration) {
+//         done('Unauthorized', false);
+//       }
 
-      done(null, jwtPayload);
-    },
-  ),
-);
+//       done(null, jwtPayload);
+//     },
+//   ),
+// );
+
+module.exports = cookieExtractor;

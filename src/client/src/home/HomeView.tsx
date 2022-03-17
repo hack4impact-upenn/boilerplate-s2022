@@ -13,7 +13,8 @@ function App() {
         fontWeight: FONTS.headerWeight,
       }}
     >
-      Entry page
+      Entry pageklsdjfkl
+      <a href="/auth/google">Login using google</a>
     </div>
   );
 }
