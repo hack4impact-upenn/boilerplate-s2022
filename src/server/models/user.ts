@@ -81,22 +81,15 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// UserSchema.pre('validate', function () {
-//   console.log(this);
-//   if (this.accountType !== 'internal' || this.accountType !== 'google') {
-//     throw new Error('Account type is not internal or google.');
-//   }
-
-//   if (
-//     (this.accountType === 'internal' && !this.internalAccount) ||
-//     (this.accountType === 'google' && !this.googleAccount)
-//   ) {
-//     next(new Error('Account type must match account info provided.'));
-//   } else {
-//     next();
-//   }
-// });
-
 const User = mongoose.model<IUser>('User', UserSchema);
 
-export { IInternalUser, IGoogleUser, IUser, User };
+// defines the name of the cookie stored by the user.
+/* 
+  TODO: change this using your project name, but make sure this
+  is not generic. You don't want it to interfere with other cookies
+  stored by the user. We suggest 'authToken-[projectName]-[randomString]'
+  although you can omit the [randomString].
+*/
+const authJWTName = 'authToken-h4i-boilerplate';
+
+export { IInternalUser, IGoogleUser, IUser, User, authJWTName };

@@ -1,15 +1,16 @@
 import passport from 'passport';
 import passportJWT from 'passport-jwt';
 import express from 'express';
-import mongoose from 'mongoose';
-import passport_google_oauth20 from 'passport-google-oauth20';
+import passportGoogleOAuth20 from 'passport-google-oauth20';
 
-import { User } from '../models/user';
+import { authJWTName, User } from '../models/user';
 
 const JWTStrategy = passportJWT.Strategy;
-const GoogleStrategy = passport_google_oauth20.Strategy;
+const GoogleStrategy = passportGoogleOAuth20.Strategy;
 
+// Here we tell passport to use Google OAuth as a strategy to log in
 passport.use(
+  // TODO: create new Google OAuth credentials here for your new project
   new GoogleStrategy(
     {
       clientID:
@@ -24,25 +25,28 @@ passport.use(
       callback: any,
     ) {
       console.log(profile);
-      // User.findOne({ googleId: profile.id }, function (err: any, user: any) {
-      //   return callback(err, user);
-      // });
+      // Find the user in our database.
+      User.findOne({ googleId: profile.id }, function (err: any, user: any) {
+        return callback(err, user);
+      });
     },
   ),
 );
 
 const secret = process.env.JWT_SECRET;
 
+// this helps us parse the user's cookie to extract the jwt used for login
 const cookieExtractor = (req: express.Request) => {
   let jwt = null;
 
   if (req && req.cookies) {
-    jwt = req.cookies['jwt'];
+    jwt = req.cookies[authJWTName];
   }
 
   return jwt;
 };
 
+// tell passport to use our cookieExtractor function, and the JWT_SECRET to sign
 passport.use(
   'jwt',
   new JWTStrategy(
