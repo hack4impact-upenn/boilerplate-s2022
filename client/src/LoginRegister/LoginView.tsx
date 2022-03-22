@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { LoginValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
+import { MiniLinkText, FormHeaderText,  ScreenGrid, FormGridCol, FormGridRow, FormField, SubmitButton } from '../components/StyledComponents'
 
 function LoginView() {
   const [email, setEmail] = useState('');
@@ -23,79 +24,63 @@ function LoginView() {
   }
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      spacing={2}
-      direction="column"
-      alignItems="center"
-    >
-      <Grid item xs="auto">
-        <Typography fontSize="h6.fontSize">
-          Welcome! Lets get started.
-        </Typography>
-      </Grid>
-      <Grid item xs="auto">
-        <TextField
-          error={error === 'empty' || error === 'badEmail' || error === 'fail'}
-          helperText={<ErrorMessage error={error} />}
-          id="login-text"
-          type="email"
-          required
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Grid>
-      <Grid item xs="auto">
-        <TextField
-          error={error === 'empty' || error === 'fail'}
-          helperText={<ErrorMessage error={error} />}
-          id="login-text"
-          type="password"
-          required
-          label="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Grid>
-      <Grid
-        item
-        container
-        direction="row"
-        justifyContent="space-evenly"
-        alignItems="flex-end"
-        xs="auto"
-        columnSpacing={4}
-        rowSpacing={0}
-      >
-        <Grid item xs>
-          <Typography fontSize={12} noWrap>
-            <Link component={RouterLink} to="/forgot">
-              Forgot password?
+    <ScreenGrid>
+      <FormGridCol>
+        <FormField>
+          <FormHeaderText>
+            Welcome! Lets get started.
+          </FormHeaderText>
+        </FormField>
+        <FormField>
+          <TextField
+            error={
+              error === 'empty' || error === 'badEmail' || error === 'fail'
+            }
+            helperText={<ErrorMessage error={error} />}
+            type="email"
+            required
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormField>
+        <FormField>
+          <TextField
+            error={error === 'empty' || error === 'fail'}
+            helperText={<ErrorMessage error={error} />}
+            type="password"
+            required
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormField>
+        <FormGridRow>
+          <FormField>
+            <MiniLinkText>
+              <Link component={RouterLink} to="/forgot">
+                Forgot password?
+              </Link>
+            </MiniLinkText>
+          </FormField>
+          <FormField>
+            <SubmitButton
+              onClick={() => onSubmit()}
+            >
+              Login
+            </SubmitButton>
+          </FormField>
+        </FormGridRow>
+        <FormField>
+          <MiniLinkText>
+            Need an account?{' '}
+            <Link component={RouterLink} to="/register">
+              Sign up
             </Link>
-          </Typography>
-        </Grid>
-        <Grid item xs>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit()}
-          >
-            Login
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid item xs="auto">
-        <Typography fontSize={12}>
-          Need an account?{' '}
-          <Link component={RouterLink} to="/register">
-            Sign up
-          </Link>
-        </Typography>
-      </Grid>
-    </Grid>
+          </MiniLinkText>
+        </FormField>
+      </FormGridCol>
+    </ScreenGrid>
   );
 }
 

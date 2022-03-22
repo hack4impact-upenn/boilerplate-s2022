@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { ResetValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
+import { MiniLinkText, FormHeaderText,  ScreenGrid, FormGridCol, FormGridRow, FormField, SubmitButton } from '../components/StyledComponents'
 
 function ResetPage() {
   const [email, setEmail] = useState('');
@@ -25,8 +26,15 @@ function ResetPage() {
   }
 
   return (
-    <FormControl>
-      <TextField
+<ScreenGrid>
+  <FormGridCol>
+    <FormField>
+      <FormHeaderText>
+        Reset your Password.
+      </FormHeaderText>
+    </FormField>
+    <FormField>
+    <TextField
         error={error === 'empty' || error === 'accountDNE'}
         helperText={<ErrorMessage error={error} />}
         id="login-text"
@@ -36,7 +44,9 @@ function ResetPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <TextField
+    </FormField>
+    <FormField>
+    <TextField
         error={error === 'empty' || error === 'badPassword'}
         id="login-text"
         type="password"
@@ -45,7 +55,9 @@ function ResetPage() {
         value={password1}
         onChange={(e) => setPassword1(e.target.value)}
       />
-      <TextField
+    </FormField>
+    <FormField>
+    <TextField
         error={error === 'empty' || error === 'mismatch'}
         id="login-text"
         type="password"
@@ -54,21 +66,24 @@ function ResetPage() {
         value={password2}
         onChange={(e) => setPassword2(e.target.value)}
       />
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => onSubmit()}
-      >
-        Reset Password
-      </Button>
-      <Typography>
+    </FormField>
+    <FormGridRow>
+      <FormField>
+      <MiniLinkText>
         Back to
         <Link component={RouterLink} to="/login">
           Login
         </Link>
-      </Typography>
-    </FormControl>
+      </MiniLinkText>
+      </FormField>
+      <FormField>
+        <SubmitButton onClick={() => onSubmit()}>
+          Reset Password
+        </SubmitButton>
+      </FormField>
+    </FormGridRow>
+  </FormGridCol>
+</ScreenGrid>
   );
 }
 

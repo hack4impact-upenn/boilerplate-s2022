@@ -7,6 +7,8 @@ import { Typography } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { RegisterValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
+import { MiniLinkText, FormHeaderText,  ScreenGrid, FormGridCol, FormGridRow, FormField, SubmitButton } from '../components/StyledComponents'
+
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -32,8 +34,16 @@ function RegisterPage() {
   }
 
   return (
-    <FormControl>
-      <TextField
+    <ScreenGrid>
+      <FormGridCol>
+        <FormField>
+<FormHeaderText>
+  We're so excited to have you on board!
+  </FormHeaderText>
+        </FormField>
+        <FormGridRow>
+        <FormField>
+        <TextField
         error={error === 'empty'}
         helperText={<ErrorMessage error={error} />}
         id="login-text"
@@ -43,7 +53,9 @@ function RegisterPage() {
         value={first}
         onChange={(e) => setFirst(e.target.value)}
       />
-      <TextField
+        </FormField>
+        <FormField>
+        <TextField
         error={error === 'empty'}
         helperText={<ErrorMessage error={error} />}
         id="login-text"
@@ -53,7 +65,10 @@ function RegisterPage() {
         value={last}
         onChange={(e) => setLast(e.target.value)}
       />
-      <TextField
+      </FormField>
+        </FormGridRow>
+        <FormField>
+        <TextField
         error={
           error === 'empty' || error === 'badEmail' || error === 'duplicate'
         }
@@ -65,17 +80,9 @@ function RegisterPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <TextField
-        error={error === 'empty' || error === 'badPassword'}
-        helperText={<ErrorMessage error={error} />}
-        id="login-text"
-        type="password"
-        required
-        label="Password"
-        value={password1}
-        onChange={(e) => setPassword1(e.target.value)}
-      />
-      <TextField
+        </FormField>
+        <FormField>
+        <TextField
         error={error === 'empty' || error === 'mismatch'}
         id="login-text"
         type="password"
@@ -84,21 +91,30 @@ function RegisterPage() {
         value={password2}
         onChange={(e) => setPassword2(e.target.value)}
       />
-      <Button
+        </FormField>
+          <FormField>
+          <SubmitButton
         type="submit"
         variant="contained"
         color="primary"
         onClick={() => onSubmit()}
       >
         Signup
-      </Button>
-      <Typography>
+      </SubmitButton>
+      </FormField>
+      <FormField>
+      <MiniLinkText>
         Back to
         <Link component={RouterLink} to="/login">
           Login
         </Link>
-      </Typography>
-    </FormControl>
+      </MiniLinkText>
+      </FormField>
+      </FormGridCol>
+    </ScreenGrid>
+      
+  
+     
   );
 }
 

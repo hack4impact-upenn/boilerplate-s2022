@@ -6,6 +6,7 @@ import { Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { ForgotValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
+import { MiniLinkText, FormHeaderText,  ScreenGrid, FormGridCol, FormGridRow, FormField, SubmitButton } from '../components/StyledComponents'
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -25,9 +26,13 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <Grid>
-      <Typography fontSize="h6.fontSize"> Forgot Password?</Typography>
-      <TextField
+    <ScreenGrid>
+      <FormGridCol>
+        <FormField>
+        <FormHeaderText> Forgot Password?</FormHeaderText>
+        </FormField>
+        <FormField>
+        <TextField
         error={error === 'empty' || error === 'accountDNE'}
         helperText={<ErrorMessage error={error} />}
         id="login-text"
@@ -37,26 +42,33 @@ function ForgotPasswordPage() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => onSubmit()}
-      >
-        Send Recovery Email
-      </Button>
-      <Typography>
+        </FormField>
+      <FormGridRow>
+        <FormField>
+        <MiniLinkText>
         <Link component={RouterLink} to="/login">
           Login
         </Link>
-      </Typography>
-      <Typography>
-        Need an account?
+      </MiniLinkText>
+        </FormField>
+      <FormField>
+      <SubmitButton
+        onClick={() => onSubmit()}
+      >
+        Send Recovery Email
+      </SubmitButton>
+      </FormField>
+      </FormGridRow>
+      <FormField>
+      <MiniLinkText>
+        Need an account?{' '}
         <Link component={RouterLink} to="/register">
           Sign up
         </Link>
-      </Typography>
-    </Grid>
+      </MiniLinkText>
+      </FormField>
+      </FormGridCol>
+    </ScreenGrid>
   );
 }
 
