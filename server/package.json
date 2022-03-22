@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "client": "1.0.0",
     "@types/cors": "^2.8.12",
