@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import { Grid, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import { TextField, Link } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { LoginValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
-import { MiniLinkText, FormHeaderText,  ScreenGrid, FormGridCol, FormGridRow, FormField, SubmitButton } from '../components/StyledComponents'
+import {
+  MiniLinkText,
+  FormHeaderText,
+  ScreenGrid,
+  FormGridCol,
+  FormGridRow,
+  FormField,
+  SubmitButton,
+} from '../components/StyledComponents';
 
 function LoginView() {
   const [email, setEmail] = useState('');
@@ -27,9 +32,7 @@ function LoginView() {
     <ScreenGrid>
       <FormGridCol>
         <FormField>
-          <FormHeaderText>
-            Welcome! Lets get started.
-          </FormHeaderText>
+          <FormHeaderText>Welcome! Lets get started.</FormHeaderText>
         </FormField>
         <FormField>
           <TextField
@@ -64,11 +67,7 @@ function LoginView() {
             </MiniLinkText>
           </FormField>
           <FormField>
-            <SubmitButton
-              onClick={() => onSubmit()}
-            >
-              Login
-            </SubmitButton>
+            <SubmitButton onClick={() => onSubmit()}>Login</SubmitButton>
           </FormField>
         </FormGridRow>
         <FormField>
