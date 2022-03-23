@@ -1,8 +1,19 @@
+// {
+//   "extends": "./tsconfig.json",
+//   "include": [
+//     "ts/**/*",
+//     "tsx/**/*"
+//   ],
+//   "compilerOptions": {
+//     "composite": true,
+//     // "noEmit": true,
+//   },
+// }
+
 {
   "extends": "./tsconfig.json",
   "include": [
-    "ts/**/*",
-    "tsx/**/*"
+    "ts/**/*"
   ],
   "compilerOptions": {
     "composite": true,
