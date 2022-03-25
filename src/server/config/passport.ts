@@ -3,7 +3,8 @@ import passportJWT from 'passport-jwt';
 import express from 'express';
 import passportGoogleOAuth20 from 'passport-google-oauth20';
 
-import { authJWTName, User } from '../models/user';
+import { authJWTName } from '../models/user';
+import retrieveGoogleUser from '../services/retrieveGoogleUser.service';
 
 const JWTStrategy = passportJWT.Strategy;
 const GoogleStrategy = passportGoogleOAuth20.Strategy;
@@ -17,18 +18,10 @@ passport.use(
         '38852361546-bdnfn6p686a8mcp1v9ie4kjnnp95vr3p.apps.googleusercontent.com',
       clientSecret: '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',
       callbackURL: '/auth/google/callback',
+      passReqToCallback: true,
     },
-    function (
-      accessToken: any,
-      refreshToken: any,
-      profile: any,
-      callback: any,
-    ) {
-      console.log(profile);
-      // Find the user in our database.
-      User.findOne({ googleId: profile.id }, function (err: any, user: any) {
-        return callback(err, user);
-      });
+    function (request, accessToken, refreshToken, profile, done) {
+      retrieveGoogleUser(profile.id, done);
     },
   ),
 );

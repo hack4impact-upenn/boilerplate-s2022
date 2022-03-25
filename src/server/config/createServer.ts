@@ -3,7 +3,7 @@ import path from 'path';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import userRouter from '../routers/user.router';
+import userRouter from '../routes/user.route';
 import 'dotenv/config';
 
 // const port = process.env.PORT || 8000;
