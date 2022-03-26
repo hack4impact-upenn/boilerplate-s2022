@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Link, TextField } from '@mui/material';
+import { Link, TextField, Button } from '@mui/material';
+import { ThemeProvider } from '@mui/system';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import theme from '../assets/theme';
 import { RegisterValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
+
 import {
   MiniLinkText,
   FormHeaderText,
@@ -10,7 +13,6 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-  SubmitButton,
 } from '../components/StyledComponents';
 
 function RegisterPage() {
@@ -37,84 +39,101 @@ function RegisterPage() {
   }
 
   return (
-    <ScreenGrid>
-      <FormGridCol>
-        <FormField>
-          <FormHeaderText>
-            We are so excited to have you on board!
-          </FormHeaderText>
-        </FormField>
-        <FormGridRow>
+    <ThemeProvider theme={theme}>
+      <ScreenGrid>
+        <FormGridCol>
+          <FormField>
+            <FormHeaderText>
+              We are so excited to have you on board!
+            </FormHeaderText>
+          </FormField>
+          <FormGridRow>
+            <FormField>
+              <TextField
+                error={error === 'empty'}
+                helperText={<ErrorMessage error={error} />}
+                id="login-text"
+                type="text"
+                required
+                label="First Name"
+                value={first}
+                onChange={(e) => setFirst(e.target.value)}
+              />
+            </FormField>
+            <FormField>
+              <TextField
+                error={error === 'empty'}
+                helperText={<ErrorMessage error={error} />}
+                id="login-text"
+                type="text"
+                required
+                label="Last Name"
+                value={last}
+                onChange={(e) => setLast(e.target.value)}
+              />
+            </FormField>
+          </FormGridRow>
           <FormField>
             <TextField
-              error={error === 'empty'}
+              error={
+                error === 'empty' ||
+                error === 'badEmail' ||
+                error === 'duplicate'
+              }
               helperText={<ErrorMessage error={error} />}
               id="login-text"
-              type="text"
+              type="email"
               required
-              label="First Name"
-              value={first}
-              onChange={(e) => setFirst(e.target.value)}
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormField>
           <FormField>
             <TextField
-              error={error === 'empty'}
+              error={error === 'empty' || error === 'mismatch'}
               helperText={<ErrorMessage error={error} />}
               id="login-text"
-              type="text"
+              type="password"
               required
-              label="Last Name"
-              value={last}
-              onChange={(e) => setLast(e.target.value)}
+              label="Password"
+              value={password1}
+              onChange={(e) => setPassword2(e.target.value)}
             />
           </FormField>
-        </FormGridRow>
-        <FormField>
-          <TextField
-            error={
-              error === 'empty' || error === 'badEmail' || error === 'duplicate'
-            }
-            helperText={<ErrorMessage error={error} />}
-            id="login-text"
-            type="email"
-            required
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormField>
-        <FormField>
-          <TextField
-            error={error === 'empty' || error === 'mismatch'}
-            id="login-text"
-            type="password"
-            required
-            label="Confirm Password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
-          />
-        </FormField>
-        <FormField>
-          <SubmitButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit()}
-          >
-            Signup
-          </SubmitButton>
-        </FormField>
-        <FormField>
-          <MiniLinkText>
-            Back to
-            <Link component={RouterLink} to="/login">
-              Login
-            </Link>
-          </MiniLinkText>
-        </FormField>
-      </FormGridCol>
-    </ScreenGrid>
+          <FormField>
+            <TextField
+              error={error === 'empty' || error === 'mismatch'}
+              helperText={<ErrorMessage error={error} />}
+              id="login-text"
+              type="password"
+              required
+              label="Confirm Password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+            />
+          </FormField>
+          <FormField>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => onSubmit()}
+            >
+              Signup
+            </Button>
+          </FormField>
+          <FormField>
+            <MiniLinkText>
+              Back to{' '}
+              <Link component={RouterLink} to="/login">
+                Login
+              </Link>
+            </MiniLinkText>
+          </FormField>
+        </FormGridCol>
+      </ScreenGrid>
+    </ThemeProvider>
   );
 }
 

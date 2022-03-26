@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Link } from '@mui/material';
+import { TextField, Link, Button } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { ResetValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
@@ -10,7 +10,6 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-  SubmitButton,
 } from '../components/StyledComponents';
 
 function ResetPage() {
@@ -72,16 +71,21 @@ function ResetPage() {
         <FormGridRow>
           <FormField>
             <MiniLinkText>
-              Back to
+              Back to{' '}
               <Link component={RouterLink} to="/login">
                 Login
               </Link>
             </MiniLinkText>
           </FormField>
           <FormField>
-            <SubmitButton onClick={() => onSubmit()}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => onSubmit()}
+            >
               Reset Password
-            </SubmitButton>
+            </Button>
           </FormField>
         </FormGridRow>
       </FormGridCol>

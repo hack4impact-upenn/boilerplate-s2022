@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Link } from '@mui/material';
+import { TextField, Link, Button } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { LoginValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
@@ -10,7 +10,6 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-  SubmitButton,
 } from '../components/StyledComponents';
 
 function LoginView() {
@@ -67,7 +66,14 @@ function LoginView() {
             </MiniLinkText>
           </FormField>
           <FormField>
-            <SubmitButton onClick={() => onSubmit()}>Login</SubmitButton>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => onSubmit()}
+            >
+              Login
+            </Button>
           </FormField>
         </FormGridRow>
         <FormField>
