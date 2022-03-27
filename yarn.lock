@@ -1647,7 +1647,7 @@
     csstype "^3.0.10"
     prop-types "^15.7.2"
 
-"@mui/system@^5.5.1":
+"@mui/system@^5.5.1", "@mui/system@^5.5.2":
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.5.2.tgz#df8fbbfb17cccfeca3122fe9dff04a481bda179a"
   integrity sha512-OATYFI36nliud8xh0u+ZNqDo0jWjxpO0vZLlzqNB+ZtkR5Q/+1X3GgboA9ruiB8Rq+udnJlMBQNGW0qqjvAOHQ==
