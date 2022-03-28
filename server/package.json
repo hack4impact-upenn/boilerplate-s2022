@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
+    "start": "yarn server",
+    "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
+    "postinstall": "echo \"Package install attempted in server directory\""
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.14",
+    "client": "1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.10",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-typescript-prettier": "^5.0.0",
+    "mongodb-memory-server": "^8.2.0",
+    "prettier": "^2.5.1",
+    "ts-node-dev": "^1.1.8"
+  }
+}
