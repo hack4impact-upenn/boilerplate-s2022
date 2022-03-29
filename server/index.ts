@@ -1,5 +1,5 @@
-import db from './config/database';
-import createServer from './config/createServer';
+import db from './src/config/database';
+import createServer from './src/config/createServer';
 
 const main = async () => {
   // listen for termination
