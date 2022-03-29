@@ -1,20 +1,12 @@
 import React from 'react';
-import COLORS from '../assets/colors';
-import FONTS from '../assets/fonts';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../assets/theme';
 
 function LoginView() {
   return (
-    <div
-      style={{
-        backgroundColor: COLORS.header,
-        width: '100px',
-        height: '100px',
-        fontFamily: FONTS.headerFont,
-        fontWeight: FONTS.headerWeight,
-      }}
-    >
-      Login page
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>Login page</div>
+    </ThemeProvider>
   );
 }
 

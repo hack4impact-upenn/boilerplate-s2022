@@ -46,5 +46,4 @@ const createServer = (): express.Express => {
 
   return app;
 };
-
 export default createServer;

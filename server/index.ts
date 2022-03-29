@@ -1,5 +1,5 @@
-import db from './src/config/database';
 import createServer from './src/config/createServer';
+import db from './src/config/database';
 
 const main = async () => {
   // listen for termination
@@ -12,13 +12,6 @@ const main = async () => {
     console.log(`Listening on port ${app.get('port')} 🚀`);
     console.log('  Press Control-C to stop\n');
   });
-
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Node Cookie JWT Service',
-    });
-  });
 };
 
-// instantiate app
 main();

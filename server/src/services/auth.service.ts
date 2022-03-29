@@ -9,23 +9,20 @@ import { IUser } from '../models/user';
 // check that the expiration time for our JWT exists
 // this is important since we want our JWTs to expire after a bit
 // process.env.JWT_EXPIRATION_TIME &&
-//   (expirationtimeInMs = process.env.JWT_EXPIRATION_TIME);
 
 // // do the same for our JWT secret
-// process.env.JWT_SECRET && (secret = process.env.JWT_SECRET);
 
 const loginUserAndGetToken = async (user: IUser, password: string) => {
-
   if (!user.internalAccount || !user.internalAccount.email) {
     return null;
   }
 
   let secret: string;
-  
+
   if (process.env.JWT_SECRET) {
-    secret = process.env.JWT_SECRET
+    secret = process.env.JWT_SECRET;
   } else {
-    throw Error("Environment Variables Not Set")
+    throw Error('Environment Variables Not Set');
   }
 
   const result = await compare(password, user.internalAccount.password);
@@ -34,7 +31,7 @@ const loginUserAndGetToken = async (user: IUser, password: string) => {
     // password matched
     const payload = {
       _id: user._id,
-      email: user.internalAccount.email
+      email: user.internalAccount.email,
     };
     const token = jwt.sign(JSON.stringify(payload), secret, {
       expiresIn: '1d',
@@ -46,19 +43,17 @@ const loginUserAndGetToken = async (user: IUser, password: string) => {
 };
 
 const verifyToken = (token: string) => {
-
   let secret: string;
-  
+
   if (process.env.JWT_SECRET) {
-    secret = process.env.JWT_SECRET
+    secret = process.env.JWT_SECRET;
   } else {
-    throw Error("Environment Variables Not Set")
+    throw Error('Environment Variables Not Set');
   }
 
   const userPayload = jwt.verify(token, process.env.JWT_SECRET);
-  
-  return userPayload
+
+  return userPayload;
 };
 
-
-export {loginUserAndGetToken, verifyToken};
+export { loginUserAndGetToken, verifyToken };

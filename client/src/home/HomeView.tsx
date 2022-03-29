@@ -1,21 +1,23 @@
 import React from 'react';
-import COLORS from '../assets/colors';
-import FONTS from '../assets/fonts';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../assets/theme';
 
 function App() {
   return (
-    <div
-      style={{
-        backgroundColor: COLORS.header,
-        width: '100px',
-        height: '100px',
-        fontFamily: FONTS.headerFont,
-        fontWeight: FONTS.headerWeight,
-      }}
-    >
-      Entry page
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <div>
+          <Typography variant="h2" gutterBottom>
+            Welcome to our new Boilerplate
+          </Typography>
+          <Button variant="contained" color="secondary">
+            Let&apos;s Go
+          </Button>
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
-
 export default App;
