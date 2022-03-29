@@ -1,17 +1,12 @@
 import React from 'react';
-import theme from '../assets/theme';
 import { ThemeProvider } from '@mui/material/styles';
-
+import theme from '../assets/theme';
 
 function RegisterView() {
   return (
-   
-      <ThemeProvider theme={theme}>
-        <div>
-          Register page
-        </div>
-      </ThemeProvider>
-      
+    <ThemeProvider theme={theme}>
+      <div>Register page</div>
+    </ThemeProvider>
   );
 }
 

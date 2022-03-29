@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import 'dotenv/config';
 
 /* uncomment for database logger */
 // mongoose.set('debug', process.env.DEBUG !== 'production');
