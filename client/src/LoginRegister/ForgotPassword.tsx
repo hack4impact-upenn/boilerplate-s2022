@@ -8,7 +8,6 @@ import {
   FormHeaderText,
   ScreenGrid,
   FormGridCol,
-  FormGridRow,
   FormField,
 } from '../components/StyledComponents';
 
@@ -44,26 +43,24 @@ function ForgotPasswordPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormField>
-        <FormGridRow>
-          <FormField>
-            <MiniLinkText>
-              Back to{' '}
-              <Link component={RouterLink} to="/login">
-                Login
-              </Link>
-            </MiniLinkText>
-          </FormField>
-          <FormField>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => onSubmit()}
-            >
-              Send Recovery Email
-            </Button>
-          </FormField>
-        </FormGridRow>
+        <FormField>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => onSubmit()}
+          >
+            Send Recovery Email
+          </Button>
+        </FormField>
+        <FormField>
+          <MiniLinkText>
+            Back to{' '}
+            <Link component={RouterLink} to="/login">
+              Login
+            </Link>
+          </MiniLinkText>
+        </FormField>
         <FormField>
           <MiniLinkText>
             Need an account?{' '}
