@@ -3,7 +3,10 @@ module.exports = {
   root: true,
   rules: {
     'no-console': 'warn',
-    'import/no-extraneous-dependencies': ['error', { devDependencies: true }]
+    'no-underscore-dangle': [
+      'error',
+      { allowAfterThis: true, allow: ['_instance'] },
+    ],
   },
   env: {
     node: true,

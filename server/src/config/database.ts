@@ -46,7 +46,7 @@ class MongoConnection {
         console.log('Connecting to MongoDB...');
         const uri =
           process.env.ATLAS_URI ||
-          'mongodb+srv://NO:CONNECTION@STRING.FOUND.mongodb.net/FAILURE?retryWrites=true&w=majority';
+          'mongodb+srv://hack4impact:boilerplate@cluster0.4jd7b.mongodb.net/Boilerplate?retryWrites=true&w=majority';
         mongoose
           .connect(uri, opts)
           .catch((e) =>

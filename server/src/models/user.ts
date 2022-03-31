@@ -50,10 +50,10 @@ const GoogleUserSchema = new mongoose.Schema({
 });
 
 const InternalUserSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    required: true,
-  },
+  // _id: {
+  //   type: String,
+  //   required: true,
+  // },
   email: {
     type: String,
     required: true,
