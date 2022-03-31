@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 
+/**
+ * Enumerates the different sources of authentication possible for a user.
+ */
+enum AuthenticationType {
+  Internal = 'internal',
+  Google = 'google',
+}
+
 interface IInternalUser extends mongoose.Types.Subdocument {
   _id: string;
   email: string;
   password: string;
 }
 
-interface IGoogleUser extends mongoose.Document {
+interface IGoogleUser extends mongoose.Types.Subdocument {
   _id: string;
   googleId: string;
   displayName: string;
@@ -18,16 +26,10 @@ interface IGoogleUser extends mongoose.Document {
 
 interface IUser extends mongoose.Document {
   _id: string;
-  accountType: string;
+  accountType: AuthenticationType;
   email: string;
   password: string;
   googleAccount: IGoogleUser;
-}
-
-interface IDummyUser extends mongoose.Document {
-  _id: string;
-  email: string;
-  password: string;
 }
 
 const GoogleUserSchema = new mongoose.Schema({
@@ -73,8 +75,8 @@ const InternalUserSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   accountType: {
     type: String,
+    enum: Object.values(AuthenticationType),
     required: true,
-    match: /^internal$|^google$/g,
   },
   email: {
     type: String,
@@ -90,15 +92,15 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
-// const dummyUser = mongoose.model<IDummyUser>('dummyUser', dummySchema);
 
-// defines the name of the cookie stored by the user.
-/* 
-  TODO: change this using your project name, but make sure this
-  is not generic. You don't want it to interfere with other cookies
-  stored by the user. We suggest 'authToken-[projectName]-[randomString]'
-  although you can omit the [randomString].
-*/
+/**
+ * Defines the name of the cookie stored by the user.
+ *
+ * TODO: change this using your project name, but make sure this
+ * is not generic. You don't want it to interfere with other cookies
+ * stored by the user. We suggest 'authToken-[projectName]-[randomString]'
+ * although you can omit the [randomString].
+ **/
 const authJWTName = 'authToken-h4i-boilerplate';
 
 export {
@@ -106,7 +108,6 @@ export {
   IGoogleUser,
   IUser,
   User,
+  AuthenticationType,
   authJWTName,
-  // dummySchema,
-  // dummyUser,
 };

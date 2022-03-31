@@ -1,14 +1,11 @@
 /* eslint-disable consistent-return */
-/* eslint-disable no-unused-expressions */
 import express from 'express';
 import { IUser, authJWTName } from '../models/user';
-import { loginUserAndGetToken } from '../services/auth.service';
-// import retrieveUser from '../services/retrieveUser.service';
+import { generateTokenForUser } from '../services/auth.service';
 import { createUser, retrieveUser } from '../services/user.service';
 
 const login = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
-
   const user: IUser | null = await retrieveUser(email);
 
   if (!user) {
@@ -17,22 +14,27 @@ const login = async (req: express.Request, res: express.Response) => {
       message: `User ${email} does not exist`,
     });
   } else {
-    console.log('found user in login');
     try {
-      const token = await loginUserAndGetToken(user, password);
+      let token = await generateTokenForUser(user, password);
+      let expireTime = 0; // expiration time in milliseconds
+      if (process.env.COOKIE_EXPIRATION_TIME) {
+        expireTime = Number(process.env.COOKIE_EXPIRATION_TIME);
+      } else {
+        token = null;
+      }
       if (token) {
-        // this is a session cookie which means it expires when the session ends
+        // The token is valid and we have found the user
         console.log('hey');
         return res
           .cookie(authJWTName, token, {
             httpOnly: true,
             secure: false, // --> TODO: SET TO TRUE ON PRODUCTION
             signed: true,
-            maxAge: 86400000,
+            maxAge: expireTime,
           })
           .status(200)
           .json({
-            message: 'successful login',
+            message: 'Successful Login',
           });
       } else {
         return res.status(401).send({
@@ -51,20 +53,12 @@ const login = async (req: express.Request, res: express.Response) => {
 
 const logout = async (req: express.Request, res: express.Response) => {
   if (req.signedCookies[authJWTName]) {
-    return res
-      .clearCookie(authJWTName, {
-        httpOnly: true,
-        secure: false, // --> TODO: SET TO TRUE ON PRODUCTION
-        signed: true,
-        maxAge: 86400000,
-      })
-      .status(200)
-      .json({
-        message: 'logged out successfully',
-      });
+    return res.clearCookie(authJWTName).status(200).json({
+      message: 'Logged out successfully',
+    });
   } else {
     res.status(400).json({
-      error: 'cookie does not exist',
+      error: 'Cookie does not exist',
     });
   }
 };
@@ -72,9 +66,6 @@ const logout = async (req: express.Request, res: express.Response) => {
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
   const user: IUser | null = await retrieveUser(email);
-
-  console.log('IN REGISTER');
-
   if (user) {
     res.status(400).send({
       message: `User with email: ${email} already has an account.`,

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-underscore-dangle */
 import { compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUser } from '../models/user';
+import { IUser, AuthenticationType } from '../models/user';
+import { envVarErrMsg } from '../controllers/auth.middleware';
 
 // let secret: string;
 
@@ -12,51 +12,43 @@ import { IUser } from '../models/user';
 
 // // do the same for our JWT secret
 
-const loginUserAndGetToken = async (user: IUser, password: string) => {
-  if (user.accountType === 'google' || !user.email) {
-    console.log('not internal user');
-    console.log(user);
-    return null;
-  }
-
+const generateTokenForUser = async (user: IUser, password: string) => {
+  // if (user.accountType != AuthenticationType.Internal) {
+  //   return null;
+  // }
   let secret: string;
-  console.log('in loginUserAndGetToken');
-  if (process.env.JWT_SECRET) {
+  let exptime: number; // expiration time in seconds
+  if (process.env.JWT_SECRET && process.env.JWT_EXPIRATION_TIME) {
     secret = process.env.JWT_SECRET;
+    exptime = Number(process.env.JWT_EXPIRATION_TIME);
   } else {
-    throw Error('Environment Variables Not Set');
+    throw Error(envVarErrMsg);
   }
-
   const result = await compare(password, user.password);
-
   if (result) {
-    // password matched
+    // Passwords matched so create token
     const payload = {
       _id: user._id,
       email: user.email,
     };
     const token = jwt.sign(payload, secret, {
-      expiresIn: '1d',
+      expiresIn: exptime,
     });
     console.log('token: ', token);
     return token;
   }
-
   return null;
 };
 
 const verifyToken = (token: string) => {
   let secret: string;
-
   if (process.env.JWT_SECRET) {
     secret = process.env.JWT_SECRET;
   } else {
-    throw Error('Environment Variables Not Set');
+    throw Error(envVarErrMsg);
   }
-
   const userPayload = jwt.verify(token, process.env.JWT_SECRET);
-
   return userPayload;
 };
 
-export { loginUserAndGetToken, verifyToken };
+export { generateTokenForUser, verifyToken };

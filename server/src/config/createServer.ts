@@ -23,7 +23,7 @@ const createServer = (): express.Express => {
   // gives express the ability accept origins outside its own to accept requests from
   app.use(cors());
   app.use(express.json());
-  app.use(cookieParser(process.env.JWT_SECRET));
+  app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(express.urlencoded({ extended: true }));
   app.use(passport.initialize());
   app.use('/api/user', userRouter);
