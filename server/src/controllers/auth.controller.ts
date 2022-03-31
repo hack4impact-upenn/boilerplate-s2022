@@ -17,10 +17,12 @@ const login = async (req: express.Request, res: express.Response) => {
       message: `User ${email} does not exist`,
     });
   } else {
+    console.log('found user in login');
     try {
-      const token = loginUserAndGetToken(user, password);
+      const token = await loginUserAndGetToken(user, password);
       if (token) {
         // this is a session cookie which means it expires when the session ends
+        console.log('hey');
         return res
           .cookie(authJWTName, token, {
             httpOnly: true,

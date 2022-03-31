@@ -13,29 +13,32 @@ import { IUser } from '../models/user';
 // // do the same for our JWT secret
 
 const loginUserAndGetToken = async (user: IUser, password: string) => {
-  if (!user.internalAccount || !user.internalAccount.email) {
+  if (user.accountType === 'google' || !user.email) {
+    console.log('not internal user');
+    console.log(user);
     return null;
   }
 
   let secret: string;
-
+  console.log('in loginUserAndGetToken');
   if (process.env.JWT_SECRET) {
     secret = process.env.JWT_SECRET;
   } else {
     throw Error('Environment Variables Not Set');
   }
 
-  const result = await compare(password, user.internalAccount.password);
+  const result = await compare(password, user.password);
 
   if (result) {
     // password matched
     const payload = {
       _id: user._id,
-      email: user.internalAccount.email,
+      email: user.email,
     };
-    const token = jwt.sign(JSON.stringify(payload), secret, {
+    const token = jwt.sign(payload, secret, {
       expiresIn: '1d',
     });
+    console.log('token: ', token);
     return token;
   }
 
