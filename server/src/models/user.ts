@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-interface IInternalUser extends mongoose.Document {
+interface IInternalUser extends mongoose.Types.Subdocument {
   _id: string;
   email: string;
   password: string;
@@ -19,8 +19,15 @@ interface IGoogleUser extends mongoose.Document {
 interface IUser extends mongoose.Document {
   _id: string;
   accountType: string;
-  internalAccount: IInternalUser;
+  email: string;
+  password: string;
   googleAccount: IGoogleUser;
+}
+
+interface IDummyUser extends mongoose.Document {
+  _id: string;
+  email: string;
+  password: string;
 }
 
 const GoogleUserSchema = new mongoose.Schema({
@@ -50,10 +57,6 @@ const GoogleUserSchema = new mongoose.Schema({
 });
 
 const InternalUserSchema = new mongoose.Schema({
-  // _id: {
-  //   type: String,
-  //   required: true,
-  // },
   email: {
     type: String,
     required: true,
@@ -63,7 +66,7 @@ const InternalUserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
+    // match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
   },
 });
 
@@ -73,8 +76,13 @@ const UserSchema = new mongoose.Schema({
     required: true,
     match: /^internal$|^google$/g,
   },
-  internalAccount: {
-    type: InternalUserSchema,
+  email: {
+    type: String,
+    match:
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g,
+  },
+  password: {
+    type: String,
   },
   googleAccount: {
     type: GoogleUserSchema,
@@ -82,6 +90,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
+// const dummyUser = mongoose.model<IDummyUser>('dummyUser', dummySchema);
 
 // defines the name of the cookie stored by the user.
 /* 
@@ -92,4 +101,12 @@ const User = mongoose.model<IUser>('User', UserSchema);
 */
 const authJWTName = 'authToken-h4i-boilerplate';
 
-export { IInternalUser, IGoogleUser, IUser, User, authJWTName };
+export {
+  IInternalUser,
+  IGoogleUser,
+  IUser,
+  User,
+  authJWTName,
+  // dummySchema,
+  // dummyUser,
+};

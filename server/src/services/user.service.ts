@@ -9,21 +9,34 @@ const createUser = async (email: string, password: string) => {
     return null;
   }
 
-  console.log(`Creating user ${email}, ${hashedPassword}`);
+  // const dumbUser = new dummyUser({
+  //   email: email,
+  //   password: hashedPassword,
+  // });
+
+  // console.log(`Creating user ${dumbUser}`);
+
+  // const newUser = await User.create({
+  //   accountType: 'internal',
+  //   internalAccount: {
+  //     email: email,
+  //     password: hashedPassword,
+  //   },
+  // });
 
   const newUser = new User({
     accountType: 'internal',
-    internalAccount: {
-      email,
-      password: hashedPassword,
-    },
+    email: email,
+    password: hashedPassword,
   });
 
+  console.log(newUser);
   return newUser.save();
 };
 
 const retrieveUser = async (email: string) => {
-  const user = await User.findOne({ internalAccount: { email } }).exec();
+  const user = await User.findOne({ email: email }).exec();
+  console.log('user retrieved: ', user);
   return user;
 };
 

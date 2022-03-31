@@ -77,13 +77,17 @@ const register = async (req: express.Request, res: express.Response) => {
     res.status(400).send({
       message: `User with email: ${email} already has an account.`,
     });
+    return;
   }
 
   // hash + salt password
   // return should be separate
   return createUser(email, password)
     .then(() => res.sendStatus(201))
-    .catch((e) => res.status(400).send({ message: e }));
+    .catch((e) => {
+      console.log(e);
+      res.status(400).send({ message: e });
+    });
 };
 
 export { login, logout, register };
