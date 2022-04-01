@@ -6,6 +6,7 @@ import session from 'express-session';
 import cors from 'cors';
 import userRouter from '../routes/auth.route';
 import initializePassport from './configPassport';
+import MongoStore from 'connect-mongo';
 import 'dotenv/config';
 
 const createServer = (): express.Express => {
@@ -24,7 +25,7 @@ const createServer = (): express.Express => {
       extended: true,
     }),
   );
-  // gives express the ability accept origins outside its own to accept requests from
+  // Gives express the ability accept origins outside its own to accept requests from
   app.use(cors());
   app.use(express.json());
   app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -36,11 +37,7 @@ const createServer = (): express.Express => {
       secret: process.env.COOKIE_SECRET || 'mysecretkey',
       resave: true,
       saveUninitialized: true,
-      cookie: {
-        httpOnly: true,
-        secure: true,
-        maxAge: Number(process.env.COOKIE_EXPIRATION_TIME) || 86400000,
-      },
+      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }),
     }),
   );
 
