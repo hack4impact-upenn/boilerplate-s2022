@@ -19,7 +19,7 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
-  const [password1] = useState('');
+  const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ function RegisterPage() {
               required
               label="Password"
               value={password1}
-              onChange={(e) => setPassword2(e.target.value)}
+              onChange={(e) => setPassword1(e.target.value)}
             />
           </FormField>
           <FormField>

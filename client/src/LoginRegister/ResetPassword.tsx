@@ -14,14 +14,19 @@ import {
 
 function ResetPage() {
   const [email, setEmail] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   async function onSubmit() {
-    const result = await ResetValidation(email, password1, password2, setError);
+    const result = await ResetValidation(
+      email,
+      oldPassword,
+      newPassword,
+      setError,
+    );
     if (result === '') {
-      alert(email + password1);
+      alert(email + oldPassword);
       navigate('/');
     } else {
       alert('fail');
@@ -53,8 +58,8 @@ function ResetPage() {
             type="password"
             required
             label="Password"
-            value={password1}
-            onChange={(e) => setPassword1(e.target.value)}
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
           />
         </FormField>
         <FormField>
@@ -64,8 +69,8 @@ function ResetPage() {
             type="password"
             required
             label="Confirm Password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
         </FormField>
         <FormGridRow>

@@ -23,23 +23,13 @@ function MiniLinkText({ children }: StyledProps) {
 }
 
 /**
- * This stylesthe form's header to just have a larger font size
+ * This styles the form's header to just have a larger font size
  * @param param0
  * @returns
  */
 const FormHeaderText = styled(Typography)({
   fontSize: '1.2em',
 });
-
-// const ScreenGridStyled = styled(Grid, { name: 'ScreenGrid', label: 'wrapper' })(
-//   () => ({
-//     container: true,
-//     justifyContent: 'center',
-//     height: '100vh',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   }),
-// );
 
 /**
  * This styles a the whole screen as a grid component, serves as a wrapper to ensure
@@ -60,28 +50,6 @@ function ScreenGrid({ children }: StyledProps) {
     </Grid>
   );
 }
-// ({
-// container: true,
-// justifyContent: 'center',
-// height: '100vh',
-// flexDirection: 'column',
-// alignItems: 'center',
-// })(() =>
-//   ({
-//     container: true,
-//     justifyContent: 'center',
-//     height: '100vh',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   });
-
-// const FormGridCol = styled(Grid)({
-//   container: true,
-//   justifyContent: 'center',
-//   spacing: 2,
-//   flexDirection: 'column',
-//   alignItems: 'center',
-// });
 
 /**
  * This styles a form's components if we want them in a column, serves as a wrapper to ensure
@@ -102,16 +70,6 @@ function FormGridCol({ children }: StyledProps) {
     </Grid>
   );
 }
-
-// const FormGridRow = styled(Grid)(() => ({
-//   item: true,
-//   container: true,
-//   justifyContent: 'space-evenly',
-//   alignItems: 'flex-end',
-//   columnSpacing: 4,
-//   rowSpacing: 0,
-//   flexDirection: 'row',
-// }));
 
 /**
  * This styles a form's components if we want them in a row, serves as a wrapper to ensure
@@ -135,11 +93,6 @@ function FormGridRow({ children }: StyledProps) {
     </Grid>
   );
 }
-
-// const FormField = styled(Grid)(() => ({
-//   item: true,
-//   xs: 'auto',
-// }));
 
 /**
  * This just styles a child in the form, serves as a wrapper to ensure
