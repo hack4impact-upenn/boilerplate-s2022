@@ -3,6 +3,7 @@ module.exports = {
   root: true,
   rules: {
     'no-console': 'warn',
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
   env: {
