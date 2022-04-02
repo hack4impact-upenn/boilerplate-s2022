@@ -1,18 +1,11 @@
-// module.exports = {
-//   rules: {
-//     // Add overriden rules specific to client here
-//     settings: {
-//       'import/resolver': {
-//         node: {
-//           extensions: ['.ts', '.tsx'],
-//         },
-//       },
-//     },
-//   },
-// };
-
 module.exports = {
+  extends: ['airbnb-typescript-prettier'],
+  root: true,
   rules: {
-    // Add overriden rules specific to client here
+    'no-console': 'warn',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+  },
+  env: {
+    browser: true,
   },
 };

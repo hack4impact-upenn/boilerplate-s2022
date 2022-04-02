@@ -2,10 +2,10 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import theme from './assets/theme';
-import LoginView from './LoginRegister/LoginView';
+import LoginView from './LoginRegister/LoginPage';
 import RegisterPage from './LoginRegister/RegisterPage';
-import ForgotPasswordPage from './LoginRegister/ForgotPassword';
-import ResetPasswordPage from './LoginRegister/ResetPassword';
+import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
+import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 
 function App() {
   return (
