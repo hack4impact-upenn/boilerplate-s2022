@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { styled } from '@mui/system';
-import React, { FC } from 'react';
+import React from 'react';
 import { Grid, Typography } from '@mui/material';
 
 interface StyledProps {
