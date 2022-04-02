@@ -10,7 +10,7 @@ const login = async (
   next: express.NextFunction,
 ) => {
   passport.authenticate(
-    'local',
+    ['local', 'google'],
     {
       failureMessage: true,
     },

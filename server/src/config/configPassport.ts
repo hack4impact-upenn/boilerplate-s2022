@@ -4,6 +4,10 @@ import { verifyLocalUser } from '../controllers/auth.middleware';
 import { IUser, User } from '../models/user';
 import { NativeError } from 'mongoose';
 
+/**
+ * Initializes all the configurations for passport regarding strategies.
+ * @param passport The passport instance to use.
+ */
 const initializePassport = (passport: passport.PassportStatic) => {
   // Set up middleware to use for each type of auth strategy
   passport.use(
