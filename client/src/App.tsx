@@ -6,6 +6,8 @@ import LoginView from './LoginRegister/LoginPage';
 import RegisterPage from './LoginRegister/RegisterPage';
 import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
+import NotFoundPage from './NotFound/NotFoundPage';
+import { UnauthenticatedRoute, PrivateRoute } from './components/routes';
 
 function App() {
   return (
@@ -13,10 +15,39 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginView />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot" element={<ForgotPasswordPage />} />
-            <Route path="/reset" element={<ResetPasswordPage />} />
+            <Route
+              path="/login"
+              element={
+                <UnauthenticatedRoute>
+                  <LoginView />
+                </UnauthenticatedRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <UnauthenticatedRoute>
+                  <RegisterPage />
+                </UnauthenticatedRoute>
+              }
+            />
+            <Route
+              path="/forgot"
+              element={
+                <UnauthenticatedRoute>
+                  <ForgotPasswordPage />
+                </UnauthenticatedRoute>
+              }
+            />
+            <Route
+              path="/reset"
+              element={
+                <UnauthenticatedRoute>
+                  <ResetPasswordPage />
+                </UnauthenticatedRoute>
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
