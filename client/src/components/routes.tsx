@@ -12,12 +12,14 @@ const isAuth = async () => {
 
 function UnauthenticatedRoute({ children }: { children: any }) {
   const data = useData(`${BACKENDURL}/api/auth/authstatus`);
+  console.log('data in unauth is ', data); // eslint-disable-line
   if (data === null) return null;
   return !data.error ? <Navigate to="/" /> : children;
 }
 
 function PrivateRoute({ children }: { children: any }) {
   const data = useData(`${BACKENDURL}/api/auth/authstatus`);
+  console.log('data in unauth is ', data); // eslint-disable-line
   if (data === null) return null;
   return !data.error ? children : <Navigate to="/" />;
 }

@@ -9,6 +9,9 @@ const login = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  if (req.isAuthenticated()) {
+    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+  }
   passport.authenticate(
     'local',
     {
@@ -32,6 +35,7 @@ const login = async (
 };
 
 const logout = async (req: express.Request, res: express.Response) => {
+  // Logout with Passport which modifies the request object
   req.logout();
   // Only if there is an active session.
   if (req.session) {
@@ -48,6 +52,9 @@ const logout = async (req: express.Request, res: express.Response) => {
 
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
+  // if (req.isAuthenticated()) {
+  //   res.status(400).send({ message: 'Already logged in' }); // Already logged in
+  // }
   // Check if user exists
   const user: IUser | null = await retrieveUser(email);
   if (user) {

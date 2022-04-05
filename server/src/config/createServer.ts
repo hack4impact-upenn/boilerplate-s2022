@@ -35,8 +35,8 @@ const createServer = (): express.Express => {
   app.use(
     session({
       secret: process.env.COOKIE_SECRET || 'mysecretkey',
-      resave: true,
-      saveUninitialized: true,
+      resave: false, // don't save session if unmodified
+      saveUninitialized: false, // don't create session until something stored
       store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }),
     }),
   );

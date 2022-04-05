@@ -7,8 +7,8 @@ import RegisterPage from './LoginRegister/RegisterPage';
 import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
-import HomeView from './Home/HomeView';
 import { UnauthenticatedRoute, PrivateRoute } from './components/routes';
+import HomeView from './Home/HomeView';
 
 function App() {
   return (
@@ -52,7 +52,7 @@ function App() {
               path="/home"
               element={
                 <PrivateRoute>
-                  <ResetPasswordPage />
+                  <HomeView />
                 </PrivateRoute>
               }
             />
