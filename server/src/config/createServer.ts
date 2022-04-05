@@ -27,10 +27,8 @@ const createServer = (): express.Express => {
   );
   // Gives express the ability accept origins outside its own to accept requests from
   app.use(cors({ credentials: true }));
-  app.use(express.json());
+  // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
-  app.use(express.urlencoded({ extended: true }));
-
   // Use express-session to maintain sessions
   app.use(
     session({
@@ -43,32 +41,12 @@ const createServer = (): express.Express => {
       },
     }),
   );
-
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
   app.use(passport.session());
 
   // Use the authRouter for any requests to any routes prefixed with /api/auth
   app.use('/api/auth', authRouter);
-
-  // Print out the request session of any requests to the server
-  // app.use(
-  //   (
-  //     req: express.Request,
-  //     res: express.Response,
-  //     next: express.NextFunction,
-  //   ) => {
-  //     console.log('hi');
-  //     console.log(`${req.method} request to ${req.url}:`);
-  //     next();
-  //   },
-  // );
-
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Node Cookie JWT Service',
-    });
-  });
 
   // Serving static files
   if (process.env.NODE_ENV === 'production') {
