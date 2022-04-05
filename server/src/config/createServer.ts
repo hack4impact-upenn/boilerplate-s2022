@@ -4,7 +4,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
-import userRouter from '../routes/auth.route';
+import authRouter from '../routes/auth.route';
 import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
 import 'dotenv/config';
@@ -46,7 +46,7 @@ const createServer = (): express.Express => {
   app.use(passport.session());
 
   // Use the userRouter for any requests to the api/users route
-  app.use('/api/user', userRouter);
+  app.use('/api/auth', authRouter);
 
   app.get('/', (req, res) => {
     res.json({

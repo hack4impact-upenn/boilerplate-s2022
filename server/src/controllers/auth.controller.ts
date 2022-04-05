@@ -19,13 +19,13 @@ const login = async (
         return next(err);
       }
       if (!user) {
-        return res.send({ Message: 'User does not exist' });
+        return res.status(404).send(info);
       }
       req.logIn(user, function (err) {
         if (err) {
           return next(err);
         }
-        return res.send({ Message: 'Successful Login' });
+        return res.status(200).send({ Message: 'Successful Login' });
       });
     },
   )(req, res, next);
@@ -65,4 +65,8 @@ const register = async (req: express.Request, res: express.Response) => {
     });
 };
 
-export { login, logout, register };
+const approve = async (req: express.Request, res: express.Response) => {
+  res.sendStatus(200);
+};
+
+export { login, logout, register, approve };

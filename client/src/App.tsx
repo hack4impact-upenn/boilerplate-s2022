@@ -7,6 +7,7 @@ import RegisterPage from './LoginRegister/RegisterPage';
 import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
+import HomeView from './Home/HomeView';
 import { UnauthenticatedRoute, PrivateRoute } from './components/routes';
 
 function App() {
@@ -45,6 +46,14 @@ function App() {
                 <UnauthenticatedRoute>
                   <ResetPasswordPage />
                 </UnauthenticatedRoute>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <ResetPasswordPage />
+                </PrivateRoute>
               }
             />
             <Route path="*" element={<NotFoundPage />} />

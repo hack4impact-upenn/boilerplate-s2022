@@ -49,7 +49,7 @@ async function RegisterValidation(
     setError('mismatch');
     return 'mismatch';
   }
-  if (!(await register(email))) {
+  if (!(await register(email, password))) {
     setError('duplicate');
     return 'duplicate';
   }

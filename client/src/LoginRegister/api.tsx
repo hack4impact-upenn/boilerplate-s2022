@@ -1,12 +1,21 @@
+import { postData } from '../util/api';
+
+const BACKENDURL = 'http://localhost:4000';
 async function login(email: string, password: string) {
-  alert('validate login info and login if valid');
+  const res = await postData(`${BACKENDURL}/api/auth/login`, {
+    email,
+    password,
+  });
+  if (res.error) return false;
   return true;
 }
 
-async function register(email: string) {
-  alert(
-    'check if email is registered already, if it is return false else register',
-  );
+async function register(email: string, password: string) {
+  const res = await postData(`${BACKENDURL}/api/auth/register`, {
+    email,
+    password,
+  });
+  if (res.error) return false;
   return true;
 }
 
