@@ -15,29 +15,32 @@ const createServer = (): express.Express => {
   // Set up passport and strategies
   initializePassport(passport);
 
-  // sets the port for the app
+  // Sets the port for the app
   app.set('port', process.env.PORT || 4000);
-  // gives express the ability to parse requests with JSON and turn the JSON into objects
+  // Gives express the ability to parse requests with JSON and turn the JSON into objects
   app.use(express.json());
-  // gives express the ability to parse urlencoded payloads
+  // Gives express the ability to parse urlencoded payloads
   app.use(
     express.urlencoded({
       extended: true,
     }),
   );
   // Gives express the ability accept origins outside its own to accept requests from
-  app.use(cors());
+  app.use(cors({ credentials: true }));
   app.use(express.json());
   app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(express.urlencoded({ extended: true }));
 
-  // TODO: see if need to change settings here for security
+  // Use express-session to maintain sessions
   app.use(
     session({
       secret: process.env.COOKIE_SECRET || 'mysecretkey',
       resave: false, // don't save session if unmodified
       saveUninitialized: false, // don't create session until something stored
-      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }),
+      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoBD to store session info
+      cookie: {
+        maxAge: Number(process.env.COOKIE_EXP_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+      },
     }),
   );
 
@@ -45,8 +48,21 @@ const createServer = (): express.Express => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Use the userRouter for any requests to the api/users route
+  // Use the authRouter for any requests to any routes prefixed with /api/auth
   app.use('/api/auth', authRouter);
+
+  // Print out the request session of any requests to the server
+  // app.use(
+  //   (
+  //     req: express.Request,
+  //     res: express.Response,
+  //     next: express.NextFunction,
+  //   ) => {
+  //     console.log('hi');
+  //     console.log(`${req.method} request to ${req.url}:`);
+  //     next();
+  //   },
+  // );
 
   app.get('/', (req, res) => {
     res.json({

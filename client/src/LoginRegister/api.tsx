@@ -6,6 +6,7 @@ async function login(email: string, password: string) {
     email,
     password,
   });
+  console.log('login res is', res);
   if (res.error) return false;
   return true;
 }
@@ -15,6 +16,7 @@ async function register(email: string, password: string) {
     email,
     password,
   });
+  console.log('register res is', res);
   if (res.error) return false;
   return true;
 }

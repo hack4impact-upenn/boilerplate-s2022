@@ -9,14 +9,18 @@ const login = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.log('in login');
+  console.log(req.session);
+
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   passport.authenticate(
-    'local',
+    ['local'],
     {
       failureMessage: true,
     },
+    // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
       if (err) {
         return next(err);
@@ -35,6 +39,13 @@ const login = async (
 };
 
 const logout = async (req: express.Request, res: express.Response) => {
+  console.log('in logout');
+  console.log(req.session);
+
+  if (!req.isAuthenticated()) {
+    res.status(400).send({ message: 'Not logged in' });
+    return;
+  }
   // Logout with Passport which modifies the request object
   req.logout();
   // Only if there is an active session.
@@ -52,9 +63,12 @@ const logout = async (req: express.Request, res: express.Response) => {
 
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
-  // if (req.isAuthenticated()) {
-  //   res.status(400).send({ message: 'Already logged in' }); // Already logged in
-  // }
+  console.log('in register');
+  console.log(req.session);
+
+  if (req.isAuthenticated()) {
+    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+  }
   // Check if user exists
   const user: IUser | null = await retrieveUser(email);
   if (user) {

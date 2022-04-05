@@ -9,11 +9,12 @@ const ensureAuthenticated = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.log('in ensureAuthenticated');
+  console.log(req.session);
   if (req.isAuthenticated()) {
     return next();
   }
   res.sendStatus(401);
-  // res.redirect('/api/user/login'); // TODO: codify this route
 };
 
 export default ensureAuthenticated;

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { object } from 'prop-types';
 
+// So cookies can be sent automatically with requests
+axios.defaults.withCredentials = true;
+
 interface ResolvedReq {
   data: any | null;
   error: Error | unknown | null;
