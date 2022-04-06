@@ -26,7 +26,7 @@ const createServer = (): express.Express => {
     }),
   );
   // Gives express the ability accept origins outside its own to accept requests from
-  app.use(cors({ credentials: true }));
+  app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
   // Use express-session to maintain sessions
