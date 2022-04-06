@@ -41,9 +41,8 @@ const verifyLocalUser = (
 };
 
 /**
- * Initializes the passport object to be properly configured to use the
- * strategies specified for the project.
- * @param passport
+ * Initializes all the configurations for passport regarding strategies.
+ * @param passport The passport instance to use.
  */
 const initializePassport = (passport: passport.PassportStatic) => {
   // Set up middleware to use for each type of auth strategy

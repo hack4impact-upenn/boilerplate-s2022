@@ -16,7 +16,7 @@ const login = async (
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   passport.authenticate(
-    ['local'],
+    ['local', 'google'],
     {
       failureMessage: true,
     },
