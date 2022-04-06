@@ -20,4 +20,5 @@ function HomeView() {
     </ThemeProvider>
   );
 }
+
 export default HomeView;

@@ -8,6 +8,7 @@ import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
 import { UnauthenticatedRoute, PrivateRoute } from './components/routes';
+import HomeView from './Home/HomeView';
 
 function App() {
   return (
@@ -45,6 +46,14 @@ function App() {
                 <UnauthenticatedRoute>
                   <ResetPasswordPage />
                 </UnauthenticatedRoute>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <HomeView />
+                </PrivateRoute>
               }
             />
             <Route path="*" element={<NotFoundPage />} />

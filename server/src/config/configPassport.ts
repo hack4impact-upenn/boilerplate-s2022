@@ -1,8 +1,44 @@
 import { Strategy as LocalStrategy } from 'passport-local';
 import passport from 'passport';
-import { verifyLocalUser } from '../controllers/auth.middleware';
 import { IUser, User } from '../models/user';
 import { NativeError } from 'mongoose';
+import { IVerifyOptions } from 'passport-local';
+import { retrieveUser } from '../services/user.service';
+import { compare } from 'bcrypt';
+
+/**
+ * Middleware to check if a user is authenticated using the Local Strategy.
+ * @param email Email of the user
+ * @param password Password of the user
+ * @param done Callback function to return
+ */
+const verifyLocalUser = (
+  email: string,
+  password: string,
+  done: (error: any, user?: any, options?: IVerifyOptions | undefined) => void,
+): void => {
+  // Match user with email
+  retrieveUser(email)
+    .then((user: any) => {
+      if (!user) {
+        return done(null, false, { message: 'User not found' });
+      }
+      // Match user with password
+      compare(password, user.password, (err: any, isMatch: boolean) => {
+        if (err) {
+          return done(err);
+        }
+        if (isMatch) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+      });
+    })
+    .catch((error: any) => {
+      return done(error);
+    });
+};
 
 /**
  * Initializes all the configurations for passport regarding strategies.

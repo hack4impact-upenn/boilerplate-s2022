@@ -9,29 +9,44 @@ const login = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.log('in login');
+  console.log(req.session);
+
+  if (req.isAuthenticated()) {
+    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+  }
   passport.authenticate(
     ['local', 'google'],
     {
       failureMessage: true,
     },
+    // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
       if (err) {
         return next(err);
       }
       if (!user) {
-        return res.send({ Message: 'User does not exist' });
+        return res.status(404).send(info);
       }
       req.logIn(user, function (err) {
         if (err) {
           return next(err);
         }
-        return res.send({ Message: 'Successful Login' });
+        return res.status(200).send({ Message: 'Successful Login' });
       });
     },
   )(req, res, next);
 };
 
 const logout = async (req: express.Request, res: express.Response) => {
+  console.log('in logout');
+  console.log(req.session);
+
+  if (!req.isAuthenticated()) {
+    res.status(400).send({ message: 'Not logged in' });
+    return;
+  }
+  // Logout with Passport which modifies the request object
   req.logout();
   // Only if there is an active session.
   if (req.session) {
@@ -48,6 +63,12 @@ const logout = async (req: express.Request, res: express.Response) => {
 
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
+  console.log('in register');
+  console.log(req.session);
+
+  if (req.isAuthenticated()) {
+    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+  }
   // Check if user exists
   const user: IUser | null = await retrieveUser(email);
   if (user) {
@@ -65,4 +86,8 @@ const register = async (req: express.Request, res: express.Response) => {
     });
 };
 
-export { login, logout, register };
+const approve = async (req: express.Request, res: express.Response) => {
+  res.sendStatus(200);
+};
+
+export { login, logout, register, approve };

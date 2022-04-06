@@ -32,7 +32,7 @@ function RegisterPage() {
     );
     if (result === '') {
       alert(email + password1);
-      navigate('/');
+      navigate('/login');
     } else {
       alert('fail');
     }

@@ -24,4 +24,6 @@ const retrieveUser = async (email: string) => {
   return user;
 };
 
+
+
 export { createUser, retrieveUser };

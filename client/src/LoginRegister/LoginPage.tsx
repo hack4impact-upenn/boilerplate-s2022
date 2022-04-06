@@ -21,7 +21,7 @@ function LoginView() {
     const result = await LoginValidation(email, password, setError);
     if (result === '') {
       alert(email + password);
-      navigate('/');
+      navigate('/home');
     } else {
       alert('fail');
     }
