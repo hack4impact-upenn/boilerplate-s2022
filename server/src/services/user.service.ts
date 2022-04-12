@@ -13,6 +13,7 @@ const createUser = async (email: string, password: string) => {
     accountType: AuthenticationType.Internal,
     email: email,
     password: hashedPassword,
+    admin: false,
   });
   console.log('newUser: ', newUser);
   const user = await newUser.save();
@@ -24,4 +25,25 @@ const retrieveUser = async (email: string) => {
   return user;
 };
 
-export { createUser, retrieveUser };
+const retrieveAllUsers = async () => {
+  const userList = await User.find({});
+  return userList;
+}
+
+const toggleAdmin = async (email: string) => {
+  const user = await User.findOne({ email: email }).exec();
+  if (user) {
+    user.admin = !user.admin;
+    const newUser = await user.save();
+    return newUser;
+  } else {
+    return;
+  }
+}
+
+const deleteOne = async (email: string) => {
+  const user = User.findByIdAndRemove({email: email})
+  return user;
+}
+
+export { createUser, retrieveUser, retrieveAllUsers, toggleAdmin, deleteOne };

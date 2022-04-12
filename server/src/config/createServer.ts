@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import userRouter from '../routes/auth.route';
+import adminRouter from '../routes/admin.route';
 import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
 import 'dotenv/config';
@@ -47,6 +48,9 @@ const createServer = (): express.Express => {
 
   // Use the userRouter for any requests to the api/users route
   app.use('/api/user', userRouter);
+
+  // Use the adminRouter for any requests to the api/admin route
+  app.use('/api/admin', adminRouter);
 
   app.get('/', (req, res) => {
     res.json({

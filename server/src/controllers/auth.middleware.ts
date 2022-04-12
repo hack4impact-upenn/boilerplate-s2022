@@ -47,7 +47,7 @@ const ensureAuthenticated = (
   next: express.NextFunction,
 ) => {
   if (req.isAuthenticated()) {
-    return next();
+    return next(req);
   }
   res.sendStatus(401);
   res.redirect('/api/user/login'); // TODO: codify this route
