@@ -37,7 +37,7 @@ const toggleAdmin = async (email: string) => {
     const newUser = await user.save();
     return newUser;
   } else {
-    return;
+    return null;
   }
 }
 

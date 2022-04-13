@@ -11,7 +11,7 @@ const isAdmin = (
   next: express.NextFunction,
 ) => {
   // Get User
-  const user: IUser | null = req.user;
+  const user: IUser | null = req.user as IUser;
 
   // Check is user exists and is valid
   if (!user) {
@@ -23,6 +23,7 @@ const isAdmin = (
     return next(req);
   }
   res.status(401).send({ message: 'not admin'});
+  return;
 };
 
 export { isAdmin };
