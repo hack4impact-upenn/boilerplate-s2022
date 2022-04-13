@@ -8,7 +8,7 @@ import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
 import { UnauthenticatedRoute, PrivateRoute } from './components/routes';
-import HomeView from './Home/HomeView';
+import HomeView from './home/HomeView';
 
 function App() {
   return (

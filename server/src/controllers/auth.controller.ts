@@ -3,6 +3,7 @@ import express from 'express';
 import { IUser, authJWTName } from '../models/user';
 import { createUser, retrieveUser } from '../services/user.service';
 import passport from 'passport';
+import { useDispatch } from 'react-redux';
 
 const login = async (
   req: express.Request,
@@ -32,6 +33,13 @@ const login = async (
         if (err) {
           return next(err);
         }
+
+        const dispatch = useDispatch();
+        dispatch({
+          isAuthenticated: true,
+          user: user
+        });
+        
         return res.status(200).send({ Message: 'Successful Login' });
       });
     },
