@@ -5,14 +5,17 @@ import { toggleAdmin, retrieveUser, retrieveAllUsers, deleteOne } from '../servi
 const getAllUsers = async(req: express.Request, res: express.Response) => {
   // return all users
   return retrieveAllUsers()
-    .then((userList) => res.send(userList))
+    .then((userList) => {
+      res.send(userList)
+    })
     .catch((e) => {res.status(400).send({ message: e});
   });
 };
 
-const switchPrivilege = async (req: express.Request, res: express.Response) => {
+const upgradePrivilege = async (req: express.Request, res: express.Response) => {
   // Check if user exists
-  const email = req.params.email;
+  const email = req.body.email;
+  console.log('switchPrivilege', email)
   const user: IUser | null = await retrieveUser(email);
   if (!user) {
     return res.status(401).send({
@@ -21,7 +24,7 @@ const switchPrivilege = async (req: express.Request, res: express.Response) => {
   }
   // Toggles User's Admin Status
   return toggleAdmin(email)
-    .then(() => res.sendStatus(201))
+    .then(() => res.sendStatus(200))
     .catch((e) => {
       console.log(e);
       res.status(400).send({ message: e });
@@ -47,4 +50,4 @@ const deleteUser = async(req: express.Request, res: express.Response) => {
   });
 };
 
-export { getAllUsers, switchPrivilege, deleteUser };
+export { getAllUsers, upgradePrivilege as switchPrivilege, deleteUser };

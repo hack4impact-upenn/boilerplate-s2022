@@ -30,14 +30,17 @@ const retrieveAllUsers = async () => {
   return userList;
 }
 
-const toggleAdmin = async (email: string) => {
+const upgradeToAdmin = async (email: string) => {
   const user = await User.findOne({ email: email }).exec();
   if (user) {
+    if (user.admin) {
+      return false;
+    }
     user.admin = !user.admin;
     const newUser = await user.save();
-    return newUser;
+    return true;
   } else {
-    return null;
+    return false
   }
 }
 
@@ -46,4 +49,4 @@ const deleteOne = async (email: string) => {
   return user;
 }
 
-export { createUser, retrieveUser, retrieveAllUsers, toggleAdmin, deleteOne };
+export { createUser, retrieveUser, retrieveAllUsers, upgradeToAdmin as toggleAdmin, deleteOne };

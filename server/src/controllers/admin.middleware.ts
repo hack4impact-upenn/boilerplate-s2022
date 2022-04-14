@@ -12,7 +12,7 @@ const isAdmin = (
 ) => {
   // Get User
   const user: IUser | null = req.user as IUser;
-
+  console.log('in is admin ')
   // Check is user exists and is valid
   if (!user) {
     res.status(401).send({ message: 'not valid user'});
@@ -20,7 +20,7 @@ const isAdmin = (
   }
   // Check if the user is an admin
   if (user.admin) {
-    return next(req);
+    return next();
   }
   res.status(401).send({ message: 'not admin'});
   return;

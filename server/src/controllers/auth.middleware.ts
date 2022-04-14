@@ -46,11 +46,11 @@ const ensureAuthenticated = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.log('in ensureauth ')
   if (req.isAuthenticated()) {
-    return next(req);
+    return next();
   }
-  res.sendStatus(401);
-  res.redirect('/api/user/login'); // TODO: codify this route
+  res.status(401).send({message: 'Not logged in'}); // TODO: codify this route
 };
 
 export { verifyLocalUser, ensureAuthenticated };

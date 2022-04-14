@@ -7,7 +7,7 @@ import 'dotenv/config';
 const router = express.Router();
 
 router.get('/allusers', ensureAuthenticated, isAdmin, getAllUsers)
-router.put('/update/privilege', ensureAuthenticated, isAdmin, switchPrivilege)
+router.put('/upgrade-privilege', ensureAuthenticated, isAdmin, switchPrivilege)
 router.delete('user/:email', ensureAuthenticated, isAdmin, deleteUser)
 
 export default router;
