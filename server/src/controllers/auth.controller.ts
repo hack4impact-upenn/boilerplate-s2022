@@ -11,6 +11,7 @@ const login = async (
 ) => {
   console.log('in login');
   console.log(req.session);
+  console.log(req.params);
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
@@ -26,7 +27,7 @@ const login = async (
         return next(err);
       }
       if (!user) {
-        return res.status(404).send(info);
+        return res.status(401).send(info);
       }
       req.logIn(user, function (err) {
         if (err) {

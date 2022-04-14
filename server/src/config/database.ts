@@ -39,8 +39,8 @@ class MongoConnection {
       // preventing database pollution with testing and allowing for quicktesting. If the environment is not test, we attempt to connect to the db.
       if (process.env.NODE_ENV === 'test') {
         console.log('Connecting to In-Memory MongoDB');
-        this._mongoServer = new MongoMemoryServer();
-        const mongoUrl = await this._mongoServer.getUri();
+        this._mongoServer = await MongoMemoryServer.create();
+        const mongoUrl = this._mongoServer.getUri();
         await mongoose.connect(mongoUrl, opts);
       } else {
         console.log('Connecting to MongoDB...');
