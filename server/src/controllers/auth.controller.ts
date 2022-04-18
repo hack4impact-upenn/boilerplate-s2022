@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import express from 'express';
 import { IUser, authJWTName } from '../models/user';
-import { createUser, retrieveUser } from '../services/user.service';
+import { createUser, getUserFromDB } from '../services/user.service';
 import passport from 'passport';
 import { useDispatch } from 'react-redux';
 
@@ -37,9 +37,9 @@ const login = async (
         const dispatch = useDispatch();
         dispatch({
           isAuthenticated: true,
-          user: user
+          user: user,
         });
-        
+
         return res.status(200).send({ Message: 'Successful Login' });
       });
     },
@@ -78,7 +78,7 @@ const register = async (req: express.Request, res: express.Response) => {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await retrieveUser(email);
+  const user: IUser | null = await getUserFromDB(email);
   if (user) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,

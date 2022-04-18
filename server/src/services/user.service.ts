@@ -20,16 +20,21 @@ const createUser = async (email: string, password: string) => {
   return user;
 };
 
-const retrieveUser = async (email: string) => {
+const getUserFromDB = async (email: string) => {
   const user = await User.findOne({ email: email }).exec();
   return user;
 };
 
-const retrieveAllUsers = async () => {
+const getAllUsersFromDB = async () => {
   const userList = await User.find({});
   return userList;
-}
+};
 
+/**
+ * A function that upgrades a certain user to an admin.
+ * @param email
+ * @returns A boolean indicating whether the upgrade was successful or not
+ */
 const upgradeToAdmin = async (email: string) => {
   const user = await User.findOne({ email: email }).exec();
   if (user) {
@@ -40,14 +45,19 @@ const upgradeToAdmin = async (email: string) => {
     const newUser = await user.save();
     return true;
   } else {
-    return false
+    return false;
   }
-}
+};
 
 const deleteOne = async (email: string) => {
-  const user = User.findByIdAndRemove({email: email})
+  const user = User.findByIdAndRemove({ email: email });
   return user;
-}
+};
 
-export { createUser, retrieveUser, retrieveAllUsers, upgradeToAdmin, deleteOne };
-
+export {
+  createUser,
+  getUserFromDB,
+  getAllUsersFromDB,
+  upgradeToAdmin,
+  deleteOne,
+};
