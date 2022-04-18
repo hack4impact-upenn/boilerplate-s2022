@@ -12,6 +12,7 @@ interface IInternalUser extends mongoose.Types.Subdocument {
   _id: string;
   email: string;
   password: string;
+  admin: boolean;
 }
 
 interface IGoogleUser extends mongoose.Types.Subdocument {
@@ -22,6 +23,7 @@ interface IGoogleUser extends mongoose.Types.Subdocument {
   lastName: string;
   image: string;
   createdAt: Date;
+  admin: boolean;
 }
 
 interface IUser extends mongoose.Document {
@@ -30,6 +32,7 @@ interface IUser extends mongoose.Document {
   email: string;
   password: string;
   googleAccount: IGoogleUser;
+  admin: boolean;
 }
 
 const GoogleUserSchema = new mongoose.Schema({
@@ -56,6 +59,10 @@ const GoogleUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const InternalUserSchema = new mongoose.Schema({
@@ -69,6 +76,11 @@ const InternalUserSchema = new mongoose.Schema({
     type: String,
     required: true,
     // match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
+  },
+  admin: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 
@@ -88,6 +100,11 @@ const UserSchema = new mongoose.Schema({
   },
   googleAccount: {
     type: GoogleUserSchema,
+  },
+  admin: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 
