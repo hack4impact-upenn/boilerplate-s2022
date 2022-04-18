@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Link, Button } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
+import { login } from '../util/redux/slice';
 import { LoginValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
 import {
@@ -23,10 +24,7 @@ function LoginView() {
     const result = await LoginValidation(email, password, setError);
     if (result === '') {
       alert(email + password);
-      dispatch({
-        isAuthenticated: true,
-        email,
-      });
+      dispatch(login(email));
       navigate('/home');
     } else {
       alert('fail');
