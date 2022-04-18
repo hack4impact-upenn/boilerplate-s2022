@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   width: 100%;

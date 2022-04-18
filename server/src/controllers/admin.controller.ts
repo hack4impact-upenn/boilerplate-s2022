@@ -2,8 +2,8 @@ import express from 'express';
 import { IUser } from '../models/user';
 import {
   upgradeToAdmin,
-  getUser,
-  getAllUsers as getAllUsersFromDB,
+  getUserFromDB,
+  getAllUsersFromDB,
   deleteOne,
 } from '../services/user.service';
 
@@ -25,7 +25,7 @@ const upgradePrivilege = async (
   // Check if user exists
   const email = req.body.email;
   console.log('switchPrivilege', email);
-  const user: IUser | null = await getUser(email);
+  const user: IUser | null = await getUserFromDB(email);
   if (!user) {
     return res.status(400).send({
       message: `User with email ${email} does not exist.`,
@@ -48,7 +48,7 @@ const upgradePrivilege = async (
 const deleteUser = async (req: express.Request, res: express.Response) => {
   const email = req.params.email;
   // check if user to delete is an admin
-  const user: IUser | null = await getUser(email);
+  const user: IUser | null = await getUserFromDB(email);
   if (!user) {
     return res.status(400).send({
       message: `User to delete does not exist`,

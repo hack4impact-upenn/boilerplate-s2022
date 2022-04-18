@@ -3,7 +3,7 @@ import passport from 'passport';
 import { IUser, User } from '../models/user';
 import { NativeError } from 'mongoose';
 import { IVerifyOptions } from 'passport-local';
-import { retrieveUser } from '../services/user.service';
+import { getUserFromDB } from '../services/user.service';
 import { compare } from 'bcrypt';
 
 /**
@@ -18,7 +18,7 @@ const verifyLocalUser = (
   done: (error: any, user?: any, options?: IVerifyOptions | undefined) => void,
 ): void => {
   // Match user with email
-  retrieveUser(email)
+  getUserFromDB(email)
     .then((user: any) => {
       if (!user) {
         return done(null, false, { message: 'User not found' });

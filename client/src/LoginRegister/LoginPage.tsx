@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useAppDispatch } from '../util/redux/hooks';
 import { LoginValidation } from './inputValidation';
 import ErrorMessage from './errorMessage';
 import {
@@ -17,10 +18,15 @@ function LoginView() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   async function onSubmit() {
     const result = await LoginValidation(email, password, setError);
     if (result === '') {
       alert(email + password);
+      dispatch({
+        isAuthenticated: true,
+        email,
+      });
       navigate('/home');
     } else {
       alert('fail');

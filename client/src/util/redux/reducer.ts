@@ -1,6 +1,6 @@
 const initialState = {
-  isAuthenticated: true,
-  user: null,
+  isAuthenticated: false,
+  email: null,
 };
 
 // eslint-disable-next-line default-param-last
@@ -9,7 +9,7 @@ const reducer = (state = initialState, action: any) => {
     case 'USER_LOGIN':
       return {
         isAuthenticated: true,
-        user: action.payload.user,
+        email: action.payload.email,
       };
     default:
       return state;
