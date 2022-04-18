@@ -49,7 +49,7 @@ const initializePassport = (passport: passport.PassportStatic) => {
   passport.use(
     new LocalStrategy(
       {
-        usernameField: 'email',
+        usernameField: 'email', // Treat email field in request as username
       },
       verifyLocalUser,
     ),
