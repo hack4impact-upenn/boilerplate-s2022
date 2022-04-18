@@ -1,10 +1,15 @@
+import { AnyAction } from 'redux';
+
 const initialState = {
   isAuthenticated: false,
   email: null,
 };
 
-// eslint-disable-next-line default-param-last
-const reducer = (state = initialState, action: any) => {
+const reducer = (
+  // eslint-disable-next-line default-param-last
+  state = initialState,
+  action: AnyAction,
+) => {
   switch (action.type) {
     case 'USER_LOGIN':
       return {
