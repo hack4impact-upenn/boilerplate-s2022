@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import { IUser, authJWTName } from '../models/user';
+import { IUser } from '../models/user';
 import { createUser, retrieveUser } from '../services/user.service';
 import passport from 'passport';
 
@@ -11,7 +11,6 @@ const login = async (
 ) => {
   console.log('in login');
   console.log(req.session);
-  console.log(req.params);
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
@@ -23,14 +22,18 @@ const login = async (
     },
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
+      console.log('error logging in0');
       if (err) {
+        console.log('error logging in1');
         return next(err);
       }
       if (!user) {
+        console.log('error logging in2');
         return res.status(401).send(info);
       }
       req.logIn(user, function (err) {
         if (err) {
+          console.log('error logging in3');
           return next(err);
         }
         return res.status(200).send({ Message: 'Successful Login' });
