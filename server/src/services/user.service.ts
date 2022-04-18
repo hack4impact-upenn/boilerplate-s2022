@@ -49,4 +49,5 @@ const deleteOne = async (email: string) => {
   return user;
 }
 
-export { createUser, retrieveUser, retrieveAllUsers, upgradeToAdmin as toggleAdmin, deleteOne };
+export { createUser, retrieveUser, retrieveAllUsers, upgradeToAdmin, deleteOne };
+

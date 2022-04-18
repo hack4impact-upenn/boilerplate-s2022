@@ -83,7 +83,7 @@ class MongoConnection {
     }
   }
 
-  // close connection to db and
+  // Close connection to db
   public async close(): Promise<void> {
     try {
       await mongoose.disconnect();
