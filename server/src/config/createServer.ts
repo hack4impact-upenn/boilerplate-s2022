@@ -31,14 +31,19 @@ const createServer = (): express.Express => {
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
   // Use express-session to maintain sessions
+  let sessionsStore = undefined;
+  if (process.env.NODE_ENV != 'test') {
+    sessionsStore = new MongoStore({ mongoUrl: process.env.ATLAS_URI }); // use MongoBD to store session info
+  }
   app.use(
     session({
       secret: process.env.COOKIE_SECRET || 'mysecretkey',
       resave: false, // don't save session if unmodified
       saveUninitialized: false, // don't create session until something stored
-      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoBD to store session info
+      store: sessionsStore,
       cookie: {
-        maxAge: Number(process.env.COOKIE_EXP_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+        maxAge:
+          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
       },
     }),
   );

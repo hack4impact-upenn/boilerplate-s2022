@@ -22,14 +22,18 @@ const login = async (
     },
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
+      console.log('error logging in0');
       if (err) {
+        console.log('error logging in1');
         return next(err);
       }
       if (!user) {
-        return res.status(404).send(info);
+        console.log('error logging in2');
+        return res.status(401).send(info);
       }
       req.logIn(user, function (err) {
         if (err) {
+          console.log('error logging in3');
           return next(err);
         }
 
