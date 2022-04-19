@@ -31,7 +31,7 @@ it('registering new user issues 201 status code and registering existing user is
   expect(response.status).toBe(400);
 });
 
-it('successful login should give 200 status code', async () => {
+it('successful login should give 201 status code', async () => {
   let response = await request(app).post('/api/auth/register').send({
     email: 'example@gmail.com',
     password: 'Hack4Impact',
