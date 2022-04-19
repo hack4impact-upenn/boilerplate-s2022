@@ -12,7 +12,6 @@ const isAdmin = (
 ) => {
   // Get User
   const user: IUser | null = req.user as IUser;
-  console.log('in is admin ')
   // Check is user exists and is valid
   if (!user) {
     res.status(401).send({ message: 'not valid user'});

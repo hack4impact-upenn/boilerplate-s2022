@@ -15,7 +15,6 @@ const createUser = async (email: string, password: string) => {
     password: hashedPassword,
     admin: false,
   });
-  console.log('newUser: ', newUser);
   const user = await newUser.save();
   return user;
 };

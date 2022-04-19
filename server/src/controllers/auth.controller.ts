@@ -19,10 +19,9 @@ const login = async (
     },
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
-      console.log('error logging in0');
       if (err) {
         console.log('error logging in1');
-        return next(err);
+        return res.status(400).send(err);
       }
       if (!user) {
         console.log('error logging in2');
@@ -33,7 +32,6 @@ const login = async (
           console.log('error logging in3');
           return next(err);
         }
-
         return res.status(200).send({ message: 'Successful Login' });
       });
     },
