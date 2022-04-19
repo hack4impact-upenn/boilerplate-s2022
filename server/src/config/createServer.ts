@@ -4,6 +4,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
+import adminRouter from '../routes/admin.route';
 import authRouter from '../routes/auth.route';
 import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
@@ -46,9 +47,13 @@ const createServer = (): express.Express => {
       },
     }),
   );
+  
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // Use the adminRouter for any requests to the api/admin route
+  app.use('/api/admin', adminRouter);
 
   // Use the authRouter for any requests to any routes prefixed with /api/auth
   app.use('/api/auth', authRouter);

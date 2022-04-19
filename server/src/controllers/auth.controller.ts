@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import { IUser } from '../models/user';
-import { createUser, retrieveUser } from '../services/user.service';
+import { IUser, authJWTName } from '../models/user';
+import { createUser, getUserFromDB } from '../services/user.service';
 import passport from 'passport';
 
 const login = async (
@@ -36,7 +36,8 @@ const login = async (
           console.log('error logging in3');
           return next(err);
         }
-        return res.status(200).send({ Message: 'Successful Login' });
+
+        return res.status(200).send({ message: 'Successful Login' });
       });
     },
   )(req, res, next);
@@ -74,7 +75,7 @@ const register = async (req: express.Request, res: express.Response) => {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await retrieveUser(email);
+  const user: IUser | null = await getUserFromDB(email);
   if (user) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,

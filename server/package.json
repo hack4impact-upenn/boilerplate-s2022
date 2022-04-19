@@ -12,6 +12,7 @@
     "postinstall": "echo \"Package install attempted in server directory\""
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "bcrypt": "^5.0.1",
     "client": "1.0.0",
     "connect-mongo": "^4.6.0",
