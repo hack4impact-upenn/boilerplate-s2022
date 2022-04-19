@@ -31,23 +31,25 @@ const createServer = (): express.Express => {
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
   // Use express-session to maintain sessions
-  let sessionsStore = undefined;
-  if (process.env.NODE_ENV != 'test') {
-    sessionsStore = new MongoStore({ mongoUrl: process.env.ATLAS_URI }); // use MongoBD to store session info
-  }
+
+  // let sessionsStore = undefined;
+  // if (process.env.NODE_ENV != 'test') {
+  //   sessionsStore = new MongoStore({ mongoUrl: process.env.ATLAS_URI }); // use MongoBD to store session info
+  // }
+  console.log('process.env.ATLAS_URI in createServer: ', process.env.ATLAS_URI);
   app.use(
     session({
       secret: process.env.COOKIE_SECRET || 'mysecretkey',
       resave: false, // don't save session if unmodified
       saveUninitialized: false, // don't create session until something stored
-      store: sessionsStore,
+      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoBD to store session info
       cookie: {
         maxAge:
           Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
       },
     }),
   );
-  
+
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
   app.use(passport.session());

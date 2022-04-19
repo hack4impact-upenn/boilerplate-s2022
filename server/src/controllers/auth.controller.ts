@@ -9,9 +9,6 @@ const login = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  console.log('in login');
-  console.log(req.session);
-
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
@@ -44,10 +41,8 @@ const login = async (
 };
 
 const logout = async (req: express.Request, res: express.Response) => {
-  console.log('in logout');
-  console.log(req.session);
-
   if (!req.isAuthenticated()) {
+    console.log('not authenticated by passport');
     res.status(400).send({ message: 'Not logged in' });
     return;
   }
@@ -68,8 +63,6 @@ const logout = async (req: express.Request, res: express.Response) => {
 
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
-  console.log('in register');
-  console.log(req.session);
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
