@@ -13,7 +13,7 @@ import 'dotenv/config';
 /**
  * Sets the session store of the express instance to use the mongoDB URI
  * specified by the curreent environment variables.
- * @param app The express instance to reset the session store of.
+ * @param app The express instance to set the express-session of.
  */
 const setExpressSession = (app: express.Express): void => {
   console.log(

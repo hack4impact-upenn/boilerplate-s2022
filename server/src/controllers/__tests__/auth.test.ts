@@ -1,26 +1,12 @@
 import request from 'supertest';
 import { createServer, setExpressSession } from '../../config/createServer';
-import db from '../../config/database';
 
-const app = createServer();
-let server = app.listen();
-let agent = request.agent(server);
+const app = createServer(); // instantiate express app
+let server = app.listen(); // listen on some unused port
+let agent = request.agent(server); // instantiate supertest agent
 
 beforeAll(async () => {
-  server.close();
-  console.log('initial server closed');
-});
-
-beforeEach(async () => {
-  await db.open(); // create new mock db
   setExpressSession(app); // reset session to use mock db for storage
-  server = app.listen(); // listen on some unused port for testing
-  agent = request.agent(server); // create agent to use server
-});
-
-afterEach(async () => {
-  await db.close(); // close mock db
-  server.close(); // close server
 });
 
 it('logging out before logging in should return a 400', async () => {
