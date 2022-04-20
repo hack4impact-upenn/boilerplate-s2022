@@ -10,6 +10,30 @@ import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
 import 'dotenv/config';
 
+/**
+ * Sets the session store of the express instance to use the mongoDB URI
+ * specified by the curreent environment variables.
+ * @param app The express instance to reset the session store of.
+ */
+const setExpressSession = (app: express.Express): void => {
+  console.log(
+    'process.env.ATLAS_URI in resetSessionStore: ',
+    process.env.ATLAS_URI,
+  );
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET || 'mysecretkey',
+      resave: false, // don't save session if unmodified
+      saveUninitialized: false, // don't create session until something stored
+      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoDB to store session info
+      cookie: {
+        maxAge:
+          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+      },
+    }),
+  );
+};
+
 const createServer = (): express.Express => {
   const app = express();
 
@@ -30,25 +54,9 @@ const createServer = (): express.Express => {
   app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
-  // Use express-session to maintain sessions
 
-  // let sessionsStore = undefined;
-  // if (process.env.NODE_ENV != 'test') {
-  //   sessionsStore = new MongoStore({ mongoUrl: process.env.ATLAS_URI }); // use MongoBD to store session info
-  // }
-  console.log('process.env.ATLAS_URI in createServer: ', process.env.ATLAS_URI);
-  app.use(
-    session({
-      secret: process.env.COOKIE_SECRET || 'mysecretkey',
-      resave: false, // don't save session if unmodified
-      saveUninitialized: false, // don't create session until something stored
-      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoBD to store session info
-      cookie: {
-        maxAge:
-          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
-      },
-    }),
-  );
+  // Use express-session to maintain sessions
+  setExpressSession(app);
 
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
@@ -72,4 +80,5 @@ const createServer = (): express.Express => {
 
   return app;
 };
-export default createServer;
+
+export { createServer, setExpressSession };

@@ -92,6 +92,7 @@ class MongoConnection {
       if (process.env.NODE_ENV === 'test') {
         // ! at end indicates to typescript that mongoServer cannot be null or undefined
         await this._mongoServer!.stop();
+        console.log('mongodb-memory-server: Stopped');
       }
     } catch (err) {
       console.log(`db.open: ${err}`);
