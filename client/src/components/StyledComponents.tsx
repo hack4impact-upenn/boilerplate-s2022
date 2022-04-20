@@ -1,14 +1,30 @@
 import { styled } from '@mui/system';
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
 
 interface StyledProps {
   children: React.ReactNode;
 }
 
+interface TableProps {
+  rows: any[];
+  ids: any[];
+}
+
 /**
  * This is for the little baby links on the bottom of the form
- * (i.e. forgot password, signup, etc.) We style the sizing and the lack of wrapping.
+ * (i.e. forgot password, signup, etc.) We style the sizing.
  * @param param0
  * @returns
  */
@@ -106,6 +122,111 @@ function FormField({ children }: StyledProps) {
   );
 }
 
+/**
+ * This is our pagination component, mainly used in tables that require
+ * multiple pages, for example the user tables in admin-view.
+ */
+function PaginationTable({ rows, ids }: TableProps) {
+  interface Column {
+    id: string;
+    label: string;
+    minWidth?: number;
+    align?: 'right';
+    format?: (value: number) => string;
+  }
+
+  const columns: Column[] = [];
+  ids.forEach((i) => {
+    const [id, type] = i;
+    columns.push({
+      id,
+      label: id.charAt(0).toUpperCase() + id.slice(1),
+      minWidth: 170,
+      align: 'right',
+      format: (value: number) =>
+        // eslint-disable-next-line no-nested-ternary
+        type === 'int'
+          ? value.toLocaleString('en-US')
+          : type === 'float'
+          ? value.toFixed(2)
+          : '',
+    });
+  });
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  return (
+    <div>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.username}
+                    >
+                      {columns.map((column) => {
+                        console.log(`THIS IS THE COLUMN ID:${column.id}`);
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'number'
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
+  );
+}
+
 export {
   MiniLinkText,
   FormHeaderText,
@@ -113,4 +234,5 @@ export {
   FormGridCol,
   FormGridRow,
   FormField,
+  PaginationTable,
 };
