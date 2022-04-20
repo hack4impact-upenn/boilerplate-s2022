@@ -11,6 +11,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Switch,
 } from '@mui/material';
 
 interface StyledProps {
@@ -155,6 +156,12 @@ function PaginationTable({ rows, ids }: TableProps) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [checked, setChecked] = React.useState({});
+  const [rowDataState, setRowDataState] = React.useState(rows);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -165,6 +172,11 @@ function PaginationTable({ rows, ids }: TableProps) {
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleAdminChange = (event: any) => {
+    setChecked({ ...checked, [event.target.name]: event.target.checked });
+    setRowDataState({ ...rowDataState, checked: event.target.checked });
   };
 
   return (
@@ -197,9 +209,16 @@ function PaginationTable({ rows, ids }: TableProps) {
                       key={row.username}
                     >
                       {columns.map((column) => {
-                        console.log(`THIS IS THE COLUMN ID:${column.id}`);
                         const value = row[column.id];
-                        return (
+                        return value === 'admin' ? (
+                          <TableCell key={column.id} align={column.align}>
+                            <Switch
+                              checked={rowDataState.checked}
+                              onChange={(event) => handleAdminChange(event)}
+                              value={row.admin}
+                            />
+                          </TableCell>
+                        ) : (
                           <TableCell key={column.id} align={column.align}>
                             {column.format && typeof value === 'number'
                               ? column.format(value)
