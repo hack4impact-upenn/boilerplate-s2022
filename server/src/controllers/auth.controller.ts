@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import { IUser, authJWTName } from '../models/user';
+import { IUser } from '../models/user';
 import { createUser, getUserFromDB } from '../services/user.service';
 import passport from 'passport';
 
