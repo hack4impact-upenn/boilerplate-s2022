@@ -21,6 +21,8 @@ interface StyledProps {
 interface TableProps {
   rows: any[];
   ids: any[];
+  // row: any;
+  // columns: any[];
 }
 
 /**
@@ -123,6 +125,39 @@ function FormField({ children }: StyledProps) {
   );
 }
 
+function UserRow({ rows, ids }: TableProps) {
+  const [checked, setChecked] = React.useState({});
+  const [rowDataState, setRowDataState] = React.useState();
+
+  const handleAdminChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked({ ...checked, [event.target.name]: event.target.checked });
+    setRowDataState({ ...rowDataState, checked: event.target.checked });
+  };
+
+  return (
+    <TableRow hover role="checkbox" tabIndex={-1} key={row.username}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return value === 'admin' ? (
+                          <TableCell key={column.id} align={column.align}>
+                            <Switch
+                              checked={row.admin}
+                              onChange={(event) => handleChange(event)}
+                              value={row.admin}
+                            />
+                          </TableCell>
+                        ) : (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'number'
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+  );
+}
+
 /**
  * This is our pagination component, mainly used in tables that require
  * multiple pages, for example the user tables in admin-view.
@@ -156,12 +191,6 @@ function PaginationTable({ rows, ids }: TableProps) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [checked, setChecked] = React.useState({});
-  const [rowDataState, setRowDataState] = React.useState(rows);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -173,12 +202,7 @@ function PaginationTable({ rows, ids }: TableProps) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const handleAdminChange = (event: any) => {
-    setChecked({ ...checked, [event.target.name]: event.target.checked });
-    setRowDataState({ ...rowDataState, checked: event.target.checked });
-  };
-
+  
   return (
     <div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -200,33 +224,9 @@ function PaginationTable({ rows, ids }: TableProps) {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.username}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return value === 'admin' ? (
-                          <TableCell key={column.id} align={column.align}>
-                            <Switch
-                              checked={rowDataState.checked}
-                              onChange={(event) => handleAdminChange(event)}
-                              value={row.admin}
-                            />
-                          </TableCell>
-                        ) : (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                    
                   );
                 })}
             </TableBody>

@@ -6,18 +6,16 @@ function UserPage() {
     first: string;
     last: string;
     username: string;
-    admin: string;
+    admin: boolean;
     coolnessRating: number;
   }
-
   function createData(
     first: string,
     last: string,
     username: string,
-    Badmin: boolean,
+    admin: boolean,
     coolnessRating: number,
   ): Data {
-    const admin = Badmin ? 'Admin' : 'Not Admin';
     return { first, last, username, admin, coolnessRating };
   }
 
@@ -30,7 +28,7 @@ function UserPage() {
     ['first', 'string'],
     ['last', 'string'],
     ['username', 'string'],
-    ['admin', 'string'],
+    ['admin', 'boolean'],
     ['coolnessRating', 'float'],
   ];
 
