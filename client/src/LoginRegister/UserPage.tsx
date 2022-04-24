@@ -3,6 +3,7 @@ import { PaginationTable } from '../components/StyledComponents';
 
 function UserPage() {
   interface Data {
+    remove: boolean;
     first: string;
     last: string;
     username: string;
@@ -10,21 +11,23 @@ function UserPage() {
     coolnessRating: number;
   }
   function createData(
+    remove: boolean,
     first: string,
     last: string,
     username: string,
     admin: boolean,
     coolnessRating: number,
   ): Data {
-    return { first, last, username, admin, coolnessRating };
+    return { remove, first, last, username, admin, coolnessRating };
   }
 
   const rows = [
-    createData('Katherine', 'Wang', 'kat@gmail.com', true, 100),
-    createData('Rose', 'Wang', 'rose@gmail.com', false, 0),
+    createData(false, 'Katherine', 'Wang', 'kat@gmail.com', true, 100),
+    createData(false, 'Rose', 'Wang', 'rose@gmail.com', false, 0),
   ];
 
   const ids = [
+    ['remove', 'boolean'],
     ['first', 'string'],
     ['last', 'string'],
     ['username', 'string'],

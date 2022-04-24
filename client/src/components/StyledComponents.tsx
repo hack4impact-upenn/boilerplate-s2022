@@ -12,6 +12,7 @@ import {
   TablePagination,
   TableRow,
   Switch,
+  Button,
 } from '@mui/material';
 
 interface StyledProps {
@@ -23,6 +24,11 @@ interface TableProps {
   ids: any[];
   // row: any;
   // columns: any[];
+}
+
+interface RowProps {
+  row: any;
+  columns: Column[];
 }
 
 /**
@@ -125,36 +131,58 @@ function FormField({ children }: StyledProps) {
   );
 }
 
-function UserRow({ rows, ids }: TableProps) {
-  const [checked, setChecked] = React.useState({});
-  const [rowDataState, setRowDataState] = React.useState();
+interface Column {
+  id: string;
+  label: string;
+  minWidth?: number;
+  align?: 'right';
+  format?: (value: number) => string;
+}
 
-  const handleAdminChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({ ...checked, [event.target.name]: event.target.checked });
-    setRowDataState({ ...rowDataState, checked: event.target.checked });
+function UserRow({ row, columns }: RowProps) {
+  // eslint-disable-next-line react/destructuring-assignment
+  const [checked, setChecked] = React.useState(row.admin);
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  const handleAdminChange = () => {
+    setChecked(!checked);
+    console.log(row.username);
   };
 
-  return (
+  const changeVisibleHandler = () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmed = confirm(
+      `Are you sure you want to delete ${row.first} ${row.last} from the table?`,
+    );
+    if (confirmed) {
+      setIsVisible(false);
+    }
+  };
+
+  return isVisible ? (
     <TableRow hover role="checkbox" tabIndex={-1} key={row.username}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return value === 'admin' ? (
-                          <TableCell key={column.id} align={column.align}>
-                            <Switch
-                              checked={row.admin}
-                              onChange={(event) => handleChange(event)}
-                              value={row.admin}
-                            />
-                          </TableCell>
-                        ) : (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+      {columns.map((column) => {
+        const value = row[column.id];
+        // eslint-disable-next-line no-nested-ternary
+        return column.id === 'admin' ? (
+          <TableCell key={column.id} align={column.align}>
+            <Switch onChange={() => handleAdminChange()} checked={checked} />
+          </TableCell>
+        ) : column.id === 'remove' ? (
+          <TableCell key={column.id} align={column.align}>
+            <Button onClick={() => changeVisibleHandler()}>delete</Button>
+          </TableCell>
+        ) : (
+          <TableCell key={column.id} align={column.align}>
+            {column.format && typeof value === 'number'
+              ? column.format(value)
+              : value}
+          </TableCell>
+        );
+      })}
+    </TableRow>
+  ) : (
+    <div />
   );
 }
 
@@ -163,14 +191,6 @@ function UserRow({ rows, ids }: TableProps) {
  * multiple pages, for example the user tables in admin-view.
  */
 function PaginationTable({ rows, ids }: TableProps) {
-  interface Column {
-    id: string;
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: number) => string;
-  }
-
   const columns: Column[] = [];
   ids.forEach((i) => {
     const [id, type] = i;
@@ -202,7 +222,7 @@ function PaginationTable({ rows, ids }: TableProps) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  
+
   return (
     <div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -210,24 +230,30 @@ function PaginationTable({ rows, ids }: TableProps) {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
+                {columns.map((column) =>
+                  column.id === 'remove' ? (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    />
+                  ) : (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ),
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    
-                  );
+                .map((row) => {
+                  return <UserRow row={row} columns={columns} />;
                 })}
             </TableBody>
           </Table>
