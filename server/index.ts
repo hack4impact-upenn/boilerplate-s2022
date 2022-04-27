@@ -14,4 +14,5 @@ const main = async () => {
   });
 };
 
+// instantiate app
 main();

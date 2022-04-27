@@ -3,5 +3,4 @@ const COLORS = {
   secondary: '#83E4C7',
   // your colors
 };
-
 export default COLORS;
