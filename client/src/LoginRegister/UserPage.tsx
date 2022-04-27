@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { PaginationTable } from '../components/StyledComponents';
-
+/**
+ * We use the pagination table component to load a paginated user table after denoting the
+ * column names and data types through ids, Data, and createData. rows is the data that we
+ * load into the custom component.
+ * @returns a page containing a paginated user table
+ */
 function UserPage() {
   interface Data {
     remove: boolean;
