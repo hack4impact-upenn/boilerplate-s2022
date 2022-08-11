@@ -1,15 +1,38 @@
 import { styled } from '@mui/system';
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Switch,
+  Button,
+} from '@mui/material';
 
 interface StyledProps {
   children: React.ReactNode;
 }
 
+interface TableProps {
+  rows: any[];
+  ids: any[];
+}
+
+interface RowProps {
+  row: any;
+  columns: Column[];
+}
+
 /**
  * This is for the little baby links on the bottom of the form
- * (i.e. forgot password, signup, etc.) We style the sizing and the lack of wrapping.
- * @param param0
+ * (i.e. forgot password, signup, etc.) We style the sizing.
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 const MiniLinkTextStyled = styled(Typography)(() => ({
@@ -22,7 +45,7 @@ function MiniLinkText({ children }: StyledProps) {
 
 /**
  * This styles the form's header to just have a larger font size
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 const FormHeaderText = styled(Typography)({
@@ -32,7 +55,7 @@ const FormHeaderText = styled(Typography)({
 /**
  * This styles a the whole screen as a grid component, serves as a wrapper to ensure
  * that we know what role it plays, as well as height as the whole screen, spacing, and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function ScreenGrid({ children }: StyledProps) {
@@ -52,7 +75,7 @@ function ScreenGrid({ children }: StyledProps) {
 /**
  * This styles a form's components if we want them in a column, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function FormGridCol({ children }: StyledProps) {
@@ -72,8 +95,8 @@ function FormGridCol({ children }: StyledProps) {
 /**
  * This styles a form's components if we want them in a row, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param param0
- * @returns
+ * @param children, applies styling to the children of the component.
+ * @returns styled grid row component
  */
 function FormGridRow({ children }: StyledProps) {
   return (
@@ -95,7 +118,7 @@ function FormGridRow({ children }: StyledProps) {
 /**
  * This just styles a child in the form, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function FormField({ children }: StyledProps) {
@@ -106,6 +129,158 @@ function FormField({ children }: StyledProps) {
   );
 }
 
+/**
+ * This column interface defines the properties necessary for each column in a table.
+ * The minWidth, align, an dofrmat are specific to the MUI Table component.
+ */
+interface Column {
+  id: string;
+  label: string;
+  minWidth?: number;
+  align?: 'right';
+  format?: (value: number) => string;
+}
+
+/**
+ * Our pagination table is set up by passing in a row component for each row.
+ * This is the row component for a table of users. Most notably, its columns include
+ * an admin field which is a switch that can be toggled, and user deletion capabilities.
+ * @param row, columns
+ * @returns User Row component, to be used in a user-specific pagination table.
+ */
+function UserRow({ row, columns }: RowProps) {
+  // eslint-disable-next-line react/destructuring-assignment
+  const [checked, setChecked] = React.useState(row.admin);
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  const handleAdminChange = () => {
+    setChecked(!checked);
+    console.log(row.username);
+  };
+
+  const changeVisibleHandler = () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmed = confirm(
+      `Are you sure you want to delete ${row.first} ${row.last} from the table?`,
+    );
+    if (confirmed) {
+      setIsVisible(false);
+    }
+  };
+
+  return isVisible ? (
+    <TableRow hover role="checkbox" tabIndex={-1} key={row.username}>
+      {columns.map((column) => {
+        const value = row[column.id];
+        // eslint-disable-next-line no-nested-ternary
+        return column.id === 'admin' ? (
+          <TableCell key={column.id} align={column.align}>
+            <Switch onChange={() => handleAdminChange()} checked={checked} />
+          </TableCell>
+        ) : column.id === 'remove' ? (
+          <TableCell key={column.id} align={column.align}>
+            <Button onClick={() => changeVisibleHandler()}>delete</Button>
+          </TableCell>
+        ) : (
+          <TableCell key={column.id} align={column.align}>
+            {column.format && typeof value === 'number'
+              ? column.format(value)
+              : value}
+          </TableCell>
+        );
+      })}
+    </TableRow>
+  ) : (
+    <div />
+  );
+}
+
+/**
+ * This is our pagination component, mainly used in tables that require
+ * multiple pages, for example the user tables in admin-view.
+ */
+function PaginationTable({ rows, ids }: TableProps) {
+  const columns: Column[] = [];
+  ids.forEach((i) => {
+    const [id, type] = i;
+    columns.push({
+      id,
+      label: id.charAt(0).toUpperCase() + id.slice(1),
+      minWidth: 170,
+      align: 'right',
+      format: (value: number) =>
+        // eslint-disable-next-line no-nested-ternary
+        type === 'int'
+          ? value.toLocaleString('en-US')
+          : type === 'float'
+          ? value.toFixed(2)
+          : '',
+    });
+  });
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  return (
+    <div>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) =>
+                  column.id === 'remove' ? (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    />
+                  ) : (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ),
+                )}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return <UserRow row={row} columns={columns} />;
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
+  );
+}
+
 export {
   MiniLinkText,
   FormHeaderText,
@@ -113,4 +288,5 @@ export {
   FormGridCol,
   FormGridRow,
   FormField,
+  PaginationTable,
 };
