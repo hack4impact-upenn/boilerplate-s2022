@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PaginationTable } from '../components/StyledComponents';
 /**
  * We use the pagination table component to load a paginated user table after denoting the
@@ -13,7 +13,6 @@ function UserPage() {
     last: string;
     username: string;
     admin: boolean;
-    coolnessRating: number;
   }
   function createData(
     remove: boolean,
@@ -21,14 +20,13 @@ function UserPage() {
     last: string,
     username: string,
     admin: boolean,
-    coolnessRating: number,
   ): Data {
-    return { remove, first, last, username, admin, coolnessRating };
+    return { remove, first, last, username, admin };
   }
 
   const rows = [
-    createData(false, 'Katherine', 'Wang', 'kat@gmail.com', true, 100),
-    createData(false, 'Rose', 'Wang', 'rose@gmail.com', false, 0),
+    createData(false, 'Katherine', 'Wang', 'kat@gmail.com', true),
+    createData(false, 'Rose', 'Wang', 'rose@gmail.com', false),
   ];
 
   const ids = [

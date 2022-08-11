@@ -35,7 +35,7 @@ function LoginView() {
     <ScreenGrid>
       <FormGridCol>
         <FormField>
-          <FormHeaderText>Welcome! Lets get started.</FormHeaderText>
+          <FormHeaderText>Welcome! Let&apos;s get started.</FormHeaderText>
         </FormField>
         <FormField>
           <TextField
