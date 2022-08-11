@@ -75,7 +75,6 @@ const InternalUserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    // match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
   },
   admin: {
     type: Boolean,

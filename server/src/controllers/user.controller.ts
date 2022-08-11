@@ -1,20 +1,20 @@
 import express from 'express';
 import { IUser } from '../models/user';
 import {
-  upgradeToAdmin,
-  getUserFromDB,
+  toggleAdmin,
+  getUserByEmail,
   getAllUsersFromDB,
-  deleteOne,
+  deleteUserById,
 } from '../services/user.service';
 
 const getAllUsers = async (req: express.Request, res: express.Response) => {
   // return all users
   return getAllUsersFromDB()
     .then((userList) => {
-      res.send(userList);
+      res.status(200).send(userList);
     })
     .catch((e) => {
-      res.status(400).send({ message: e });
+      res.status(500).send({ message: e });
     });
 };
 
@@ -24,44 +24,49 @@ const upgradePrivilege = async (
 ) => {
   // Check if user exists
   const email = req.body.email;
-  console.log('switchPrivilege', email);
-  const user: IUser | null = await getUserFromDB(email);
+  const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(400).send({
+    return res.status(404).send({
       message: `User with email ${email} does not exist.`,
     });
   }
+
+  if (user.admin) {
+    return res.status(400).send({
+      message: `user is already admin`,
+    });
+  }
   // Upgrade's the user's admin status
-  return upgradeToAdmin(email)
+  return toggleAdmin(user)
     .then((result) => {
       if (result) {
         res.sendStatus(200);
       } else {
-        res.status(400).send({ message: 'Unable to upgrade user' });
+        res.status(500).send({ message: 'null user passed into toggle user' });
       }
     })
     .catch((e) => {
-      res.status(400).send({ message: e });
+      res.status(500).send({ message: e });
     });
 };
 
 const deleteUser = async (req: express.Request, res: express.Response) => {
   const email = req.params.email;
   // check if user to delete is an admin
-  const user: IUser | null = await getUserFromDB(email);
+  const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(400).send({
+    return res.status(404).send({
       message: `User to delete does not exist`,
     });
   }
   if (user.admin) {
-    return res.status(400).send({ message: 'Cannot delete an admin' });
+    return res.status(404).send({ message: 'Cannot delete an admin' });
   }
   // Delete user
-  return deleteOne(email)
-    .then(() => res.sendStatus(201))
+  return deleteUserById(user._id)
+    .then(() => res.sendStatus(200))
     .catch((e) => {
-      res.status(400).send({ message: e });
+      res.status(500).send({ message: e });
     });
 };
 

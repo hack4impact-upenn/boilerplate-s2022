@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import express from 'express';
 import { IUser } from '../models/user';
-import { createUser, getUserFromDB } from '../services/user.service';
+import { createUser, getUserByEmail } from '../services/user.service';
 import passport from 'passport';
 
 const login = async (
@@ -66,7 +66,7 @@ const register = async (req: express.Request, res: express.Response) => {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await getUserFromDB(email);
+  const user: IUser | null = await getUserByEmail(email);
   if (user) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,

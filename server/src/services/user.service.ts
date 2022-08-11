@@ -1,5 +1,5 @@
 import { hash } from 'bcrypt';
-import { User } from '../models/user';
+import { User, IUser } from '../models/user';
 import { AuthenticationType } from '../models/user';
 
 const createUser = async (email: string, password: string) => {
@@ -19,13 +19,13 @@ const createUser = async (email: string, password: string) => {
   return user;
 };
 
-const getUserFromDB = async (email: string) => {
+const getUserByEmail = async (email: string) => {
   const user = await User.findOne({ email: email }).exec();
   return user;
 };
 
 const getAllUsersFromDB = async () => {
-  const userList = await User.find({});
+  const userList = await User.find({}).exec();
   return userList;
 };
 
@@ -34,29 +34,25 @@ const getAllUsersFromDB = async () => {
  * @param email
  * @returns A boolean indicating whether the upgrade was successful or not
  */
-const upgradeToAdmin = async (email: string) => {
-  const user = await User.findOne({ email: email }).exec();
+const toggleAdmin = async (user: IUser) => {
   if (user) {
-    if (user.admin) {
-      return false;
-    }
     user.admin = !user.admin;
-    const newUser = await user.save();
+    await user.save();
     return true;
   } else {
     return false;
   }
 };
 
-const deleteOne = async (email: string) => {
-  const user = User.findByIdAndRemove({ email: email });
+const deleteUserById = async (id: string) => {
+  const user = await User.findByIdAndDelete(id).exec();
   return user;
 };
 
 export {
   createUser,
-  getUserFromDB,
+  getUserByEmail,
   getAllUsersFromDB,
-  upgradeToAdmin,
-  deleteOne,
+  toggleAdmin,
+  deleteUserById,
 };
