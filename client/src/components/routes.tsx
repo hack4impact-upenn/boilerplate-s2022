@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { getData, useData } from '../util/api';
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useData } from '../util/api';
 
-const BACKENDURL = 'http://localhost:4000';
+// const BACKENDURL = 'http://localhost:4000';
 
-const isAuth = async () => {
-  const res = await getData('/authstatus');
-  if (res.error) return false;
-  return true;
-};
+// const isAuth = async () => {
+//   const res = await getData('auth/authstatus');
+//   if (res.error) return false;
+//   return true;
+// };
 
-function UnauthenticatedRoute({ children }: { children: any }) {
-  const data = useData(`${BACKENDURL}/api/auth/authstatus`);
-  console.log('data in unauth is ', data);
+function UnauthenticatedRoutesWrapper() {
+  const data = useData('auth/authstatus');
   if (data === null) return null;
-  return !data.error ? <Navigate to="/" /> : children;
+  return !data.error ? <Navigate to="/" /> : <Outlet />;
 }
 
-function PrivateRoute({ children }: { children: any }) {
-  const data = useData(`${BACKENDURL}/api/auth/authstatus`);
-  console.log('data in unauth is ', data);
+function ProtectedRoutesWrapper() {
+  const data = useData('auth/authstatus');
   if (data === null) return null;
-  return !data.error ? children : <Navigate to="/" />;
+  return !data.error ? <Outlet /> : <Navigate to="/" />;
 }
 
-export { UnauthenticatedRoute, PrivateRoute };
+export { UnauthenticatedRoutesWrapper, ProtectedRoutesWrapper };

@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import express from 'express';
-import { IUser, authJWTName } from '../models/user';
-import { createUser, getUserFromDB } from '../services/user.service';
+import { IUser } from '../models/user';
+import { createUser, getUserByEmail } from '../services/user.service';
 import passport from 'passport';
 
 const login = async (
@@ -9,23 +9,19 @@ const login = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  console.log('in login');
-  console.log(req.session);
-
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   passport.authenticate(
-    ['local', 'google'],
+    ['local'],
     {
       failureMessage: true,
     },
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
-      console.log('error logging in0');
       if (err) {
         console.log('error logging in1');
-        return next(err);
+        return res.status(400).send(err);
       }
       if (!user) {
         console.log('error logging in2');
@@ -36,7 +32,6 @@ const login = async (
           console.log('error logging in3');
           return next(err);
         }
-
         return res.status(200).send({ message: 'Successful Login' });
       });
     },
@@ -44,10 +39,8 @@ const login = async (
 };
 
 const logout = async (req: express.Request, res: express.Response) => {
-  console.log('in logout');
-  console.log(req.session);
-
   if (!req.isAuthenticated()) {
+    console.log('not authenticated by passport');
     res.status(400).send({ message: 'Not logged in' });
     return;
   }
@@ -68,14 +61,12 @@ const logout = async (req: express.Request, res: express.Response) => {
 
 const register = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
-  console.log('in register');
-  console.log(req.session);
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await getUserFromDB(email);
+  const user: IUser | null = await getUserByEmail(email);
   if (user) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,

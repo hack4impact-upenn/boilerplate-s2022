@@ -1,77 +1,100 @@
 import request from 'supertest';
-import createServer from '../../config/createServer';
-import db from '../../config/database';
-import ensureAuthenticated from '../auth.middleware';
+import { createServer, setExpressSession } from '../../config/createServer';
+import { User } from '../../models/user';
+import Session from '../../models/session';
 
-const app = createServer();
+const app = createServer(); // instantiate express app
+let server = app.listen(); // listen on some unused port
+let agent = request.agent(server); // instantiate supertest agent
 
-beforeEach(async () => {
-  await db.open(); // open database connection
+const testEmail = 'example@gmail.com';
+const testPassword = '123456';
+
+beforeAll(async () => {
+  setExpressSession(app); // reset session to use mock db for storage
 });
 
-afterEach(async () => {
-  await db.close(); // close database connection
-});
-
-it('should initially not be logged in', async () => {
-  const response = await request(app).get('/api/auth/logout');
+it('logging out before logging in should return a 400', async () => {
+  const response = await agent!.post('/api/auth/logout');
+  console.log('got response: ', response.body);
+  console.log('got status', response.status);
   expect(response.status).toBe(400);
 });
 
 it('registering new user issues 201 status code and registering existing user issues 400 status code', async () => {
-  let response = await request(app).post('/api/auth/register').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+  // Register user and expect 201
+  let response = await agent.post('/api/auth/register').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(201);
-  response = await request(app).post('/api/auth/register').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+  // Check for user in db
+  const user = await User.findOne({ email: testEmail });
+  expect(user).toBeTruthy();
+  // TODO: Make sure there's no sessions yet because no login
+
+  // Register user again and expect 400
+  response = await agent.post('/api/auth/register').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(400);
 });
 
-it('successful login should give 200 status code', async () => {
-  let response = await request(app).post('/api/auth/register').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+it('successful login should give 200 status code and create session', async () => {
+  // Register user and expect 201
+  let response = await agent.post('/api/auth/register').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(201);
-  response = await request(app).post('/api/auth/login').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+  // Login user and expect 200
+  response = await agent.post('/api/auth/login').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(200);
+  // TODO: Make sure there's a session now
 });
 
-it('should return 401 if password is incorrect', async () => {
-  let response = await request(app).post('/api/auth/register').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+it('incorect password should give 401 status', async () => {
+  // Register user and expect 201
+  let response = await agent.post('/api/auth/register').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(201);
-  response = await request(app).post('/api/auth/login').send({
-    email: 'example@gmail.com',
-    password: 'hack4impact', // incorrect password
+  // Check for user in db
+  const user = await User.findOne({ email: testEmail });
+  expect(user).toBeTruthy();
+  // Try to login with wrong password and expect 401
+  response = await agent.post('/api/auth/login').send({
+    email: testEmail,
+    password: 'hack4impact',
   });
-  expect(response.status).toBe(401); // 500 internal server error is being issued right now; should change to 401
+  expect(response.status).toBe(401);
+  // TODO: Make sure no sessions were created
 });
 
 it('test register, login, logout', async () => {
-  let response = await request(app).post('/api/auth/register').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+  // Register user and expect 201
+  let response = await agent.post('/api/auth/register').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(201);
-  response = await request(app).post('/api/auth/login').send({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
+  // Check for user in db
+  const user = await User.findOne({ email: testEmail });
+  expect(user).toBeTruthy();
+  // Login user and expect 200
+  response = await agent.post('/api/auth/login').send({
+    email: testEmail,
+    password: testPassword,
   });
   expect(response.status).toBe(200);
-  // why is it saying not logged in?
-  response = await request(app).get('/api/auth/logout').query({
-    email: 'example@gmail.com',
-    password: 'Hack4Impact',
-  });
+  // TODO: Make sure there's a session now
+  // Logout user and expect 200
+  response = await agent.post('/api/auth/logout');
   expect(response.status).toBe(200);
+  // TODO: Make sure there's no sessions now
 });

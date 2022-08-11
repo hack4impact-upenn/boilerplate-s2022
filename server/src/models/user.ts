@@ -75,7 +75,6 @@ const InternalUserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    // match: /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g,
   },
   admin: {
     type: Boolean,
@@ -110,21 +109,4 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model<IUser>('User', UserSchema);
 
-/**
- * Defines the name of the cookie stored by the user.
- *
- * TODO: change this using your project name, but make sure this
- * is not generic. You don't want it to interfere with other cookies
- * stored by the user. We suggest 'authToken-[projectName]-[randomString]'
- * although you can omit the [randomString].
- **/
-const authJWTName = 'authToken-h4i-boilerplate';
-
-export {
-  IInternalUser,
-  IGoogleUser,
-  IUser,
-  User,
-  AuthenticationType,
-  authJWTName,
-};
+export { IInternalUser, IGoogleUser, IUser, User, AuthenticationType };

@@ -1,12 +1,15 @@
-import createServer from './src/config/createServer';
 import db from './src/config/database';
+import { createServer } from './src/config/createServer';
+import 'dotenv/config';
 
 const main = async () => {
-  // listen for termination
+  // Listen for termination
   process.on('SIGTERM', () => process.exit());
+
+  // Set up the datbase
   await db.open();
 
-  // creater server on designated port
+  // Create server on designated port
   const app = createServer();
   app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')} 🚀`);

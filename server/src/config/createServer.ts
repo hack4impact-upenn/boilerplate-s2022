@@ -4,11 +4,34 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
-import adminRouter from '../routes/admin.route';
-import authRouter from '../routes/auth.route';
+import routers from '../routes/routers';
 import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
 import 'dotenv/config';
+
+/**
+ * Sets the session store of the express instance to use the mongoDB URI
+ * specified by the curreent environment variables.
+ * @param app The express instance to set the express-session of.
+ */
+const setExpressSession = (app: express.Express): void => {
+  console.log(
+    'process.env.ATLAS_URI in resetSessionStore: ',
+    process.env.ATLAS_URI,
+  );
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET || 'mysecretkey',
+      resave: false, // don't save session if unmodified
+      saveUninitialized: false, // don't create session until something stored
+      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoDB to store session info
+      cookie: {
+        maxAge:
+          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+      },
+    }),
+  );
+};
 
 const createServer = (): express.Express => {
   const app = express();
@@ -30,33 +53,16 @@ const createServer = (): express.Express => {
   app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
+
   // Use express-session to maintain sessions
-  let sessionsStore = undefined;
-  if (process.env.NODE_ENV != 'test') {
-    sessionsStore = new MongoStore({ mongoUrl: process.env.ATLAS_URI }); // use MongoBD to store session info
-  }
-  app.use(
-    session({
-      secret: process.env.COOKIE_SECRET || 'mysecretkey',
-      resave: false, // don't save session if unmodified
-      saveUninitialized: false, // don't create session until something stored
-      store: sessionsStore,
-      cookie: {
-        maxAge:
-          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
-      },
-    }),
-  );
-  
+  setExpressSession(app);
+
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Use the adminRouter for any requests to the api/admin route
-  app.use('/api/admin', adminRouter);
-
-  // Use the authRouter for any requests to any routes prefixed with /api/auth
-  app.use('/api/auth', authRouter);
+  //Inits routers listed in routers.ts file
+  routers.forEach((entry) => app.use(entry.prefix, entry.router));
 
   // Serving static files
   if (process.env.NODE_ENV === 'production') {
@@ -70,4 +76,5 @@ const createServer = (): express.Express => {
 
   return app;
 };
-export default createServer;
+
+export { createServer, setExpressSession };

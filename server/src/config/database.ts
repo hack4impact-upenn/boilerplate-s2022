@@ -38,10 +38,12 @@ class MongoConnection {
       // If the environment is test, create a new MongoDB server using mongodb-memory-server. This server allows us to store data in memory,
       // preventing database pollution with testing and allowing for quicktesting. If the environment is not test, we attempt to connect to the db.
       if (process.env.NODE_ENV === 'test') {
-        console.log('Connecting to In-Memory MongoDB');
+        console.log('Connecting to In-Memory MongoDB...');
         this._mongoServer = await MongoMemoryServer.create();
-        const mongoUrl = this._mongoServer.getUri();
-        await mongoose.connect(mongoUrl, opts);
+        // Setting env var so passport can use it too
+        process.env.ATLAS_URI = this._mongoServer.getUri();
+        console.log('atlas uri: ', process.env.ATLAS_URI);
+        await mongoose.connect(process.env.ATLAS_URI, opts);
       } else {
         console.log('Connecting to MongoDB...');
         const uri =
@@ -90,6 +92,7 @@ class MongoConnection {
       if (process.env.NODE_ENV === 'test') {
         // ! at end indicates to typescript that mongoServer cannot be null or undefined
         await this._mongoServer!.stop();
+        console.log('mongodb-memory-server: Stopped');
       }
     } catch (err) {
       console.log(`db.open: ${err}`);

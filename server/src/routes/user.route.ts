@@ -1,16 +1,17 @@
 import express from 'express';
-import { isAdmin } from '../controllers/admin.middleware';
+import { isAdmin } from '../controllers/user.middleware';
 import {
   getAllUsers,
   upgradePrivilege,
   deleteUser,
-} from '../controllers/admin.controller';
+} from '../controllers/user.controller';
 import ensureAuthenticated from '../controllers/auth.middleware';
 import 'dotenv/config';
 
 const router = express.Router();
 
 router.get('/allusers', ensureAuthenticated, isAdmin, getAllUsers);
+router.get('/alladmin', ensureAuthenticated, isAdmin, getAllUsers);
 router.put(
   '/upgrade-privilege',
   ensureAuthenticated,

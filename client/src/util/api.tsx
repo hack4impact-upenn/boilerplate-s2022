@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { object } from 'prop-types';
 
 // So cookies can be sent automatically with requests
 axios.defaults.withCredentials = true;
@@ -26,8 +25,12 @@ async function resolve(promise: Promise<any>) {
   return resolved;
 }
 
+const BACKENDURL = 'http://localhost:4000';
+
+const URLPREFIX = `${BACKENDURL}/api`;
+
 async function getData(url: string) {
-  const response = await resolve(axios.get(url));
+  const response = await resolve(axios.get(`${URLPREFIX}/${url}`));
   return response;
 }
 
@@ -51,19 +54,19 @@ const useData = (url: string) => {
 
 async function postData(url: string, data = {}) {
   // Default options are marked with *
-  const response = await resolve(axios.post(url, data));
+  const response = await resolve(axios.post(`${URLPREFIX}/${url}`, data));
   return response;
 }
 
 async function putData(url: string, data = {}) {
   // Default options are marked with *
-  const response = await resolve(axios.put(url, data));
+  const response = await resolve(axios.put(`${URLPREFIX}/${url}`, data));
   return response;
 }
 
 async function deleteData(url: string, data = {}) {
   // Default options are marked with *
-  const response = await resolve(axios.delete(url, data));
+  const response = await resolve(axios.delete(`${URLPREFIX}/${url}`, data));
   return response;
 }
 
