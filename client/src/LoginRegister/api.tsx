@@ -1,8 +1,8 @@
 import { postData } from '../util/api';
 
-const BACKENDURL = 'http://localhost:4000';
+// const BACKENDURL = 'http://localhost:4000';
 async function login(email: string, password: string) {
-  const res = await postData(`${BACKENDURL}/api/auth/login`, {
+  const res = await postData('auth/login', {
     email,
     password,
   });
@@ -12,7 +12,7 @@ async function login(email: string, password: string) {
 }
 
 async function register(email: string, password: string) {
-  const res = await postData(`${BACKENDURL}/api/auth/register`, {
+  const res = await postData('auth/register', {
     email,
     password,
   });
