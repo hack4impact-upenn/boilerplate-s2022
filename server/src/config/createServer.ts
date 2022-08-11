@@ -4,8 +4,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
-import adminRouter from '../routes/admin.route';
-import authRouter from '../routes/auth.route';
+import routers from '../routes/routers';
 import initializePassport from './configPassport';
 import MongoStore from 'connect-mongo';
 import 'dotenv/config';
@@ -62,11 +61,8 @@ const createServer = (): express.Express => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Use the adminRouter for any requests to the api/admin route
-  app.use('/api/admin', adminRouter);
-
-  // Use the authRouter for any requests to any routes prefixed with /api/auth
-  app.use('/api/auth', authRouter);
+  //Inits routers listed in routers.ts file
+  routers.forEach((entry) => app.use(entry.prefix, entry.router));
 
   // Serving static files
   if (process.env.NODE_ENV === 'production') {
