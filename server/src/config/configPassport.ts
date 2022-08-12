@@ -1,10 +1,9 @@
-import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as LocalStrategy, IVerifyOptions } from 'passport-local';
 import passport from 'passport';
-import { IUser, User } from '../models/user';
 import { NativeError } from 'mongoose';
-import { IVerifyOptions } from 'passport-local';
-import { getUserFromDB } from '../services/user.service';
 import { compare } from 'bcrypt';
+import { IUser, User } from '../models/user';
+import { getUserByEmailWithPassword } from '../services/user.service';
 
 /**
  * Middleware to check if a user is authenticated using the Local Strategy.
@@ -18,7 +17,7 @@ const verifyLocalUser = (
   done: (error: any, user?: any, options?: IVerifyOptions | undefined) => void,
 ): void => {
   // Match user with email
-  getUserFromDB(email)
+  getUserByEmailWithPassword(email)
     .then((user: any) => {
       if (!user) {
         return done(null, false, { message: 'User not found' });
@@ -26,16 +25,18 @@ const verifyLocalUser = (
       // Match user with password
       compare(password, user.password, (err: any, isMatch: boolean) => {
         if (err) {
+          console.log(err);
+          console.log(user);
           return done(err);
         }
         if (isMatch) {
           return done(null, user);
-        } else {
-          return done(null, false, { message: 'Incorrect password.' });
         }
+        return done(null, false, { message: 'Incorrect password.' });
       });
     })
     .catch((error: any) => {
+      console.log(error);
       return done(error);
     });
 };

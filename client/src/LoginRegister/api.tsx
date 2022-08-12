@@ -11,8 +11,15 @@ async function login(email: string, password: string) {
   return true;
 }
 
-async function register(email: string, password: string) {
+async function register(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+) {
   const res = await postData('auth/register', {
+    firstName,
+    lastName,
     email,
     password,
   });

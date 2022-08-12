@@ -2,7 +2,12 @@ import { hash } from 'bcrypt';
 import { User, IUser } from '../models/user';
 import { AuthenticationType } from '../models/user';
 
-const createUser = async (email: string, password: string) => {
+const createUser = async (
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+) => {
   const saltRounds = 10;
   const hashedPassword = await hash(password, saltRounds);
   if (!hashedPassword) {
@@ -11,6 +16,8 @@ const createUser = async (email: string, password: string) => {
   }
   const newUser = new User({
     accountType: AuthenticationType.Internal,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
     password: hashedPassword,
     admin: false,
@@ -20,12 +27,23 @@ const createUser = async (email: string, password: string) => {
 };
 
 const getUserByEmail = async (email: string) => {
-  const user = await User.findOne({ email: email }).exec();
+  const user = await User.findOne({ email: email })
+    .select(['-password', '-accountType'])
+    .exec();
+  return user;
+};
+
+const getUserByEmailWithPassword = async (email: string) => {
+  const user = await User.findOne({ email: email })
+    .select(['-accountType'])
+    .exec();
   return user;
 };
 
 const getAllUsersFromDB = async () => {
-  const userList = await User.find({}).exec();
+  const userList = await User.find({})
+    .select(['-password', '-accountType'])
+    .exec();
   return userList;
 };
 
@@ -52,6 +70,7 @@ const deleteUserById = async (id: string) => {
 export {
   createUser,
   getUserByEmail,
+  getUserByEmailWithPassword,
   getAllUsersFromDB,
   toggleAdmin,
   deleteUserById,

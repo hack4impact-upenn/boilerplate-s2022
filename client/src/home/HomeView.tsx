@@ -3,21 +3,14 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../assets/theme';
+import { logout } from './api';
 
 function HomeView() {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <div>
-          <Typography variant="h2" gutterBottom>
-            Welcome to our new Boilerplate
-          </Typography>
-          <Button variant="contained" color="secondary">
-            Let&apos;s Go
-          </Button>
-        </div>
-      </div>
-    </ThemeProvider>
+    <div>
+      <div>Welcome to the Boilerplate</div>
+      <Button onClick={() => logout()}>Logout</Button>
+    </div>
   );
 }
 

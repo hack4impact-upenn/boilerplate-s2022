@@ -4,7 +4,7 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'no-underscore-dangle': [
-      'error',
+      'off',
       { allowAfterThis: true, allow: ['_instance'] },
     ],
   },

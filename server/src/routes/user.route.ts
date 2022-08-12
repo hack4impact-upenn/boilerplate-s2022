@@ -10,14 +10,13 @@ import 'dotenv/config';
 
 const router = express.Router();
 
-router.get('/allusers', ensureAuthenticated, isAdmin, getAllUsers);
-router.get('/alladmin', ensureAuthenticated, isAdmin, getAllUsers);
+router.get('/all', ensureAuthenticated, isAdmin, getAllUsers);
 router.put(
   '/upgrade-privilege',
   ensureAuthenticated,
   isAdmin,
   upgradePrivilege,
 );
-router.delete('user/:email', ensureAuthenticated, isAdmin, deleteUser);
+router.delete('/:email', ensureAuthenticated, isAdmin, deleteUser);
 
 export default router;

@@ -12,7 +12,7 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-} from '../components/StyledComponents';
+} from '../components/grid';
 
 function LoginView() {
   const [email, setEmail] = useState('');

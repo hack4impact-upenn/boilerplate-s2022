@@ -60,7 +60,7 @@ const logout = async (req: express.Request, res: express.Response) => {
 };
 
 const register = async (req: express.Request, res: express.Response) => {
-  const { email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
@@ -74,7 +74,7 @@ const register = async (req: express.Request, res: express.Response) => {
     return;
   }
   // Create user
-  return createUser(email, password)
+  return createUser(firstName, lastName, email, password)
     .then(() => res.sendStatus(201))
     .catch((e) => {
       console.log(e);
