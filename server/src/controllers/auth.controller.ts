@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import express from 'express';
 import { IUser } from '../models/user';
 import { createUser, getUserByEmail } from '../services/user.service';
@@ -32,7 +31,7 @@ const login = async (
           console.log('error logging in3');
           return next(err);
         }
-        return res.status(200).send({ message: 'Successful Login' });
+        return res.status(200).send(user);
       });
     },
   )(req, res, next);
@@ -51,7 +50,7 @@ const logout = async (req: express.Request, res: express.Response) => {
     // Delete session object
     req.session.destroy((e) => {
       if (e) {
-        res.status(400).send({ message: 'Unable to log out', error: e });
+        res.status(500).send({ message: 'Unable to log out', error: e });
       } else {
         res.send({ logout: true });
       }

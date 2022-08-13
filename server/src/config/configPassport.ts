@@ -3,7 +3,10 @@ import passport from 'passport';
 import { NativeError } from 'mongoose';
 import { compare } from 'bcrypt';
 import { IUser, User } from '../models/user';
-import { getUserByEmailWithPassword } from '../services/user.service';
+import {
+  getUserByEmailWithPassword,
+  getUserById,
+} from '../services/user.service';
 
 /**
  * Middleware to check if a user is authenticated using the Local Strategy.
@@ -30,6 +33,7 @@ const verifyLocalUser = (
           return done(err);
         }
         if (isMatch) {
+          delete user.password;
           return done(null, user);
         }
         return done(null, false, { message: 'Incorrect password.' });
@@ -61,9 +65,9 @@ const initializePassport = (passport: passport.PassportStatic) => {
     done(null, user._id);
   });
   passport.deserializeUser((id: any, done: any) => {
-    User.findById(id, (err: NativeError, user: IUser) => {
-      done(err, user);
-    });
+    getUserById(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err, null));
   });
 };
 

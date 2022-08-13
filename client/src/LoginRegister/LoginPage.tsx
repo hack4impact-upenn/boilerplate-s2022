@@ -20,11 +20,23 @@ function LoginView() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  function dispatchUser(
+    userEmail: string,
+    firstName: string,
+    lastName: string,
+  ) {
+    dispatch(login({ email: userEmail, firstName, lastName }));
+  }
+
   async function onSubmit() {
-    const result = await LoginValidation(email, password, setError);
+    const result = await LoginValidation(
+      email,
+      password,
+      setError,
+      dispatchUser,
+    );
     if (result === '') {
       alert(email + password);
-      dispatch(login(email));
       navigate('/home');
     } else {
       alert('fail');

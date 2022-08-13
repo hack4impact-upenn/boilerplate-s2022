@@ -33,6 +33,13 @@ const getUserByEmail = async (email: string) => {
   return user;
 };
 
+const getUserById = async (id: string) => {
+  const user = await User.findById(id)
+    .select(['-password', '-accountType'])
+    .exec();
+  return user;
+};
+
 const getUserByEmailWithPassword = async (email: string) => {
   const user = await User.findOne({ email: email })
     .select(['-accountType'])
@@ -70,6 +77,7 @@ const deleteUserById = async (id: string) => {
 export {
   createUser,
   getUserByEmail,
+  getUserById,
   getUserByEmailWithPassword,
   getAllUsersFromDB,
   toggleAdmin,

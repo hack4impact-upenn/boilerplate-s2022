@@ -7,8 +7,8 @@ async function login(email: string, password: string) {
     password,
   });
   console.log('login res is', res);
-  if (res.error) return false;
-  return true;
+  if (res.error) return null;
+  return res.data;
 }
 
 async function register(

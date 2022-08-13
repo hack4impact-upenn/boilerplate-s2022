@@ -59,6 +59,16 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
       message: `User to delete does not exist`,
     });
   }
+  const reqUser: IUser | undefined = req.user as IUser;
+
+  if (!reqUser || !reqUser.email) {
+    return res.status(401).send({ message: 'error in auth' });
+  }
+
+  if (reqUser.email === user.email) {
+    return res.status(400).send({ message: 'Cannot delete self' });
+  }
+
   if (user.admin) {
     return res.status(404).send({ message: 'Cannot delete an admin' });
   }

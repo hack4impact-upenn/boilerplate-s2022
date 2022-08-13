@@ -3,7 +3,12 @@ import { login, register, forgotPassword, resetPassword } from './api';
 async function LoginValidation(
   email: string,
   password: string,
-  setError: (a: string) => void,
+  setError: (e: string) => void,
+  dispatchUser: (
+    userEmail: string,
+    firstName: string,
+    lastName: string,
+  ) => void,
 ) {
   const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
   const emailRegex =
@@ -12,21 +17,19 @@ async function LoginValidation(
     setError('empty');
     return 'empty';
   }
-  if (
-    !password.match(passwordRegex) ||
-    !email.match(emailRegex) ||
-    !(await login(email, password))
-  ) {
+  const user = await login(email, password);
+  if (!password.match(passwordRegex) || !email.match(emailRegex) || !user) {
     setError('fail');
     return 'fail';
   }
   setError('');
+  dispatchUser(user.email, user.firstName, user.lastName);
   return '';
 }
 
 async function RegisterValidation(
-  first: string,
-  last: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string,
   confirmPassword: string,
@@ -36,7 +39,7 @@ async function RegisterValidation(
   const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-  if (!password || !email || !confirmPassword || !first || !last) {
+  if (!password || !email || !confirmPassword || !firstName || !lastName) {
     setError('empty');
     return 'empty';
   }
@@ -44,7 +47,7 @@ async function RegisterValidation(
     setError('badEmail');
     return 'badEmail';
   }
-  if (!first.match(nameRegex) || !last.match(nameRegex)) {
+  if (!firstName.match(nameRegex) || !lastName.match(nameRegex)) {
     setError('badName');
     return 'badName';
   }
@@ -56,7 +59,7 @@ async function RegisterValidation(
     setError('mismatch');
     return 'mismatch';
   }
-  if (!(await register(first, last, email, password))) {
+  if (!(await register(firstName, lastName, email, password))) {
     setError('duplicate');
     return 'duplicate';
   }
