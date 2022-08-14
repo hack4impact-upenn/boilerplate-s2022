@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../util/redux/hooks';
-import { logout as logoutAction, selectUser } from '../util/redux/slice';
+import {
+  logout as logoutAction,
+  toggleAdmin,
+  selectUser,
+} from '../util/redux/slice';
 import { logout as logoutApi, selfUpgrade } from './api';
 
 interface PromoteButtonProps {
@@ -40,8 +44,13 @@ function HomeView() {
     }
   };
 
-  const handleSelfPromote = async () =>
-    setAdmin(await selfUpgrade(user.email as string));
+  const handleSelfPromote = async () => {
+    const newAdminStatus = await selfUpgrade(user.email as string);
+    if (newAdminStatus) {
+      dispatch(toggleAdmin());
+      setAdmin(true);
+    }
+  };
 
   return (
     <div>

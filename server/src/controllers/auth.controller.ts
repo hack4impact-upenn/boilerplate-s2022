@@ -1,7 +1,7 @@
 import express from 'express';
+import passport from 'passport';
 import { IUser } from '../models/user';
 import { createUser, getUserByEmail } from '../services/user.service';
-import passport from 'passport';
 
 const login = async (
   req: express.Request,
@@ -26,8 +26,8 @@ const login = async (
         console.log('error logging in2');
         return res.status(401).send(info);
       }
-      req.logIn(user, function (err) {
-        if (err) {
+      return req.logIn(user, function (error) {
+        if (error) {
           console.log('error logging in3');
           return next(err);
         }
@@ -73,7 +73,7 @@ const register = async (req: express.Request, res: express.Response) => {
     return;
   }
   // Create user
-  return createUser(firstName, lastName, email, password)
+  createUser(firstName, lastName, email, password)
     .then(() => res.sendStatus(201))
     .catch((e) => {
       console.log(e);

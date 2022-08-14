@@ -69,6 +69,7 @@ const GoogleUserSchema = new mongoose.Schema({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const InternalUserSchema = new mongoose.Schema({
   firstName: {
     type: String,

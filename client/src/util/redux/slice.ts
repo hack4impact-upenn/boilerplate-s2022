@@ -32,6 +32,9 @@ const userSlice = createSlice({
       state.lastName = action.payload.lastName;
       state.admin = action.payload.admin;
     },
+    toggleAdmin: (state) => {
+      state.admin = !state.admin;
+    },
     logout: (state) => {
       state.email = null;
       state.firstName = null;
@@ -41,7 +44,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, toggleAdmin } = userSlice.actions;
 export default userSlice.reducer;
 
 // Selectors

@@ -1,8 +1,6 @@
 import { Strategy as LocalStrategy, IVerifyOptions } from 'passport-local';
-import passport from 'passport';
-import { NativeError } from 'mongoose';
+import * as passportStrat from 'passport';
 import { compare } from 'bcrypt';
-import { IUser, User } from '../models/user';
 import {
   getUserByEmailWithPassword,
   getUserById,
@@ -26,15 +24,16 @@ const verifyLocalUser = (
         return done(null, false, { message: 'User not found' });
       }
       // Match user with password
-      compare(password, user.password, (err: any, isMatch: boolean) => {
+      return compare(password, user.password, (err: any, isMatch: boolean) => {
         if (err) {
           console.log(err);
           console.log(user);
           return done(err);
         }
         if (isMatch) {
-          delete user.password;
-          return done(null, user);
+          const cleanUser = user;
+          delete cleanUser.password;
+          return done(null, cleanUser);
         }
         return done(null, false, { message: 'Incorrect password.' });
       });
@@ -49,7 +48,7 @@ const verifyLocalUser = (
  * Initializes all the configurations for passport regarding strategies.
  * @param passport The passport instance to use.
  */
-const initializePassport = (passport: passport.PassportStatic) => {
+const initializePassport = (passport: passportStrat.PassportStatic) => {
   // Set up middleware to use for each type of auth strategy
   passport.use(
     new LocalStrategy(

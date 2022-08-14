@@ -19,10 +19,11 @@ const isAdmin = (
   }
   // Check if the user is an admin
   if (user.admin) {
-    return next();
+    next();
+  } else {
+    res.status(403).send({ message: 'not admin' });
   }
-  res.status(403).send({ message: 'not admin' });
-  return;
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export { isAdmin };

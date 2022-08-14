@@ -1,6 +1,5 @@
 import { hash } from 'bcrypt';
-import { User, IUser } from '../models/user';
-import { AuthenticationType } from '../models/user';
+import { User, AuthenticationType } from '../models/user';
 
 const createUser = async (
   firstName: string,
@@ -16,9 +15,9 @@ const createUser = async (
   }
   const newUser = new User({
     accountType: AuthenticationType.Internal,
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
+    firstName,
+    lastName,
+    email,
     password: hashedPassword,
     admin: false,
   });
@@ -27,7 +26,7 @@ const createUser = async (
 };
 
 const getUserByEmail = async (email: string) => {
-  const user = await User.findOne({ email: email })
+  const user = await User.findOne({ email })
     .select(['-password', '-accountType'])
     .exec();
   return user;
@@ -41,9 +40,7 @@ const getUserById = async (id: string) => {
 };
 
 const getUserByEmailWithPassword = async (email: string) => {
-  const user = await User.findOne({ email: email })
-    .select(['-accountType'])
-    .exec();
+  const user = await User.findOne({ email }).select(['-accountType']).exec();
   return user;
 };
 
@@ -56,17 +53,14 @@ const getAllUsersFromDB = async () => {
 
 /**
  * A function that upgrades a certain user to an admin.
- * @param email
- * @returns A boolean indicating whether the upgrade was successful or not
+ * @param id
+ * @returns updated user
  */
-const toggleAdmin = async (user: IUser) => {
-  if (user) {
-    user.admin = !user.admin;
-    await user.save();
-    return true;
-  } else {
-    return false;
-  }
+const toggleAdmin = async (id: string) => {
+  const user = await User.findByIdAndUpdate(id, [
+    { $set: { admin: { $eq: [false, '$admin'] } } },
+  ]).exec();
+  return user;
 };
 
 const deleteUserById = async (id: string) => {

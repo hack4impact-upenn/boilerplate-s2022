@@ -3,6 +3,14 @@ module.exports = {
   root: true,
   rules: {
     'no-console': 'warn',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true,
+        optionalDependencies: false,
+        peerDependencies: false,
+      },
+    ],
     'no-underscore-dangle': [
       'off',
       { allowAfterThis: true, allow: ['_instance'] },
