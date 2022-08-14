@@ -6,18 +6,19 @@ import {
   deleteUser,
 } from '../controllers/user.controller';
 import ensureAuthenticated from '../controllers/auth.middleware';
+import { approve } from '../controllers/auth.controller';
 import 'dotenv/config';
 
 const router = express.Router();
 
-router.get('/allusers', ensureAuthenticated, isAdmin, getAllUsers);
-router.get('/alladmin', ensureAuthenticated, isAdmin, getAllUsers);
-router.put(
-  '/upgrade-privilege',
-  ensureAuthenticated,
-  isAdmin,
-  upgradePrivilege,
-);
-router.delete('user/:email', ensureAuthenticated, isAdmin, deleteUser);
+router.get('/all', ensureAuthenticated, isAdmin, getAllUsers);
+router.get('/adminstatus', ensureAuthenticated, isAdmin, getAllUsers);
+
+router.put('/promote', ensureAuthenticated, isAdmin, approve);
+
+// delete during deployment
+router.put('/autopromote', upgradePrivilege);
+
+router.delete('/:email', ensureAuthenticated, isAdmin, deleteUser);
 
 export default router;

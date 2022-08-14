@@ -13,7 +13,7 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-} from '../components/StyledComponents';
+} from '../components/grid';
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -25,6 +25,8 @@ function RegisterPage() {
   const navigate = useNavigate();
   async function onSubmit() {
     const result = await RegisterValidation(
+      first,
+      last,
       email,
       password1,
       password2,
@@ -75,6 +77,7 @@ function RegisterPage() {
             <TextField
               error={
                 error === 'empty' ||
+                error === 'badName' ||
                 error === 'badEmail' ||
                 error === 'duplicate'
               }

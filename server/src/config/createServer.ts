@@ -4,9 +4,9 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
+import MongoStore from 'connect-mongo';
 import routers from '../routes/routers';
 import initializePassport from './configPassport';
-import MongoStore from 'connect-mongo';
 import 'dotenv/config';
 
 /**
@@ -61,7 +61,7 @@ const createServer = (): express.Express => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  //Inits routers listed in routers.ts file
+  // Inits routers listed in routers.ts file
   routers.forEach((entry) => app.use(entry.prefix, entry.router));
 
   // Serving static files

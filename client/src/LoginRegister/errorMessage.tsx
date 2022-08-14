@@ -18,6 +18,9 @@ function ErrorMessage({ error }: InferProps<typeof ErrorMessage.propTypes>) {
     case 'badEmail':
       text = <ErrorText> Invalid email address. </ErrorText>;
       break;
+    case 'badName':
+      text = <ErrorText> Please enter a valid name </ErrorText>;
+      break;
     case 'badPassword':
       text = (
         <ErrorText>

@@ -1,10 +1,10 @@
-import { Strategy as LocalStrategy } from 'passport-local';
-import passport from 'passport';
-import { IUser, User } from '../models/user';
-import { NativeError } from 'mongoose';
-import { IVerifyOptions } from 'passport-local';
-import { getUserFromDB } from '../services/user.service';
+import { Strategy as LocalStrategy, IVerifyOptions } from 'passport-local';
+import * as passportStrat from 'passport';
 import { compare } from 'bcrypt';
+import {
+  getUserByEmailWithPassword,
+  getUserById,
+} from '../services/user.service';
 
 /**
  * Middleware to check if a user is authenticated using the Local Strategy.
@@ -18,24 +18,28 @@ const verifyLocalUser = (
   done: (error: any, user?: any, options?: IVerifyOptions | undefined) => void,
 ): void => {
   // Match user with email
-  getUserFromDB(email)
+  getUserByEmailWithPassword(email)
     .then((user: any) => {
       if (!user) {
         return done(null, false, { message: 'User not found' });
       }
       // Match user with password
-      compare(password, user.password, (err: any, isMatch: boolean) => {
+      return compare(password, user.password, (err: any, isMatch: boolean) => {
         if (err) {
+          console.log(err);
+          console.log(user);
           return done(err);
         }
         if (isMatch) {
-          return done(null, user);
-        } else {
-          return done(null, false, { message: 'Incorrect password.' });
+          const cleanUser = user;
+          delete cleanUser.password;
+          return done(null, cleanUser);
         }
+        return done(null, false, { message: 'Incorrect password.' });
       });
     })
     .catch((error: any) => {
+      console.log(error);
       return done(error);
     });
 };
@@ -44,7 +48,7 @@ const verifyLocalUser = (
  * Initializes all the configurations for passport regarding strategies.
  * @param passport The passport instance to use.
  */
-const initializePassport = (passport: passport.PassportStatic) => {
+const initializePassport = (passport: passportStrat.PassportStatic) => {
   // Set up middleware to use for each type of auth strategy
   passport.use(
     new LocalStrategy(
@@ -60,9 +64,9 @@ const initializePassport = (passport: passport.PassportStatic) => {
     done(null, user._id);
   });
   passport.deserializeUser((id: any, done: any) => {
-    User.findById(id, (err: NativeError, user: IUser) => {
-      done(err, user);
-    });
+    getUserById(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err, null));
   });
 };
 

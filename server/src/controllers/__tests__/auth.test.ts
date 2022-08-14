@@ -1,11 +1,10 @@
 import request from 'supertest';
 import { createServer, setExpressSession } from '../../config/createServer';
 import { User } from '../../models/user';
-import Session from '../../models/session';
 
 const app = createServer(); // instantiate express app
-let server = app.listen(); // listen on some unused port
-let agent = request.agent(server); // instantiate supertest agent
+const server = app.listen(); // listen on some unused port
+const agent = request.agent(server); // instantiate supertest agent
 
 const testEmail = 'example@gmail.com';
 const testPassword = '123456';

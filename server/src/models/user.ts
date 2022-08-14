@@ -10,6 +10,8 @@ enum AuthenticationType {
 
 interface IInternalUser extends mongoose.Types.Subdocument {
   _id: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   admin: boolean;
@@ -29,6 +31,8 @@ interface IGoogleUser extends mongoose.Types.Subdocument {
 interface IUser extends mongoose.Document {
   _id: string;
   accountType: AuthenticationType;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   googleAccount: IGoogleUser;
@@ -65,7 +69,16 @@ const GoogleUserSchema = new mongoose.Schema({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const InternalUserSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -87,6 +100,14 @@ const UserSchema = new mongoose.Schema({
   accountType: {
     type: String,
     enum: Object.values(AuthenticationType),
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
     required: true,
   },
   email: {

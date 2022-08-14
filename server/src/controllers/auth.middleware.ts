@@ -9,12 +9,10 @@ const ensureAuthenticated = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  console.log('in ensureAuthenticated');
-  console.log(req.session);
   if (req.isAuthenticated()) {
     return next();
   }
-  res.sendStatus(401);
+  return res.sendStatus(401);
 };
 
 export default ensureAuthenticated;
