@@ -8,8 +8,8 @@ interface StyledProps {
 
 /**
  * This is for the little baby links on the bottom of the form
- * (i.e. forgot password, signup, etc.) We style the sizing and the lack of wrapping.
- * @param param0
+ * (i.e. forgot password, signup, etc.) We style the sizing.
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 const MiniLinkTextStyled = styled(Typography)(() => ({
@@ -22,7 +22,7 @@ function MiniLinkText({ children }: StyledProps) {
 
 /**
  * This styles the form's header to just have a larger font size
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 const FormHeaderText = styled(Typography)({
@@ -32,7 +32,7 @@ const FormHeaderText = styled(Typography)({
 /**
  * This styles a the whole screen as a grid component, serves as a wrapper to ensure
  * that we know what role it plays, as well as height as the whole screen, spacing, and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function ScreenGrid({ children }: StyledProps) {
@@ -52,7 +52,7 @@ function ScreenGrid({ children }: StyledProps) {
 /**
  * This styles a form's components if we want them in a column, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function FormGridCol({ children }: StyledProps) {
@@ -72,8 +72,8 @@ function FormGridCol({ children }: StyledProps) {
 /**
  * This styles a form's components if we want them in a row, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param param0
- * @returns
+ * @param children, applies styling to the children of the component.
+ * @returns styled grid row component
  */
 function FormGridRow({ children }: StyledProps) {
   return (
@@ -95,7 +95,7 @@ function FormGridRow({ children }: StyledProps) {
 /**
  * This just styles a child in the form, serves as a wrapper to ensure
  * that we know what role it plays in the larger grid, as well as width and resizing
- * @param param0
+ * @param children, applies styling to the children of the component.
  * @returns
  */
 function FormField({ children }: StyledProps) {

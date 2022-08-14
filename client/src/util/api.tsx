@@ -53,19 +53,16 @@ const useData = (url: string) => {
 // https://stackoverflow.com/questions/53059059/react-hooks-making-an-ajax-request
 
 async function postData(url: string, data = {}) {
-  // Default options are marked with *
   const response = await resolve(axios.post(`${URLPREFIX}/${url}`, data));
   return response;
 }
 
 async function putData(url: string, data = {}) {
-  // Default options are marked with *
   const response = await resolve(axios.put(`${URLPREFIX}/${url}`, data));
   return response;
 }
 
 async function deleteData(url: string, data = {}) {
-  // Default options are marked with *
   const response = await resolve(axios.delete(`${URLPREFIX}/${url}`, data));
   return response;
 }

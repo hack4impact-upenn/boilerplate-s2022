@@ -10,7 +10,7 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-} from '../components/StyledComponents';
+} from '../components/grid';
 
 function ResetPage() {
   const [email, setEmail] = useState('');

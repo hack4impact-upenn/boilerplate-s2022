@@ -12,7 +12,7 @@ import {
   FormGridCol,
   FormGridRow,
   FormField,
-} from '../components/StyledComponents';
+} from '../components/grid';
 
 function LoginView() {
   const [email, setEmail] = useState('');
@@ -20,11 +20,24 @@ function LoginView() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  function dispatchUser(
+    userEmail: string,
+    firstName: string,
+    lastName: string,
+    admin: boolean,
+  ) {
+    dispatch(login({ email: userEmail, firstName, lastName, admin }));
+  }
+
   async function onSubmit() {
-    const result = await LoginValidation(email, password, setError);
+    const result = await LoginValidation(
+      email,
+      password,
+      setError,
+      dispatchUser,
+    );
     if (result === '') {
       alert(email + password);
-      dispatch(login(email));
       navigate('/home');
     } else {
       alert('fail');
@@ -35,7 +48,7 @@ function LoginView() {
     <ScreenGrid>
       <FormGridCol>
         <FormField>
-          <FormHeaderText>Welcome! Lets get started.</FormHeaderText>
+          <FormHeaderText>Welcome! Let&apos;s get started.</FormHeaderText>
         </FormField>
         <FormField>
           <TextField

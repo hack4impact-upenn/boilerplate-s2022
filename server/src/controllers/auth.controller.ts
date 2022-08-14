@@ -1,8 +1,7 @@
-/* eslint-disable consistent-return */
 import express from 'express';
-import { IUser } from '../models/user';
-import { createUser, getUserFromDB } from '../services/user.service';
 import passport from 'passport';
+import { IUser } from '../models/user';
+import { createUser, getUserByEmail } from '../services/user.service';
 
 const login = async (
   req: express.Request,
@@ -27,12 +26,12 @@ const login = async (
         console.log('error logging in2');
         return res.status(401).send(info);
       }
-      req.logIn(user, function (err) {
-        if (err) {
+      return req.logIn(user, function (error) {
+        if (error) {
           console.log('error logging in3');
           return next(err);
         }
-        return res.status(200).send({ message: 'Successful Login' });
+        return res.status(200).send(user);
       });
     },
   )(req, res, next);
@@ -51,7 +50,7 @@ const logout = async (req: express.Request, res: express.Response) => {
     // Delete session object
     req.session.destroy((e) => {
       if (e) {
-        res.status(400).send({ message: 'Unable to log out', error: e });
+        res.status(500).send({ message: 'Unable to log out', error: e });
       } else {
         res.send({ logout: true });
       }
@@ -60,13 +59,13 @@ const logout = async (req: express.Request, res: express.Response) => {
 };
 
 const register = async (req: express.Request, res: express.Response) => {
-  const { email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   if (req.isAuthenticated()) {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await getUserFromDB(email);
+  const user: IUser | null = await getUserByEmail(email);
   if (user) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,
@@ -74,7 +73,7 @@ const register = async (req: express.Request, res: express.Response) => {
     return;
   }
   // Create user
-  return createUser(email, password)
+  createUser(firstName, lastName, email, password)
     .then(() => res.sendStatus(201))
     .catch((e) => {
       console.log(e);

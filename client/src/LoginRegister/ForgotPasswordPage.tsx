@@ -9,7 +9,7 @@ import {
   ScreenGrid,
   FormGridCol,
   FormField,
-} from '../components/StyledComponents';
+} from '../components/grid';
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');

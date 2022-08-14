@@ -18,9 +18,7 @@ beforeEach(async () => {
   jest.useFakeTimers('legacy');
   // Clear out all collections before each test
   const collections = await mongoose.connection.db.collections();
-  for (let collection of collections) {
-    await collection.deleteMany({});
-  }
+  collections.forEach((c) => c.deleteMany({}));
 });
 
 afterAll(async () => {
