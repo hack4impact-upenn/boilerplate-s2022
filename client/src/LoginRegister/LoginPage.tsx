@@ -24,8 +24,9 @@ function LoginView() {
     userEmail: string,
     firstName: string,
     lastName: string,
+    admin: boolean,
   ) {
-    dispatch(login({ email: userEmail, firstName, lastName }));
+    dispatch(login({ email: userEmail, firstName, lastName, admin }));
   }
 
   async function onSubmit() {

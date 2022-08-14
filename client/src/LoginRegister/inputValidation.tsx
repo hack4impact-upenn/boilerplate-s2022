@@ -8,6 +8,7 @@ async function LoginValidation(
     userEmail: string,
     firstName: string,
     lastName: string,
+    admin: boolean,
   ) => void,
 ) {
   const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
@@ -23,7 +24,7 @@ async function LoginValidation(
     return 'fail';
   }
   setError('');
-  dispatchUser(user.email, user.firstName, user.lastName);
+  dispatchUser(user.email, user.firstName, user.lastName, user.admin);
   return '';
 }
 

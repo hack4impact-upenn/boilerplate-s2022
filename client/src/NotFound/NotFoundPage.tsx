@@ -71,7 +71,7 @@ function NotFoundPage() {
               }
               to="/"
             >
-              &larr; Click here to go back.
+              &larr; Click here to return to home page.
             </Link>
           </Body>
         </Box>

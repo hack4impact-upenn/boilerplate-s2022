@@ -8,7 +8,7 @@ async function deleteUser(email: string) {
 }
 
 async function upgradePrivilege(email: string) {
-  const res = await putData('user/upgrade-privilege', { email });
+  const res = await putData('user/promote', { email });
   console.log('register res is', res);
   if (res.error) return false;
   return true;

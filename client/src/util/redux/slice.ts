@@ -6,12 +6,14 @@ interface UserState {
   email: string | null;
   firstName: string | null;
   lastName: string | null;
+  admin: boolean | null;
 }
 
 interface Payload {
   email: string;
   firstName: string;
   lastName: string;
+  admin: boolean;
 }
 
 const initialState = {
@@ -28,11 +30,13 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
+      state.admin = action.payload.admin;
     },
     logout: (state) => {
       state.email = null;
       state.firstName = null;
       state.lastName = null;
+      state.admin = null;
     },
   },
 });

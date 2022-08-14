@@ -3,6 +3,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { PaginationTable, TColumn } from '../components/paginationTable';
 import { useData } from '../util/api';
 import createRows from './userRows';
+import { useAppSelector } from '../util/redux/hooks';
+import { selectUser } from '../util/redux/slice';
 /**
  * We use the pagination table component to load a paginated user table after denoting the
  * column names and data types through ids, Data, and createData. rows is the data that we
@@ -86,6 +88,7 @@ function UserTableBodyWrapper({ users }: IUsers) {
 
 function UserTable() {
   const users = useData('user/all');
+  const self = useAppSelector(selectUser);
   if (!users) {
     return (
       <div style={{ width: '0', margin: 'auto' }}>
@@ -93,8 +96,10 @@ function UserTable() {
       </div>
     );
   }
-
-  return <UserTableBodyWrapper users={users.data} />;
+  const userList = users.data.filter(
+    (entry: User) => entry && entry.email && entry.email !== self.email,
+  );
+  return <UserTableBodyWrapper users={userList} />;
 }
 
 export default UserTable;
