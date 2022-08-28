@@ -4,6 +4,7 @@
   "scripts": {
     "start": "react-scripts start",
     "client": "yarn start",
+    "clean": "rm -rf node_modules",
     "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
     "build": "react-scripts build",
     "test": "react-scripts test",

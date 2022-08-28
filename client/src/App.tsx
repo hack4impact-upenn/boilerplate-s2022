@@ -13,7 +13,7 @@ import RegisterPage from './LoginRegister/RegisterPage';
 import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
-import HomeView from './Home/HomeView';
+import HomeView from './home/HomeView';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 
 import {
