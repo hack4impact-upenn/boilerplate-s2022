@@ -15,7 +15,7 @@ function ResetPasswordEmailPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  async function sendEmail() {
+  async function sendResetEmail() {
     await EmailValidation(email, setError);
     if (error === 'badEmail') {
       alert('Invalid email');
@@ -46,7 +46,7 @@ function ResetPasswordEmailPage() {
             type="submit"
             variant="contained"
             color="primary"
-            onClick={() => sendEmail()}
+            onClick={() => sendResetEmail()}
           >
             Send Reset Link
           </Button>

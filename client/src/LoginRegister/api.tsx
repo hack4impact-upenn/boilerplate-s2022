@@ -11,6 +11,13 @@ async function login(email: string, password: string) {
   return res.data;
 }
 
+async function verifyAccount(verificationToken: string) {
+  const res = await postData('auth/verify-account', {
+    token: verificationToken,
+  });
+  return res;
+}
+
 async function register(
   firstName: string,
   lastName: string,
@@ -40,4 +47,10 @@ async function resetPassword(password: string, token: string) {
   return true;
 }
 
-export { register, login, sendResetPasswordEmail, resetPassword };
+export {
+  register,
+  login,
+  verifyAccount,
+  sendResetPasswordEmail,
+  resetPassword,
+};

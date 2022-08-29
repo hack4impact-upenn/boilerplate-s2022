@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.post('/register', register);
 
-router.post('/verify', verifyAccount);
+router.post('/verify-account', verifyAccount);
 
 router.post('/login', login);
 

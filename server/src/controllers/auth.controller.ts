@@ -93,10 +93,16 @@ const register = async (req: express.Request, res: express.Response) => {
   // Create user and send verification email
   try {
     const user = await createUser(firstName, lastName, email, password);
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    user!.verificationToken = verificationToken;
-    await user!.save();
-    await emailVerificationLink(email, verificationToken);
+    // Only send verification email if not in testing mode
+    if (process.env.NODE_ENV === 'test') {
+      user!.verified = true;
+      await user?.save();
+    } else {
+      const verificationToken = crypto.randomBytes(32).toString('hex');
+      user!.verificationToken = verificationToken;
+      await user!.save();
+      await emailVerificationLink(email, verificationToken);
+    }
     res.sendStatus(201);
   } catch (err) {
     res.status(500).send(err);

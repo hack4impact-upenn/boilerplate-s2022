@@ -7,7 +7,7 @@ const senderName = 'sender'; // Replace with a relevant project sender
 const baseUrl = 'http://localhost:3000'; // TODO: figure out better place to put this
 
 // eslint-disable-next-line no-useless-concat
-SGmail.setApiKey(`${process.env.SENDGRID_KEY}`);
+SGmail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
 
 /**
  * Sends a reset password link to a user

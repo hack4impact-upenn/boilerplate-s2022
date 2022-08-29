@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// TODO: change reset password token to its own schema to optimize searches
+// TODO: change token to its own schema to optimize searches
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,

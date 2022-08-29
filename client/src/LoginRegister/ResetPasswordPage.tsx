@@ -11,13 +11,12 @@ import {
 } from '../components/grid';
 import { resetPassword } from './api';
 
-function ResetPage() {
+function ResetPasswordPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
   const { token } = useParams();
-  console.log(`token in frontend is ${token}`);
   const navigate = useNavigate();
 
   async function makeResetCall() {
@@ -47,7 +46,7 @@ function ResetPage() {
             id="login-text"
             type="password"
             required
-            label="Password"
+            label="New Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -86,4 +85,4 @@ function ResetPage() {
   );
 }
 
-export default ResetPage;
+export default ResetPasswordPage;

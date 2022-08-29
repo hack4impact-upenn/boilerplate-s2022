@@ -11,7 +11,6 @@ import {
   FormHeaderText,
   ScreenGrid,
   FormGridCol,
-  FormGridRow,
   FormField,
 } from '../components/grid';
 
@@ -33,7 +32,7 @@ function RegisterPage() {
       setError,
     );
     if (result === '') {
-      alert(email + password1);
+      alert('Check email to verify account');
       navigate('/login');
     } else {
       alert('fail');
@@ -114,26 +113,24 @@ function RegisterPage() {
               onChange={(e) => setPassword2(e.target.value)}
             />
           </FormField>
-          <FormGridRow>
-            <FormField>
-              <MiniLinkText>
-                Back to{' '}
-                <Link component={RouterLink} to="/login">
-                  Login
-                </Link>
-              </MiniLinkText>
-            </FormField>
-            <FormField>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={() => onSubmit()}
-              >
-                Signup
-              </Button>
-            </FormField>
-          </FormGridRow>
+          <FormField>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => onSubmit()}
+            >
+              Signup
+            </Button>
+          </FormField>
+          <FormField>
+            <MiniLinkText>
+              Back to{' '}
+              <Link component={RouterLink} to="/login">
+                Login
+              </Link>
+            </MiniLinkText>
+          </FormField>
         </FormGridCol>
       </ScreenGrid>
     </ThemeProvider>

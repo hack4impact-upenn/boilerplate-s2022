@@ -11,6 +11,9 @@ import { store, persistor } from './util/redux/store';
 import LoginView from './LoginRegister/LoginPage';
 import RegisterPage from './LoginRegister/RegisterPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
+import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
+import VerifyAccountPage from './LoginRegister/VerifyAccountPage';
+
 import NotFoundPage from './NotFound/NotFoundPage';
 import HomeView from './home/HomeView';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
@@ -21,7 +24,6 @@ import {
   DynamicRedirect,
   AdminRoutesWrapper,
 } from './components/routes';
-import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
 
 function App() {
   return (
@@ -35,6 +37,10 @@ function App() {
                 <Route element={<UnauthenticatedRoutesWrapper />}>
                   <Route path="/login" element={<LoginView />} />
                   <Route path="/register" element={<RegisterPage />} />
+                  <Route
+                    path="/verify-account/:token"
+                    element={<VerifyAccountPage />}
+                  />
                   <Route
                     path="/email-reset"
                     element={<ResetPasswordEmailPage />}
