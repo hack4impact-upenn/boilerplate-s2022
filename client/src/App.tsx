@@ -10,7 +10,6 @@ import { store, persistor } from './util/redux/store';
 
 import LoginView from './LoginRegister/LoginPage';
 import RegisterPage from './LoginRegister/RegisterPage';
-import ForgotPasswordPage from './LoginRegister/ForgotPasswordPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import NotFoundPage from './NotFound/NotFoundPage';
 import HomeView from './home/HomeView';
@@ -36,12 +35,14 @@ function App() {
                 <Route element={<UnauthenticatedRoutesWrapper />}>
                   <Route path="/login" element={<LoginView />} />
                   <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/forgot" element={<ForgotPasswordPage />} />
                   <Route
                     path="/email-reset"
                     element={<ResetPasswordEmailPage />}
                   />
-                  <Route path="/reset" element={<ResetPasswordPage />} />
+                  <Route
+                    path="/reset-password/:token"
+                    element={<ResetPasswordPage />}
+                  />
                 </Route>
                 {/* Routes accessed only if user is authenticated */}
                 <Route element={<ProtectedRoutesWrapper />}>

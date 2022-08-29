@@ -29,7 +29,7 @@ function ResetPasswordEmailPage() {
     <ScreenGrid>
       <FormGridCol>
         <FormField>
-          <FormHeaderText>Enter the account email</FormHeaderText>
+          <FormHeaderText>Reset your password</FormHeaderText>
         </FormField>
         <FormField>
           <TextField
@@ -48,7 +48,7 @@ function ResetPasswordEmailPage() {
             color="primary"
             onClick={() => sendEmail()}
           >
-            Email Reset Link
+            Send Reset Link
           </Button>
         </FormField>
       </FormGridCol>

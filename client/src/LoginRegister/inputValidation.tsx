@@ -1,4 +1,4 @@
-import { login, register, forgotPassword, resetPassword } from './api';
+import { login, register } from './api';
 
 // TODO: break into smaller functions and reuse variables
 const emailRegex =
@@ -68,37 +68,14 @@ async function RegisterValidation(
   return '';
 }
 
-async function ForgotValidation(email: string, setError: (a: string) => void) {
-  if (!email) {
-    setError('empty');
-    return 'empty';
-  }
-  if (!email.match(emailRegex)) {
-    setError('badEmail');
-    return 'badEmail';
-  }
-  if (!(await forgotPassword(email))) {
-    setError('accountDNE');
-    return 'accountDNE';
-  }
-
-  setError('');
-  return '';
-}
-
 async function ResetValidation(
-  email: string,
   password: string,
   confirmPassword: string,
   setError: (a: string) => void,
 ) {
-  if (!password || !email || !confirmPassword) {
+  if (!password || !confirmPassword) {
     setError('empty');
     return 'empty';
-  }
-  if (!email.match(emailRegex)) {
-    setError('badEmail');
-    return 'badEmail';
   }
   if (!password.match(passwordRegex)) {
     setError('badPassword');
@@ -107,10 +84,6 @@ async function ResetValidation(
   if (!(confirmPassword === password)) {
     setError('mismatch');
     return 'mismatch';
-  }
-  if (!(await resetPassword(email))) {
-    setError('accountDNE');
-    return 'accountDNE';
   }
 
   setError('');
@@ -127,7 +100,6 @@ async function EmailValidation(email: string, setError: (a: string) => void) {
 export {
   LoginValidation,
   RegisterValidation,
-  ForgotValidation,
   ResetValidation,
   EmailValidation,
 };

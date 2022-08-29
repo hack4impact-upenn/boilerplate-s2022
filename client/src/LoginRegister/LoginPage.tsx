@@ -74,22 +74,6 @@ function LoginView() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormField>
-        <FormGridRow>
-          <FormField>
-            <MiniLinkText>
-              <Link component={RouterLink} to="/forgot">
-                Forgot password?
-              </Link>
-            </MiniLinkText>
-          </FormField>
-          <FormField>
-            <MiniLinkText>
-              <Link component={RouterLink} to="/email-reset">
-                Reset password
-              </Link>
-            </MiniLinkText>
-          </FormField>
-        </FormGridRow>
         <FormField>
           <Button
             type="submit"
@@ -100,14 +84,23 @@ function LoginView() {
             Login
           </Button>
         </FormField>
-        <FormField>
-          <MiniLinkText>
-            Need an account?{' '}
-            <Link component={RouterLink} to="/register">
-              Sign up
-            </Link>
-          </MiniLinkText>
-        </FormField>
+        <FormGridRow>
+          <FormField>
+            <MiniLinkText>
+              <Link component={RouterLink} to="/email-reset">
+                Forgot password?
+              </Link>
+            </MiniLinkText>
+          </FormField>
+          <FormField>
+            <MiniLinkText>
+              Need an account?{' '}
+              <Link component={RouterLink} to="/register">
+                Sign up
+              </Link>
+            </MiniLinkText>
+          </FormField>
+        </FormGridRow>
       </FormGridCol>
     </ScreenGrid>
   );

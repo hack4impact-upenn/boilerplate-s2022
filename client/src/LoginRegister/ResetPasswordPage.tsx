@@ -1,33 +1,37 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button } from '@mui/material';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { ResetValidation } from './inputValidation';
-import ErrorMessage from './errorMessage';
 import {
   MiniLinkText,
   FormHeaderText,
   ScreenGrid,
   FormGridCol,
-  FormGridRow,
   FormField,
 } from '../components/grid';
+import { resetPassword } from './api';
 
 function ResetPage() {
-  const [email, setEmail] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
+  const { token } = useParams();
+  console.log(`token in frontend is ${token}`);
   const navigate = useNavigate();
-  async function onSubmit() {
-    const result = await ResetValidation(
-      email,
-      oldPassword,
-      newPassword,
-      setError,
-    );
+
+  async function makeResetCall() {
+    const result = await ResetValidation(password, confirmPassword, setError);
     if (result === '') {
-      alert(email + oldPassword);
-      navigate('/');
+      const successful = await resetPassword(
+        password,
+        token || `missing token`,
+      );
+      if (successful) {
+        navigate('/');
+      } else {
+        alert('fail');
+      }
     } else {
       alert('fail');
     }
@@ -41,25 +45,13 @@ function ResetPage() {
         </FormField>
         <FormField>
           <TextField
-            error={error === 'empty' || error === 'accountDNE'}
-            helperText={<ErrorMessage error={error} />}
-            id="login-text"
-            type="email"
-            required
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormField>
-        <FormField>
-          <TextField
             error={error === 'empty' || error === 'badPassword'}
             id="login-text"
             type="password"
             required
             label="Password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormField>
         <FormField>
@@ -69,30 +61,28 @@ function ResetPage() {
             type="password"
             required
             label="Confirm Password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </FormField>
-        <FormGridRow>
-          <FormField>
-            <MiniLinkText>
-              Back to{' '}
-              <Link component={RouterLink} to="/login">
-                Login
-              </Link>
-            </MiniLinkText>
-          </FormField>
-          <FormField>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => onSubmit()}
-            >
-              Reset Password
-            </Button>
-          </FormField>
-        </FormGridRow>
+        <FormField>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => makeResetCall()}
+          >
+            Reset Password
+          </Button>
+        </FormField>
+        <FormField>
+          <MiniLinkText>
+            Back to{' '}
+            <Link component={RouterLink} to="/login">
+              Login
+            </Link>
+          </MiniLinkText>
+        </FormField>
       </FormGridCol>
     </ScreenGrid>
   );

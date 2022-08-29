@@ -4,7 +4,7 @@ import SGmail, { MailDataRequired } from '@sendgrid/mail';
 
 const appName = 'Boilerplate'; // Replace with a relevant project name
 const senderName = 'sender'; // Replace with a relevant project sender
-const baseUrl = 'http://localhost:4000'; // TODO: figure out better place to put this
+const baseUrl = 'http://localhost:3000'; // TODO: figure out better place to put this
 
 // eslint-disable-next-line no-useless-concat
 SGmail.setApiKey(`${process.env.SENDGRID_KEY}`);
@@ -16,7 +16,7 @@ SGmail.setApiKey(`${process.env.SENDGRID_KEY}`);
  */
 const emailResetPasswordLink = async (email: string, token: string) => {
   // TODO: use a template to make this prettier
-  const resetLink = `${baseUrl}/reset/${token}`;
+  const resetLink = `${baseUrl}/reset-password/${token}`;
   const mailSettings: MailDataRequired = {
     from: {
       email: process.env.EMAIL_ADDRESS || 'missing@mail.com',
