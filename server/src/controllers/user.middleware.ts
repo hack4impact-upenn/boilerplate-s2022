@@ -1,4 +1,5 @@
 import express from 'express';
+import StatusCode from '../config/statusCodes';
 import { IUser } from '../models/user';
 
 /**
@@ -14,14 +15,14 @@ const isAdmin = (
   const user: IUser | null = req.user as IUser;
   // Check is user exists and is valid
   if (!user) {
-    res.status(401).send({ message: 'not valid user' });
+    res.status(StatusCode.NOT_FOUND).send({ message: 'not valid user' });
     return;
   }
   // Check if the user is an admin
   if (user.admin) {
     next();
   } else {
-    res.status(403).send({ message: 'not admin' });
+    res.status(StatusCode.FORBIDDEN).send({ message: 'not admin' });
   }
 };
 

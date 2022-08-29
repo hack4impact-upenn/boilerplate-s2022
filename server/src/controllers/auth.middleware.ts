@@ -1,4 +1,5 @@
 import express from 'express';
+import StatusCode from '../config/statusCodes';
 
 /**
  * Middleware to check if a user is authenticated using any Passport Strategy
@@ -12,7 +13,7 @@ const ensureAuthenticated = (
   if (req.isAuthenticated()) {
     return next();
   }
-  return res.sendStatus(401);
+  return res.sendStatus(StatusCode.UNAUTHORIZED);
 };
 
 export default ensureAuthenticated;

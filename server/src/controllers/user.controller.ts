@@ -1,4 +1,5 @@
 import express from 'express';
+import StatusCode from '../config/statusCodes';
 import { IUser } from '../models/user';
 import {
   toggleAdmin,
@@ -11,10 +12,10 @@ const getAllUsers = async (req: express.Request, res: express.Response) => {
   // return all users
   return getAllUsersFromDB()
     .then((userList) => {
-      res.status(200).send(userList);
+      res.status(StatusCode.OK).send(userList);
     })
     .catch((e) => {
-      res.status(500).send({ message: e });
+      res.status(StatusCode.INTERNAL_SERVER_ERROR).send({ message: e });
     });
 };
 
@@ -27,24 +28,24 @@ const upgradePrivilege = async (
   const { email } = req.body;
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(404).send({
+    return res.status(StatusCode.BAD_REQUEST).send({
       message: `User with email ${email} does not exist.`,
     });
   }
 
   if (user.admin) {
     console.log('here1');
-    return res.status(400).send({
+    return res.status(StatusCode.BAD_REQUEST).send({
       message: `user is already admin`,
     });
   }
   // Upgrade's the user's admin status
   return toggleAdmin(user._id)
     .then(() => {
-      res.sendStatus(200);
+      res.sendStatus(StatusCode.OK);
     })
     .catch((e) => {
-      res.status(500).send({ message: e });
+      res.status(StatusCode.INTERNAL_SERVER_ERROR).send({ message: e });
     });
 };
 
@@ -53,28 +54,35 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
   // check if user to delete is an admin
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(404).send({
+    return res.status(StatusCode.BAD_REQUEST).send({
       message: `User to delete does not exist`,
     });
   }
   const reqUser: IUser | undefined = req.user as IUser;
 
+  // TODO: check if this is the right response code
   if (!reqUser || !reqUser.email) {
-    return res.status(401).send({ message: 'error in auth' });
+    return res
+      .status(StatusCode.UNAUTHORIZED)
+      .send({ message: 'error in auth' });
   }
 
   if (reqUser.email === user.email) {
-    return res.status(400).send({ message: 'Cannot delete self' });
+    return res
+      .status(StatusCode.BAD_REQUEST)
+      .send({ message: 'Cannot delete self' });
   }
 
   if (user.admin) {
-    return res.status(404).send({ message: 'Cannot delete an admin' });
+    return res
+      .status(StatusCode.BAD_REQUEST)
+      .send({ message: 'Cannot delete an admin' });
   }
   // Delete user
   return deleteUserById(user._id)
-    .then(() => res.sendStatus(200))
+    .then(() => res.sendStatus(StatusCode.OK))
     .catch((e) => {
-      res.status(500).send({ message: e });
+      res.status(StatusCode.INTERNAL_SERVER_ERROR).send({ message: e });
     });
 };
 

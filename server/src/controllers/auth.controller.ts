@@ -3,6 +3,7 @@ import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
 import { IUser } from '../models/user';
+import StatusCode from '../config/statusCodes';
 import {
   passwordHashSaltRounds,
   createUser,
@@ -21,7 +22,7 @@ const login = async (
   next: express.NextFunction,
 ) => {
   if (req.isAuthenticated()) {
-    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+    res.status(StatusCode.BAD_REQUEST).send({ message: 'Already logged in' });
   }
   passport.authenticate(
     ['local'],
@@ -31,13 +32,13 @@ const login = async (
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
       if (err) {
-        return res.status(400).send(err);
+        return res.status(StatusCode.INTERNAL_SERVER_ERROR).send(err);
       }
       if (!user) {
-        return res.status(401).send(info);
+        return res.status(StatusCode.UNAUTHORIZED).send(info);
       }
       if (!user!.verified) {
-        return res.status(401).send({
+        return res.status(StatusCode.UNAUTHORIZED).send({
           message: 'Pending Account. Please verify by email.',
         });
       }
@@ -46,7 +47,7 @@ const login = async (
           console.log('error logging in3');
           return next(err);
         }
-        return res.status(200).send(user);
+        return res.status(StatusCode.OK).send(user);
       });
     },
   )(req, res, next);
@@ -54,7 +55,7 @@ const login = async (
 
 const logout = async (req: express.Request, res: express.Response) => {
   if (!req.isAuthenticated()) {
-    res.status(400).send({ message: 'Not logged in' });
+    res.status(StatusCode.UNAUTHORIZED).send({ message: 'Not logged in' });
     return;
   }
   // Logout with Passport which modifies the request object
@@ -64,7 +65,9 @@ const logout = async (req: express.Request, res: express.Response) => {
     // Delete session object
     req.session.destroy((e) => {
       if (e) {
-        res.status(500).send({ message: 'Unable to log out', error: e });
+        res
+          .status(StatusCode.INTERNAL_SERVER_ERROR)
+          .send({ message: 'Unable to log out', error: e });
       } else {
         res.send({ logout: true });
       }
@@ -76,12 +79,12 @@ const register = async (req: express.Request, res: express.Response) => {
   const { firstName, lastName, email, password } = req.body;
 
   if (req.isAuthenticated()) {
-    res.status(400).send({ message: 'Already logged in' }); // Already logged in
+    res.status(StatusCode.BAD_REQUEST).send({ message: 'Already logged in' });
   }
   // Check if user exists
   const existingUser: IUser | null = await getUserByEmail(email);
   if (existingUser) {
-    res.status(400).send({
+    res.status(StatusCode.BAD_REQUEST).send({
       message: `User with email ${email} already has an account.`,
     });
     return;
@@ -100,21 +103,21 @@ const register = async (req: express.Request, res: express.Response) => {
       await user!.save();
       await emailVerificationLink(email, verificationToken);
     }
-    res.sendStatus(201);
+    res.sendStatus(StatusCode.CREATED);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(StatusCode.INTERNAL_SERVER_ERROR).send(err);
   }
 };
 
 const approve = async (req: express.Request, res: express.Response) => {
-  res.sendStatus(200);
+  res.sendStatus(StatusCode.OK);
 };
 
 const verifyAccount = async (req: express.Request, res: express.Response) => {
   const { token } = req.body;
   const user = await getUserByVerificationToken(token);
   if (!user) {
-    res.status(400).send({
+    res.status(StatusCode.BAD_REQUEST).send({
       error: `Invalid verification token`,
     });
   }
@@ -122,9 +125,11 @@ const verifyAccount = async (req: express.Request, res: express.Response) => {
   user!.verified = true;
   try {
     await user!.save();
-    res.sendStatus(200);
+    res.sendStatus(StatusCode.OK);
   } catch (err) {
-    res.status(500).send({ error: 'Unable to verify the user' });
+    res
+      .status(StatusCode.INTERNAL_SERVER_ERROR)
+      .send({ error: 'Unable to verify the user' });
   }
 };
 
@@ -136,7 +141,7 @@ const sendResetPasswordEmail = async (
   // Check if user exists
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    res.status(400).send({
+    res.status(StatusCode.NOT_FOUND).send({
       message: `No user with email ${email} is registered.`,
     });
   }
@@ -152,11 +157,11 @@ const sendResetPasswordEmail = async (
   // Send the email and return an appropriate response
   emailResetPasswordLink(email, token)
     .then(() =>
-      res.status(201).send({
+      res.status(StatusCode.CREATED).send({
         message: `Reset link has been sent to ${email}`,
         token,
       }),
-    ) // TODO: should this be 200?
+    ) // TODO: should this code be OK?
     .catch((e) => {
       res.status(e.code).send(e);
     });
@@ -167,7 +172,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
   const user: IUser | null = await getUserByResetPasswordToken(token);
   if (!user) {
     res
-      .status(422)
+      .status(StatusCode.UNPROCESSABLE_ENTITY)
       .send({ error: 'Reset password token expired or incorect.' });
     return;
   }
@@ -178,7 +183,9 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
     hashedPassword = await hash(password, passwordHashSaltRounds);
   } catch (err) {
     console.log(`Error hashing new password, ${err}`);
-    res.status(500).send({ error: 'Unable to set new password securely.' });
+    res
+      .status(StatusCode.INTERNAL_SERVER_ERROR)
+      .send({ error: 'Unable to set new password securely.' });
     return;
   }
 
@@ -188,9 +195,11 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
   user!.resetPasswordTokenExpiryDate = undefined;
   try {
     await user.save();
-    res.sendStatus(200);
+    res.sendStatus(StatusCode.OK);
   } catch (err) {
-    res.status(500).send({ error: 'Unable to set new password.' });
+    res
+      .status(StatusCode.INTERNAL_SERVER_ERROR)
+      .send({ error: 'Unable to set new password.' });
   }
 };
 
