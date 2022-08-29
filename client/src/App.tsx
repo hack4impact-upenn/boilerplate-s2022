@@ -22,6 +22,7 @@ import {
   DynamicRedirect,
   AdminRoutesWrapper,
 } from './components/routes';
+import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
                   <Route path="/login" element={<LoginView />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/forgot" element={<ForgotPasswordPage />} />
+                  <Route
+                    path="/email-reset"
+                    element={<ResetPasswordEmailPage />}
+                  />
                   <Route path="/reset" element={<ResetPasswordPage />} />
                 </Route>
                 {/* Routes accessed only if user is authenticated */}

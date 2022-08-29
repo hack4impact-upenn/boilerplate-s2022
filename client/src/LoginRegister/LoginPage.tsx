@@ -83,16 +83,23 @@ function LoginView() {
             </MiniLinkText>
           </FormField>
           <FormField>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => onSubmit()}
-            >
-              Login
-            </Button>
+            <MiniLinkText>
+              <Link component={RouterLink} to="/email-reset">
+                Reset password
+              </Link>
+            </MiniLinkText>
           </FormField>
         </FormGridRow>
+        <FormField>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => onSubmit()}
+          >
+            Login
+          </Button>
+        </FormField>
         <FormField>
           <MiniLinkText>
             Need an account?{' '}

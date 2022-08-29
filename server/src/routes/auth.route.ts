@@ -4,6 +4,7 @@ import {
   logout,
   register,
   approve,
+  sendResetPasswordEmail,
 } from '../controllers/auth.controller';
 import ensureAuthenticated from '../controllers/auth.middleware';
 import 'dotenv/config';
@@ -15,6 +16,8 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.post('/logout', logout);
+
+router.post('/send-reset-password-email', sendResetPasswordEmail);
 
 router.get('/authstatus', ensureAuthenticated, approve);
 

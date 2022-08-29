@@ -3,6 +3,7 @@ import { createServer } from './src/config/createServer';
 import 'dotenv/config';
 
 const main = async () => {
+  console.log('TEST ', process.env.ATLAS_URI);
   // Listen for termination
   process.on('SIGTERM', () => process.exit());
 

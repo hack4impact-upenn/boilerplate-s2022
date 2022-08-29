@@ -1,5 +1,10 @@
 import { login, register, forgotPassword, resetPassword } from './api';
 
+// TODO: break into smaller functions and reuse variables
+const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
+
 async function LoginValidation(
   email: string,
   password: string,
@@ -11,9 +16,6 @@ async function LoginValidation(
     admin: boolean,
   ) => void,
 ) {
-  const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
   if (!password || !email) {
     setError('empty');
     return 'empty';
@@ -37,9 +39,6 @@ async function RegisterValidation(
   setError: (a: string) => void,
 ) {
   const nameRegex = /^[a-z ,.'-]+/i;
-  const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
   if (!password || !email || !confirmPassword || !firstName || !lastName) {
     setError('empty');
     return 'empty';
@@ -70,8 +69,6 @@ async function RegisterValidation(
 }
 
 async function ForgotValidation(email: string, setError: (a: string) => void) {
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
   if (!email) {
     setError('empty');
     return 'empty';
@@ -95,9 +92,6 @@ async function ResetValidation(
   confirmPassword: string,
   setError: (a: string) => void,
 ) {
-  const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
   if (!password || !email || !confirmPassword) {
     setError('empty');
     return 'empty';
@@ -123,9 +117,17 @@ async function ResetValidation(
   return '';
 }
 
+async function EmailValidation(email: string, setError: (a: string) => void) {
+  if (!email.match(emailRegex)) {
+    setError('badEmail');
+    return 'badEmail';
+  }
+}
+
 export {
   LoginValidation,
   RegisterValidation,
   ForgotValidation,
   ResetValidation,
+  EmailValidation,
 };

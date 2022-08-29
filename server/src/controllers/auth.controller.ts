@@ -1,7 +1,9 @@
 import express from 'express';
 import passport from 'passport';
+import crypto from 'crypto';
 import { IUser } from '../models/user';
 import { createUser, getUserByEmail } from '../services/user.service';
+import { emailResetPasswordLink } from '../services/mail.service';
 
 const login = async (
   req: express.Request,
@@ -85,4 +87,32 @@ const approve = async (req: express.Request, res: express.Response) => {
   res.sendStatus(200);
 };
 
-export { login, logout, register, approve };
+const sendResetPasswordEmail = async (
+  req: express.Request,
+  res: express.Response,
+) => {
+  const { email } = req.body;
+  // Check if user exists
+  const user: IUser | null = await getUserByEmail(email);
+  if (user === null) {
+    res.status(400).send({
+      message: `No user with email ${email} is registered.`,
+    });
+  }
+
+  // Generate a token for the user for this reset link
+  const token = crypto.randomBytes(20).toString('hex');
+  user?.update({
+    resetPasswordToken: token,
+    resetPasswordExpires: Date.now() + 60 * 60 * 1000, // Expires in an hour
+  });
+
+  // Send the email and return an appropriate response
+  emailResetPasswordLink(email, token)
+    .then(() => res.sendStatus(201)) // TODO: should this be 200?
+    .catch((e) => {
+      res.status(e.code).send(e);
+    });
+};
+
+export { login, logout, register, sendResetPasswordEmail, approve };
