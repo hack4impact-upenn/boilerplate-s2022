@@ -29,6 +29,13 @@ const getUserByEmail = async (email: string) => {
   return user;
 };
 
+const getUserByVerificationToken = async (verificationToken: string) => {
+  const user = await User.findOne({ verificationToken })
+    .select(['-password'])
+    .exec();
+  return user;
+};
+
 const getUserById = async (id: string) => {
   const user = await User.findById(id).select(['-password']).exec();
   return user;
@@ -73,6 +80,7 @@ export {
   passwordHashSaltRounds,
   createUser,
   getUserByEmail,
+  getUserByVerificationToken,
   getUserById,
   getUserByEmailWithPassword,
   getUserByResetPasswordToken,

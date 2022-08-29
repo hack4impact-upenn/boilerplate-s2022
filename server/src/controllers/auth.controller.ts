@@ -8,8 +8,12 @@ import {
   createUser,
   getUserByEmail,
   getUserByResetPasswordToken,
+  getUserByVerificationToken,
 } from '../services/user.service';
-import { emailResetPasswordLink } from '../services/mail.service';
+import {
+  emailResetPasswordLink,
+  emailVerificationLink,
+} from '../services/mail.service';
 
 const login = async (
   req: express.Request,
@@ -33,6 +37,11 @@ const login = async (
       if (!user) {
         console.log('error logging in2');
         return res.status(401).send(info);
+      }
+      if (!user!.verified) {
+        return res.status(401).send({
+          message: 'Pending Account. Please verify by email.',
+        });
       }
       return req.logIn(user, function (error) {
         if (error) {
@@ -73,24 +82,47 @@ const register = async (req: express.Request, res: express.Response) => {
     res.status(400).send({ message: 'Already logged in' }); // Already logged in
   }
   // Check if user exists
-  const user: IUser | null = await getUserByEmail(email);
-  if (user) {
+  const existingUser: IUser | null = await getUserByEmail(email);
+  if (existingUser) {
     res.status(400).send({
       message: `User with email ${email} already has an account.`,
     });
     return;
   }
-  // Create user
-  createUser(firstName, lastName, email, password)
-    .then(() => res.sendStatus(201))
-    .catch((e) => {
-      console.log(e);
-      res.status(400).send({ message: e });
-    });
+
+  // Create user and send verification email
+  try {
+    const user = await createUser(firstName, lastName, email, password);
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    user!.verificationToken = verificationToken;
+    await user!.save();
+    await emailVerificationLink(email, verificationToken);
+    res.sendStatus(201);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 const approve = async (req: express.Request, res: express.Response) => {
   res.sendStatus(200);
+};
+
+const verifyAccount = async (req: express.Request, res: express.Response) => {
+  const { token } = req.body;
+  const user = await getUserByVerificationToken(token);
+  if (!user) {
+    res.status(400).send({
+      error: `Invalid verification token`,
+    });
+  }
+  user!.verificationToken = undefined;
+  user!.verified = true;
+  try {
+    await user!.save();
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send({ error: 'Unable to verify the user' });
+  }
 };
 
 const sendResetPasswordEmail = async (
@@ -107,7 +139,7 @@ const sendResetPasswordEmail = async (
   }
 
   // Generate a token for the user for this reset link
-  const token = crypto.randomBytes(20).toString('hex');
+  const token = crypto.randomBytes(32).toString('hex');
   user!.resetPasswordToken = token;
   user!.resetPasswordTokenExpiryDate = new Date(
     new Date().getTime() + 60 * 60 * 1000,
@@ -164,6 +196,7 @@ export {
   logout,
   register,
   approve,
+  verifyAccount,
   sendResetPasswordEmail,
   resetPassword,
 };

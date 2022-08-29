@@ -6,6 +6,7 @@ import {
   approve,
   sendResetPasswordEmail,
   resetPassword,
+  verifyAccount,
 } from '../controllers/auth.controller';
 import ensureAuthenticated from '../controllers/auth.middleware';
 import 'dotenv/config';
@@ -13,6 +14,8 @@ import 'dotenv/config';
 const router = express.Router();
 
 router.post('/register', register);
+
+router.post('/verify', verifyAccount);
 
 router.post('/login', login);
 

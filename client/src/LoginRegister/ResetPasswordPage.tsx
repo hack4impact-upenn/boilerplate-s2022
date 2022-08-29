@@ -29,12 +29,10 @@ function ResetPage() {
       );
       if (successful) {
         navigate('/');
-      } else {
-        alert('fail');
+        return;
       }
-    } else {
-      alert('fail');
     }
+    alert('fail');
   }
 
   return (
