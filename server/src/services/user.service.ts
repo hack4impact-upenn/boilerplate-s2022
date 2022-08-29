@@ -1,20 +1,19 @@
 import { hash } from 'bcrypt';
-import { User, AuthenticationType } from '../models/user';
+import { User } from '../models/user';
 
+const passwordHashSaltRounds = 10;
 const createUser = async (
   firstName: string,
   lastName: string,
   email: string,
   password: string,
 ) => {
-  const saltRounds = 10;
-  const hashedPassword = await hash(password, saltRounds);
+  const hashedPassword = await hash(password, passwordHashSaltRounds);
   if (!hashedPassword) {
     console.log('Error hashing password');
     return null;
   }
   const newUser = new User({
-    accountType: AuthenticationType.Internal,
     firstName,
     lastName,
     email,
@@ -26,28 +25,30 @@ const createUser = async (
 };
 
 const getUserByEmail = async (email: string) => {
-  const user = await User.findOne({ email })
-    .select(['-password', '-accountType'])
-    .exec();
+  const user = await User.findOne({ email }).select(['-password']).exec();
   return user;
 };
 
 const getUserById = async (id: string) => {
-  const user = await User.findById(id)
-    .select(['-password', '-accountType'])
-    .exec();
+  const user = await User.findById(id).select(['-password']).exec();
+  return user;
+};
+
+const getUserByResetPasswordToken = async (resetPasswordToken: string) => {
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordTokenExpiryDate: { $gt: Date.now() },
+  }).exec();
   return user;
 };
 
 const getUserByEmailWithPassword = async (email: string) => {
-  const user = await User.findOne({ email }).select(['-accountType']).exec();
+  const user = await User.findOne({ email }).exec();
   return user;
 };
 
 const getAllUsersFromDB = async () => {
-  const userList = await User.find({})
-    .select(['-password', '-accountType'])
-    .exec();
+  const userList = await User.find({}).select(['-password']).exec();
   return userList;
 };
 
@@ -69,10 +70,12 @@ const deleteUserById = async (id: string) => {
 };
 
 export {
+  passwordHashSaltRounds,
   createUser,
   getUserByEmail,
   getUserById,
   getUserByEmailWithPassword,
+  getUserByResetPasswordToken,
   getAllUsersFromDB,
   toggleAdmin,
   deleteUserById,
