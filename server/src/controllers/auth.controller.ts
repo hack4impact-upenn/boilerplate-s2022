@@ -31,11 +31,9 @@ const login = async (
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
       if (err) {
-        console.log('error logging in1');
         return res.status(400).send(err);
       }
       if (!user) {
-        console.log('error logging in2');
         return res.status(401).send(info);
       }
       if (!user!.verified) {
@@ -43,7 +41,7 @@ const login = async (
           message: 'Pending Account. Please verify by email.',
         });
       }
-      return req.logIn(user, function (error) {
+      return req.logIn(user, (error) => {
         if (error) {
           console.log('error logging in3');
           return next(err);
@@ -56,7 +54,6 @@ const login = async (
 
 const logout = async (req: express.Request, res: express.Response) => {
   if (!req.isAuthenticated()) {
-    console.log('not authenticated by passport');
     res.status(400).send({ message: 'Not logged in' });
     return;
   }
@@ -93,7 +90,7 @@ const register = async (req: express.Request, res: express.Response) => {
   // Create user and send verification email
   try {
     const user = await createUser(firstName, lastName, email, password);
-    // Only send verification email if not in testing mode
+    // Don't need verification email if testing
     if (process.env.NODE_ENV === 'test') {
       user!.verified = true;
       await user?.save();
