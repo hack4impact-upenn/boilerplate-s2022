@@ -7,21 +7,22 @@ import {
   FormHeaderText,
   ScreenGrid,
 } from '../components/grid';
-import { EmailValidation } from './inputValidation';
+import { emailInputIsValid } from './inputValidation';
 import { sendResetPasswordEmail } from './api';
 
 function ResetPasswordEmailPage() {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const navigate = useNavigate();
 
   async function sendResetEmail() {
-    await EmailValidation(email, setError);
-    if (error === 'badEmail') {
-      alert('Invalid email');
-    } else {
-      sendResetPasswordEmail(email);
-      navigate('/');
+    if (emailInputIsValid(email, setEmailError, setEmailErrorMessage)) {
+      sendResetPasswordEmail(email)
+        .then(() => {
+          navigate('/');
+        })
+        .catch((e) => alert(e.message));
     }
   }
 
@@ -33,7 +34,9 @@ function ResetPasswordEmailPage() {
         </FormField>
         <FormField>
           <TextField
-            id="email"
+            error={emailError}
+            helperText={emailErrorMessage}
+            type="Email"
             label="Email"
             required
             value={email}

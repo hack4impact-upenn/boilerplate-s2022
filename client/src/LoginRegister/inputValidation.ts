@@ -1,6 +1,13 @@
 import { login, register } from './api';
 
-// TODO: break into smaller functions and reuse variables
+// Descriptive error messages for various input validation errors
+enum ErrorMessage {
+  INVALID_PASSWORD = 'Password must have 6-61 characters',
+  INVALID_EMAIL = 'Invalid email addresss',
+  PASSWORD_MISMATCH = 'Passwords do not match',
+  MISSING = 'Missing entry',
+}
+
 const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
@@ -69,14 +76,15 @@ async function RegisterValidation(
 }
 
 /**
- * Validates the inputs for resetting a password
- * @param password
- * @param confirmPassword
- * @param setPasswordError
- * @param setConfirmPasswordError
- * @param setPasswordErrorMessage
- * @param setConfirmPasswordErrorMessage
- * @returns The status of the validation
+ * Validates the inputs for resetting a password and sets the appropriate
+ * error messages if needed
+ * @param password The inputted password
+ * @param confirmPassword The inputted password to confirm the original password
+ * @param setPasswordError A hook for setting the existence of an error with `password`
+ * @param setConfirmPasswordError A hook for setting the existence of an error with `confirmPassword`
+ * @param setPasswordErrorMessage A hook for setting the error message for `password`
+ * @param setConfirmPasswordErrorMessage A hook for setting the error message for `confirmassword`
+ * @returns The success of the validation check
  */
 function resetPasswordInputsAreValid(
   password: string,
@@ -93,37 +101,52 @@ function resetPasswordInputsAreValid(
 
   if (!password) {
     setPasswordError(true);
-    setPasswordErrorMessage('Missing entry');
+    setPasswordErrorMessage(ErrorMessage.MISSING);
     return false;
   }
   if (!confirmPassword) {
     setConfirmPasswordError(true);
-    setConfirmPasswordErrorMessage('Missing entry');
+    setConfirmPasswordErrorMessage(ErrorMessage.MISSING);
     return false;
   }
   if (!password.match(passwordRegex)) {
     setPasswordError(true);
-    setPasswordErrorMessage('Invalid password');
+    setPasswordErrorMessage(ErrorMessage.INVALID_PASSWORD);
     return false;
   }
   if (!(confirmPassword === password)) {
     setConfirmPasswordError(true);
-    setConfirmPasswordErrorMessage('Does not match password');
+    setConfirmPasswordErrorMessage(ErrorMessage.PASSWORD_MISMATCH);
     return false;
   }
   return true;
 }
 
-async function EmailValidation(email: string, setError: (a: string) => void) {
+/**
+ * Validates an email input and sets the appropriate error messages if needed
+ * @param email The inputted email
+ * @param setEmailError A hook for setting the existence of an error with `email`
+ * @param setEmailErrorMessage A hook for setting the error message for `email`
+ * @returns The success of the validataion check
+ */
+function emailInputIsValid(
+  email: string,
+  setEmailError: (exists: boolean) => void,
+  setEmailErrorMessage: (msg: string) => void,
+): boolean {
+  setEmailError(false);
+  setEmailErrorMessage('');
   if (!email.match(emailRegex)) {
-    setError('badEmail');
-    return 'badEmail';
+    setEmailError(true);
+    setEmailErrorMessage(ErrorMessage.INVALID_EMAIL);
+    return false;
   }
+  return true;
 }
 
 export {
   LoginValidation,
   RegisterValidation,
   resetPasswordInputsAreValid,
-  EmailValidation,
+  emailInputIsValid,
 };

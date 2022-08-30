@@ -40,7 +40,7 @@ function ResetPasswordPage() {
           navigate('/');
         })
         .catch((e) => {
-          alert(e.message);
+          alert(e.message); // TODO: change this to a better popup
         });
     }
   }
@@ -55,7 +55,6 @@ function ResetPasswordPage() {
           <TextField
             error={passwordError}
             helperText={passwordErrorMessage}
-            id="login-text"
             type="password"
             required
             label="New Password"
@@ -67,7 +66,6 @@ function ResetPasswordPage() {
           <TextField
             error={confirmPasswordError}
             helperText={confirmPasswordErrorMessage}
-            id="login-text"
             type="password"
             required
             label="Confirm Password"
