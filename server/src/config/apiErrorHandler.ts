@@ -16,7 +16,7 @@ const apiErrorHandler = (
   req: express.Request,
   res: express.Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  next: express.NextFunction,
+  next: express.NextFunction, // Need this param so express actually calls handler
 ) => {
   console.log(`got error ${err}`);
   if (err instanceof ApiError) {
@@ -24,9 +24,7 @@ const apiErrorHandler = (
     return;
   }
   // Generic error to return
-  res
-    .status(StatusCode.INTERNAL_SERVER_ERROR)
-    .send({ error: 'Something went wrong' });
+  res.status(StatusCode.INTERNAL_SERVER_ERROR).send({ error: err.message });
 };
 
 export default apiErrorHandler;

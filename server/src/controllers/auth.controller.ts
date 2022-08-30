@@ -15,6 +15,7 @@ import {
   emailResetPasswordLink,
   emailVerificationLink,
 } from '../services/mail.service';
+import ApiError from '../config/ApiError';
 
 const login = async (
   req: express.Request,
@@ -22,8 +23,10 @@ const login = async (
   next: express.NextFunction,
 ) => {
   if (req.isAuthenticated()) {
-    res.status(StatusCode.BAD_REQUEST).send({ message: 'Already logged in' });
+    next(ApiError.badRequest('Already logged in'));
+    return;
   }
+  // TODO: look more into when each of these errors are thrown
   passport.authenticate(
     ['local'],
     {
@@ -32,61 +35,74 @@ const login = async (
     // Callback function defined by passport strategy in configPassport.ts
     (err, user, info) => {
       if (err) {
-        return res.status(StatusCode.INTERNAL_SERVER_ERROR).send(err);
+        next(ApiError.internal('Failed to authenticate user.'));
+        return;
       }
       if (!user) {
-        return res.status(StatusCode.UNAUTHORIZED).send(info);
+        next(ApiError.badRequest('Incorrect credentials'));
+        return;
       }
       if (!user!.verified) {
-        return res.status(StatusCode.UNAUTHORIZED).send({
-          message: 'Pending Account. Please verify by email.',
-        });
+        next(ApiError.unauthorized('Need to verify account by email'));
+        return;
       }
-      return req.logIn(user, (error) => {
+      req.logIn(user, (error) => {
         if (error) {
-          console.log('error logging in3');
-          return next(err);
+          next(ApiError.internal('Failed to log in user'));
+          return;
         }
-        return res.status(StatusCode.OK).send(user);
+        res.status(StatusCode.OK).send(user);
       });
     },
   )(req, res, next);
 };
 
-const logout = async (req: express.Request, res: express.Response) => {
+const logout = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
   if (!req.isAuthenticated()) {
-    res.status(StatusCode.UNAUTHORIZED).send({ message: 'Not logged in' });
+    next(ApiError.unauthorized('Not logged in'));
     return;
   }
   // Logout with Passport which modifies the request object
   req.logout();
-  // Only if there is an active session.
+
+  // Destroy the session
   if (req.session) {
-    // Delete session object
     req.session.destroy((e) => {
       if (e) {
-        res
-          .status(StatusCode.INTERNAL_SERVER_ERROR)
-          .send({ message: 'Unable to log out', error: e });
+        next(ApiError.internal('Unable to logout properly'));
       } else {
-        res.send({ logout: true });
+        res.sendStatus(StatusCode.OK);
       }
     });
   }
 };
 
-const register = async (req: express.Request, res: express.Response) => {
+const register = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
   const { firstName, lastName, email, password } = req.body;
+  if (!firstName || !lastName || !email || !password) {
+    next(
+      ApiError.missingFields(['firstName', 'lastName', 'email', 'password']),
+    );
+    return;
+  }
 
   if (req.isAuthenticated()) {
-    res.status(StatusCode.BAD_REQUEST).send({ message: 'Already logged in' });
+    next(ApiError.badRequest('Already logged in.'));
+    return;
   }
+
   // Check if user exists
   const existingUser: IUser | null = await getUserByEmail(email);
   if (existingUser) {
-    res.status(StatusCode.BAD_REQUEST).send({
-      message: `User with email ${email} already has an account.`,
-    });
+    next(ApiError.badRequest(`An account with email ${email} aready exists.`));
     return;
   }
 
@@ -105,7 +121,7 @@ const register = async (req: express.Request, res: express.Response) => {
     }
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
-    res.status(StatusCode.INTERNAL_SERVER_ERROR).send(err);
+    next(ApiError.internal('Unable to register user.'));
   }
 };
 
@@ -113,13 +129,21 @@ const approve = async (req: express.Request, res: express.Response) => {
   res.sendStatus(StatusCode.OK);
 };
 
-const verifyAccount = async (req: express.Request, res: express.Response) => {
+const verifyAccount = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
   const { token } = req.body;
+  if (!token) {
+    next(ApiError.missingFields(['token']));
+    return;
+  }
+
   const user = await getUserByVerificationToken(token);
   if (!user) {
-    res.status(StatusCode.BAD_REQUEST).send({
-      error: `Invalid verification token`,
-    });
+    next(ApiError.badRequest('Invalid verification token.'));
+    return;
   }
   user!.verificationToken = undefined;
   user!.verified = true;
@@ -127,23 +151,25 @@ const verifyAccount = async (req: express.Request, res: express.Response) => {
     await user!.save();
     res.sendStatus(StatusCode.OK);
   } catch (err) {
-    res
-      .status(StatusCode.INTERNAL_SERVER_ERROR)
-      .send({ error: 'Unable to verify the user' });
+    next(ApiError.internal('Unable to verify the acccount.'));
   }
 };
 
 const sendResetPasswordEmail = async (
   req: express.Request,
   res: express.Response,
+  next: express.NextFunction,
 ) => {
   const { email } = req.body;
-  // Check if user exists
+  if (!email) {
+    next(ApiError.missingFields(['email']));
+    return;
+  }
+
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    res.status(StatusCode.NOT_FOUND).send({
-      message: `No user with email ${email} is registered.`,
-    });
+    next(ApiError.notFound(`No user with email ${email} is registered.`));
+    return;
   }
 
   // Generate a token for the user for this reset link
@@ -159,21 +185,27 @@ const sendResetPasswordEmail = async (
     .then(() =>
       res.status(StatusCode.CREATED).send({
         message: `Reset link has been sent to ${email}`,
-        token,
       }),
     ) // TODO: should this code be OK?
     .catch((e) => {
-      res.status(e.code).send(e);
+      next(ApiError.internal('Failed to email reset password link.'));
     });
 };
 
-const resetPassword = async (req: express.Request, res: express.Response) => {
+const resetPassword = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
   const { password, token } = req.body;
+  if (!password || !token) {
+    next(ApiError.missingFields(['password', 'token']));
+    return;
+  }
+
   const user: IUser | null = await getUserByResetPasswordToken(token);
   if (!user) {
-    res
-      .status(StatusCode.UNPROCESSABLE_ENTITY)
-      .send({ error: 'Reset password token expired or incorect.' });
+    next(ApiError.badRequest('Invalid reset password token.'));
     return;
   }
 
@@ -182,10 +214,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
   try {
     hashedPassword = await hash(password, passwordHashSaltRounds);
   } catch (err) {
-    console.log(`Error hashing new password, ${err}`);
-    res
-      .status(StatusCode.INTERNAL_SERVER_ERROR)
-      .send({ error: 'Unable to set new password securely.' });
+    next(ApiError.internal('Unable to reset the password'));
     return;
   }
 
@@ -197,9 +226,7 @@ const resetPassword = async (req: express.Request, res: express.Response) => {
     await user.save();
     res.sendStatus(StatusCode.OK);
   } catch (err) {
-    res
-      .status(StatusCode.INTERNAL_SERVER_ERROR)
-      .send({ error: 'Unable to set new password.' });
+    next(ApiError.internal('Unable to reset the password'));
   }
 };
 

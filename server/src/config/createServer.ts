@@ -80,7 +80,7 @@ const createServer = (): express.Express => {
   // Handles all non matched routes
   app.use((req, res, next) => {
     console.log('missing endpoint');
-    next(new ApiError(StatusCode.NOT_FOUND, 'Endpoint does not exist'));
+    next(ApiError.notFound('Endpoint unavailable'));
   });
 
   // The custom error handler to use

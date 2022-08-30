@@ -1,9 +1,8 @@
 import express from 'express';
-import StatusCode from '../config/StatusCode';
+import ApiError from '../config/ApiError';
 
 /**
  * Middleware to check if a user is authenticated using any Passport Strategy
- * and handles redirecting to login page if not authenticated.
  */
 const ensureAuthenticated = (
   req: express.Request,
@@ -11,9 +10,10 @@ const ensureAuthenticated = (
   next: express.NextFunction,
 ) => {
   if (req.isAuthenticated()) {
-    return next();
+    next(); // No params means go to the next non-error-handling middleware
+    return;
   }
-  return res.sendStatus(StatusCode.UNAUTHORIZED);
+  next(ApiError.unauthorized('Must be logged in.'));
 };
 
 export default ensureAuthenticated;

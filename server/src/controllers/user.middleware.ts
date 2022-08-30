@@ -1,10 +1,10 @@
 import express from 'express';
-import StatusCode from '../config/StatusCode';
+import ApiError from '../config/ApiError';
 import { IUser } from '../models/user';
 
 /**
  * Middleware to check if a user is an admin using Passport Strategy
- * and handles error if the user is not an admin.
+ * and creates an {@link ApiError} to pass on to error handlers if not
  */
 const isAdmin = (
   req: express.Request,
@@ -15,14 +15,14 @@ const isAdmin = (
   const user: IUser | null = req.user as IUser;
   // Check is user exists and is valid
   if (!user) {
-    res.status(StatusCode.NOT_FOUND).send({ message: 'not valid user' });
+    next(ApiError.unauthorized('Not a valid user.')); // TODO: see if this is the correct message
     return;
   }
   // Check if the user is an admin
   if (user.admin) {
     next();
   } else {
-    res.status(StatusCode.FORBIDDEN).send({ message: 'not admin' });
+    next(ApiError.unauthorized('Need admin status.'));
   }
 };
 

@@ -12,6 +12,7 @@ import 'dotenv/config';
 const router = express.Router();
 
 router.get('/all', ensureAuthenticated, isAdmin, getAllUsers);
+
 router.get('/adminstatus', ensureAuthenticated, isAdmin, getAllUsers);
 
 router.put('/promote', ensureAuthenticated, isAdmin, approve);
