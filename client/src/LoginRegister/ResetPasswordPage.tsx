@@ -10,27 +10,41 @@ import {
   FormField,
 } from '../components/grid';
 import { resetPassword } from './api';
+import AlertDialog from '../components/alertDialog';
 
+/**
+ * A page that allows users to reset their password by inputting a new password
+ * into a form.
+ */
 function ResetPasswordPage() {
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorExists, setPasswordErrorExists] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [confirmPasswordErrorExists, setConfirmPasswordErrorExists] =
+    useState(false);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState('');
 
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const alertTitle = 'Error';
+
   const { token } = useParams();
   const navigate = useNavigate();
+
+  const handleAlertClose = () => {
+    setShowAlert(false);
+  };
 
   async function makeResetCall() {
     if (
       resetPasswordInputsAreValid(
         password,
         confirmPassword,
-        setPasswordError,
-        setConfirmPasswordError,
+        setPasswordErrorExists,
+        setConfirmPasswordErrorExists,
         setPasswordErrorMessage,
         setConfirmPasswordErrorMessage,
       )
@@ -40,7 +54,8 @@ function ResetPasswordPage() {
           navigate('/');
         })
         .catch((e) => {
-          alert(e.message); // TODO: change this to a better popup
+          setAlertMessage(e.message);
+          setShowAlert(true);
         });
     }
   }
@@ -53,7 +68,7 @@ function ResetPasswordPage() {
         </FormField>
         <FormField>
           <TextField
-            error={passwordError}
+            error={passwordErrorExists}
             helperText={passwordErrorMessage}
             type="password"
             required
@@ -64,7 +79,7 @@ function ResetPasswordPage() {
         </FormField>
         <FormField>
           <TextField
-            error={confirmPasswordError}
+            error={confirmPasswordErrorExists}
             helperText={confirmPasswordErrorMessage}
             type="password"
             required
@@ -92,6 +107,13 @@ function ResetPasswordPage() {
           </MiniLinkText>
         </FormField>
       </FormGridCol>
+      {/* The alert that pops up */}
+      <AlertDialog
+        showAlert={showAlert}
+        title={alertTitle}
+        message={alertMessage}
+        onClose={handleAlertClose}
+      />
     </ScreenGrid>
   );
 }

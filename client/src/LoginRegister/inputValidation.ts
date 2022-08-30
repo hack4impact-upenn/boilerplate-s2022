@@ -5,12 +5,13 @@ enum ErrorMessage {
   INVALID_PASSWORD = 'Password must have 6-61 characters',
   INVALID_EMAIL = 'Invalid email addresss',
   PASSWORD_MISMATCH = 'Passwords do not match',
-  MISSING = 'Missing entry',
+  MISSING_INPUT = 'Missing input',
 }
 
 const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
+const nameRegex = /^[a-z ,.'-]+/i;
 
 async function LoginValidation(
   email: string,
@@ -45,7 +46,6 @@ async function RegisterValidation(
   confirmPassword: string,
   setError: (a: string) => void,
 ) {
-  const nameRegex = /^[a-z ,.'-]+/i;
   if (!password || !email || !confirmPassword || !firstName || !lastName) {
     setError('empty');
     return 'empty';
@@ -80,8 +80,8 @@ async function RegisterValidation(
  * error messages if needed
  * @param password The inputted password
  * @param confirmPassword The inputted password to confirm the original password
- * @param setPasswordError A hook for setting the existence of an error with `password`
- * @param setConfirmPasswordError A hook for setting the existence of an error with `confirmPassword`
+ * @param setPasswordErrorExists A hook for setting the existence of an error with `password`
+ * @param setConfirmPasswordErrorExists A hook for setting the existence of an error with `confirmPassword`
  * @param setPasswordErrorMessage A hook for setting the error message for `password`
  * @param setConfirmPasswordErrorMessage A hook for setting the error message for `confirmassword`
  * @returns The success of the validation check
@@ -89,33 +89,33 @@ async function RegisterValidation(
 function resetPasswordInputsAreValid(
   password: string,
   confirmPassword: string,
-  setPasswordError: (exists: boolean) => void,
-  setConfirmPasswordError: (exists: boolean) => void,
+  setPasswordErrorExists: (exists: boolean) => void,
+  setConfirmPasswordErrorExists: (exists: boolean) => void,
   setPasswordErrorMessage: (msg: string) => void,
   setConfirmPasswordErrorMessage: (msg: string) => void,
 ): boolean {
-  setPasswordError(false);
-  setConfirmPasswordError(false);
+  setPasswordErrorExists(false);
+  setConfirmPasswordErrorExists(false);
   setPasswordErrorMessage('');
   setConfirmPasswordErrorMessage('');
 
   if (!password) {
-    setPasswordError(true);
-    setPasswordErrorMessage(ErrorMessage.MISSING);
+    setPasswordErrorExists(true);
+    setPasswordErrorMessage(ErrorMessage.MISSING_INPUT);
     return false;
   }
   if (!confirmPassword) {
-    setConfirmPasswordError(true);
-    setConfirmPasswordErrorMessage(ErrorMessage.MISSING);
+    setConfirmPasswordErrorExists(true);
+    setConfirmPasswordErrorMessage(ErrorMessage.MISSING_INPUT);
     return false;
   }
   if (!password.match(passwordRegex)) {
-    setPasswordError(true);
+    setPasswordErrorExists(true);
     setPasswordErrorMessage(ErrorMessage.INVALID_PASSWORD);
     return false;
   }
   if (!(confirmPassword === password)) {
-    setConfirmPasswordError(true);
+    setConfirmPasswordErrorExists(true);
     setConfirmPasswordErrorMessage(ErrorMessage.PASSWORD_MISMATCH);
     return false;
   }
@@ -125,19 +125,19 @@ function resetPasswordInputsAreValid(
 /**
  * Validates an email input and sets the appropriate error messages if needed
  * @param email The inputted email
- * @param setEmailError A hook for setting the existence of an error with `email`
+ * @param setEmailErrorExists A hook for setting the existence of an error with `email`
  * @param setEmailErrorMessage A hook for setting the error message for `email`
  * @returns The success of the validataion check
  */
 function emailInputIsValid(
   email: string,
-  setEmailError: (exists: boolean) => void,
+  setEmailErrorExists: (exists: boolean) => void,
   setEmailErrorMessage: (msg: string) => void,
 ): boolean {
-  setEmailError(false);
+  setEmailErrorExists(false);
   setEmailErrorMessage('');
   if (!email.match(emailRegex)) {
-    setEmailError(true);
+    setEmailErrorExists(true);
     setEmailErrorMessage(ErrorMessage.INVALID_EMAIL);
     return false;
   }

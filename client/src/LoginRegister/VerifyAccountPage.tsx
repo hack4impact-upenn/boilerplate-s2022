@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, CircularProgress } from '@mui/material';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   MiniLinkText,
   FormHeaderText,
@@ -10,6 +10,11 @@ import {
 } from '../components/grid';
 import { verifyAccount } from './api';
 
+/**
+ * A page users visit to verify their account. Page should be accessed via
+ * a link sent to their email and the path should contain a token as a query
+ * param for this page to use to make the correct server request.
+ */
 function VerifyAccountPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
