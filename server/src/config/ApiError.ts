@@ -7,15 +7,19 @@ import StatusCode from './StatusCode';
 class ApiError extends Error {
   code: number;
 
+  additionalInfo: any;
+
   /**
    * The constructor for any type of {@link ApiError}
    * @param code The HTTP status code corrsponding to the error
    * @param message A message describing the error
+   * @param additionalInfo Any useful additional info to include in the error
    */
-  constructor(code: number, message: string) {
+  constructor(code: number, message: string, additionalInfo: any = {}) {
     super(message);
     this.code = code;
     this.message = message;
+    this.additionalInfo = additionalInfo;
   }
 
   //           Static functions for creating commonly used errors             //

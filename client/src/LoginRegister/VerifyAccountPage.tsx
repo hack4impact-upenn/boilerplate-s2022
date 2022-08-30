@@ -17,16 +17,12 @@ function VerifyAccountPage() {
 
   useEffect(() => {
     verifyAccount(token || 'missing token')
-      .then((res) => {
-        if (res.error) {
-          setMessage('Unable to verify account');
-          setLoading(false);
-        } else {
-          setMessage('Account successfully verified!');
-          setLoading(false);
-        }
+      .then(() => {
+        setMessage('Account successfully verified!');
+        setLoading(false);
       })
       .catch((e) => {
+        // Don't want to display server error message to the user
         setMessage('Unable to verify account');
         setLoading(false);
       });

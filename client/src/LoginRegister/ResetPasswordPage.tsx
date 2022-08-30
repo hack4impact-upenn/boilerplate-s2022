@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import { ResetValidation } from './inputValidation';
+import { resetPasswordInputsAreValid } from './inputValidation';
 import {
   MiniLinkText,
   FormHeaderText,
@@ -13,25 +13,36 @@ import { resetPassword } from './api';
 
 function ResetPasswordPage() {
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
+    useState('');
 
   const { token } = useParams();
   const navigate = useNavigate();
 
   async function makeResetCall() {
-    const result = await ResetValidation(password, confirmPassword, setError);
-    if (result === '') {
-      const successful = await resetPassword(
+    if (
+      resetPasswordInputsAreValid(
         password,
-        token || `missing token`,
-      );
-      if (successful) {
-        navigate('/');
-        return;
-      }
+        confirmPassword,
+        setPasswordError,
+        setConfirmPasswordError,
+        setPasswordErrorMessage,
+        setConfirmPasswordErrorMessage,
+      )
+    ) {
+      resetPassword(password, token || 'missing token')
+        .then(() => {
+          navigate('/');
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
     }
-    alert('fail');
   }
 
   return (
@@ -42,7 +53,8 @@ function ResetPasswordPage() {
         </FormField>
         <FormField>
           <TextField
-            error={error === 'empty' || error === 'badPassword'}
+            error={passwordError}
+            helperText={passwordErrorMessage}
             id="login-text"
             type="password"
             required
@@ -53,7 +65,8 @@ function ResetPasswordPage() {
         </FormField>
         <FormField>
           <TextField
-            error={error === 'empty' || error === 'mismatch'}
+            error={confirmPasswordError}
+            helperText={confirmPasswordErrorMessage}
             id="login-text"
             type="password"
             required

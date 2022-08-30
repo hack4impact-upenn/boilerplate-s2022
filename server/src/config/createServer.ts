@@ -8,9 +8,8 @@ import MongoStore from 'connect-mongo';
 import routers from '../routes/routers';
 import initializePassport from './configPassport';
 import 'dotenv/config';
-import apiErrorHandler from './apiErrorHandler';
+import apiErrorResponder from './apiErrorResponder';
 import ApiError from './ApiError';
-import StatusCode from './StatusCode';
 
 /**
  * Sets the session store of the express instance to use the mongoDB URI
@@ -79,12 +78,11 @@ const createServer = (): express.Express => {
 
   // Handles all non matched routes
   app.use((req, res, next) => {
-    console.log('missing endpoint');
     next(ApiError.notFound('Endpoint unavailable'));
   });
 
-  // The custom error handler to use
-  app.use(apiErrorHandler);
+  // Sets the error handler to use for all errors passed on by previous handlers
+  app.use(apiErrorResponder);
 
   return app;
 };

@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 interface ResolvedReq {
   data: any | null;
-  error: Error | unknown | null;
+  error: Error | any | null;
 }
 
 async function resolve(promise: Promise<any>) {
@@ -19,9 +19,17 @@ async function resolve(promise: Promise<any>) {
     const res = await promise;
     resolved.data = res.data;
   } catch (e) {
-    resolved.error = e;
+    // Attaches error so description is accessed at resolved.error.message
+    const err: Error | any = e;
+    if (err.response) {
+      // Handles populating error with data from an error thrown by the server
+      resolved.error = err.response;
+      resolved.error.message = err.response.data.message;
+    } else {
+      // Handles case for axios errors
+      resolved.error = err;
+    }
   }
-
   return resolved;
 }
 
@@ -54,6 +62,7 @@ const useData = (url: string) => {
 
 async function postData(url: string, data = {}) {
   const response = await resolve(axios.post(`${URLPREFIX}/${url}`, data));
+  console.log(`post res is ${response}`);
   return response;
 }
 

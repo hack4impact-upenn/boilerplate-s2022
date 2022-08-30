@@ -68,26 +68,50 @@ async function RegisterValidation(
   return '';
 }
 
-async function ResetValidation(
+/**
+ * Validates the inputs for resetting a password
+ * @param password
+ * @param confirmPassword
+ * @param setPasswordError
+ * @param setConfirmPasswordError
+ * @param setPasswordErrorMessage
+ * @param setConfirmPasswordErrorMessage
+ * @returns The status of the validation
+ */
+function resetPasswordInputsAreValid(
   password: string,
   confirmPassword: string,
-  setError: (a: string) => void,
-) {
-  if (!password || !confirmPassword) {
-    setError('empty');
-    return 'empty';
+  setPasswordError: (exists: boolean) => void,
+  setConfirmPasswordError: (exists: boolean) => void,
+  setPasswordErrorMessage: (msg: string) => void,
+  setConfirmPasswordErrorMessage: (msg: string) => void,
+): boolean {
+  setPasswordError(false);
+  setConfirmPasswordError(false);
+  setPasswordErrorMessage('');
+  setConfirmPasswordErrorMessage('');
+
+  if (!password) {
+    setPasswordError(true);
+    setPasswordErrorMessage('Missing entry');
+    return false;
+  }
+  if (!confirmPassword) {
+    setConfirmPasswordError(true);
+    setConfirmPasswordErrorMessage('Missing entry');
+    return false;
   }
   if (!password.match(passwordRegex)) {
-    setError('badPassword');
-    return 'badPassword';
+    setPasswordError(true);
+    setPasswordErrorMessage('Invalid password');
+    return false;
   }
   if (!(confirmPassword === password)) {
-    setError('mismatch');
-    return 'mismatch';
+    setConfirmPasswordError(true);
+    setConfirmPasswordErrorMessage('Does not match password');
+    return false;
   }
-
-  setError('');
-  return '';
+  return true;
 }
 
 async function EmailValidation(email: string, setError: (a: string) => void) {
@@ -100,6 +124,6 @@ async function EmailValidation(email: string, setError: (a: string) => void) {
 export {
   LoginValidation,
   RegisterValidation,
-  ResetValidation,
+  resetPasswordInputsAreValid,
   EmailValidation,
 };
