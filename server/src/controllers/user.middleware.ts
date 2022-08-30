@@ -1,5 +1,5 @@
 import express from 'express';
-import StatusCode from '../config/statusCodes';
+import StatusCode from '../config/StatusCode';
 import { IUser } from '../models/user';
 
 /**

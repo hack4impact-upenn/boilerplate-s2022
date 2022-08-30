@@ -3,7 +3,7 @@ import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
 import { IUser } from '../models/user';
-import StatusCode from '../config/statusCodes';
+import StatusCode from '../config/StatusCode';
 import {
   passwordHashSaltRounds,
   createUser,

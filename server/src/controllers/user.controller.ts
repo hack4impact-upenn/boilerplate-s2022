@@ -1,5 +1,5 @@
 import express from 'express';
-import StatusCode from '../config/statusCodes';
+import StatusCode from '../config/StatusCode';
 import { IUser } from '../models/user';
 import {
   toggleAdmin,
@@ -28,13 +28,12 @@ const upgradePrivilege = async (
   const { email } = req.body;
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(StatusCode.BAD_REQUEST).send({
+    return res.status(StatusCode.NOT_FOUND).send({
       message: `User with email ${email} does not exist.`,
     });
   }
 
   if (user.admin) {
-    console.log('here1');
     return res.status(StatusCode.BAD_REQUEST).send({
       message: `user is already admin`,
     });
@@ -54,7 +53,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
   // check if user to delete is an admin
   const user: IUser | null = await getUserByEmail(email);
   if (!user) {
-    return res.status(StatusCode.BAD_REQUEST).send({
+    return res.status(StatusCode.NOT_FOUND).send({
       message: `User to delete does not exist`,
     });
   }
@@ -75,7 +74,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
 
   if (user.admin) {
     return res
-      .status(StatusCode.BAD_REQUEST)
+      .status(StatusCode.FORBIDDEN)
       .send({ message: 'Cannot delete an admin' });
   }
   // Delete user

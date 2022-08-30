@@ -1,5 +1,5 @@
 import express from 'express';
-import StatusCode from '../config/statusCodes';
+import StatusCode from '../config/StatusCode';
 
 /**
  * Middleware to check if a user is authenticated using any Passport Strategy
