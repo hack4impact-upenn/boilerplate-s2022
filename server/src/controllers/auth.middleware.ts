@@ -3,6 +3,7 @@ import ApiError from '../config/ApiError';
 
 /**
  * Middleware to check if a user is authenticated using any Passport Strategy
+ * and creates an {@link ApiError} to pass on to error handlers if not
  */
 const ensureAuthenticated = (
   req: express.Request,

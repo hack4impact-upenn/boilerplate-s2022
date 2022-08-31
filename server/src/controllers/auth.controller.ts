@@ -33,6 +33,7 @@ const login = async (
       failureMessage: true,
     },
     // Callback function defined by passport strategy in configPassport.ts
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (err, user, info) => {
       if (err) {
         next(ApiError.internal('Failed to authenticate user.'));
@@ -187,7 +188,7 @@ const sendResetPasswordEmail = async (
         message: `Reset link has been sent to ${email}`,
       }),
     ) // TODO: should this code be OK?
-    .catch((e) => {
+    .catch(() => {
       next(ApiError.internal('Failed to email reset password link.'));
     });
 };
