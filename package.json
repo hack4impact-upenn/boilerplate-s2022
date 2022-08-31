@@ -18,12 +18,6 @@
     "client": "cd client && yarn start",
     "lint": "eslint --quiet --fix '*/**/*.{js,ts,tsx}'",
     "prettier-check": "prettier --check '*/**/*.{js,ts,tsx}'",
-    "lint-staged": {
-      "*/**/*.{js,ts,tsx}": [
-        "eslint --quiet --fix",
-        "prettier --write"
-      ]
-    },
     "format": "prettier --write '*/**/*.{js,ts,tsx}'",
     "test": "cd server && yarn test"
   },
