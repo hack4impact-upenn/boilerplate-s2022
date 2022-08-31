@@ -4,17 +4,19 @@
   "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
   "license": "MIT",
   "private": true,
+  "lint-staged": {
+    "*/**/*.{js,ts,tsx}": "prettier --check"
+  },
   "workspaces": [
     "client",
     "server"
   ],
   "scripts": {
     "setup": "yarn install",
-    "prepare": "yarn husky install",
     "clean": "rm -rf node_modules && cd client && yarn clean && cd ../server && yarn clean",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "server": "cd server && yarn start",
-    "postinstall": "echo \"Package install attempted in global directory\"",
+    "postinstall": "husky install && echo \"Package install attempted in global directory\"",
     "client": "cd client && yarn start",
     "lint": "eslint --quiet --fix '*/**/*.{js,ts,tsx}'",
     "prettier-check": "prettier --check '*/**/*.{js,ts,tsx}'",
