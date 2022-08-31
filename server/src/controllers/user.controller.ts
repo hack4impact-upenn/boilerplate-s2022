@@ -81,7 +81,7 @@ const deleteUser = async (
     return;
   }
   if (user.admin) {
-    next(ApiError.forbiden('Cannot delete an admin.'));
+    next(ApiError.forbidden('Cannot delete an admin.'));
     return;
   }
 

@@ -39,7 +39,7 @@ const login = async (
         return;
       }
       if (!user) {
-        next(ApiError.badRequest('Incorrect credentials'));
+        next(ApiError.unauthorized('Incorrect credentials'));
         return;
       }
       if (!user!.verified) {

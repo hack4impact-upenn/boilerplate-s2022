@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { createServer, setExpressSession } from '../../config/createServer';
+import StatusCode from '../../config/StatusCode';
 import { User } from '../../models/user';
 
 const app = createServer(); // instantiate express app
@@ -8,16 +9,18 @@ const agent = request.agent(server); // instantiate supertest agent
 
 const testEmail = 'example@gmail.com';
 const testPassword = '123456';
+const testFirstName = 'testFirst';
+const testLastName = 'testLast';
 
 beforeAll(async () => {
   setExpressSession(app); // reset session to use mock db for storage
 });
 
-it('logging out before logging in should return a 400', async () => {
+it('logging out before logging in should return a 401', async () => {
   const response = await agent!.post('/api/auth/logout');
   console.log('got response: ', response.body);
   console.log('got status', response.status);
-  expect(response.status).toBe(400);
+  expect(response.status).toBe(StatusCode.UNAUTHORIZED);
 });
 
 it('registering new user issues 201 status code and registering existing user issues 400 status code', async () => {
@@ -25,6 +28,8 @@ it('registering new user issues 201 status code and registering existing user is
   let response = await agent.post('/api/auth/register').send({
     email: testEmail,
     password: testPassword,
+    firstName: testFirstName,
+    lastName: testLastName,
   });
   expect(response.status).toBe(201);
   // Check for user in db
@@ -36,6 +41,8 @@ it('registering new user issues 201 status code and registering existing user is
   response = await agent.post('/api/auth/register').send({
     email: testEmail,
     password: testPassword,
+    firstName: testFirstName,
+    lastName: testLastName,
   });
   expect(response.status).toBe(400);
 });
@@ -45,6 +52,8 @@ it('successful login should give 200 status code and create session', async () =
   let response = await agent.post('/api/auth/register').send({
     email: testEmail,
     password: testPassword,
+    firstName: testFirstName,
+    lastName: testLastName,
   });
   expect(response.status).toBe(201);
   // Login user and expect 200
@@ -61,6 +70,8 @@ it('incorect password should give 401 status', async () => {
   let response = await agent.post('/api/auth/register').send({
     email: testEmail,
     password: testPassword,
+    firstName: testFirstName,
+    lastName: testLastName,
   });
   expect(response.status).toBe(201);
   // Check for user in db
@@ -80,6 +91,8 @@ it('test register, login, logout', async () => {
   let response = await agent.post('/api/auth/register').send({
     email: testEmail,
     password: testPassword,
+    firstName: testFirstName,
+    lastName: testLastName,
   });
   expect(response.status).toBe(201);
   // Check for user in db
