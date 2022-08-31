@@ -60,7 +60,7 @@ class ApiError extends Error {
    * @param message A message describing the error
    * @returns An {@link ApiError} with the appropriate status code
    */
-  static forbiden(message: string) {
+  static forbidden(message: string) {
     return new ApiError(StatusCode.FORBIDDEN, message);
   }
 

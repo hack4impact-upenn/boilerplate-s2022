@@ -1,0 +1,4 @@
+{
+  "*/**/*.{js,ts,tsx}": "prettier --check",
+  "*/**/*.{js,ts,tsx}": "eslint --quiet"
+}

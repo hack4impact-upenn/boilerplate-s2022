@@ -12,30 +12,12 @@ import apiErrorResponder from './apiErrorResponder';
 import ApiError from './ApiError';
 
 /**
- * Sets the session store of the express instance to use the mongoDB URI
- * specified by the curreent environment variables.
- * @param app The express instance to set the express-session of.
+ * Creates an express instance with the appropriate routes and middleware
+ * for the project.
+ * @param sessionStore The {@link MongoStore} to use to store user sessions
+ * @returns The configured {@link express.Express} instance
  */
-const setExpressSession = (app: express.Express): void => {
-  console.log(
-    'process.env.ATLAS_URI in resetSessionStore: ',
-    process.env.ATLAS_URI,
-  );
-  app.use(
-    session({
-      secret: process.env.COOKIE_SECRET || 'mysecretkey',
-      resave: false, // don't save session if unmodified
-      saveUninitialized: false, // don't create session until something stored
-      store: new MongoStore({ mongoUrl: process.env.ATLAS_URI }), // use MongoDB to store session info
-      cookie: {
-        maxAge:
-          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
-      },
-    }),
-  );
-};
-
-const createServer = (): express.Express => {
+const createExpressApp = (sessionStore: MongoStore): express.Express => {
   const app = express();
 
   // Set up passport and strategies
@@ -57,7 +39,18 @@ const createServer = (): express.Express => {
   app.use(cookieParser(process.env.COOKIE_SECRET));
 
   // Use express-session to maintain sessions
-  setExpressSession(app);
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET || 'mysecretkey',
+      resave: false, // don't save session if unmodified
+      saveUninitialized: false, // don't create session until something stored
+      store: sessionStore, // use MongoDB to store session info
+      cookie: {
+        maxAge:
+          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+      },
+    }),
+  );
 
   // Init passport on every route call and allow it to use "express-session"
   app.use(passport.initialize());
@@ -87,4 +80,4 @@ const createServer = (): express.Express => {
   return app;
 };
 
-export { createServer, setExpressSession };
+export default createExpressApp;

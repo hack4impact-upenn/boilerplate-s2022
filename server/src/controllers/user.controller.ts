@@ -14,13 +14,16 @@ const getAllUsers = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  return getAllUsersFromDB()
-    .then((userList) => {
-      res.status(StatusCode.OK).send(userList);
-    })
-    .catch((e) => {
-      next(ApiError.internal('Unable to retrieve all users'));
-    });
+  return (
+    getAllUsersFromDB()
+      .then((userList) => {
+        res.status(StatusCode.OK).send(userList);
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch((e) => {
+        next(ApiError.internal('Unable to retrieve all users'));
+      })
+  );
 };
 
 const upgradePrivilege = async (
@@ -48,6 +51,7 @@ const upgradePrivilege = async (
     .then(() => {
       res.sendStatus(StatusCode.OK);
     })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .catch((e) => {
       next(ApiError.internal('Unable to upgrade user to admin.'));
     });
@@ -81,12 +85,13 @@ const deleteUser = async (
     return;
   }
   if (user.admin) {
-    next(ApiError.forbiden('Cannot delete an admin.'));
+    next(ApiError.forbidden('Cannot delete an admin.'));
     return;
   }
 
   deleteUserById(user._id)
     .then(() => res.sendStatus(StatusCode.OK))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .catch((e) => {
       next(ApiError.internal('Failed to delete user.'));
     });

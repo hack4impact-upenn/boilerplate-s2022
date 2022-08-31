@@ -62,7 +62,6 @@ const useData = (url: string) => {
 
 async function postData(url: string, data = {}) {
   const response = await resolve(axios.post(`${URLPREFIX}/${url}`, data));
-  console.log(`post res is ${response}`);
   return response;
 }
 
