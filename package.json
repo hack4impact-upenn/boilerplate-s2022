@@ -4,9 +4,6 @@
   "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
   "license": "MIT",
   "private": true,
-  "lint-staged": {
-    "*/**/*.{js,ts,tsx}": "prettier --check"
-  },
   "workspaces": [
     "client",
     "server"
@@ -18,6 +15,8 @@
     "server": "cd server && yarn start",
     "postinstall": "husky install && echo \"Package install attempted in global directory\"",
     "client": "cd client && yarn start",
+    "pre-commit": "yarn lint-staged",
+    "pre-push": "echo \"hi\"",
     "lint": "eslint --quiet --fix '*/**/*.{js,ts,tsx}'",
     "prettier-check": "prettier --check '*/**/*.{js,ts,tsx}'",
     "format": "prettier --write '*/**/*.{js,ts,tsx}'",
