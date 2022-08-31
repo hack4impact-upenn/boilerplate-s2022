@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "setup": "yarn install",
+    "prepare": "yarn husky install",
     "clean": "rm -rf node_modules && cd client && yarn clean && cd ../server && yarn clean",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "server": "cd server && yarn start",
@@ -17,6 +18,12 @@
     "client": "cd client && yarn start",
     "lint": "eslint --quiet --fix '*/**/*.{js,ts,tsx}'",
     "prettier-check": "prettier --check '*/**/*.{js,ts,tsx}'",
+    "lint-staged": {
+      "*/**/*.{js,ts,tsx}": [
+        "eslint --quiet --fix",
+        "prettier --write"
+      ]
+    },
     "format": "prettier --write '*/**/*.{js,ts,tsx}'",
     "test": "cd server && yarn test"
   },
@@ -39,16 +46,18 @@
     "@types/babel__core": "^7.1.19",
     "@types/react-dom": "^17.0.14",
     "@types/styled-components": "^5.1.24",
-    "eslint": "^8.8.0",
-    "eslint-config-airbnb-typescript-prettier": "^5.0.0",
-    "prettier": "^2.5.1",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "^8.8.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.5.1",
     "ts-node-dev": "^1.1.8"
   }
 }
