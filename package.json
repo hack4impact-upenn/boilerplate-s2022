@@ -16,7 +16,7 @@
     "postinstall": "husky install && echo \"Package install attempted in global directory\"",
     "client": "cd client && yarn start",
     "pre-commit": "yarn lint-staged",
-    "pre-push": "echo push",
+    "pre-push": "echo \"push\"",
     "lint": "eslint --quiet --fix '*/**/*.{js,ts,tsx}'",
     "prettier-check": "prettier --check '*/**/*.{js,ts,tsx}'",
     "format": "prettier --write '*/**/*.{js,ts,tsx}'",
