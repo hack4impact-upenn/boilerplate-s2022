@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
+import { AnyChildren } from '../assets/types';
 
 interface StyledProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ interface StyledProps {
  * @returns
  */
 const MiniLinkTextStyled = styled(Typography)(() => ({
-  fontSize: '0.75em',
+  fontSize: '.75em',
 }));
 
 function MiniLinkText({ children }: StyledProps) {
@@ -32,17 +33,17 @@ const FormHeaderText = styled(Typography)({
 /**
  * This styles a the whole screen as a grid component, serves as a wrapper to ensure
  * that we know what role it plays, as well as height as the whole screen, spacing, and resizing
- * @param children, applies styling to the children of the component.
+ * @param children The {@link AnyChildren} representing the components of the screen.
  * @returns
  */
-function ScreenGrid({ children }: StyledProps) {
+function ScreenGrid({ children }: AnyChildren) {
   return (
     <Grid
       container
-      justifyContent="center"
       height="100vh"
-      flexDirection="column"
+      justifyContent="center"
       alignItems="center"
+      flexDirection="column"
     >
       {children}
     </Grid>

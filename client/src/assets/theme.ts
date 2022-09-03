@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import COLORS from './colors';
 import 'typeface-hk-grotesk';
 
+// https://github.com/hack4impact/chapter-website-template/blob/main/public/style.css
 const theme = createTheme({
   palette: {
     primary: {
@@ -60,6 +61,20 @@ const theme = createTheme({
         body: {
           letterSpacing: '0.3px',
           lineHeight: '1.5',
+        },
+        h1: {
+          fontWeight: 'bold !important',
+        },
+        h2: {
+          fontSize: '38px !important',
+          marginBottom: '32px !important',
+        },
+        h3: {
+          fontWeight: 'bold !important',
+          marginBottom: '10px',
+        },
+        h4: {
+          fontWeight: 'bold !important',
         },
       },
     },

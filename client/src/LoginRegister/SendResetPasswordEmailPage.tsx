@@ -1,92 +1,115 @@
 import React, { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { TextField, Button, Link } from '@mui/material';
-import {
-  MiniLinkText,
-  FormField,
-  FormGridCol,
-  FormHeaderText,
-  ScreenGrid,
-} from '../components/grid';
-import { emailInputIsValid } from './inputValidation';
+import { TextField, Button, Box, Typography, Link, Grid } from '@mui/material';
 import { sendResetPasswordEmail } from './api';
-import AlertDialog from '../components/alertDialog';
+import { ScreenGrid, MiniLinkText } from '../components/grid';
+import AlertDialog from '../components/AlertDialog';
+import FormGrid from '../components/FormGrid';
+import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 
 /**
  * A page allowing users to input their email so a reset password link can be
  * sent to them
  */
 function ResetPasswordEmailPage() {
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailErrorExists] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState('');
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const defaultShowErrors = {
+    email: false,
+    alert: false,
+  };
+  const defaultErrorMessages = {
+    email: '',
+    alert: '',
+  };
   const alertTitle = 'Error';
+
+  const [email, setEmail] = useState('');
+  const [showError, setShowErrorState] = useState(defaultShowErrors);
+  const [errorMessage, setErrorMessageState] = useState(defaultErrorMessages);
   const navigate = useNavigate();
 
-  const handleAlertClose = () => {
-    setShowAlert(false);
+  const setErrorMessage = (field: string, msg: string) => {
+    setErrorMessageState({
+      ...errorMessage,
+      [field]: msg,
+    });
+  };
+  const setShowError = (field: string, show: boolean) => {
+    setShowErrorState({
+      ...showError,
+      [field]: show,
+    });
   };
 
-  async function sendResetEmail() {
-    if (emailInputIsValid(email, setEmailErrorExists, setEmailErrorMessage)) {
+  const handleAlertClose = () => {
+    setShowError('alert', false);
+  };
+
+  const validateInputs = () => {
+    setShowErrorState(defaultShowErrors);
+    setErrorMessageState(defaultErrorMessages);
+    if (!email.match(emailRegex)) {
+      setErrorMessage('email', InputErrorMessage.INVALID_EMAIL);
+      setShowError('email', true);
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (validateInputs()) {
       sendResetPasswordEmail(email)
         .then(() => {
           navigate('/');
         })
         .catch((e) => {
-          setAlertMessage(e.message);
-          setShowAlert(true);
+          setErrorMessage('alert', e.message);
+          setShowError('alert', true);
         });
     }
-  }
+  };
 
   return (
     <ScreenGrid>
-      <FormGridCol>
-        <FormField>
-          <FormHeaderText>Reset your password</FormHeaderText>
-        </FormField>
-        <FormField>
+      <FormGrid>
+        <Grid item>
           <TextField
-            error={emailError}
-            helperText={emailErrorMessage}
+            value={email}
+            error={showError.email}
+            helperText={errorMessage.email}
+            onChange={(e) => setEmail(e.target.value)}
             type="Email"
             label="Email"
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
           />
-        </FormField>
-        <FormField>
+        </Grid>
+        <Grid item>
           <Button
             type="submit"
             variant="contained"
-            color="primary"
-            onClick={() => sendResetEmail()}
+            onClick={() => handleSubmit()}
           >
             Send Reset Link
           </Button>
-        </FormField>
-        <FormField>
+        </Grid>
+        <Grid item>
           <MiniLinkText>
             Back to{' '}
             <Link component={RouterLink} to="/login">
               Login
             </Link>
           </MiniLinkText>
-        </FormField>
-      </FormGridCol>
+        </Grid>
+      </FormGrid>
       {/* The alert that pops up */}
-      <AlertDialog
-        showAlert={showAlert}
-        title={alertTitle}
-        message={alertMessage}
-        onClose={handleAlertClose}
-      />
+      <Grid item>
+        <AlertDialog
+          showAlert={showError.alert}
+          title={alertTitle}
+          message={errorMessage.alert}
+          onClose={handleAlertClose}
+        />
+      </Grid>
     </ScreenGrid>
   );
 }

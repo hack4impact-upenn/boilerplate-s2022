@@ -29,12 +29,21 @@ interface AlertDialogProps {
  */
 function AlertDialog({ showAlert, title, message, onClose }: AlertDialogProps) {
   return (
-    <Dialog open={showAlert} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+    <Dialog
+      open={showAlert}
+      onClose={onClose}
+      sx={{
+        '& .MuiDialog-container': {
+          '& .MuiPaper-root': {
+            width: '100%',
+            maxWidth: '400px', // Set your width here
+          },
+        },
+      }}
+    >
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {message}
-        </DialogContentText>
+        <DialogContentText>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
