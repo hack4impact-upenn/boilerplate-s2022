@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, CircularProgress } from '@mui/material';
+import { Link, CircularProgress, Grid, Typography } from '@mui/material';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   MiniLinkText,
@@ -39,19 +39,17 @@ function VerifyAccountPage() {
     </ScreenGrid>
   ) : (
     <ScreenGrid>
-      <FormGridCol>
-        <FormField>
-          <FormHeaderText>{message}</FormHeaderText>
-        </FormField>
-        <FormField>
-          <MiniLinkText>
-            Back to{' '}
-            <Link component={RouterLink} to="/login">
-              Login
-            </Link>
-          </MiniLinkText>
-        </FormField>
-      </FormGridCol>
+      <Grid item>
+        <Typography variant="h5">{message}</Typography>
+      </Grid>
+      <Grid item>
+        <MiniLinkText>
+          Back to{' '}
+          <Link component={RouterLink} to="/login">
+            Login
+          </Link>
+        </MiniLinkText>
+      </Grid>
     </ScreenGrid>
   );
 }

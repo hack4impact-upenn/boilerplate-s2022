@@ -40,6 +40,7 @@ function ScreenGrid({ children }: AnyChildren) {
   return (
     <Grid
       container
+      spacing={1}
       height="100vh"
       justifyContent="center"
       alignItems="center"
