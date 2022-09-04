@@ -28,16 +28,16 @@ function ResetPasswordEmailPage() {
   const navigate = useNavigate();
 
   const setErrorMessage = (field: string, msg: string) => {
-    setErrorMessageState({
-      ...errorMessage,
-      [field]: msg,
-    });
+    setErrorMessageState((prevState) => ({
+      ...prevState,
+      ...{ [field]: msg },
+    }));
   };
   const setShowError = (field: string, show: boolean) => {
-    setShowErrorState({
-      ...showError,
-      [field]: show,
-    });
+    setShowErrorState((prevState) => ({
+      ...prevState,
+      ...{ [field]: show },
+    }));
   };
 
   const handleAlertClose = () => {
@@ -62,8 +62,8 @@ function ResetPasswordEmailPage() {
           navigate('/');
         })
         .catch((e) => {
-          setErrorMessage('alert', e.message);
           setShowError('alert', true);
+          setErrorMessage('alert', e.message);
         });
     }
   };
@@ -84,11 +84,7 @@ function ResetPasswordEmailPage() {
           />
         </Grid>
         <Grid item>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={() => handleSubmit()}
-          >
+          <Button type="submit" onClick={() => handleSubmit()}>
             Send Reset Link
           </Button>
         </Grid>
