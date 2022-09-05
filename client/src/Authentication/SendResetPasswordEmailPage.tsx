@@ -84,8 +84,10 @@ function ResetPasswordEmailPage() {
   return (
     <ScreenGrid>
       <FormGrid>
-        <Typography variant="h6">{title}</Typography>
         <FormCol>
+          <Grid item container justifyContent="center">
+            <Typography variant="h2">{title}</Typography>
+          </Grid>
           <Grid item>
             <TextField
               fullWidth
@@ -111,7 +113,7 @@ function ResetPasswordEmailPage() {
           </Grid>
           <Grid item container justifyContent="center">
             <Link component={RouterLink} to="/login">
-              Back toLogin
+              Back to Login
             </Link>
           </Grid>
         </FormCol>

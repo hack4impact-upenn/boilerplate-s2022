@@ -3,10 +3,8 @@ import { TextField, Link, Button, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
 import { login as loginRedux } from '../util/redux/slice';
-import MiniLinkText from '../components/MiniLinkText';
 import FormGrid from '../components/form/FormGrid';
 import FormCol from '../components/form/FormCol';
-import FormInputField from '../components/form/FormField';
 import FormRow from '../components/form/FormRow';
 import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import { loginUser } from './api';
@@ -132,8 +130,10 @@ function LoginPage() {
   return (
     <ScreenGrid>
       <FormGrid>
-        <Typography variant="h6">Welcome!</Typography>
         <FormCol>
+          <Grid item container justifyContent="center">
+            <Typography variant="h2">Welcome</Typography>
+          </Grid>
           <Grid item>
             <TextField
               fullWidth

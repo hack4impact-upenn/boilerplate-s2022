@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Link,
+  CircularProgress,
+  Grid,
+  Typography,
+  Button,
+} from '@mui/material';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import MiniLinkText from '../components/MiniLinkText';
 import { verifyAccount } from './api';
 import ScreenGrid from '../components/ScreenGrid';
 
@@ -35,15 +40,10 @@ function VerifyAccountPage() {
   ) : (
     <ScreenGrid>
       <Grid item>
-        <Typography variant="h5">{message}</Typography>
+        <Typography variant="h2">{message}</Typography>
       </Grid>
       <Grid item>
-        <MiniLinkText>
-          Back to{' '}
-          <Link component={RouterLink} to="/login">
-            Login
-          </Link>
-        </MiniLinkText>
+        <Button href="/login">Back to Login</Button>
       </Grid>
     </ScreenGrid>
   );

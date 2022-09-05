@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, TextField, Grid, Typography, Box } from '@mui/material';
+import { Link, TextField, Grid, Typography } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import FormCol from '../components/form/FormCol';
 import {
@@ -142,11 +142,14 @@ function RegisterPage() {
     }
   }
 
+  const title = "Let's get started";
   return (
     <ScreenGrid>
       <FormGrid>
-        <Typography variant="h6">Lets get started</Typography>
         <FormCol>
+          <Grid item container justifyContent="center">
+            <Typography variant="h2">{title}</Typography>
+          </Grid>
           <FormRow>
             <Grid item>
               <TextField

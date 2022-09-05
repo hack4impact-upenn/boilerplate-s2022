@@ -17,7 +17,7 @@ function FormCol({ children }: AnyChildren) {
       item
       container
       direction="column"
-      spacing={2}
+      rowSpacing={2}
       justifyContent="space-between"
     >
       <>{children}</>
