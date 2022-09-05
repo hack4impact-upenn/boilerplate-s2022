@@ -18,7 +18,6 @@ const PrimaryButton = styled(Button)<ButtonProps>(({ theme }) => ({
   textAlign: 'center',
   fontWeight: 'bold',
   background: COLORS.primaryBlue,
-  variant: 'contained',
 }));
 
 export default PrimaryButton;

@@ -10,7 +10,6 @@ import {
 } from '../util/redux/slice';
 import { logout as logoutApi, selfUpgrade } from './api';
 import ScreenGrid from '../components/ScreenGrid';
-import FormRow from '../components/form/FormRow';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 
 interface PromoteButtonProps {
@@ -41,7 +40,7 @@ function PromoteButton({
   );
 }
 
-function HomeView() {
+function HomePage() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
@@ -79,4 +78,4 @@ function HomeView() {
   );
 }
 
-export default HomeView;
+export default HomePage;
