@@ -18,8 +18,8 @@ function FormGrid({ children }: AnyChildren) {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      rowSpacing={2}
-      columnSpacing={1}
+      rowSpacing={3}
+      xs={4}
       fontSize="0.75em"
     >
       {children}

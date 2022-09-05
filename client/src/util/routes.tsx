@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Navigate, Route } from 'react-router-dom';
-import { useData } from '../util/api';
+import { useData } from './api';
 
 // const BACKENDURL = 'http://localhost:4000';
 

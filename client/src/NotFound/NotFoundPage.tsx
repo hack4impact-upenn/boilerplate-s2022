@@ -1,8 +1,5 @@
-import styled from 'styled-components';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Typography, Button, Grid } from '@mui/material';
-import COLORS from '../assets/colors';
 import ScreenGrid from '../components/ScreenGrid';
 
 function NotFoundPage() {
@@ -17,7 +14,7 @@ function NotFoundPage() {
         </Typography>
       </Grid>
       <Grid item>
-        <Button href="/" variant="text">
+        <Button href="/home" variant="text">
           Go To home
         </Button>
       </Grid>

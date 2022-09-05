@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, CircularProgress, Grid, Typography } from '@mui/material';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { MiniLinkText } from '../components/grid';
+import MiniLinkText from '../components/MiniLinkText';
 import { verifyAccount } from './api';
-import Gridd from '../components/ScreenGrid';
+import ScreenGrid from '../components/ScreenGrid';
 
 /**
  * A page users visit to verify their account. Page should be accessed via
@@ -29,11 +29,11 @@ function VerifyAccountPage() {
   }, [token]); // Only runs when there is a change in token
 
   return loading ? (
-    <Gridd>
+    <ScreenGrid>
       <CircularProgress />
-    </Gridd>
+    </ScreenGrid>
   ) : (
-    <Gridd>
+    <ScreenGrid>
       <Grid item>
         <Typography variant="h5">{message}</Typography>
       </Grid>
@@ -45,7 +45,7 @@ function VerifyAccountPage() {
           </Link>
         </MiniLinkText>
       </Grid>
-    </Gridd>
+    </ScreenGrid>
   );
 }
 

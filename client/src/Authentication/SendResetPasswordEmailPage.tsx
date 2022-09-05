@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Box, Typography, Link, Grid } from '@mui/material';
 import { sendResetPasswordEmail } from './api';
-import { MiniLinkText } from '../components/grid';
+import MiniLinkText from '../components/MiniLinkText';
 import AlertDialog from '../components/AlertDialog';
 import FormGrid from '../components/form/FormGrid';
 import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import PrimaryButton from '../components/buttons/PrimaryButton';
-import Gridd from '../components/ScreenGrid';
+import ScreenGrid from '../components/ScreenGrid';
+import FormHeader from '../components/form/FormHeader';
 /**
  * A page allowing users to input their email so a reset password link can be
  * sent to them
@@ -79,9 +80,13 @@ function ResetPasswordEmailPage() {
     }
   };
 
+  const title = "Let's get you back";
   return (
-    <Gridd>
+    <ScreenGrid>
       <FormGrid>
+        <Grid item>
+          <Typography variant="h6">{title}</Typography>
+        </Grid>
         <Grid item>
           <TextField
             value={email}
@@ -121,7 +126,7 @@ function ResetPasswordEmailPage() {
           onClose={handleAlertClose}
         />
       </Grid>
-    </Gridd>
+    </ScreenGrid>
   );
 }
 

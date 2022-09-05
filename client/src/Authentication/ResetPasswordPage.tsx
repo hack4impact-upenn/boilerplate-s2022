@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button, Grid } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import { MiniLinkText } from '../components/grid';
+import MiniLinkText from '../components/MiniLinkText';
 import { resetPassword } from './api';
 import FormGrid from '../components/form/FormGrid';
-import AlertDialog from '../components/AlertDialog';
 import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
+import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
-import Gridd from '../components/ScreenGrid';
+import ScreenGrid from '../components/ScreenGrid';
 /**
  * A page that allows users to reset their password by inputting a new password
  * into a form.
@@ -109,7 +109,7 @@ function ResetPasswordPage() {
   }
 
   return (
-    <Gridd>
+    <ScreenGrid>
       <FormGrid>
         <Grid item>
           <TextField
@@ -159,7 +159,7 @@ function ResetPasswordPage() {
         message={errorMessage.alert}
         onClose={handleAlertClose}
       />
-    </Gridd>
+    </ScreenGrid>
   );
 }
 

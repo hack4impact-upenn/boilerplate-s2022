@@ -3,7 +3,7 @@ import { TextField, Link, Button, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
 import { login as loginRedux } from '../util/redux/slice';
-import { MiniLinkText } from '../components/grid';
+import MiniLinkText from '../components/MiniLinkText';
 import FormGrid from '../components/form/FormGrid';
 import FormCol from '../components/form/FormCol';
 import FormInputField from '../components/form/FormField';
@@ -12,12 +12,14 @@ import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import { loginUser } from './api';
 import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
-import Gridd from '../components/ScreenGrid';
+import ScreenGrid from '../components/ScreenGrid';
 /**
  * A page allowing users to input their email and password to login. The default
  * starting page of the application
  */
 function LoginPage() {
+  const navigate = useNavigate();
+
   // Default values for state
   const defaultValues = {
     email: '',
@@ -117,6 +119,7 @@ function LoginPage() {
             user.lastName!,
             user.admin!,
           );
+          navigate('/home');
         })
         .catch((e) => {
           setShowError('alert', true);
@@ -126,13 +129,11 @@ function LoginPage() {
   }
 
   return (
-    <Gridd>
+    <ScreenGrid>
       <FormGrid>
         <FormCol>
           <Grid item>
-            <Typography component="h1" variant="h5">
-              Welcome
-            </Typography>
+            <Typography variant="h6">Welcome!</Typography>
           </Grid>
           <FormInputField>
             <TextField
@@ -193,7 +194,7 @@ function LoginPage() {
           onClose={handleAlertClose}
         />
       </Grid>
-    </Gridd>
+    </ScreenGrid>
   );
 }
 

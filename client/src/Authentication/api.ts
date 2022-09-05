@@ -8,7 +8,6 @@ import { postData } from '../util/api';
  * @throws An {@link Error} with a `messsage` field describing the issue in verifying
  */
 async function loginUser(email: string, password: string) {
-  console.log('in logging');
   const res = await postData('auth/login', {
     email,
     password,
@@ -32,12 +31,6 @@ async function verifyAccount(verificationToken: string) {
     throw Error(res.error.message);
   }
 }
-
-/**
- * Sends a request to the server to register a user for an account
- * @param verificationToken The token used to identify the verification attempt
- * @throws An {@link Error} with a `messsage` field describing the issue in verifying
- */
 
 /**
  * Sends a request to the server to register a user for an account

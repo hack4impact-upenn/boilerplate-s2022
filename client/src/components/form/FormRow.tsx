@@ -15,10 +15,10 @@ function FormRow({ children }: AnyChildren) {
     <Grid
       item
       container
-      flexDirection="row"
+      direction="row"
       alignItems="center"
-      justifyContent="center"
-      columnSpacing={2}
+      justifyContent="space-between"
+      width="1"
     >
       {children}
     </Grid>

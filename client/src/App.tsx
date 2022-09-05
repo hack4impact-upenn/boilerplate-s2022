@@ -16,16 +16,16 @@ import ResetPasswordPage from './Authentication/ResetPasswordPage';
 import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
 import VerifyAccountPage from './Authentication/VerifyAccountPage';
 
-import NotFoundPage from './NotFound/NotFoundPage';
+import NotFoundPage from './notFound/NotFoundPage';
 import HomeView from './home/HomeView';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
+import AdminDashboard from './adminDashboard/AdminDashboard';
 
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
   DynamicRedirect,
   AdminRoutesWrapper,
-} from './components/routes';
+} from './util/routes';
 
 function App() {
   return (

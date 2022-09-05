@@ -22,7 +22,7 @@ interface AlertDialogProps {
   onClose: () => void;
 }
 /**
- * A pop up {@link Dialog} for showing alerts
+ * A pop up {@link Dialog} for showing alerts (can be errors or just urgert info)
  * @param alertDialogProps The {@link AlertDialogProps} to provide information
  * about the alert and how to handle it being closed.
  * @returns The {@link Dialog} component to be used
@@ -32,11 +32,13 @@ function AlertDialog({ showAlert, title, message, onClose }: AlertDialogProps) {
     <Dialog
       open={showAlert}
       onClose={onClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
       sx={{
         '& .MuiDialog-container': {
           '& .MuiPaper-root': {
             width: '100%',
-            maxWidth: '400px', // Set your width here
+            maxWidth: '400px',
           },
         },
       }}

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
@@ -12,8 +13,14 @@ import { AnyChildren } from '../../assets/types';
  */
 function FormCol({ children }: AnyChildren) {
   return (
-    <Grid item container flexDirection="column" alignItems="center" spacing={1}>
-      {children}
+    <Grid
+      item
+      container
+      direction="column"
+      spacing={2}
+      justifyContent="space-between"
+    >
+      <>{children}</>
     </Grid>
   );
 }

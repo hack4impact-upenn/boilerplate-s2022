@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Link, TextField, Button, Grid } from '@mui/material';
+import { Link, TextField, Grid, Typography, Box } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-
-import { MiniLinkText, FormHeaderText } from '../components/grid';
 import FormCol from '../components/form/FormCol';
 import {
   emailRegex,
@@ -13,7 +11,9 @@ import {
 import { register } from './api';
 import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
-import Gridd from '../components/ScreenGrid';
+import ScreenGrid from '../components/ScreenGrid';
+import FormRow from '../components/form/FormRow';
+import FormGrid from '../components/form/FormGrid';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -143,97 +143,111 @@ function RegisterPage() {
   }
 
   return (
-    <Gridd>
-      <FormCol>
+    <ScreenGrid>
+      <FormGrid>
+        <Typography variant="h6">Lets get started</Typography>
+        <FormCol>
+          <FormRow>
+            <Grid item>
+              <TextField
+                fullWidth
+                error={showError.firstName}
+                helperText={errorMessage.firstName}
+                size="small"
+                type="text"
+                required
+                label="First Name"
+                value={values.firstName}
+                onChange={(e) => setValue('firstName', e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                fullWidth
+                error={showError.lastName}
+                helperText={errorMessage.lastName}
+                size="small"
+                type="text"
+                required
+                label="Last Name"
+                value={values.lastName}
+                onChange={(e) => setValue('lastName', e.target.value)}
+              />
+            </Grid>
+          </FormRow>
+          <FormRow>
+            <Grid item width="1">
+              <TextField
+                fullWidth
+                error={showError.email}
+                helperText={errorMessage.email}
+                size="small"
+                type="text"
+                required
+                label="Email"
+                value={values.email}
+                onChange={(e) => setValue('email', e.target.value)}
+              />
+            </Grid>
+          </FormRow>
+          <FormRow>
+            <Grid item>
+              <TextField
+                error={showError.password}
+                helperText={errorMessage.password}
+                size="small"
+                type="password"
+                required
+                label="Password"
+                value={values.password}
+                onChange={(e) => setValue('password', e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                fullWidth
+                error={showError.confirmPassword}
+                helperText={errorMessage.confirmPassword}
+                size="small"
+                type="password"
+                required
+                label=" Confirm Password"
+                value={values.confirmPassword}
+                onChange={(e) => setValue('confirmPassword', e.target.value)}
+              />
+            </Grid>
+          </FormRow>
+          <FormRow>
+            <Grid container justifyContent="center">
+              <PrimaryButton
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => handleSubmit()}
+              >
+                Register
+              </PrimaryButton>
+            </Grid>
+          </FormRow>
+          <FormRow>
+            <Grid container justifyContent="center">
+              <Link component={RouterLink} to="/login">
+                Back to Login
+              </Link>
+            </Grid>
+          </FormRow>
+        </FormCol>
+        {/* The alert that pops up */}
         <Grid item>
-          <TextField
-            error={showError.firstName}
-            helperText={errorMessage.firstName}
-            size="small"
-            type="text"
-            required
-            label="First Name"
-            value={values.firstName}
-            onChange={(e) => setValue('firstName', e.target.value)}
+          <AlertDialog
+            showAlert={showError.alert}
+            title={alertTitle}
+            message={errorMessage.alert}
+            onClose={handleAlertClose}
           />
         </Grid>
-        <Grid item>
-          <TextField
-            error={showError.lastName}
-            helperText={errorMessage.lastName}
-            size="small"
-            type="text"
-            required
-            label="Last Name"
-            value={values.lastName}
-            onChange={(e) => setValue('lastName', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            error={showError.email}
-            helperText={errorMessage.email}
-            size="small"
-            type="text"
-            required
-            label="Email"
-            value={values.email}
-            onChange={(e) => setValue('email', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            error={showError.password}
-            helperText={errorMessage.password}
-            size="small"
-            type="password"
-            required
-            label="Password"
-            value={values.password}
-            onChange={(e) => setValue('password', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            error={showError.confirmPassword}
-            helperText={errorMessage.confirmPassword}
-            size="small"
-            type="password"
-            required
-            label=" Confirm Password"
-            value={values.confirmPassword}
-            onChange={(e) => setValue('confirmPassword', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <PrimaryButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => handleSubmit()}
-          >
-            Register
-          </PrimaryButton>
-        </Grid>
-        <Grid item>
-          <MiniLinkText>
-            Back to{' '}
-            <Link component={RouterLink} to="/login">
-              Login
-            </Link>
-          </MiniLinkText>
-        </Grid>
-      </FormCol>
-      {/* The alert that pops up */}
-      <Grid item>
-        <AlertDialog
-          showAlert={showError.alert}
-          title={alertTitle}
-          message={errorMessage.alert}
-          onClose={handleAlertClose}
-        />
-      </Grid>
-    </Gridd>
+      </FormGrid>
+    </ScreenGrid>
   );
 }
 
