@@ -10,10 +10,10 @@ const theme = createTheme({
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
-      main: COLORS.primary,
+      main: COLORS.primaryBlue,
     },
     secondary: {
-      main: COLORS.secondary,
+      main: COLORS.secondarySeafoam,
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
@@ -40,22 +40,6 @@ const theme = createTheme({
     ].join(','),
   },
   components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          cursor: 'pointer',
-          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
-          borderRadius: '5px',
-          padding: '0.7rem 2rem',
-          border: 'none',
-          color: 'white',
-          textDecoration: 'none',
-          transition: 'box-shadow 0.2s ease 0s',
-          textAlign: 'center',
-          background: '#0069ca',
-        },
-      },
-    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {

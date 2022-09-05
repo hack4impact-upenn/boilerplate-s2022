@@ -3,7 +3,7 @@ import { TextField, Link, Button, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
 import { login as loginRedux } from '../util/redux/slice';
-import { MiniLinkText, ScreenGrid } from '../components/grid';
+import { MiniLinkText } from '../components/grid';
 import FormGrid from '../components/form/FormGrid';
 import FormCol from '../components/form/FormCol';
 import FormInputField from '../components/form/FormField';
@@ -11,7 +11,8 @@ import FormRow from '../components/form/FormRow';
 import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import { loginUser } from './api';
 import AlertDialog from '../components/AlertDialog';
-
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import Gridd from '../components/ScreenGrid';
 /**
  * A page allowing users to input their email and password to login. The default
  * starting page of the application
@@ -125,12 +126,12 @@ function LoginPage() {
   }
 
   return (
-    <ScreenGrid>
+    <Gridd>
       <FormGrid>
         <FormCol>
           <Grid item>
             <Typography component="h1" variant="h5">
-              Sign in
+              Welcome
             </Typography>
           </Grid>
           <FormInputField>
@@ -156,13 +157,13 @@ function LoginPage() {
             />
           </Grid>
           <Grid item>
-            <Button
+            <PrimaryButton
               type="submit"
               variant="contained"
               onClick={() => handleSubmit()}
             >
               Login
-            </Button>
+            </PrimaryButton>
           </Grid>
           <FormRow>
             <Grid item>
@@ -192,7 +193,7 @@ function LoginPage() {
           onClose={handleAlertClose}
         />
       </Grid>
-    </ScreenGrid>
+    </Gridd>
   );
 }
 

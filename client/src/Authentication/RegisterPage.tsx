@@ -1,31 +1,43 @@
 import React, { useState } from 'react';
-import { TextField, Link, Button, Grid } from '@mui/material';
-import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import { MiniLinkText, ScreenGrid } from '../components/grid';
-import { resetPassword } from './api';
-import FormGrid from '../components/form/FormGrid';
-import AlertDialog from '../components/AlertDialog';
-import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
+import { Link, TextField, Button, Grid } from '@mui/material';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
-/**
- * A page that allows users to reset their password by inputting a new password
- * into a form.
- */
-function ResetPasswordPage() {
-  const { token } = useParams();
+import { MiniLinkText, FormHeaderText } from '../components/grid';
+import FormCol from '../components/form/FormCol';
+import {
+  emailRegex,
+  InputErrorMessage,
+  nameRegex,
+  passwordRegex,
+} from '../util/inputvalidation';
+import { register } from './api';
+import AlertDialog from '../components/AlertDialog';
+import PrimaryButton from '../components/buttons/PrimaryButton';
+import Gridd from '../components/ScreenGrid';
+
+function RegisterPage() {
   const navigate = useNavigate();
 
   // Default values for state
   const defaultValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
     password: '',
     confirmPassword: '',
   };
   const defaultShowErrors = {
+    firstName: false,
+    lastName: false,
+    email: false,
     password: false,
     confirmPassword: false,
     alert: false,
   };
   const defaultErrorMessages = {
+    firstName: '',
+    lastName: '',
+    email: '',
     password: '',
     confirmPassword: '',
     alert: '',
@@ -36,6 +48,8 @@ function ResetPasswordPage() {
   const [values, setValueState] = useState(defaultValues);
   const [showError, setShowErrorState] = useState(defaultShowErrors);
   const [errorMessage, setErrorMessageState] = useState(defaultErrorMessages);
+  const [alertTitle, setAlertTitle] = useState('Error');
+  const [isRegistered, setRegistered] = useState(false);
 
   // Helper functions for changing only one field in a state object
   const setValue = (field: string, value: string) => {
@@ -57,6 +71,13 @@ function ResetPasswordPage() {
     }));
   };
 
+  const handleAlertClose = () => {
+    if (isRegistered) {
+      navigate('/login');
+    }
+    setShowError('alert', false);
+  };
+
   const clearErrorMessages = () => {
     setShowErrorState(defaultShowErrors);
     setErrorMessageState(defaultErrorMessages);
@@ -76,47 +97,98 @@ function ResetPasswordPage() {
       }
     }
 
+    if (!values.firstName.match(nameRegex)) {
+      setErrorMessage('firstName', InputErrorMessage.INVALID_NAME);
+      setShowError('firstName', true);
+      isValid = false;
+    }
+    if (!values.lastName.match(nameRegex)) {
+      setErrorMessage('lastName', InputErrorMessage.INVALID_NAME);
+      setShowError('lastName', true);
+      isValid = false;
+    }
+    if (!values.email.match(emailRegex)) {
+      setErrorMessage('email', InputErrorMessage.INVALID_EMAIL);
+      setShowError('email', true);
+      isValid = false;
+    }
     if (!values.password.match(passwordRegex)) {
       setErrorMessage('password', InputErrorMessage.INVALID_PASSWORD);
       setShowError('password', true);
       isValid = false;
     }
-    if (!(values.password === values.confirmPassword)) {
+    if (!(values.confirmPassword === values.password)) {
       setErrorMessage('confirmPassword', InputErrorMessage.PASSWORD_MISMATCH);
       setShowError('confirmPassword', true);
       isValid = false;
     }
-    return isValid;
-  };
 
-  const alertTitle = 'Error';
-  const handleAlertClose = () => {
-    setShowError('alert', false);
+    return isValid;
   };
 
   async function handleSubmit() {
     if (validateInputs()) {
-      resetPassword(values.password, token || 'missing token')
+      register(values.firstName, values.lastName, values.email, values.password)
         .then(() => {
-          navigate('/');
+          setShowError('alert', true);
+          setAlertTitle('');
+          setRegistered(true);
+          setErrorMessage('alert', 'Check email to verify account');
         })
         .catch((e) => {
-          setErrorMessage('alert', e.message);
           setShowError('alert', true);
+          setErrorMessage('alert', e.message);
         });
     }
   }
 
   return (
-    <ScreenGrid>
-      <FormGrid>
+    <Gridd>
+      <FormCol>
+        <Grid item>
+          <TextField
+            error={showError.firstName}
+            helperText={errorMessage.firstName}
+            size="small"
+            type="text"
+            required
+            label="First Name"
+            value={values.firstName}
+            onChange={(e) => setValue('firstName', e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            error={showError.lastName}
+            helperText={errorMessage.lastName}
+            size="small"
+            type="text"
+            required
+            label="Last Name"
+            value={values.lastName}
+            onChange={(e) => setValue('lastName', e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            error={showError.email}
+            helperText={errorMessage.email}
+            size="small"
+            type="text"
+            required
+            label="Email"
+            value={values.email}
+            onChange={(e) => setValue('email', e.target.value)}
+          />
+        </Grid>
         <Grid item>
           <TextField
             error={showError.password}
             helperText={errorMessage.password}
+            size="small"
             type="password"
             required
-            label="New Password"
+            label="Password"
             value={values.password}
             onChange={(e) => setValue('password', e.target.value)}
           />
@@ -125,22 +197,23 @@ function ResetPasswordPage() {
           <TextField
             error={showError.confirmPassword}
             helperText={errorMessage.confirmPassword}
+            size="small"
             type="password"
             required
-            label="Confirm Password"
+            label=" Confirm Password"
             value={values.confirmPassword}
             onChange={(e) => setValue('confirmPassword', e.target.value)}
           />
         </Grid>
         <Grid item>
-          <Button
+          <PrimaryButton
             type="submit"
             variant="contained"
             color="primary"
             onClick={() => handleSubmit()}
           >
-            Reset Password
-          </Button>
+            Register
+          </PrimaryButton>
         </Grid>
         <Grid item>
           <MiniLinkText>
@@ -150,16 +223,18 @@ function ResetPasswordPage() {
             </Link>
           </MiniLinkText>
         </Grid>
-      </FormGrid>
+      </FormCol>
       {/* The alert that pops up */}
-      <AlertDialog
-        showAlert={showError.alert}
-        title={alertTitle}
-        message={errorMessage.alert}
-        onClose={handleAlertClose}
-      />
-    </ScreenGrid>
+      <Grid item>
+        <AlertDialog
+          showAlert={showError.alert}
+          title={alertTitle}
+          message={errorMessage.alert}
+          onClose={handleAlertClose}
+        />
+      </Grid>
+    </Gridd>
   );
 }
 
-export default ResetPasswordPage;
+export default RegisterPage;

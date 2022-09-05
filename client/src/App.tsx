@@ -10,11 +10,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import theme from './assets/theme';
 import { store, persistor } from './util/redux/store';
 
-import LoginPage from './LoginRegister/LoginPage';
-import RegisterPage from './LoginRegister/RegisterPage';
-import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
-import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
-import VerifyAccountPage from './LoginRegister/VerifyAccountPage';
+import LoginPage from './Authentication/LoginPage';
+import RegisterPage from './Authentication/RegisterPage';
+import ResetPasswordPage from './Authentication/ResetPasswordPage';
+import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
+import VerifyAccountPage from './Authentication/VerifyAccountPage';
 
 import NotFoundPage from './NotFound/NotFoundPage';
 import HomeView from './home/HomeView';
