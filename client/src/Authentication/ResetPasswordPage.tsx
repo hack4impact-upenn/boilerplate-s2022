@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Link, Button, Grid } from '@mui/material';
+import { TextField, Link, Typography, Grid } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { resetPassword } from './api';
 import FormGrid from '../components/form/FormGrid';
@@ -7,6 +7,7 @@ import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
 import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import ScreenGrid from '../components/ScreenGrid';
+import FormCol from '../components/form/FormCol';
 /**
  * A page that allows users to reset their password by inputting a new password
  * into a form.
@@ -110,43 +111,51 @@ function ResetPasswordPage() {
   return (
     <ScreenGrid>
       <FormGrid>
-        <Grid item>
-          <TextField
-            error={showError.password}
-            helperText={errorMessage.password}
-            type="password"
-            required
-            label="New Password"
-            value={values.password}
-            onChange={(e) => setValue('password', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            error={showError.confirmPassword}
-            helperText={errorMessage.confirmPassword}
-            type="password"
-            required
-            label="Confirm Password"
-            value={values.confirmPassword}
-            onChange={(e) => setValue('confirmPassword', e.target.value)}
-          />
-        </Grid>
-        <Grid item>
-          <PrimaryButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => handleSubmit()}
-          >
-            Reset Password
-          </PrimaryButton>
-        </Grid>
-        <Grid item>
-          <Link component={RouterLink} to="/login">
-            Back to Login
-          </Link>
-        </Grid>
+        <FormCol>
+          <Grid item container justifyContent="center">
+            <Typography variant="h2">Excited to have you back!</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              error={showError.password}
+              helperText={errorMessage.password}
+              type="password"
+              required
+              label="New Password"
+              value={values.password}
+              onChange={(e) => setValue('password', e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              error={showError.confirmPassword}
+              helperText={errorMessage.confirmPassword}
+              type="password"
+              required
+              label="Confirm Password"
+              value={values.confirmPassword}
+              onChange={(e) => setValue('confirmPassword', e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <PrimaryButton
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => handleSubmit()}
+            >
+              Reset Password
+            </PrimaryButton>
+          </Grid>
+          <Grid item container justifyContent="center">
+            <Link component={RouterLink} to="/login">
+              Back to Login
+            </Link>
+          </Grid>
+        </FormCol>
       </FormGrid>
       {/* The alert that pops up */}
       <AlertDialog

@@ -60,7 +60,7 @@ function HomePage() {
     }
   };
 
-  const message = ` Welcome to Boilerplate, ${user.firstName} ${user.lastName}`;
+  const message = 'Welcome to Boilerplate';
   return (
     <ScreenGrid>
       <Typography variant="h2">{message}</Typography>
