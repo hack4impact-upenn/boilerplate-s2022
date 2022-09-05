@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import { AnyChildren } from '../assets/types';
 
 interface StyledProps {
@@ -28,6 +28,7 @@ function MiniLinkText({ children }: StyledProps) {
  */
 const FormHeaderText = styled(Typography)({
   fontSize: '1.2em',
+  variant: 'h3',
 });
 
 /**
@@ -40,31 +41,11 @@ function ScreenGrid({ children }: AnyChildren) {
   return (
     <Grid
       container
-      spacing={1}
+      xs={12}
       height="100vh"
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-    >
-      {children}
-    </Grid>
-  );
-}
-
-/**
- * This styles a form's components if we want them in a column, serves as a wrapper to ensure
- * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param children, applies styling to the children of the component.
- * @returns
- */
-function FormGridCol({ children }: StyledProps) {
-  return (
-    <Grid
-      container
-      justifyContent="center"
-      spacing={1.5}
-      flexDirection="column"
-      alignItems="center"
     >
       {children}
     </Grid>
@@ -94,25 +75,4 @@ function FormGridRow({ children }: StyledProps) {
   );
 }
 
-/**
- * This just styles a child in the form, serves as a wrapper to ensure
- * that we know what role it plays in the larger grid, as well as width and resizing
- * @param children, applies styling to the children of the component.
- * @returns
- */
-function FormField({ children }: StyledProps) {
-  return (
-    <Grid item xs="auto">
-      {children}
-    </Grid>
-  );
-}
-
-export {
-  MiniLinkText,
-  FormHeaderText,
-  ScreenGrid,
-  FormGridCol,
-  FormGridRow,
-  FormField,
-};
+export { MiniLinkText, FormHeaderText, ScreenGrid, FormGridRow };

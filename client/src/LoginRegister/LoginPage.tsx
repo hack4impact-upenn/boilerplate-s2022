@@ -1,24 +1,68 @@
 import React, { useState } from 'react';
-import { TextField, Link, Button } from '@mui/material';
+import { TextField, Link, Button, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
-import { login } from '../util/redux/slice';
-import { LoginValidation } from './inputValidation';
-import ErrorMessage from './errorMessage';
-import {
-  MiniLinkText,
-  FormHeaderText,
-  ScreenGrid,
-  FormGridCol,
-  FormGridRow,
-  FormField,
-} from '../components/grid';
+import { login as loginRedux } from '../util/redux/slice';
+import { MiniLinkText, ScreenGrid, FormGridRow } from '../components/grid';
+import FormGrid from '../components/form/FormGrid';
+import FormCol from '../components/form/FormCol';
+import FormInputField from '../components/form/FormField';
+import FormRow from '../components/form/FormRow';
+import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
+import { loginUser } from './api';
+import AlertDialog from '../components/AlertDialog';
 
-function LoginView() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+/**
+ * A page allowing users to input their email and password to login. The default
+ * starting page of the application
+ */
+function LoginPage() {
+  // Default values for state
+  const defaultValues = {
+    email: '',
+    password: '',
+  };
+  const defaultShowErrors = {
+    email: false,
+    password: false,
+    alert: false,
+  };
+  const defaultErrorMessages = {
+    email: '',
+    password: '',
+    alert: '',
+  };
+
+  // State values and hooks
+  const [values, setValueState] = useState(defaultValues);
+  const [showError, setShowErrorState] = useState(defaultShowErrors);
+  const [errorMessage, setErrorMessageState] = useState(defaultErrorMessages);
+
+  // Helper functions for changing only one field in a state object
+  const setValue = (field: string, value: string) => {
+    setValueState((prevState) => ({
+      ...prevState,
+      ...{ [field]: value },
+    }));
+  };
+  const setShowError = (field: string, show: boolean) => {
+    setShowErrorState((prevState) => ({
+      ...prevState,
+      ...{ [field]: show },
+    }));
+  };
+  const setErrorMessage = (field: string, msg: string) => {
+    setErrorMessageState((prevState) => ({
+      ...prevState,
+      ...{ [field]: msg },
+    }));
+  };
+
+  const alertTitle = 'Error';
+  const handleAlertClose = () => {
+    setShowError('alert', false);
+  };
+
   const dispatch = useAppDispatch();
   function dispatchUser(
     userEmail: string,
@@ -26,84 +70,119 @@ function LoginView() {
     lastName: string,
     admin: boolean,
   ) {
-    dispatch(login({ email: userEmail, firstName, lastName, admin }));
+    dispatch(loginRedux({ email: userEmail, firstName, lastName, admin }));
   }
 
-  async function onSubmit() {
-    const result = await LoginValidation(
-      email,
-      password,
-      setError,
-      dispatchUser,
-    );
-    if (result === '') {
-      alert(email + password);
-      navigate('/home');
-    } else {
-      alert('fail');
+  const clearErrorMessages = () => {
+    setShowErrorState(defaultShowErrors);
+    setErrorMessageState(defaultErrorMessages);
+  };
+
+  const validateInputs = () => {
+    clearErrorMessages();
+    if (!values.email.match(emailRegex)) {
+      setErrorMessage('email', InputErrorMessage.INVALID_EMAIL);
+      setShowError('email', true);
+      return false;
+    }
+    if (!values.password) {
+      setErrorMessage('password', InputErrorMessage.MISSING_INPUT);
+      setShowError('password', true);
+      return false;
+    }
+    return true;
+  };
+
+  async function handleSubmit() {
+    if (validateInputs()) {
+      loginUser(values.email, values.password)
+        .then((user) => {
+          console.log('in loginpage', user);
+          dispatchUser(
+            user.email!,
+            user.firstName!,
+            user.lastName!,
+            user.admin!,
+          );
+        })
+        .catch((e) => {
+          setShowError('alert', true);
+          setErrorMessage('alert', e.message);
+        });
     }
   }
 
   return (
     <ScreenGrid>
-      <FormGridCol>
-        <FormField>
-          <FormHeaderText>Welcome! Let&apos;s get started.</FormHeaderText>
-        </FormField>
-        <FormField>
-          <TextField
-            error={
-              error === 'empty' || error === 'badEmail' || error === 'fail'
-            }
-            helperText={<ErrorMessage error={error} />}
-            type="email"
-            required
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormField>
-        <FormField>
-          <TextField
-            error={error === 'empty' || error === 'fail'}
-            helperText={<ErrorMessage error={error} />}
-            type="password"
-            required
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormField>
-        <FormField>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit()}
-          >
-            Login
-          </Button>
-        </FormField>
-        <FormGridRow>
-          <FormField>
-            <MiniLinkText>
-              <Link component={RouterLink} to="/email-reset">
-                Forgot password?
-              </Link>
-            </MiniLinkText>
-          </FormField>
-          <FormField>
-            <MiniLinkText>
-              Need an account?{' '}
-              <Link component={RouterLink} to="/register">
-                Sign up
-              </Link>
-            </MiniLinkText>
-          </FormField>
-        </FormGridRow>
-      </FormGridCol>
+      <FormGrid>
+        <FormCol>
+          <Grid item>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+          </Grid>
+          <FormInputField>
+            <TextField
+              error={showError.email}
+              helperText={errorMessage.email}
+              type="email"
+              required
+              label="Email"
+              value={values.email}
+              onChange={(e) => setValue('email', e.target.value)}
+            />
+          </FormInputField>
+          <Grid item>
+            <TextField
+              error={showError.password}
+              helperText={errorMessage.password}
+              type="password"
+              required
+              label="New Password"
+              value={values.password}
+              onChange={(e) => setValue('password', e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onClick={() => handleSubmit()}
+            >
+              Login
+            </Button>
+          </Grid>
+          <FormRow>
+            <Grid item>
+              <MiniLinkText>
+                <Link component={RouterLink} to="/email-reset">
+                  Forgot password?
+                </Link>
+              </MiniLinkText>
+            </Grid>
+            <Grid item>
+              <MiniLinkText>
+                Need an account?{' '}
+                <Link component={RouterLink} to="/register">
+                  Sign up
+                </Link>
+              </MiniLinkText>
+            </Grid>
+          </FormRow>
+        </FormCol>
+      </FormGrid>
+      {/* The alert that pops up */}
+      <Grid item>
+        <AlertDialog
+          showAlert={showError.alert}
+          title={alertTitle}
+          message={errorMessage.alert}
+          onClose={handleAlertClose}
+        />
+      </Grid>
     </ScreenGrid>
   );
 }
 
-export default LoginView;
+export default LoginPage;

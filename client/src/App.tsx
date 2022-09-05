@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import theme from './assets/theme';
 import { store, persistor } from './util/redux/store';
 
-import LoginView from './LoginRegister/LoginPage';
+import LoginPage from './LoginRegister/LoginPage';
 import RegisterPage from './LoginRegister/RegisterPage';
 import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
 import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
@@ -38,7 +38,7 @@ function App() {
                 <Routes>
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
-                    <Route path="/login" element={<LoginView />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route
                       path="/verify-account/:token"

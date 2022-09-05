@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, CircularProgress, Grid, Typography } from '@mui/material';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import {
-  MiniLinkText,
-  FormHeaderText,
-  ScreenGrid,
-  FormGridCol,
-  FormField,
-} from '../components/grid';
+import { MiniLinkText, ScreenGrid } from '../components/grid';
 import { verifyAccount } from './api';
 
 /**

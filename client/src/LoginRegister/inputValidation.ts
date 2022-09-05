@@ -1,4 +1,4 @@
-import { login, register } from './api';
+import { register } from './api';
 
 // Descriptive error messages for various input validation errors
 enum ErrorMessage {
@@ -12,31 +12,6 @@ const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/g;
 const nameRegex = /^[a-z ,.'-]+/i;
-
-async function LoginValidation(
-  email: string,
-  password: string,
-  setError: (e: string) => void,
-  dispatchUser: (
-    userEmail: string,
-    firstName: string,
-    lastName: string,
-    admin: boolean,
-  ) => void,
-) {
-  if (!password || !email) {
-    setError('empty');
-    return 'empty';
-  }
-  const user = await login(email, password);
-  if (!password.match(passwordRegex) || !email.match(emailRegex) || !user) {
-    setError('fail');
-    return 'fail';
-  }
-  setError('');
-  dispatchUser(user.email, user.firstName, user.lastName, user.admin);
-  return '';
-}
 
 async function RegisterValidation(
   firstName: string,
@@ -144,9 +119,4 @@ function emailInputIsValid(
   return true;
 }
 
-export {
-  LoginValidation,
-  RegisterValidation,
-  resetPasswordInputsAreValid,
-  emailInputIsValid,
-};
+export { RegisterValidation, resetPasswordInputsAreValid, emailInputIsValid };

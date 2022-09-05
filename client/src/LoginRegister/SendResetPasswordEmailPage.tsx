@@ -4,7 +4,7 @@ import { TextField, Button, Box, Typography, Link, Grid } from '@mui/material';
 import { sendResetPasswordEmail } from './api';
 import { ScreenGrid, MiniLinkText } from '../components/grid';
 import AlertDialog from '../components/AlertDialog';
-import FormGrid from '../components/FormGrid';
+import FormGrid from '../components/form/FormGrid';
 import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 
 /**
@@ -12,6 +12,7 @@ import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
  * sent to them
  */
 function ResetPasswordEmailPage() {
+  // Default values for state
   const defaultShowErrors = {
     email: false,
     alert: false,
@@ -22,11 +23,13 @@ function ResetPasswordEmailPage() {
   };
   const alertTitle = 'Error';
 
+  // State values and hooks
   const [email, setEmail] = useState('');
   const [showError, setShowErrorState] = useState(defaultShowErrors);
   const [errorMessage, setErrorMessageState] = useState(defaultErrorMessages);
   const navigate = useNavigate();
 
+  // Helper functions for changing only one field in a state object
   const setErrorMessage = (field: string, msg: string) => {
     setErrorMessageState((prevState) => ({
       ...prevState,

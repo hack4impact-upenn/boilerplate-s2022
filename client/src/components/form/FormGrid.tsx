@@ -1,11 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/system';
 import { Grid } from '@mui/material';
-import { AnyChildren } from '../assets/types';
-
-const FormGridStyled = styled(Grid)(() => ({
-  fontSize: '0.75em',
-}));
+import { AnyChildren } from '../../assets/types';
 
 /**
  * A component to create a Form with the {@link Grid} component by specifying
@@ -16,15 +12,18 @@ const FormGridStyled = styled(Grid)(() => ({
  */
 function FormGrid({ children }: AnyChildren) {
   return (
-    <FormGridStyled
+    <Grid
+      item
       container
       direction="column"
       justifyContent="center"
       alignItems="center"
       rowSpacing={2}
+      columnSpacing={1}
+      fontSize="0.75em"
     >
       {children}
-    </FormGridStyled>
+    </Grid>
   );
 }
 

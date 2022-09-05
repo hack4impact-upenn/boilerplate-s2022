@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
 import { resetPasswordInputsAreValid } from './inputValidation';
 import { MiniLinkText, ScreenGrid } from '../components/grid';
 import { resetPassword } from './api';
-import FormGrid from '../components/FormGrid';
+import FormGrid from '../components/form/FormGrid';
 import AlertDialog from '../components/AlertDialog';
 import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
 

@@ -1,0 +1,27 @@
+import React from 'react';
+import { Grid } from '@mui/material';
+import { styled } from '@mui/system';
+import { AnyChildren } from '../../assets/types';
+
+/**
+ * A component for formatting rows in {@link FormGrid}
+ * with the {@link Grid} component
+ * @param children The {@link AnyChildren} containing the child {@link Grid} item
+ * components that should compose the content of the form.
+ * @returns A {@link Grid} item container with appropriate styling for a Form row
+ */
+function FormRow({ children }: AnyChildren) {
+  return (
+    <Grid
+      item
+      container
+      flexDirection="row"
+      xs="auto"
+      justifyContent="space-evenly"
+    >
+      {children}
+    </Grid>
+  );
+}
+
+export default FormRow;
