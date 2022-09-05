@@ -10,12 +10,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import theme from './assets/theme';
 import { store, persistor } from './util/redux/store';
 
-import LoginPage from './Authentication/LoginPage';
-import RegisterPage from './Authentication/RegisterPage';
-import ResetPasswordPage from './Authentication/ResetPasswordPage';
-import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
-import VerifyAccountPage from './Authentication/VerifyAccountPage';
-
 import NotFoundPage from './notFound/NotFoundPage';
 import HomeView from './home/HomeView';
 import AdminDashboard from './adminDashboard/AdminDashboard';
@@ -26,6 +20,11 @@ import {
   DynamicRedirect,
   AdminRoutesWrapper,
 } from './util/routes';
+import VerifyAccountPage from './Authentication/VerifyAccountPage';
+import RegisterPage from './Authentication/RegisterPage';
+import LoginPage from './Authentication/LoginPage';
+import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
+import ResetPasswordPage from './Authentication/ResetPasswordPage';
 
 function App() {
   return (

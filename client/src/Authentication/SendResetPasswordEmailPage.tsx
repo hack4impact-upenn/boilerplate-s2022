@@ -8,7 +8,7 @@ import FormGrid from '../components/form/FormGrid';
 import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import ScreenGrid from '../components/ScreenGrid';
-import FormHeader from '../components/form/FormHeader';
+import FormCol from '../components/form/FormCol';
 /**
  * A page allowing users to input their email so a reset password link can be
  * sent to them
@@ -84,38 +84,37 @@ function ResetPasswordEmailPage() {
   return (
     <ScreenGrid>
       <FormGrid>
-        <Grid item>
-          <Typography variant="h6">{title}</Typography>
-        </Grid>
-        <Grid item>
-          <TextField
-            value={email}
-            error={showError.email}
-            helperText={errorMessage.email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="Email"
-            label="Email"
-            required
-            placeholder="Email Address"
-          />
-        </Grid>
-        <Grid item>
-          <PrimaryButton
-            type="submit"
-            variant="contained"
-            onClick={() => handleSubmit()}
-          >
-            Send Reset Link
-          </PrimaryButton>
-        </Grid>
-        <Grid item>
-          <MiniLinkText>
-            Back to{' '}
+        <Typography variant="h6">{title}</Typography>
+        <FormCol>
+          <Grid item>
+            <TextField
+              fullWidth
+              value={email}
+              error={showError.email}
+              helperText={errorMessage.email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="Email"
+              label="Email"
+              required
+              placeholder="Email Address"
+            />
+          </Grid>
+          <Grid item container justifyContent="center">
+            <PrimaryButton
+              fullWidth
+              type="submit"
+              variant="contained"
+              onClick={() => handleSubmit()}
+            >
+              Send Reset Link
+            </PrimaryButton>
+          </Grid>
+          <Grid item container justifyContent="center">
             <Link component={RouterLink} to="/login">
-              Login
+              Back toLogin
             </Link>
-          </MiniLinkText>
-        </Grid>
+          </Grid>
+        </FormCol>
       </FormGrid>
       {/* The alert that pops up */}
       <Grid item>

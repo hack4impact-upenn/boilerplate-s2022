@@ -220,6 +220,7 @@ function RegisterPage() {
           <FormRow>
             <Grid container justifyContent="center">
               <PrimaryButton
+                fullWidth
                 type="submit"
                 variant="contained"
                 color="primary"

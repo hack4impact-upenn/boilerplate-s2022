@@ -106,6 +106,7 @@ function LoginPage() {
       setShowError('password', true);
       isValid = false;
     }
+
     return isValid;
   };
 
@@ -131,12 +132,11 @@ function LoginPage() {
   return (
     <ScreenGrid>
       <FormGrid>
+        <Typography variant="h6">Welcome!</Typography>
         <FormCol>
           <Grid item>
-            <Typography variant="h6">Welcome!</Typography>
-          </Grid>
-          <FormInputField>
             <TextField
+              fullWidth
               error={showError.email}
               helperText={errorMessage.email}
               type="email"
@@ -145,20 +145,22 @@ function LoginPage() {
               value={values.email}
               onChange={(e) => setValue('email', e.target.value)}
             />
-          </FormInputField>
+          </Grid>
           <Grid item>
             <TextField
+              fullWidth
               error={showError.password}
               helperText={errorMessage.password}
               type="password"
               required
-              label="New Password"
+              label="Password"
               value={values.password}
               onChange={(e) => setValue('password', e.target.value)}
             />
           </Grid>
-          <Grid item>
+          <Grid item container justifyContent="center">
             <PrimaryButton
+              fullWidth
               type="submit"
               variant="contained"
               onClick={() => handleSubmit()}
@@ -168,19 +170,14 @@ function LoginPage() {
           </Grid>
           <FormRow>
             <Grid item>
-              <MiniLinkText>
-                <Link component={RouterLink} to="/email-reset">
-                  Forgot password?
-                </Link>
-              </MiniLinkText>
+              <Link component={RouterLink} to="/email-reset">
+                Forgot password?
+              </Link>
             </Grid>
             <Grid item>
-              <MiniLinkText>
-                Need an account?{' '}
-                <Link component={RouterLink} to="/register">
-                  Sign up
-                </Link>
-              </MiniLinkText>
+              <Link component={RouterLink} to="/register">
+                Sign up
+              </Link>
             </Grid>
           </FormRow>
         </FormCol>
