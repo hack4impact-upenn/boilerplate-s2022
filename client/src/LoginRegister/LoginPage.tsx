@@ -3,7 +3,7 @@ import { TextField, Link, Button, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
 import { login as loginRedux } from '../util/redux/slice';
-import { MiniLinkText, ScreenGrid, FormGridRow } from '../components/grid';
+import { MiniLinkText, ScreenGrid } from '../components/grid';
 import FormGrid from '../components/form/FormGrid';
 import FormCol from '../components/form/FormCol';
 import FormInputField from '../components/form/FormField';
@@ -32,6 +32,7 @@ function LoginPage() {
     password: '',
     alert: '',
   };
+  type ValueType = keyof typeof values;
 
   // State values and hooks
   const [values, setValueState] = useState(defaultValues);
@@ -80,24 +81,35 @@ function LoginPage() {
 
   const validateInputs = () => {
     clearErrorMessages();
+    let isValid = true;
+
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const valueTypeString in values) {
+      const valueType = valueTypeString as ValueType;
+      if (!values[valueType]) {
+        setErrorMessage(valueTypeString, InputErrorMessage.MISSING_INPUT);
+        setShowError(valueTypeString, true);
+        isValid = false;
+      }
+    }
+
     if (!values.email.match(emailRegex)) {
       setErrorMessage('email', InputErrorMessage.INVALID_EMAIL);
       setShowError('email', true);
-      return false;
+      isValid = false;
     }
     if (!values.password) {
       setErrorMessage('password', InputErrorMessage.MISSING_INPUT);
       setShowError('password', true);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   };
 
   async function handleSubmit() {
     if (validateInputs()) {
       loginUser(values.email, values.password)
         .then((user) => {
-          console.log('in loginpage', user);
           dispatchUser(
             user.email!,
             user.firstName!,
@@ -146,7 +158,6 @@ function LoginPage() {
           <Grid item>
             <Button
               type="submit"
-              fullWidth
               variant="contained"
               onClick={() => handleSubmit()}
             >

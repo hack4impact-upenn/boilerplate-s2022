@@ -9,7 +9,6 @@ import { postData } from '../util/api';
  */
 async function loginUser(email: string, password: string) {
   console.log('in logging');
-
   const res = await postData('auth/login', {
     email,
     password,
@@ -34,6 +33,20 @@ async function verifyAccount(verificationToken: string) {
   }
 }
 
+/**
+ * Sends a request to the server to register a user for an account
+ * @param verificationToken The token used to identify the verification attempt
+ * @throws An {@link Error} with a `messsage` field describing the issue in verifying
+ */
+
+/**
+ * Sends a request to the server to register a user for an account
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @throws An {@link Error} with a `messsage` field describing the issue in verifying
+ */
 async function register(
   firstName: string,
   lastName: string,
@@ -46,8 +59,9 @@ async function register(
     email,
     password,
   });
-  if (res.error) return false;
-  return true;
+  if (res.error) {
+    throw Error(res.error.message);
+  }
 }
 
 /**

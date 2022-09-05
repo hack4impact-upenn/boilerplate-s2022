@@ -21,7 +21,6 @@ function ResetPasswordEmailPage() {
     email: '',
     alert: '',
   };
-  const alertTitle = 'Error';
 
   // State values and hooks
   const [email, setEmail] = useState('');
@@ -43,6 +42,7 @@ function ResetPasswordEmailPage() {
     }));
   };
 
+  const alertTitle = 'Error';
   const handleAlertClose = () => {
     setShowError('alert', false);
   };
@@ -50,11 +50,18 @@ function ResetPasswordEmailPage() {
   const validateInputs = () => {
     setShowErrorState(defaultShowErrors);
     setErrorMessageState(defaultErrorMessages);
+
+    if (!email) {
+      setErrorMessage('email', InputErrorMessage.MISSING_INPUT);
+      setShowError('email', true);
+      return false;
+    }
     if (!email.match(emailRegex)) {
       setErrorMessage('email', InputErrorMessage.INVALID_EMAIL);
       setShowError('email', true);
       return false;
     }
+
     return true;
   };
 
@@ -87,7 +94,11 @@ function ResetPasswordEmailPage() {
           />
         </Grid>
         <Grid item>
-          <Button type="submit" onClick={() => handleSubmit()}>
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={() => handleSubmit()}
+          >
             Send Reset Link
           </Button>
         </Grid>

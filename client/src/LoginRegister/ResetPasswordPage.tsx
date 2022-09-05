@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button, Grid } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import { resetPasswordInputsAreValid } from './inputValidation';
 import { MiniLinkText, ScreenGrid } from '../components/grid';
 import { resetPassword } from './api';
 import FormGrid from '../components/form/FormGrid';
@@ -31,6 +30,7 @@ function ResetPasswordPage() {
     confirmPassword: '',
     alert: '',
   };
+  type ValueType = keyof typeof values;
 
   // State values and hooks
   const [values, setValueState] = useState(defaultValues);
@@ -64,17 +64,29 @@ function ResetPasswordPage() {
 
   const validateInputs = () => {
     clearErrorMessages();
+    let isValid = true;
+
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const valueTypeString in values) {
+      const valueType = valueTypeString as ValueType;
+      if (!values[valueType]) {
+        setErrorMessage(valueTypeString, InputErrorMessage.MISSING_INPUT);
+        setShowError(valueTypeString, true);
+        isValid = false;
+      }
+    }
+
     if (!values.password.match(passwordRegex)) {
       setErrorMessage('password', InputErrorMessage.INVALID_PASSWORD);
       setShowError('password', true);
-      return false;
+      isValid = false;
     }
     if (!(values.password === values.confirmPassword)) {
       setErrorMessage('confirmPassword', InputErrorMessage.PASSWORD_MISMATCH);
       setShowError('confirmPassword', true);
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   };
 
   const alertTitle = 'Error';

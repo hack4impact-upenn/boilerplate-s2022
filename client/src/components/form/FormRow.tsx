@@ -16,8 +16,9 @@ function FormRow({ children }: AnyChildren) {
       item
       container
       flexDirection="row"
-      xs="auto"
-      justifyContent="space-evenly"
+      alignItems="center"
+      justifyContent="center"
+      columnSpacing={2}
     >
       {children}
     </Grid>

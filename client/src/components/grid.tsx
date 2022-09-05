@@ -52,27 +52,4 @@ function ScreenGrid({ children }: AnyChildren) {
   );
 }
 
-/**
- * This styles a form's components if we want them in a row, serves as a wrapper to ensure
- * that we know what role it plays in the larger grid, as well as width, spacing, and resizing
- * @param children, applies styling to the children of the component.
- * @returns styled grid row component
- */
-function FormGridRow({ children }: StyledProps) {
-  return (
-    <Grid
-      item
-      container
-      xs="auto"
-      justifyContent="space-evenly"
-      rowSpacing={0}
-      columnSpacing={4}
-      alignItems="flex-end"
-      flexDirection="row"
-    >
-      {children}
-    </Grid>
-  );
-}
-
-export { MiniLinkText, FormHeaderText, ScreenGrid, FormGridRow };
+export { MiniLinkText, FormHeaderText, ScreenGrid };
