@@ -151,7 +151,7 @@ function RegisterPage() {
             <Typography variant="h2">{title}</Typography>
           </Grid>
           <FormRow>
-            <Grid item>
+            <Grid item width=".5">
               <TextField
                 fullWidth
                 error={showError.firstName}
@@ -164,7 +164,7 @@ function RegisterPage() {
                 onChange={(e) => setValue('firstName', e.target.value)}
               />
             </Grid>
-            <Grid item>
+            <Grid item width=".5">
               <TextField
                 fullWidth
                 error={showError.lastName}
@@ -194,8 +194,9 @@ function RegisterPage() {
             </Grid>
           </FormRow>
           <FormRow>
-            <Grid item>
+            <Grid item width=".5">
               <TextField
+                fullWidth
                 error={showError.password}
                 helperText={errorMessage.password}
                 size="small"
@@ -206,7 +207,7 @@ function RegisterPage() {
                 onChange={(e) => setValue('password', e.target.value)}
               />
             </Grid>
-            <Grid item>
+            <Grid item width=".5">
               <TextField
                 fullWidth
                 error={showError.confirmPassword}

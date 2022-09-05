@@ -19,6 +19,7 @@ function FormRow({ children }: AnyChildren) {
       alignItems="center"
       justifyContent="space-between"
       width="1"
+      columnSpacing={1}
     >
       {children}
     </Grid>
