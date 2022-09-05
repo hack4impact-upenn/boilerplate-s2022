@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import Button from '@mui/material/Button';
-import { LoadingButton } from '../components/common';
 import { deleteUser, upgradePrivilege } from './api';
+import LoadingButton from '../components/buttons/LoadingButton';
 import ConfirmationModal from '../components/confirmationModel';
 
 interface DeleteUserButtonProps {

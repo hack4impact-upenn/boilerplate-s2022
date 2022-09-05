@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Link, Button, Grid } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import MiniLinkText from '../components/MiniLinkText';
 import { resetPassword } from './api';
 import FormGrid from '../components/form/FormGrid';
 import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
@@ -144,12 +143,9 @@ function ResetPasswordPage() {
           </PrimaryButton>
         </Grid>
         <Grid item>
-          <MiniLinkText>
-            Back to{' '}
-            <Link component={RouterLink} to="/login">
-              Login
-            </Link>
-          </MiniLinkText>
+          <Link component={RouterLink} to="/login">
+            Back to Login
+          </Link>
         </Grid>
       </FormGrid>
       {/* The alert that pops up */}

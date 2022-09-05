@@ -12,7 +12,7 @@ import { store, persistor } from './util/redux/store';
 
 import NotFoundPage from './notFound/NotFoundPage';
 import HomeView from './home/HomeView';
-import AdminDashboard from './adminDashboard/AdminDashboard';
+import AdminDashboardPage from './AdminDashboard/AdminDashboardPage';
 
 import {
   UnauthenticatedRoutesWrapper,
@@ -57,7 +57,7 @@ function App() {
                     <Route path="/home" element={<HomeView />} />
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
-                    <Route path="/users" element={<AdminDashboard />} />
+                    <Route path="/users" element={<AdminDashboardPage />} />
                   </Route>
                   {/* Element depends on of if users is authorized or unauthorized */}
                   <Route
