@@ -10,5 +10,4 @@ function LoadingButton() {
   );
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { LoadingButton };
+export default LoadingButton;

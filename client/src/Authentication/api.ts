@@ -1,12 +1,20 @@
 import { postData } from '../util/api';
 
 // const BACKENDURL = 'http://localhost:4000';
-async function login(email: string, password: string) {
+/**
+ * Sends a request to the server to log in a user
+ * @param email The email of the user to log in
+ * @param password The password for the user's account
+ * @throws An {@link Error} with a `messsage` field describing the issue in verifying
+ */
+async function loginUser(email: string, password: string) {
   const res = await postData('auth/login', {
     email,
     password,
   });
-  if (res.error) return null;
+  if (res.error) {
+    throw Error(res.error.message);
+  }
   return res.data;
 }
 
@@ -24,6 +32,14 @@ async function verifyAccount(verificationToken: string) {
   }
 }
 
+/**
+ * Sends a request to the server to register a user for an account
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @throws An {@link Error} with a `messsage` field describing the issue in verifying
+ */
 async function register(
   firstName: string,
   lastName: string,
@@ -36,9 +52,9 @@ async function register(
     email,
     password,
   });
-  console.log('register res is', res);
-  if (res.error) return false;
-  return true;
+  if (res.error) {
+    throw Error(res.error.message);
+  }
 }
 
 /**
@@ -70,7 +86,7 @@ async function resetPassword(password: string, token: string) {
 
 export {
   register,
-  login,
+  loginUser,
   verifyAccount,
   sendResetPasswordEmail,
   resetPassword,

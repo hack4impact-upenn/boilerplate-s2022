@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { Typography, Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../util/redux/hooks';
 import {
   logout as logoutAction,
@@ -8,6 +9,9 @@ import {
   selectUser,
 } from '../util/redux/slice';
 import { logout as logoutApi, selfUpgrade } from './api';
+import ScreenGrid from '../components/ScreenGrid';
+import FormRow from '../components/form/FormRow';
+import PrimaryButton from '../components/buttons/PrimaryButton';
 
 interface PromoteButtonProps {
   admin: boolean | null;
@@ -24,11 +28,16 @@ function PromoteButton({
     return null;
   }
   return !admin ? (
-    <Button onClick={handleSelfPromote}>Promote self to admin</Button>
+    <PrimaryButton variant="contained" onClick={handleSelfPromote}>
+      Promote self to admin
+    </PrimaryButton>
   ) : (
-    <Button onClick={() => navigator('/users', { replace: true })}>
+    <PrimaryButton
+      variant="contained"
+      onClick={() => navigator('/users', { replace: true })}
+    >
       View all users
-    </Button>
+    </PrimaryButton>
   );
 }
 
@@ -52,18 +61,21 @@ function HomeView() {
     }
   };
 
+  const message = ` Welcome to Boilerplate, ${user.firstName} ${user.lastName}`;
   return (
-    <div>
-      <div>
-        Welcome to the boilerplate, {user.firstName} {user.lastName}
-      </div>
-      <Button onClick={handleLogout}>Logout</Button>
-      <PromoteButton
-        admin={admin}
-        handleSelfPromote={handleSelfPromote}
-        navigator={navigator}
-      />
-    </div>
+    <ScreenGrid>
+      <Typography variant="h2">{message}</Typography>
+      <Grid item container justifyContent="center">
+        <PromoteButton
+          admin={admin}
+          handleSelfPromote={handleSelfPromote}
+          navigator={navigator}
+        />
+      </Grid>
+      <Grid item container justifyContent="center">
+        <Button onClick={handleLogout}>Logout</Button>
+      </Grid>
+    </ScreenGrid>
   );
 }
 

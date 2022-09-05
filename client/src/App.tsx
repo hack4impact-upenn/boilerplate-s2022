@@ -10,22 +10,21 @@ import { PersistGate } from 'redux-persist/integration/react';
 import theme from './assets/theme';
 import { store, persistor } from './util/redux/store';
 
-import LoginView from './LoginRegister/LoginPage';
-import RegisterPage from './LoginRegister/RegisterPage';
-import ResetPasswordPage from './LoginRegister/ResetPasswordPage';
-import ResetPasswordEmailPage from './LoginRegister/SendResetPasswordEmailPage';
-import VerifyAccountPage from './LoginRegister/VerifyAccountPage';
-
-import NotFoundPage from './NotFound/NotFoundPage';
+import NotFoundPage from './notFound/NotFoundPage';
 import HomeView from './home/HomeView';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
+import AdminDashboardPage from './AdminDashboard/AdminDashboardPage';
 
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
   DynamicRedirect,
   AdminRoutesWrapper,
-} from './components/routes';
+} from './util/routes';
+import VerifyAccountPage from './Authentication/VerifyAccountPage';
+import RegisterPage from './Authentication/RegisterPage';
+import LoginPage from './Authentication/LoginPage';
+import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
+import ResetPasswordPage from './Authentication/ResetPasswordPage';
 
 function App() {
   return (
@@ -38,7 +37,7 @@ function App() {
                 <Routes>
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
-                    <Route path="/login" element={<LoginView />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route
                       path="/verify-account/:token"
@@ -58,7 +57,7 @@ function App() {
                     <Route path="/home" element={<HomeView />} />
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
-                    <Route path="/users" element={<AdminDashboard />} />
+                    <Route path="/users" element={<AdminDashboardPage />} />
                   </Route>
                   {/* Element depends on of if users is authorized or unauthorized */}
                   <Route
