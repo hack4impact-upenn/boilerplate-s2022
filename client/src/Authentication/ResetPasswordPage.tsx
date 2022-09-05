@@ -115,7 +115,7 @@ function ResetPasswordPage() {
           <Grid item container justifyContent="center">
             <Typography variant="h2">Excited to have you back!</Typography>
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <TextField
               fullWidth
               error={showError.password}
@@ -127,7 +127,7 @@ function ResetPasswordPage() {
               onChange={(e) => setValue('password', e.target.value)}
             />
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <TextField
               fullWidth
               error={showError.confirmPassword}
@@ -139,7 +139,7 @@ function ResetPasswordPage() {
               onChange={(e) => setValue('confirmPassword', e.target.value)}
             />
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <PrimaryButton
               fullWidth
               type="submit"

@@ -178,21 +178,19 @@ function RegisterPage() {
               />
             </Grid>
           </FormRow>
-          <FormRow>
-            <Grid item width="1">
-              <TextField
-                fullWidth
-                error={showError.email}
-                helperText={errorMessage.email}
-                size="small"
-                type="text"
-                required
-                label="Email"
-                value={values.email}
-                onChange={(e) => setValue('email', e.target.value)}
-              />
-            </Grid>
-          </FormRow>
+          <Grid item width="1">
+            <TextField
+              fullWidth
+              error={showError.email}
+              helperText={errorMessage.email}
+              size="small"
+              type="text"
+              required
+              label="Email"
+              value={values.email}
+              onChange={(e) => setValue('email', e.target.value)}
+            />
+          </Grid>
           <FormRow>
             <Grid item width=".5">
               <TextField
@@ -207,7 +205,7 @@ function RegisterPage() {
                 onChange={(e) => setValue('password', e.target.value)}
               />
             </Grid>
-            <Grid item width=".5">
+            <Grid item container width=".5">
               <TextField
                 fullWidth
                 error={showError.confirmPassword}
@@ -221,19 +219,17 @@ function RegisterPage() {
               />
             </Grid>
           </FormRow>
-          <FormRow>
-            <Grid container justifyContent="center">
-              <PrimaryButton
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={() => handleSubmit()}
-              >
-                Register
-              </PrimaryButton>
-            </Grid>
-          </FormRow>
+          <Grid item container justifyContent="center">
+            <PrimaryButton
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => handleSubmit()}
+            >
+              Register
+            </PrimaryButton>
+          </Grid>
           <FormRow>
             <Grid container justifyContent="center">
               <Link component={RouterLink} to="/login">

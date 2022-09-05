@@ -134,7 +134,7 @@ function LoginPage() {
           <Grid item container justifyContent="center">
             <Typography variant="h2">Welcome</Typography>
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <TextField
               fullWidth
               error={showError.email}
@@ -146,7 +146,7 @@ function LoginPage() {
               onChange={(e) => setValue('email', e.target.value)}
             />
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <TextField
               fullWidth
               error={showError.password}

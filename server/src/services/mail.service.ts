@@ -3,7 +3,7 @@ import 'dotenv/config';
 import SGmail, { MailDataRequired } from '@sendgrid/mail';
 
 const appName = 'Boilerplate'; // Replace with a relevant project name
-const senderName = 'sender'; // Replace with a relevant project sender
+const senderName = 'Hack4Impact UPenn'; // Replace with a relevant project sender
 const baseUrl = 'http://localhost:3000'; // TODO: figure out better place to put this
 
 // eslint-disable-next-line no-useless-concat
@@ -19,7 +19,7 @@ const emailResetPasswordLink = async (email: string, token: string) => {
   const resetLink = `${baseUrl}/reset-password/${token}`;
   const mailSettings: MailDataRequired = {
     from: {
-      email: process.env.EMAIL_ADDRESS || 'missing@mail.com',
+      email: process.env.SENDGRID_EMAIL_ADDRESS || 'missing@mail.com',
       name: senderName,
     },
     to: email,
@@ -46,7 +46,7 @@ const emailVerificationLink = async (email: string, token: string) => {
   const resetLink = `${baseUrl}/verify-account/${token}`;
   const mailSettings: MailDataRequired = {
     from: {
-      email: process.env.EMAIL_ADDRESS || 'missing@mail.com',
+      email: process.env.SENDGRID_EMAIL_ADDRESS || 'missing@mail.com',
       name: senderName,
     },
     to: email,

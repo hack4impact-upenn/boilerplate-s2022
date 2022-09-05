@@ -41,13 +41,12 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
   // Use express-session to maintain sessions
   app.use(
     session({
-      secret: process.env.COOKIE_SECRET || 'mysecretkey',
+      secret: process.env.COOKIE_SECRET || 'SHOULD_DEFINE_COOKIE_SECRET',
       resave: false, // don't save session if unmodified
       saveUninitialized: false, // don't create session until something stored
       store: sessionStore, // use MongoDB to store session info
       cookie: {
-        maxAge:
-          Number(process.env.COOKIE_EXPIRATION_TIME) || 1000 * 60 * 60 * 24, // 1 day default
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
       },
     }),
   );

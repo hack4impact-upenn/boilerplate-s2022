@@ -87,7 +87,7 @@ function ResetPasswordEmailPage() {
           <Grid item container justifyContent="center">
             <Typography variant="h2">{title}</Typography>
           </Grid>
-          <Grid item>
+          <Grid item width="1">
             <TextField
               fullWidth
               value={email}

@@ -18,7 +18,6 @@ function FormRow({ children }: AnyChildren) {
       direction="row"
       alignItems="center"
       justifyContent="space-between"
-      width="1"
       columnSpacing={1}
     >
       {children}

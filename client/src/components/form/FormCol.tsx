@@ -19,6 +19,7 @@ function FormCol({ children }: AnyChildren) {
       direction="column"
       rowSpacing={2}
       justifyContent="space-between"
+      alignItems="flex-start"
     >
       <>{children}</>
     </Grid>
