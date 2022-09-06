@@ -1,4 +1,7 @@
+yarn-error.log
 /node_modules
+
+.env
 /.env
 
 .env.local

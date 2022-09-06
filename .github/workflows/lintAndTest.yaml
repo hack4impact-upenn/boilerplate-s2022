@@ -1,0 +1,19 @@
+name: Lint and Test
+on: push
+jobs:
+  lint:
+    name: Run linting
+    runs-on: ubuntu-latest # Specifies the VM to run the workflow on
+    steps:
+      - uses: actions/checkout@v2 # Checks out the the project repo
+      - run: |
+          yarn install
+          yarn lint && yarn prettier-check
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          yarn install
+          yarn test

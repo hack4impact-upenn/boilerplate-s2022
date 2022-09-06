@@ -1,17 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createTheme } from '@mui/material/styles';
 import COLORS from './colors';
+import 'typeface-hk-grotesk';
 
+// https://github.com/hack4impact/chapter-website-template/blob/main/public/style.css
 const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
-      main: COLORS.primary,
+      main: COLORS.primaryBlue,
     },
     secondary: {
-      main: COLORS.secondary,
+      main: COLORS.secondarySeafoam,
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
@@ -22,7 +24,44 @@ const theme = createTheme({
     tonalOffset: 0.2,
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: [
+      'HK Grotesk',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'Segoe UI',
+      'Roboto',
+      'Oxygen',
+      'Ubuntu',
+      'Cantarell',
+      'Fira Sans',
+      'Droid Sans',
+      'Helvetica Neue',
+      'sans-serif',
+    ].join(','),
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          letterSpacing: '0.3px',
+          lineHeight: '1.5',
+        },
+        h1: {
+          fontWeight: 'bold !important',
+        },
+        h2: {
+          fontSize: '38px !important',
+          marginBottom: '32px !important',
+        },
+        h3: {
+          fontWeight: 'bold !important',
+          marginBottom: '10px',
+        },
+        h4: {
+          fontWeight: 'bold !important',
+        },
+      },
+    },
   },
 });
 

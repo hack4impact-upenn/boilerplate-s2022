@@ -1,17 +1,24 @@
-import createServer from './src/config/createServer';
-import db from './src/config/database';
+import MongoConnection from './src/config/MongoConnection';
+import createExpressApp from './src/config/createExpressApp';
+import 'dotenv/config';
 
 const main = async () => {
-  // listen for termination
+  // Listen for termination
   process.on('SIGTERM', () => process.exit());
-  await db.open();
 
-  // creater server on designated port
-  const app = createServer();
+  // Set up the datbase connection
+  const dbConnection = await MongoConnection.getInstance();
+  dbConnection.open();
+
+  // Instantiate express app with configured routes and middleware
+  const app = createExpressApp(dbConnection.createSessionStore());
+
+  // Instantiate a server to listen on a specified port
   app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')} 🚀`);
     console.log('  Press Control-C to stop\n');
   });
 };
 
+// Run the server
 main();
