@@ -10,7 +10,6 @@ const createUser = async (
 ) => {
   const hashedPassword = await hash(password, passwordHashSaltRounds);
   if (!hashedPassword) {
-    console.log('Error hashing password');
     return null;
   }
   const newUser = new User({
