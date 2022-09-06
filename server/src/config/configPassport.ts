@@ -18,7 +18,8 @@ const verifyLocalUser = (
   done: (error: any, user?: any, options?: IVerifyOptions | undefined) => void,
 ): void => {
   // Match user with email
-  getUserByEmailWithPassword(email)
+  const lowercaseEmail = email.toLowerCase();
+  getUserByEmailWithPassword(lowercaseEmail)
     .then((user: any) => {
       if (!user) {
         return done(null, false, { message: 'User not found' });

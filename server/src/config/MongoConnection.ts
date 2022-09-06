@@ -66,7 +66,7 @@ class MongoConnection {
         .catch((e) =>
           console.error(
             `Connection to MongoDB failed at: ${this.mongoUri}. ` +
-              `Please check your env file to ensure you have the correct link. `,
+              `Please check your env file to ensure you have the correct link. \n`,
             e,
           ),
         );

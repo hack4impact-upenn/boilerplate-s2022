@@ -99,17 +99,26 @@ const register = async (
     next(ApiError.badRequest('Already logged in.'));
     return;
   }
-
+  const lowercaseEmail = email.toLowerCase();
   // Check if user exists
-  const existingUser: IUser | null = await getUserByEmail(email);
+  const existingUser: IUser | null = await getUserByEmail(lowercaseEmail);
   if (existingUser) {
-    next(ApiError.badRequest(`An account with email ${email} aready exists.`));
+    next(
+      ApiError.badRequest(
+        `An account with email ${lowercaseEmail} already exists.`,
+      ),
+    );
     return;
   }
 
   // Create user and send verification email
   try {
-    const user = await createUser(firstName, lastName, email, password);
+    const user = await createUser(
+      firstName,
+      lastName,
+      lowercaseEmail,
+      password,
+    );
     // Don't need verification email if testing
     if (process.env.NODE_ENV === 'test') {
       user!.verified = true;
@@ -118,7 +127,7 @@ const register = async (
       const verificationToken = crypto.randomBytes(32).toString('hex');
       user!.verificationToken = verificationToken;
       await user!.save();
-      await emailVerificationLink(email, verificationToken);
+      await emailVerificationLink(lowercaseEmail, verificationToken);
     }
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
@@ -166,10 +175,13 @@ const sendResetPasswordEmail = async (
     next(ApiError.missingFields(['email']));
     return;
   }
+  const lowercaseEmail = email.toLowerCase();
 
-  const user: IUser | null = await getUserByEmail(email);
+  const user: IUser | null = await getUserByEmail(lowercaseEmail);
   if (!user) {
-    next(ApiError.notFound(`No user with email ${email} is registered.`));
+    next(
+      ApiError.notFound(`No user with email ${lowercaseEmail} is registered.`),
+    );
     return;
   }
 
@@ -182,10 +194,10 @@ const sendResetPasswordEmail = async (
   await user!.save();
 
   // Send the email and return an appropriate response
-  emailResetPasswordLink(email, token)
+  emailResetPasswordLink(lowercaseEmail, token)
     .then(() =>
       res.status(StatusCode.CREATED).send({
-        message: `Reset link has been sent to ${email}`,
+        message: `Reset link has been sent to ${lowercaseEmail}`,
       }),
     ) // TODO: should this code be OK?
     .catch(() => {

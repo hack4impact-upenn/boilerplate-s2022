@@ -8,8 +8,9 @@ import { postData } from '../util/api';
  * @throws An {@link Error} with a `messsage` field describing the issue in verifying
  */
 async function loginUser(email: string, password: string) {
+  const lowercaseEmail = email.toLowerCase();
   const res = await postData('auth/login', {
-    email,
+    email: lowercaseEmail,
     password,
   });
   if (res.error) {
@@ -46,10 +47,11 @@ async function register(
   email: string,
   password: string,
 ) {
+  const lowercaseEmail = email.toLowerCase();
   const res = await postData('auth/register', {
     firstName,
     lastName,
-    email,
+    email: lowercaseEmail,
     password,
   });
   if (res.error) {
@@ -64,7 +66,10 @@ async function register(
  * sending the email
  */
 async function sendResetPasswordEmail(email: string) {
-  const res = await postData('auth/send-reset-password-email', { email });
+  const lowercaseEmail = email.toLowerCase();
+  const res = await postData('auth/send-reset-password-email', {
+    email: lowercaseEmail,
+  });
   if (res.error) {
     throw Error(res.error.message);
   }
@@ -72,7 +77,7 @@ async function sendResetPasswordEmail(email: string) {
 
 /**
  * Sends a request to the server to reset a password for a user
- * @param password The new password for the userr
+ * @param password The new password for the user
  * @param token The token identifying the reset password attempt
  * @throws An {@link Error} with a `messsage` field describing the issue in
  * resetting the password
