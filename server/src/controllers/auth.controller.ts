@@ -122,7 +122,6 @@ const register = async (
     }
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
-    console.log(err);
     next(ApiError.internal('Unable to register user.'));
   }
 };

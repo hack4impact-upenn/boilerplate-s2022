@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Link,
-  CircularProgress,
-  Grid,
-  Typography,
-  Button,
-} from '@mui/material';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { CircularProgress, Grid, Typography, Button } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import { verifyAccount } from './api';
 import ScreenGrid from '../components/ScreenGrid';
 

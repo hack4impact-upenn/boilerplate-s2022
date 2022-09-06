@@ -8,6 +8,7 @@ import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import ScreenGrid from '../components/ScreenGrid';
 import FormCol from '../components/form/FormCol';
+
 /**
  * A page that allows users to reset their password by inputting a new password
  * into a form.

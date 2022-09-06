@@ -8,6 +8,7 @@ import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import ScreenGrid from '../components/ScreenGrid';
 import FormCol from '../components/form/FormCol';
+
 /**
  * A page allowing users to input their email so a reset password link can be
  * sent to them
