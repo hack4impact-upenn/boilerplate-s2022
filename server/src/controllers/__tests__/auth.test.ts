@@ -83,28 +83,6 @@ describe('testing authentication routes', () => {
       });
     });
   });
-  it('re-registering with the same email issues 400 BAD_REQUEST', async () => {
-    // Register user and expect 201
-    let response = await agent.post('/api/auth/register').send({
-      email: testEmail,
-      password: testPassword,
-      firstName: testFirstName,
-      lastName: testLastName,
-    });
-    expect(response.status).toBe(StatusCode.CREATED);
-    expect(await User.findOne({ email: testEmail })).toBeTruthy();
-    expect(await Session.countDocuments()).toBe(0);
-
-    // Register user again and expect 400
-    response = await agent.post('/api/auth/register').send({
-      email: testEmail,
-      password: 'diffThanTestPassword',
-      firstName: 'diffThanTestFirstName',
-      lastName: 'diffThanTestLastName',
-    });
-    expect(response.status).toBe(StatusCode.BAD_REQUEST);
-    expect(await Session.countDocuments()).toBe(0);
-  });
 
   describe('once registered', () => {
     beforeEach(async () => {
