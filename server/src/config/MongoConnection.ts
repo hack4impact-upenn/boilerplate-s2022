@@ -102,7 +102,9 @@ class MongoConnection {
   public async clearInMemoryCollections(): Promise<void> {
     if (this.mongoMemoryServer && mongoose.connection.db) {
       const collections = await mongoose.connection.db.collections();
-      collections.forEach((c) => c.deleteMany({}));
+      Object.values(collections).forEach(async (collection) => {
+        await collection.deleteMany({}); // No filter deletes all documents
+      });
     }
   }
 

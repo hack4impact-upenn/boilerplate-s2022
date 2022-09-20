@@ -8,7 +8,7 @@ import {
   resetPassword,
   verifyAccount,
 } from '../controllers/auth.controller';
-import ensureAuthenticated from '../controllers/auth.middleware';
+import isAuthenticated from '../controllers/auth.middleware';
 import 'dotenv/config';
 
 const router = express.Router();
@@ -25,6 +25,6 @@ router.post('/send-reset-password-email', sendResetPasswordEmail);
 
 router.post('/reset-password', resetPassword);
 
-router.get('/authstatus', ensureAuthenticated, approve);
+router.get('/authstatus', isAuthenticated, approve);
 
 export default router;

@@ -26,13 +26,15 @@ const UserSchema = new mongoose.Schema({
   },
   verificationToken: {
     type: String,
-    unique: true,
     required: false,
+    unique: true,
+    sparse: true,
   },
   resetPasswordToken: {
     type: String,
-    unique: true,
     required: false,
+    unique: true,
+    sparse: true,
   },
   resetPasswordTokenExpiryDate: {
     type: Date,

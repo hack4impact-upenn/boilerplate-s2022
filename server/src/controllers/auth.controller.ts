@@ -1,3 +1,7 @@
+/**
+ * All the logic for routes relating to a user's authentication such as
+ * login, logout, register.
+ */
 import express from 'express';
 import passport from 'passport';
 import crypto from 'crypto';
@@ -131,6 +135,7 @@ const register = async (
     }
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
+    console.log(err);
     next(ApiError.internal('Unable to register user.'));
   }
 };
