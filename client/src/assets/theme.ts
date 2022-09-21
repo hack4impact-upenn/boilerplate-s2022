@@ -1,4 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/**
+ * A file for defining the global MUI theme used in the project.
+ */
 import { createTheme } from '@mui/material/styles';
 import COLORS from './colors';
 import 'typeface-hk-grotesk';

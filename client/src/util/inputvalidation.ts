@@ -1,3 +1,8 @@
+/**
+ * A file for defining various regexes and error messages useful for input
+ * valildation on forms throughout the project.
+ */
+
 // Descriptive error messages for various input validation errors
 export enum InputErrorMessage {
   INVALID_PASSWORD = 'Password must have 6-61 characters',

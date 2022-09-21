@@ -1,7 +1,19 @@
+/**
+ * All the functions for interacting with user data in the MongoDB database
+ */
 import { hash } from 'bcrypt';
 import { User } from '../models/user';
 
 const passwordHashSaltRounds = 10;
+
+/**
+ * Creates a new user in the database.
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @returns The created {@link User}
+ */
 const createUser = async (
   firstName: string,
   lastName: string,
@@ -23,11 +35,34 @@ const createUser = async (
   return user;
 };
 
+/**
+ * Gets a user from the database by their email but doesn't include the
+ * password in the returned user.
+ * @param email The email of the user to get
+ * @returns The {@link User} or null if the user was not found.
+ */
 const getUserByEmail = async (email: string) => {
   const user = await User.findOne({ email }).select(['-password']).exec();
   return user;
 };
 
+/**
+ * Gets a user from the database by their email and includes the password in
+ * the returned user.
+ * @param email The email of the user to get
+ * @returns The {@link User} or null if the user was not found.
+ */
+const getUserByEmailWithPassword = async (email: string) => {
+  const user = await User.findOne({ email }).exec();
+  return user;
+};
+
+/**
+ * Gets a user from the database by their verification token but doesn't include
+ * the password in the returned user.
+ * @param verificationToken The {@link string} representing the verification token
+ * @returns The {@link User} or null if the user was not found.
+ */
 const getUserByVerificationToken = async (verificationToken: string) => {
   const user = await User.findOne({ verificationToken })
     .select(['-password'])
@@ -35,11 +70,23 @@ const getUserByVerificationToken = async (verificationToken: string) => {
   return user;
 };
 
+/**
+ * Gets a user from the database by their id but doesn't include the
+ * password in the returned user.
+ * @param id The id of the user to get.
+ * @returns The {@link User} or null if the user was not found.
+ */
 const getUserById = async (id: string) => {
   const user = await User.findById(id).select(['-password']).exec();
   return user;
 };
 
+/**
+ * Gets a user from the database by their reset password token if the token
+ * is not expired.
+ * @param verificationToken The {@link string} representing the verification token
+ * @returns The {@link User} or null if such a user was not found.
+ */
 const getUserByResetPasswordToken = async (resetPasswordToken: string) => {
   const user = await User.findOne({
     resetPasswordToken,
@@ -48,11 +95,9 @@ const getUserByResetPasswordToken = async (resetPasswordToken: string) => {
   return user;
 };
 
-const getUserByEmailWithPassword = async (email: string) => {
-  const user = await User.findOne({ email }).exec();
-  return user;
-};
-
+/**
+ * @returns All the {@link User}s in the database without their passwords.
+ */
 const getAllUsersFromDB = async () => {
   const userList = await User.find({}).select(['-password']).exec();
   return userList;
@@ -60,16 +105,21 @@ const getAllUsersFromDB = async () => {
 
 /**
  * A function that upgrades a certain user to an admin.
- * @param id
- * @returns updated user
+ * @param id The id of the user to upgrade.
+ * @returns The upgraded {@link User}
  */
-const toggleAdmin = async (id: string) => {
+const upgradeUserToAdmin = async (id: string) => {
   const user = await User.findByIdAndUpdate(id, [
     { $set: { admin: { $eq: [false, '$admin'] } } },
   ]).exec();
   return user;
 };
 
+/**
+ * A function that deletes a user from the database.
+ * @param id The id of the user to delete.
+ * @returns The deleted {@link User}
+ */
 const deleteUserById = async (id: string) => {
   const user = await User.findByIdAndDelete(id).exec();
   return user;
@@ -84,6 +134,6 @@ export {
   getUserByEmailWithPassword,
   getUserByResetPasswordToken,
   getAllUsersFromDB,
-  toggleAdmin,
+  upgradeUserToAdmin,
   deleteUserById,
 };

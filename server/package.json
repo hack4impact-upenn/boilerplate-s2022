@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --forceExit",
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles --forceExit",
     "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
     "start": "yarn server",
     "clean": "rm -rf node_modules",

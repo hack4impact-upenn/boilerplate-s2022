@@ -6,9 +6,8 @@ In order to add a router, please
 The prefix should be of the form '/api/ROUTERNAME'
 3) Add an entry with the prefix and imported router to @prefixToRouterMap
 */
-
 import { Router } from 'express';
-import userRouter from './user.route';
+import adminRouter from './admin.route';
 import authRouter from './auth.route';
 
 const prefixToRouterMap: { prefix: string; router: Router }[] = [
@@ -18,7 +17,7 @@ const prefixToRouterMap: { prefix: string; router: Router }[] = [
   },
   {
     prefix: '/api/user',
-    router: userRouter,
+    router: adminRouter,
   },
 ];
 

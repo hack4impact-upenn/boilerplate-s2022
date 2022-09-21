@@ -1,8 +1,6 @@
-/* eslint-disable no-lone-blocks */
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -20,7 +18,7 @@ import {
 import VerifyAccountPage from './Authentication/VerifyAccountPage';
 import RegisterPage from './Authentication/RegisterPage';
 import LoginPage from './Authentication/LoginPage';
-import ResetPasswordEmailPage from './Authentication/SendResetPasswordEmailPage';
+import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage';
 import ResetPasswordPage from './Authentication/ResetPasswordPage';
 
 function App() {
@@ -42,7 +40,7 @@ function App() {
                     />
                     <Route
                       path="/email-reset"
-                      element={<ResetPasswordEmailPage />}
+                      element={<EmailResetPasswordPage />}
                     />
                     <Route
                       path="/reset-password/:token"

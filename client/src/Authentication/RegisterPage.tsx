@@ -15,6 +15,10 @@ import ScreenGrid from '../components/ScreenGrid';
 import FormRow from '../components/form/FormRow';
 import FormGrid from '../components/form/FormGrid';
 
+/**
+ * A page users visit to be able to register for a new account by inputting
+ * fields such as their name, email, and password.
+ */
 function RegisterPage() {
   const navigate = useNavigate();
 
@@ -232,7 +236,7 @@ function RegisterPage() {
           </Grid>
           <FormRow>
             <Grid container justifyContent="center">
-              <Link component={RouterLink} to="/login">
+              <Link component={RouterLink} to="../">
                 Back to Login
               </Link>
             </Grid>

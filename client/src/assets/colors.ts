@@ -1,3 +1,6 @@
+/**
+ * A file for defining the colors used in the project.
+ */
 const COLORS = {
   // From Official hack website
   // https://github.com/hack4impact/chapter-website-template/blob/main/public/style.css
@@ -13,7 +16,6 @@ const COLORS = {
   neutral: '#8c8c8c', // Gray
   lightGray: '#ebeff2', // Gray-subsection
   actionBlue: '#155da1', // Action button
-  // TODO: get the others colors not at the top of file also in
 
   // Other colors:
 };

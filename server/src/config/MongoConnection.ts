@@ -6,16 +6,14 @@ import MongoStore from 'connect-mongo';
 /* uncomment for database logger */
 // mongoose.set('debug', process.env.DEBUG !== 'production');
 
-// options for the mongodb connection
+// Options for the mongodb connection
 const opts = {
   // keepAlive is a feature true by default in MongoDB which allows for long TCP connections which allows for long running applications.
   // keepAliveInitialDelay causes keepAlive to start after 300000 milliseconds to prevent excessive network traffic
   keepAliveInitialDelay: 300000,
-  // serverSelectionTimeoutMS sets the amount of time in milliseconds Mongoose will spend attempting to connect to a valid server.
+  // the amount of time in milliseconds Mongoose will spend attempting to connect to a valid server.
   serverSelectionTimeoutMS: 5000,
-  // socketTimeoutMS details how long mongoose will wait after opening a socket
-  // (which is more or less an indiviual network connection with with the database) before closing it due to inactivity.
-  // This prevents sockets from remaining open during operations that take more than 45 seconds and hence prevents infinite loops and/or excessive connections.
+  // how long mongoose will wait after opening a socket
   // This should be set to 2x-3x the slowest operation.
   socketTimeoutMS: 45000,
 };
@@ -102,7 +100,9 @@ class MongoConnection {
   public async clearInMemoryCollections(): Promise<void> {
     if (this.mongoMemoryServer && mongoose.connection.db) {
       const collections = await mongoose.connection.db.collections();
-      collections.forEach((c) => c.deleteMany({}));
+      Object.values(collections).forEach(async (collection) => {
+        await collection.deleteMany({}); // No filter deletes all documents
+      });
     }
   }
 

@@ -13,7 +13,7 @@ import FormCol from '../components/form/FormCol';
  * A page allowing users to input their email so a reset password link can be
  * sent to them
  */
-function ResetPasswordEmailPage() {
+function EmailResetPasswordPage() {
   // Default values for state
   const defaultShowErrors = {
     email: false,
@@ -112,7 +112,7 @@ function ResetPasswordEmailPage() {
             </PrimaryButton>
           </Grid>
           <Grid item container justifyContent="center">
-            <Link component={RouterLink} to="/login">
+            <Link component={RouterLink} to="../">
               Back to Login
             </Link>
           </Grid>
@@ -131,4 +131,4 @@ function ResetPasswordEmailPage() {
   );
 }
 
-export default ResetPasswordEmailPage;
+export default EmailResetPasswordPage;

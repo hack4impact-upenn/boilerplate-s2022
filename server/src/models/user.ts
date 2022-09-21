@@ -1,3 +1,7 @@
+/**
+ * Defines the User model for the database and also the interface to
+ * access the model in TypeScript.
+ */
 import mongoose from 'mongoose';
 
 // TODO: change token to its own schema to optimize searches
@@ -26,13 +30,15 @@ const UserSchema = new mongoose.Schema({
   },
   verificationToken: {
     type: String,
-    unique: true,
     required: false,
+    unique: true,
+    sparse: true,
   },
   resetPasswordToken: {
     type: String,
-    unique: true,
     required: false,
+    unique: true,
+    sparse: true,
   },
   resetPasswordTokenExpiryDate: {
     type: Date,

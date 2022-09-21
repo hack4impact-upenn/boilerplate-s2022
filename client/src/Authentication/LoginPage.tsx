@@ -11,6 +11,7 @@ import { loginUser } from './api';
 import AlertDialog from '../components/AlertDialog';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import ScreenGrid from '../components/ScreenGrid';
+
 /**
  * A page allowing users to input their email and password to login. The default
  * starting page of the application
@@ -133,7 +134,7 @@ function LoginPage() {
         <FormCol>
           <Grid item container justifyContent="center">
             <Typography variant="h2" textAlign="center">
-              Welcome to the new Boilerplate
+              Welcome to Boilerplate
             </Typography>
           </Grid>
           <Grid item width="1">
