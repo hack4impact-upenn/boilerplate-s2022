@@ -1,4 +1,6 @@
-// TODO, see if this is the best way to organize this file
+/**
+ * All the functions related to sending emails with SendGrid
+ */
 import 'dotenv/config';
 import SGmail, { MailDataRequired } from '@sendgrid/mail';
 

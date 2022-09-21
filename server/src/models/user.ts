@@ -1,3 +1,7 @@
+/**
+ * Defines the User model for the database and also the interface to
+ * access the model in TypeScript.
+ */
 import mongoose from 'mongoose';
 
 // TODO: change token to its own schema to optimize searches

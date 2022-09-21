@@ -1,6 +1,6 @@
 /**
- * All the logic for routes relating to a user's authentication such as
- * login, logout, register.
+ * All the controller functions containing the logic for routes relating to a
+ * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
 import passport from 'passport';
@@ -21,6 +21,9 @@ import {
 } from '../services/mail.service';
 import ApiError from '../config/ApiError';
 
+/**
+ * A controller function to login a user and create a session with Passport.
+ */
 const login = async (
   req: express.Request,
   res: express.Response,
@@ -62,15 +65,14 @@ const login = async (
   )(req, res, next);
 };
 
+/**
+ * A controller function to logout a user with Passport and clear the session.
+ */
 const logout = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  if (!req.isAuthenticated()) {
-    next(ApiError.unauthorized('Not logged in'));
-    return;
-  }
   // Logout with Passport which modifies the request object
   req.logout();
 
@@ -86,6 +88,9 @@ const logout = async (
   }
 };
 
+/**
+ * A controller function to resgister a user in the database.
+ */
 const register = async (
   req: express.Request,
   res: express.Response,
@@ -144,6 +149,9 @@ const approve = async (req: express.Request, res: express.Response) => {
   res.sendStatus(StatusCode.OK);
 };
 
+/**
+ * A controller function to verify an account with a verification token.
+ */
 const verifyAccount = async (
   req: express.Request,
   res: express.Response,
@@ -170,6 +178,9 @@ const verifyAccount = async (
   }
 };
 
+/**
+ * A controller function to send a password reset link to a user's email.
+ */
 const sendResetPasswordEmail = async (
   req: express.Request,
   res: express.Response,
@@ -210,6 +221,9 @@ const sendResetPasswordEmail = async (
     });
 };
 
+/**
+ * A controller function to reset a user's password.
+ */
 const resetPassword = async (
   req: express.Request,
   res: express.Response,

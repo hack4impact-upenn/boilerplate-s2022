@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography, Button, Grid } from '@mui/material';
 import ScreenGrid from '../components/ScreenGrid';
 
+/**
+ * A page for showing a 404 error to the user and offering a rediect to the
+ * the home page.
+ */
 function NotFoundPage() {
   return (
     <ScreenGrid>
@@ -15,7 +19,7 @@ function NotFoundPage() {
       </Grid>
       <Grid item>
         <Button href="/home" variant="text">
-          Go To home
+          Go to home page
         </Button>
       </Grid>
     </ScreenGrid>

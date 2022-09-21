@@ -1,3 +1,6 @@
+/**
+ * All the middleware functions related to authentication
+ */
 import express from 'express';
 import ApiError from '../config/ApiError';
 
@@ -18,4 +21,5 @@ const isAuthenticated = (
   next(ApiError.unauthorized('Must be logged in.'));
 };
 
-export default isAuthenticated;
+// eslint-disable-next-line import/prefer-default-export
+export { isAuthenticated };

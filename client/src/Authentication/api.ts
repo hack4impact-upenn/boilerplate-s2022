@@ -1,6 +1,9 @@
+/**
+ * A file for defining functions used to interact with the backend server
+ * for authentication purposes.
+ */
 import { postData } from '../util/api';
 
-// const BACKENDURL = 'http://localhost:4000';
 /**
  * Sends a request to the server to log in a user
  * @param email The email of the user to log in

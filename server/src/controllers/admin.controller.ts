@@ -1,9 +1,13 @@
+/**
+ * All the controller functions containing the logic for routes relating to
+ * admin users such as getting all users, deleting users and upgrading users.
+ */
 import express from 'express';
 import ApiError from '../config/ApiError';
 import StatusCode from '../config/StatusCode';
 import { IUser } from '../models/user';
 import {
-  toggleAdmin as upgradeUserToAdmin,
+  upgradeUserToAdmin,
   getUserByEmail,
   getAllUsersFromDB,
   deleteUserById,
