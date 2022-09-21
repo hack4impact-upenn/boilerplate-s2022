@@ -133,7 +133,7 @@ function LoginPage() {
         <FormCol>
           <Grid item container justifyContent="center">
             <Typography variant="h2" textAlign="center">
-              Welcome to the new Boilerplate
+              Welcome to Boilerplate
             </Typography>
           </Grid>
           <Grid item width="1">
