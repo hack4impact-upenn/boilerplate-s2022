@@ -20,9 +20,9 @@ const router = express.Router();
  */
 router.get('/all', isAuthenticated, isAdmin, getAllUsers);
 
-router.get('/adminstatus', isAuthenticated, isAdmin, getAllUsers);
+router.get('/adminstatus', isAuthenticated, isAdmin, approve);
 
-router.put('/promote', isAuthenticated, isAdmin, approve);
+router.put('/promote', isAuthenticated, isAdmin, upgradePrivilege);
 
 // delete during deployment
 router.put('/autopromote', upgradePrivilege);
