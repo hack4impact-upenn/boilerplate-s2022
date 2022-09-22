@@ -57,6 +57,9 @@ router.post('/send-reset-password-email', sendResetPasswordEmail);
  */
 router.post('/reset-password', resetPassword);
 
+/**
+ * A GET request to check if a user is an logged in. Utilizes the {@link isAuthenticated} middleware to check if a user if authenticated. Returns 200 OK if the user is authenticated and 401 unauthorized if the user is not authenticated.
+ */
 router.get('/authstatus', isAuthenticated, approve);
 
 export default router;

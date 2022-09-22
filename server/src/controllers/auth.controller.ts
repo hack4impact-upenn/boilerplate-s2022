@@ -145,6 +145,9 @@ const register = async (
   }
 };
 
+/**
+ * A dummy controller function which sends a 200 OK status code. Should be used to close a request after a middleware call.
+ */
 const approve = async (req: express.Request, res: express.Response) => {
   res.sendStatus(StatusCode.OK);
 };

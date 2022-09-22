@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import { AnyChildren } from '../../assets/types';
+import { AnyChildren } from '../../util/types/generic';
 
 /**
  * A component for formatting rows in {@link FormGrid}

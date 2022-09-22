@@ -5,6 +5,12 @@ import { hash } from 'bcrypt';
 import { User } from '../models/user';
 
 const passwordHashSaltRounds = 10;
+const removeSensitiveDataQuery = [
+  '-password',
+  '-verificationToken',
+  '-resetPasswordToken',
+  '-resetPasswordTokenExpiryDate',
+];
 
 /**
  * Creates a new user in the database.
@@ -42,7 +48,9 @@ const createUser = async (
  * @returns The {@link User} or null if the user was not found.
  */
 const getUserByEmail = async (email: string) => {
-  const user = await User.findOne({ email }).select(['-password']).exec();
+  const user = await User.findOne({ email })
+    .select(removeSensitiveDataQuery)
+    .exec();
   return user;
 };
 

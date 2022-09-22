@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { AnyChildren } from '../assets/types';
+import { AnyChildren } from '../util/types/generic';
 
 /**
  * This styles a the whole screen as a grid component, serves as a wrapper to ensure

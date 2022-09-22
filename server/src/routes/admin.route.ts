@@ -15,6 +15,9 @@ import 'dotenv/config';
 
 const router = express.Router();
 
+/**
+ * A GET route to get all users. Checks first if the user is a authenticated and is an admin.
+ */
 router.get('/all', isAuthenticated, isAdmin, getAllUsers);
 
 router.get('/adminstatus', isAuthenticated, isAdmin, getAllUsers);

@@ -12,7 +12,6 @@ interface Row {
 
 interface User {
   _id: string;
-  accountType: 'internal' | 'google';
   firstName: string;
   lastName: string;
   email: string;

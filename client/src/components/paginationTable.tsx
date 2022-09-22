@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -83,8 +84,15 @@ function PaginationTable({ rows, columns }: TableProps) {
   };
 
   return (
-    <div>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Box bgcolor="red">
+      <Paper
+        sx={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'grey',
+          overflow: 'hidden',
+        }}
+      >
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -119,7 +127,7 @@ function PaginationTable({ rows, columns }: TableProps) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </div>
+    </Box>
   );
 }
 

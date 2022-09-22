@@ -5,6 +5,7 @@ import { useData } from '../util/api';
 import createRows from './userRows';
 import { useAppSelector } from '../util/redux/hooks';
 import { selectUser } from '../util/redux/slice';
+import IUser from '../util/types/user';
 /**
  * We use the pagination table component to load a paginated user table after denoting the
  * column names and data types through ids, Data, and createData. rows is the data that we
@@ -12,21 +13,12 @@ import { selectUser } from '../util/redux/slice';
  * @returns a page containing a paginated user table
  */
 
-interface User {
-  _id: string;
-  accountType: 'internal' | 'google';
-  firstName: string;
-  lastName: string;
-  email: string;
-  admin: boolean;
-}
-
 interface IUsers {
-  users: User[];
+  users: IUser[];
 }
 
 interface IUserTableBody {
-  users: User[];
+  users: IUser[];
   removeUser: (email: string) => void;
   updateAdmin: (email: string) => void;
 }
@@ -42,13 +34,7 @@ function UserTableBody({ users, removeUser, updateAdmin }: IUserTableBody) {
     { id: 'remove', label: 'Remove User' },
   ];
 
-  return (
-    <div>
-      <div>
-        <PaginationTable rows={rows} columns={columns} />
-      </div>
-    </div>
-  );
+  return <PaginationTable rows={rows} columns={columns} />;
 }
 
 function UserTableBodyWrapper({ users }: IUsers) {
@@ -74,15 +60,11 @@ function UserTableBodyWrapper({ users }: IUsers) {
   };
 
   return (
-    <div>
-      <div>
-        <UserTableBody
-          users={userList}
-          removeUser={removeUser}
-          updateAdmin={updateAdmin}
-        />
-      </div>
-    </div>
+    <UserTableBody
+      users={userList}
+      removeUser={removeUser}
+      updateAdmin={updateAdmin}
+    />
   );
 }
 
@@ -97,7 +79,7 @@ function UserTable() {
     );
   }
   const userList = users.data.filter(
-    (entry: User) => entry && entry.email && entry.email !== self.email,
+    (entry: IUser) => entry && entry.email && entry.email !== self.email,
   );
   return <UserTableBodyWrapper users={userList} />;
 }
