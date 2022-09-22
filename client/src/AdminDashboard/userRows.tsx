@@ -1,5 +1,6 @@
 import React from 'react';
 import { DeleteUserButton, PromoteUserButton } from './buttons';
+import IUser from '../util/types/user';
 
 interface Row {
   key: string;
@@ -9,15 +10,6 @@ interface Row {
   promote: React.ReactElement;
   remove: React.ReactElement;
 }
-
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  admin: boolean;
-}
-
 function createRow(
   key: string,
   first: string,
@@ -29,8 +21,15 @@ function createRow(
   return { key, first, last, email, promote, remove };
 }
 
+/**
+ * Process a list of users to create the row data type for the user table
+ * @param users - the list of users to process
+ * @param removeRow - the function to call when the remove button is clicked
+ * @param updateAdmin - the function to call when the promote button is clicked
+ * @returns
+ */
 function createRows(
-  users: User[],
+  users: IUser[],
   removeRow: (email: string) => void,
   updateAdmin: (email: string) => void,
 ): Row[] {

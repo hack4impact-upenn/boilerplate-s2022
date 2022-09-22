@@ -8,7 +8,6 @@ import ConfirmationModal from '../components/confirmationModel';
 interface DeleteUserButtonProps {
   admin: boolean;
   email: string;
-  // handleDelete: (setLoading: React.Dispatch<boolean>, email: string) => void;
   removeRow: (email: string) => void;
 }
 
@@ -18,6 +17,12 @@ interface PromoteUserButtonProps {
   updateAdmin: (email: string) => void;
 }
 
+/**
+ * The button component which, when clicked, will delete the user from the database. If the user is an admin, the button will be unclickable.
+ * @param admin - whether the user is an admin
+ * @param email - the email of the user to delete
+ * @param removeRow - a function which removes a row from the user table. This function is called upon successfully deletion of user from the database.
+ */
 function DeleteUserButton({ admin, email, removeRow }: DeleteUserButtonProps) {
   const [isLoading, setLoading] = useState(false);
   async function handleDelete() {
@@ -39,9 +44,6 @@ function DeleteUserButton({ admin, email, removeRow }: DeleteUserButtonProps) {
         body="This action is permanent. User information will not be able to be recovered."
         onConfirm={() => handleDelete()}
       />
-      //   <Button variant="outlined" onClick={async () => handleDelete()}>
-      //     Remove User
-      //   </Button>
     );
   }
   return (
@@ -51,19 +53,24 @@ function DeleteUserButton({ admin, email, removeRow }: DeleteUserButtonProps) {
   );
 }
 
+/**
+ * The button component which, when clicked, will promote a user to admin. If the user is already admin, the button will be unclickable.
+ * @param admin - whether the user is an admin
+ * @param email - the email of the user to promote
+ * @param updatesAdmin - a function which updates whether the user is an admin on the frontend representation of the set of users. This function is called upon successfully deletion of user from the database.
+ */
 function PromoteUserButton({
   admin,
   email,
   updateAdmin,
 }: PromoteUserButtonProps) {
   const [isLoading, setLoading] = useState(false);
-  // const [isAdmin, setAdmin] = useState(admin);
 
   async function handlePromote() {
     setLoading(true);
     if (await upgradePrivilege(email)) {
+      console.log('success');
       updateAdmin(email);
-      // se
     }
     setLoading(false);
   }
@@ -72,9 +79,6 @@ function PromoteUserButton({
   }
   if (!admin) {
     return (
-      //   <Button variant="outlined" onClick={async () => handlePromote()}>
-      //     Promote User
-      //   </Button>
       <ConfirmationModal
         buttonText="Promote User"
         title="Are you sure you want to promote this user to admin?"
