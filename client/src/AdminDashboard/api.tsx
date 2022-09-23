@@ -6,7 +6,7 @@ import { deleteData, putData } from '../util/api';
  * @returns true if successful, false otherwise
  */
 async function deleteUser(email: string) {
-  const res = await deleteData(`user/${email}`);
+  const res = await deleteData(`admin/${email}`);
   if (res.error) return false;
   return true;
 }
@@ -16,7 +16,7 @@ async function deleteUser(email: string) {
  * @returns true if successful, false otherwise
  */
 async function upgradePrivilege(email: string) {
-  const res = await putData('user/promote', { email });
+  const res = await putData('admin/promote', { email });
   if (res.error) return false;
   return true;
 }

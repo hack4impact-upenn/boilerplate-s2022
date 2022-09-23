@@ -15,7 +15,7 @@ async function logout() {
  * PLEASE REMOVE THIS FUNCTION AND BACKEND ENDPOINT UPON DEPLOYMENT
  */
 async function selfUpgrade(email: string) {
-  const res = await putData('user/autopromote', { email });
+  const res = await putData('admin/autopromote', { email });
   if (res.error) return false;
   return true;
 }

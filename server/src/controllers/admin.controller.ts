@@ -88,12 +88,8 @@ const deleteUser = async (
     next(ApiError.notFound(`User with email ${email} does not exist`));
     return;
   }
-  // TODO: check if this is the right response code, or do we even need this?
+
   const reqUser: IUser | undefined = req.user as IUser;
-  if (!reqUser || !reqUser.email) {
-    next(ApiError.unauthorized('Not a valid user'));
-    return;
-  }
   if (reqUser.email === user.email) {
     next(ApiError.badRequest('Cannot delete self.'));
     return;
