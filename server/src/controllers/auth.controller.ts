@@ -103,6 +103,22 @@ const register = async (
     );
     return;
   }
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+
+  const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/;
+
+  const nameRegex = /^[a-z ,.'-]+/i;
+
+  if (
+    !email.match(emailRegex) ||
+    !password.match(passwordRegex) ||
+    !firstName.match(nameRegex) ||
+    !lastName.match(nameRegex)
+  ) {
+    next(ApiError.badRequest('Invalid email, password, or name.'));
+    return;
+  }
 
   if (req.isAuthenticated()) {
     next(ApiError.badRequest('Already logged in.'));
