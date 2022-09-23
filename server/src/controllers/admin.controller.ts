@@ -3,8 +3,8 @@
  * admin users such as getting all users, deleting users and upgrading users.
  */
 import express from 'express';
-import ApiError from '../config/ApiError';
-import StatusCode from '../config/StatusCode';
+import ApiError from '../config/apiError';
+import StatusCode from '../config/statusCode';
 import { IUser } from '../models/user';
 import {
   upgradeUserToAdmin,

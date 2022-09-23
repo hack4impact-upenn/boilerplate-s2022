@@ -1,4 +1,4 @@
-import MongoConnection from './src/config/MongoConnection';
+import MongoConnection from './src/config/mongoConnection';
 import createExpressApp from './src/config/createExpressApp';
 import 'dotenv/config';
 

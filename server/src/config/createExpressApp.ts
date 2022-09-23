@@ -9,7 +9,7 @@ import routers from '../routes/routers';
 import initializePassport from './configPassport';
 import 'dotenv/config';
 import apiErrorResponder from './apiErrorResponder';
-import ApiError from './ApiError';
+import ApiError from './apiError';
 
 /**
  * Creates an express instance with the appropriate routes and middleware

@@ -7,7 +7,7 @@ import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
 import { IUser } from '../models/user';
-import StatusCode from '../config/StatusCode';
+import StatusCode from '../config/statusCode';
 import {
   passwordHashSaltRounds,
   createUser,
@@ -19,7 +19,7 @@ import {
   emailResetPasswordLink,
   emailVerificationLink,
 } from '../services/mail.service';
-import ApiError from '../config/ApiError';
+import ApiError from '../config/apiError';
 
 /**
  * A controller function to login a user and create a session with Passport. On success, the user's information is returned. Else, send an appropriate error message.
