@@ -16,17 +16,35 @@ import 'dotenv/config';
 const router = express.Router();
 
 /**
- * A GET route to get all users. Checks first if the user is a authenticated and is an admin.
+ * A GET route to get all users. Checks first if the requestor is a authenticated and is an admin.
  */
 router.get('/all', isAuthenticated, isAdmin, getAllUsers);
 
+/**
+ * A GET route to check if the requestor is an admin. Checks first if the requestor is a authenticated.
+ */
 router.get('/adminstatus', isAuthenticated, isAdmin, approve);
 
+/**
+ * A put route to upgrade a user's privilege. Checks first if the requestor is a authenticated and is an admin.
+ * Expects a JSON body with the following fields:
+ * - email (string) - The email of the user to be promoted
+ */
 router.put('/promote', isAuthenticated, isAdmin, upgradePrivilege);
 
+/**
+ * A put route to upgrade a user's privilege
+ * Expects a JSON body with the following fields:
+ * - email (string) - The email of the user to be promoted
+ */
 // delete during deployment
 router.put('/autopromote', upgradePrivilege);
 
+/**
+ * A delete route to delete a user. Checks first if the requestor is a authenticated and is an admin.
+ * Expects the following fields in the URL:
+ * email (string) - The email of the user to be deleted
+ */
 router.delete('/:email', isAuthenticated, isAdmin, deleteUser);
 
 export default router;

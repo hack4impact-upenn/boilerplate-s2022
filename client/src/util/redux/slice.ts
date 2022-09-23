@@ -21,7 +21,10 @@ const initialState = {
   firstName: null,
   lastName: null,
 } as UserState;
-// Reducers
+
+/**
+ * A slice of the redux store that contains the user's information. This slice defines reducer for logging in a user, logging out a user, and promoting a user to admin.
+ */
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -47,5 +50,9 @@ const userSlice = createSlice({
 export const { login, logout, toggleAdmin } = userSlice.actions;
 export default userSlice.reducer;
 
-// Selectors
+/**
+ * A selector that returns the user state
+ * @param state The redux store state
+ * @returns The user state
+ */
 export const selectUser = (state: RootState) => state;

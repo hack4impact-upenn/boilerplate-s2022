@@ -22,7 +22,7 @@ import {
 import ApiError from '../config/ApiError';
 
 /**
- * A controller function to login a user and create a session with Passport.
+ * A controller function to login a user and create a session with Passport. On success, the user's information is returned. Else, send an appropriate error message.
  */
 const login = async (
   req: express.Request,
@@ -89,7 +89,7 @@ const logout = async (
 };
 
 /**
- * A controller function to resgister a user in the database.
+ * A controller function to register a user in the database.
  */
 const register = async (
   req: express.Request,
@@ -177,7 +177,7 @@ const verifyAccount = async (
     await user!.save();
     res.sendStatus(StatusCode.OK);
   } catch (err) {
-    next(ApiError.internal('Unable to verify the acccount.'));
+    next(ApiError.internal('Unable to verify the account.'));
   }
 };
 

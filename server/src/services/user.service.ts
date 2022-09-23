@@ -12,12 +12,18 @@ const removeSensitiveDataQuery = [
   '-resetPasswordTokenExpiryDate',
 ];
 
+const removeSensitiveDataQueryKeepPassword = [
+  '-verificationToken',
+  '-resetPasswordToken',
+  '-resetPasswordTokenExpiryDate',
+];
+
 /**
  * Creates a new user in the database.
- * @param firstName
- * @param lastName
- * @param email
- * @param password
+ * @param firstName - string representing the first name of the user
+ * @param lastName - string representing the last name of the user
+ * @param email - string representing the email of the user
+ * @param password - string representing the password of the user
  * @returns The created {@link User}
  */
 const createUser = async (
@@ -61,7 +67,9 @@ const getUserByEmail = async (email: string) => {
  * @returns The {@link User} or null if the user was not found.
  */
 const getUserByEmailWithPassword = async (email: string) => {
-  const user = await User.findOne({ email }).exec();
+  const user = await User.findOne({ email })
+    .select(removeSensitiveDataQueryKeepPassword)
+    .exec();
   return user;
 };
 
@@ -73,7 +81,7 @@ const getUserByEmailWithPassword = async (email: string) => {
  */
 const getUserByVerificationToken = async (verificationToken: string) => {
   const user = await User.findOne({ verificationToken })
-    .select(['-password'])
+    .select(removeSensitiveDataQuery)
     .exec();
   return user;
 };
@@ -85,7 +93,7 @@ const getUserByVerificationToken = async (verificationToken: string) => {
  * @returns The {@link User} or null if the user was not found.
  */
 const getUserById = async (id: string) => {
-  const user = await User.findById(id).select(['-password']).exec();
+  const user = await User.findById(id).select(removeSensitiveDataQuery).exec();
   return user;
 };
 
@@ -107,7 +115,7 @@ const getUserByResetPasswordToken = async (resetPasswordToken: string) => {
  * @returns All the {@link User}s in the database without their passwords.
  */
 const getAllUsersFromDB = async () => {
-  const userList = await User.find({}).select(['-password']).exec();
+  const userList = await User.find({}).select(removeSensitiveDataQuery).exec();
   return userList;
 };
 

@@ -13,6 +13,9 @@ import {
   deleteUserById,
 } from '../services/user.service';
 
+/**
+ * Get all users from the database. Upon success, send the a list of all users in the res body with 200 OK status code.
+ */
 const getAllUsers = async (
   req: express.Request,
   res: express.Response,
@@ -30,6 +33,10 @@ const getAllUsers = async (
   );
 };
 
+/**
+ * Upgrade a user to an admin. The email of the user is expected to be in the request body.
+ * Upon success, return 200 OK status code.
+ */
 const upgradePrivilege = async (
   req: express.Request,
   res: express.Response,
@@ -61,6 +68,9 @@ const upgradePrivilege = async (
     });
 };
 
+/**
+ * Delete a user from the database. The email of the user is expected to be in the request parameter (url). Send a 200 OK status code on success.
+ */
 const deleteUser = async (
   req: express.Request,
   res: express.Response,

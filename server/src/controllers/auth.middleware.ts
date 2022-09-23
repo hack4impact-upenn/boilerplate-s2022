@@ -17,7 +17,7 @@ const isAuthenticated = (
     next(); // Go to the next non-error-handling middleware
     return;
   }
-  // Provding a parameter means go to the next error handler
+  // Providing a parameter means go to the next error handler
   next(ApiError.unauthorized('Must be logged in.'));
 };
 

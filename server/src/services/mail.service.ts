@@ -17,7 +17,7 @@ SGmail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
  * @param token The unique token identifying this reset attempt for the user
  */
 const emailResetPasswordLink = async (email: string, token: string) => {
-  // TODO: use a template to make this prettier
+  // TODO DURING DEVELOPMENT: use a template to make this prettier and match client's style
   const resetLink = `${baseUrl}/reset-password/${token}`;
   const mailSettings: MailDataRequired = {
     from: {
@@ -60,7 +60,6 @@ const emailVerificationLink = async (email: string, token: string) => {
       `<p>If you did not attempt to register an account with this email address, ` +
       `please ignore this message.</p>`,
   };
-  console.log(`sending ${token} to ${email}`);
   // Send the email and propogate the error up if one exists
   await SGmail.send(mailSettings);
 };

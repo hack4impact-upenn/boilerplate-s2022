@@ -18,6 +18,12 @@ interface PromoteButtonProps {
   navigator: NavigateFunction;
 }
 
+/**
+ * A button which, when clicked, will promote the user to admin. If the user is already admin, the button will be a link to the admin dashboard.
+ * @param admin - a boolean indicating whether the user is an admin
+ * @param handleSelfPromote - a function which promotes the user to admin
+ * @param navigator - a function which navigates to a new page (passed in from parent function)
+ */
 function PromoteButton({
   admin,
   handleSelfPromote,
@@ -39,7 +45,9 @@ function PromoteButton({
     </PrimaryButton>
   );
 }
-
+/**
+ * The HomePage of the user dashboard. Displays a welcome message, a logout button and a button to promote the user to admin if they are not already an admin. If the user is an admin, the button will navigate them to the admin dashboard. This utilizes redux to access the current user's information.
+ */
 function HomePage() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -47,7 +55,8 @@ function HomePage() {
   const [admin, setAdmin] = useState(user.admin);
   const logoutDispatch = () => dispatch(logoutAction());
   const handleLogout = async () => {
-    if (await logoutApi(logoutDispatch)) {
+    if (await logoutApi()) {
+      logoutDispatch();
       navigator('/login', { replace: true });
     }
   };

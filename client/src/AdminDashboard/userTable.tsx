@@ -6,13 +6,13 @@ import createRows from './userRows';
 import { useAppSelector } from '../util/redux/hooks';
 import { selectUser } from '../util/redux/slice';
 import IUser from '../util/types/user';
+
 /**
  * We use the pagination table component to load a paginated user table after denoting the
  * column names and data types through ids, Data, and createData. rows is the data that we
  * load into the custom component.
  * @returns a page containing a paginated user table
  */
-
 interface IUsers {
   users: IUser[];
 }
@@ -22,7 +22,13 @@ interface IUserTableBody {
   removeUser: (email: string) => void;
   updateAdmin: (email: string) => void;
 }
-
+/**
+ * A component creates {@link PaginationTable} component with the users as the data.
+ * @param users - the list of users to display
+ * @param removeUser - the function to call when the remove button is clicked
+ * @param updateAdmin - the function to call when the promote button is clicked
+ *
+ */
 function UserTableBody({ users, removeUser, updateAdmin }: IUserTableBody) {
   const rows = createRows(users, removeUser, updateAdmin);
 
@@ -37,6 +43,11 @@ function UserTableBody({ users, removeUser, updateAdmin }: IUserTableBody) {
   return <PaginationTable rows={rows} columns={columns} />;
 }
 
+/**
+ * A wrapper component for {@link UserTableBody} that contains the state of the frontend list of users. Upon a change of state, the UserTableBody child component is rerendered. The removeUser and updateAdmin functions are defined here. (TO BE REIMPLEMENTED FOR EFFICIENCY)
+ * @param users - the list of users to display
+ * @returns a page containing a paginated user table
+ */
 function UserTableBodyWrapper({ users }: IUsers) {
   const [userList, setUserList] = useState(users);
 
@@ -68,6 +79,9 @@ function UserTableBodyWrapper({ users }: IUsers) {
   );
 }
 
+/**
+ * A wrapper component for {@link UserTableBodyWrapper} that fetches the data for the user table.
+ */
 function UserTable() {
   const users = useData('user/all');
   const self = useAppSelector(selectUser);

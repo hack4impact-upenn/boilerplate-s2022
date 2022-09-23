@@ -13,7 +13,13 @@ interface IConfirmModal {
   // eslint-disable-next-line @typescript-eslint/ban-types
   onConfirm: Function;
 }
-
+/**
+ * A modal component that displays a confirmation message and a button to confirm the action or cancel the action.
+ * @param buttonText - the text to display on the confirmation button
+ * @param title - the title of the modal
+ * @param body - the body of the modal
+ * @param onConfirm - the function to call when the confirmation button is clicked
+ */
 export default function ConfirmModal({
   buttonText,
   title,

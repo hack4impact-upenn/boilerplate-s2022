@@ -1,3 +1,6 @@
+/**
+ * Interface for the user data type return from the backend
+ */
 interface IUser {
   _id: string;
   firstName: string;

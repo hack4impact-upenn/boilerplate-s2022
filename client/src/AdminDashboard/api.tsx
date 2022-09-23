@@ -1,12 +1,21 @@
 import { deleteData, putData } from '../util/api';
 
+/**
+ * Sends a request to the server to delete a user
+ * @param email - the email of the user to delete
+ * @returns true if successful, false otherwise
+ */
 async function deleteUser(email: string) {
   const res = await deleteData(`user/${email}`);
   console.log('delete res is', res);
   if (res.error) return false;
   return true;
 }
-
+/**
+ * Sends a request to the server to promote a user to admin
+ * @param email - the email of the user to promote
+ * @returns true if successful, false otherwise
+ */
 async function upgradePrivilege(email: string) {
   const res = await putData('user/promote', { email });
   console.log('upgrade res is', res);

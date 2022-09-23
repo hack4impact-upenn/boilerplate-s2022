@@ -54,13 +54,16 @@ function App() {
                   <Route element={<AdminRoutesWrapper />}>
                     <Route path="/users" element={<AdminDashboardPage />} />
                   </Route>
-                  {/* Element depends on of if users is authorized or unauthorized */}
+
+                  {/* Route which redirects to a different page depending on if the user is an authenticated or not by utilizing the DynamicRedirect component */}
                   <Route
                     path="/"
                     element={
                       <DynamicRedirect unAuthPath="/login" authPath="/home" />
                     }
                   />
+
+                  {/* Route which is accessed if no other route is matched */}
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </CssBaseline>

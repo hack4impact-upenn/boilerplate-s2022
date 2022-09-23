@@ -27,8 +27,6 @@ const verifyLocalUser = (
       // Match user with password
       return compare(password, user.password, (err: any, isMatch: boolean) => {
         if (err) {
-          console.log(err);
-          console.log(user);
           return done(err);
         }
         if (isMatch) {
@@ -40,7 +38,6 @@ const verifyLocalUser = (
       });
     })
     .catch((error: any) => {
-      console.log(error);
       return done(error);
     });
 };

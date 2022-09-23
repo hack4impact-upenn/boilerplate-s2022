@@ -1,4 +1,4 @@
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+// Common status codes. Listed here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 enum StatusCode {
   // Successful
   OK = 200,
