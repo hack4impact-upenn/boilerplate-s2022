@@ -283,18 +283,6 @@ describe('testing admin routes', () => {
         expect(cleanMongoObjArr(response.body)).toContainEqual(user4);
       });
 
-      it('deleting without specifying email throws error', async () => {
-        let response = await agent.delete(`/api/admin/`).send();
-        expect(response.status).toBe(StatusCode.BAD_REQUEST);
-
-        response = await agent.get('/api/admin/all').send();
-        expect(response.status).toBe(StatusCode.OK);
-        expect(cleanMongoObjArr(response.body)).toContainEqual(user1);
-        expect(cleanMongoObjArr(response.body)).toContainEqual(user2);
-        expect(cleanMongoObjArr(response.body)).toContainEqual(user3);
-        expect(cleanMongoObjArr(response.body)).toContainEqual(user4);
-      });
-
       it('deleting non-existent user throws error', async () => {
         let response = await agent.delete(`/api/admin/notexistent`).send();
         expect(response.status).toBe(StatusCode.NOT_FOUND);
