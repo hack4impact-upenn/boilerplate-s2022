@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   Paper,
   Table,
   TableBody,
@@ -8,11 +7,8 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableFooter,
   TableRow,
 } from '@mui/material';
-import { PausePresentationSharp } from '@material-ui/icons';
-import { width } from '@mui/system';
 
 /**
  * interface for the props of the {@link PaginationTable} component

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { styled } from '@mui/system';
 import { AnyChildren } from '../../util/types/generic';
 
 /**

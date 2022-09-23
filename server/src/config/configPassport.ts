@@ -6,6 +6,16 @@ import {
   getUserById,
 } from '../services/user.service';
 
+interface IUserWithPassword {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+  verified: boolean;
+  admin: boolean;
+}
+
 /**
  * Middleware to check if a user is authenticated using the Local Strategy.
  * @param email Email of the user
@@ -20,12 +30,12 @@ const verifyLocalUser = (
   // Match user with email
   const lowercaseEmail = email.toLowerCase();
   getUserByEmailWithPassword(lowercaseEmail)
-    .then((user: any) => {
+    .then((user: IUserWithPassword | null) => {
       if (!user) {
         return done(null, false, { message: 'User not found' });
       }
       // Match user with password
-      return compare(password, user.password, (err: any, isMatch: boolean) => {
+      return compare(password, user.password!, (err: any, isMatch: boolean) => {
         if (err) {
           return done(err);
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Navigate, Route } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 import { useData } from './api';
 
 interface IDynamicElementProps {

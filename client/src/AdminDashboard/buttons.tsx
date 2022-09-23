@@ -69,7 +69,6 @@ function PromoteUserButton({
   async function handlePromote() {
     setLoading(true);
     if (await upgradePrivilege(email)) {
-      console.log('success');
       updateAdmin(email);
     }
     setLoading(false);
