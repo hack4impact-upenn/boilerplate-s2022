@@ -28,7 +28,7 @@ function ProtectedRoutesWrapper() {
  * A wrapper component whose children routes which can only be navigated to if the user is an admin.
  */
 function AdminRoutesWrapper() {
-  const data = useData('user/adminstatus');
+  const data = useData('admin/adminstatus');
   if (data === null) return null;
   return !data.error ? <Outlet /> : <Navigate to="/" />;
 }

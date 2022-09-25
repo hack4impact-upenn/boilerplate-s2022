@@ -83,7 +83,7 @@ function UserTableBodyWrapper({ users }: IUsers) {
  * A wrapper component for {@link UserTableBodyWrapper} that fetches the data for the user table.
  */
 function UserTable() {
-  const users = useData('user/all');
+  const users = useData('admin/all');
   const self = useAppSelector(selectUser);
   if (!users) {
     return (
