@@ -5,9 +5,9 @@ import express from 'express';
 import request from 'supertest';
 import { Server } from 'http';
 import MongoStore from 'connect-mongo';
-import MongoConnection from '../../config/rmongoConnection';
+import MongoConnection from '../../config/mongoConnection';
 import createExpressApp from '../../config/createExpressApp';
-import StatusCode from '../../config/rstatusCode';
+import StatusCode from '../../config/statusCode';
 import { User } from '../../models/user';
 import Session from '../../models/session';
 

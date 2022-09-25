@@ -2,7 +2,7 @@
  * All the middleware functions related to admin users
  */
 import express from 'express';
-import ApiError from '../config/rapiError';
+import ApiError from '../config/apiError';
 import { IUser } from '../models/user';
 
 /**

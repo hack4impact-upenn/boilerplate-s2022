@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PaginationTable, TColumn } from '../components/renamePaginationTable';
+import { PaginationTable, TColumn } from '../components/PaginationTable';
 import { useData } from '../util/api';
 import createRows from './userRows';
 import { useAppSelector } from '../util/redux/hooks';
