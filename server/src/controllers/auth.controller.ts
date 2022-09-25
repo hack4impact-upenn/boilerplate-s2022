@@ -22,7 +22,9 @@ import {
 import ApiError from '../config/apiError';
 
 /**
- * A controller function to login a user and create a session with Passport. On success, the user's information is returned. Else, send an appropriate error message.
+ * A controller function to login a user and create a session with Passport.
+ * On success, the user's information is returned.
+ * Else, send an appropriate error message.
  */
 const login = async (
   req: express.Request,

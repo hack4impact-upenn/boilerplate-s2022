@@ -45,20 +45,24 @@ router.post('/login', login);
 router.post('/logout', isAuthenticated, logout);
 
 /**
- * A POST route to send a password reset email to a user. Expects a JSON body with the following fields:
+ * A POST route to send a password reset email to a user. Expects a JSON body
+ * with the following fields:
  * - email (string) - The email of the user
  */
 router.post('/send-reset-password-email', sendResetPasswordEmail);
 
 /**
- * A POST route to reset a user's password. Expects a JSON body with the following fields:
+ * A POST route to reset a user's password. Expects a JSON body with the
+ * following fields:
  * - password (string) - The new password of the user
  * - token (string) - The token identifying the reset password attempt
  */
 router.post('/reset-password', resetPassword);
 
 /**
- * A GET request to check if a user is an logged in. Utilizes the {@link isAuthenticated} middleware to check if a user if authenticated. Returns 200 OK if the user is authenticated and 401 unauthorized if the user is not authenticated.
+ * A GET request to check if a user is an logged in. Utilizes the middleware to
+ * check if a user if authenticated. Returns 200 OK if the user is authenticated
+ * and 401 unauthorized if the user is not authenticated.
  */
 router.get('/authstatus', isAuthenticated, approve);
 

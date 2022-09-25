@@ -46,7 +46,6 @@ beforeEach(async () => {
 describe('testing authentication routes', () => {
   describe('standalone calls to routes', () => {
     describe('/register', () => {
-      // TODO: add tests for malformed inputs
       it('registering returns 201 CREATED', async () => {
         const response = await agent.post('/api/auth/register').send({
           email: testEmail,

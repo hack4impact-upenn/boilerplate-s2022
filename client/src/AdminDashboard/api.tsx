@@ -1,3 +1,6 @@
+/**
+ * A file containing all the api calls for the admin dashboard.
+ */
 import { deleteData, putData } from '../util/api';
 
 /**
