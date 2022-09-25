@@ -1,4 +1,4 @@
-import StatusCode from './statusCode';
+import StatusCode from './rstatusCode';
 
 /**
  * A custom class extending {@link Error} for defining and handling errors

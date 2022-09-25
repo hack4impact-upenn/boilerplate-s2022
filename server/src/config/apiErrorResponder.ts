@@ -1,6 +1,6 @@
 import express from 'express';
-import ApiError from './apiError';
-import StatusCode from './statusCode';
+import ApiError from './rapiError';
+import StatusCode from './rstatusCode';
 
 /**
  * The final error handler for all errors encountered in the server. Responsible
