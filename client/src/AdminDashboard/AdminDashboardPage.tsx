@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid } from '@mui/material';
 import ScreenGrid from '../components/ScreenGrid';
-import UserTable from './userTable';
+import UserTable from './UserTable';
 
 /**
  * A page only accessible to admins that displays all users in a table and allows
