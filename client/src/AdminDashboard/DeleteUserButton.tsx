@@ -7,7 +7,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 interface DeleteUserButtonProps {
   admin: boolean;
   email: string;
-  removeRow: (email: string) => void;
+  removeRow: (user: string) => void;
 }
 
 /**
