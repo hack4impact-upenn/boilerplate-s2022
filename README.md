@@ -24,36 +24,31 @@ These are neccessary to build and run the project at full functionality
 
 To take full advantage of the linting/formatting, recommend adding the [Prettier](https://prettier.io) and [ESLint](https://eslint.org) VSCode extensions and configuring them as shown [here](https://levelup.gitconnected.com/setting-up-eslint-with-prettier-typescript-and-visual-studio-code-d113bbec9857#:~:text=Install%20the%20following%20Visual%20Studio%20Code%20extensions) for code highlighting and formatting on save. Skip to the section labeled "Add the following to your VS Code settings.json". To access your settings.json, follow what is linked [here](https://stackoverflow.com/questions/65908987/how-can-i-open-visual-studio-codes-settings-json-file). See [here](https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier) for the differences between the two tools and how they work together.
 
-We also recommend adding the [Doxygen Documentation Generator](https://doxygen.nl/) extension to VSCode. This makes creating standard documentation much easier as it autogenerates comment templates for you.
-
 Finally, we also recommend downloading the [Live Share](https://visualstudio.microsoft.com/services/live-share/) extension by Microsoft for improved Collaboration. This allows for easy peer programming on one shared repository instance.
 
 ## Setup
-
-This should be handled by PM/TLs once for each project. Normal developers
-do not have to worry about this.
 
 ### MongoDB
 
 The boilerplate uses [MongoDB](https://www.mongodb.com) as the database to store information for authentication. To have this available for use, do the following
 
 - Create a [MongoDB Atlas Account](https://www.mongodb.com/cloud/atlas/register)
-- Create a [database deployment](https://www.mongodb.com/docs/atlas/create-connect-deployments/)
-- Get the database connection URI
+- Create a [database deployment](https://www.mongodb.com/docs/atlas/create-connect-deployments/) (This should be done by your PM/TL)
+- Get the database connection URI (Get from your PM/TL and add to .env)
 
 Recommend downloading [MongoDB Compass](https://www.mongodb.com/docs/compass/current/) for easy viewing and management of data.
 
 ### SendGrid
 
-The boilerplate uses [SendGrid](https://sendgrid.com) to send emails to users in order to verify their account, and also to reset their passwords. To have this available for use, do the following
+The boilerplate uses [SendGrid](https://sendgrid.com) to send emails to users in order to verify their account, and also to reset their passwords. To have email functionality available for use, the PM/TL should do the following
 
 - Create a SendGrid Account
 - Register a [Sender Identity](https://docs.sendgrid.com/for-developers/sending-email/sender-identity) (Single Sender recommended for most)
-- Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key)
+- Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key
 
 ### Environment Variables
 
-Create a file named `.env` in the root of the `server` folder and add the following variables with the appropriate values.
+Create a file named `.env` in the root of the `server` folder and add the following variables with the appropriate values. PM/TLs should provide this to their developers.
 
 ```
 ATLAS_URI=mongodb-connection-uri-from-above
@@ -119,3 +114,10 @@ $ yarn format
 ## Common Problems
 
 Fill in with problem scenario + solution as they arise
+### Incorrect Node Version
+If you see an error message similar to this one:
+```
+The engine "node" is incompatible with this module. Expected version ">=12.0.0". Got "11.15.0"
+```
+This means you are using the wrong node version. This boilerplate relies on using node version 14.8. If you are using any other version of node, please use `nvm` to set node version to `14.8.3` as referenced [here](https://blog.logrocket.com/how-switch-node-js-versions-nvm/).
+
