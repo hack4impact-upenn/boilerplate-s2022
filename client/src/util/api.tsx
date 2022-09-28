@@ -72,6 +72,9 @@ const useData = (url: string) => {
     // getData(url).then((res) => setData(res.data));
   }, [url]);
 
+  console.log('data');
+  console.log(data);
+
   return data;
 };
 

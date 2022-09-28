@@ -9,6 +9,7 @@ The prefix should be of the form '/api/ROUTERNAME'
 import { Router } from 'express';
 import adminRouter from './admin.route';
 import authRouter from './auth.route';
+import toxicPersonRouter from './toxicperson.route';
 
 const prefixToRouterMap: { prefix: string; router: Router }[] = [
   {
@@ -18,6 +19,10 @@ const prefixToRouterMap: { prefix: string; router: Router }[] = [
   {
     prefix: '/api/admin',
     router: adminRouter,
+  },
+  {
+    prefix: '/api/toxicperson',
+    router: toxicPersonRouter,
   },
 ];
 

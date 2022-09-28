@@ -20,6 +20,8 @@ import RegisterPage from './Authentication/RegisterPage';
 import LoginPage from './Authentication/LoginPage';
 import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage';
 import ResetPasswordPage from './Authentication/ResetPasswordPage';
+import ToxicTraitIndividualPage from './ToxicPeople/ToxicPeopleIndividualPage';
+import ToxicTraitGroupPage from './ToxicPeople/ToxicPeopleGroupPage';
 
 function App() {
   return (
@@ -53,6 +55,16 @@ function App() {
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
                     <Route path="/users" element={<AdminDashboardPage />} />
+                  </Route>
+                  <Route element={<AdminRoutesWrapper />}>
+                    <Route
+                      path="/toxicperson"
+                      element={<ToxicTraitIndividualPage />}
+                    />
+                    <Route
+                      path="/toxicpeople"
+                      element={<ToxicTraitGroupPage />}
+                    />
                   </Route>
 
                   {/* Route which redirects to a different page depending on if the user is an authenticated or not by utilizing the DynamicRedirect component */}
