@@ -1,6 +1,6 @@
 /**
  * A file that contains all the components and logic for the table of users
- * in the AdminDaaashboardPage.
+ * in the AdminDashboardPage.
  */
 import React, { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -26,6 +26,7 @@ interface AdminDashboardRow {
  * the database and allowing admins to remove users and promote users to admins.
  */
 function UserTable() {
+  // define columns for the table
   const columns: TColumn[] = [
     { id: 'first', label: 'First Name' },
     { id: 'last', label: 'Last Name' },
@@ -34,6 +35,7 @@ function UserTable() {
     { id: 'remove', label: 'Remove User' },
   ];
 
+  // Used to create the data type to create a row in the table
   function createAdminDashboardRow(
     user: IUser,
     promote: React.ReactElement,
@@ -49,10 +51,12 @@ function UserTable() {
       remove,
     };
   }
+
   const [userList, setUserList] = useState<IUser[]>([]);
   const users = useData('admin/all');
   const self = useAppSelector(selectUser);
 
+  // Upon getting the list of users for the database, set the state of the userList to contain all users except for logged in user
   useEffect(() => {
     setUserList(
       users?.data.filter(
@@ -61,6 +65,7 @@ function UserTable() {
     );
   }, [users, self]);
 
+  // update state of userlist to remove a user from  the frontend representation of the data
   const removeUser = (user: IUser) => {
     setUserList(
       userList.filter(
@@ -68,7 +73,7 @@ function UserTable() {
       ),
     );
   };
-
+  // update state of userlist to promote a user on the frontend representation
   const updateAdmin = (email: string) => {
     setUserList(
       userList.map((entry) => {
@@ -82,6 +87,7 @@ function UserTable() {
     );
   };
 
+  // if the userlist is not yet populated, display a loading spinner
   if (!userList) {
     return (
       <div style={{ width: '0', margin: 'auto' }}>
