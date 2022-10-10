@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TextField, Link, Button, Typography, Grid } from '@mui/material';
+import { TextField, Link, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../util/redux/hooks';
-import { login as loginRedux } from '../util/redux/slice';
+import { login as loginRedux } from '../util/redux/userSlice';
 import FormGrid from '../components/form/FormGrid';
 import FormCol from '../components/form/FormCol';
 import FormRow from '../components/form/FormRow';

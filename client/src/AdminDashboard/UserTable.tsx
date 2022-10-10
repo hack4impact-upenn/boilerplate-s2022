@@ -9,7 +9,7 @@ import DeleteUserButton from './DeleteUserButton';
 import PromoteUserButton from './PromoteUserButton';
 import { useData } from '../util/api';
 import { useAppSelector } from '../util/redux/hooks';
-import { selectUser } from '../util/redux/slice';
+import { selectUser } from '../util/redux/userSlice';
 import IUser from '../util/types/user';
 
 interface AdminDashboardRow {

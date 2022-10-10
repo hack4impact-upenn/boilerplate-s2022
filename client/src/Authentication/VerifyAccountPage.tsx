@@ -20,9 +20,8 @@ function VerifyAccountPage() {
         setMessage('Account successfully verified!');
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         // Don't want to display server error message to the user
-        console.error(e);
         setMessage('Unable to verify account');
         setLoading(false);
       });

@@ -55,4 +55,4 @@ export default userSlice.reducer;
  * @param state The redux store state
  * @returns The user state
  */
-export const selectUser = (state: RootState) => state;
+export const selectUser = (state: RootState) => state.user;

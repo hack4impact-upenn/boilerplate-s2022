@@ -7,7 +7,7 @@ import {
   logout as logoutAction,
   toggleAdmin,
   selectUser,
-} from '../util/redux/slice';
+} from '../util/redux/userSlice';
 import { logout as logoutApi, selfUpgrade } from './api';
 import ScreenGrid from '../components/ScreenGrid';
 import PrimaryButton from '../components/buttons/PrimaryButton';
@@ -69,7 +69,7 @@ function HomePage() {
     }
   };
 
-  const message = 'Welcome to Boilerplate';
+  const message = `Welcome to the Boilerplate, ${user.firstName} ${user.lastName}!`;
   return (
     <ScreenGrid>
       <Typography variant="h2">{message}</Typography>
