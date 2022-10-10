@@ -6,8 +6,8 @@ import express from 'express';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
-import { IUser } from '../models/user';
-import StatusCode from '../config/statusCode';
+import { IUser } from '../models/user.model';
+import StatusCode from '../util/statusCode';
 import {
   passwordHashSaltRounds,
   createUser,
@@ -19,7 +19,7 @@ import {
   emailResetPasswordLink,
   emailVerificationLink,
 } from '../services/mail.service';
-import ApiError from '../config/apiError';
+import ApiError from '../util/apiError';
 
 /**
  * A controller function to login a user and create a session with Passport.
@@ -76,18 +76,22 @@ const logout = async (
   next: express.NextFunction,
 ) => {
   // Logout with Passport which modifies the request object
-  req.logout();
-
-  // Destroy the session
-  if (req.session) {
-    req.session.destroy((e) => {
-      if (e) {
-        next(ApiError.internal('Unable to logout properly'));
-      } else {
-        res.sendStatus(StatusCode.OK);
-      }
-    });
-  }
+  req.logout((err) => {
+    if (err) {
+      next(ApiError.internal('Failed to log out user'));
+      return;
+    }
+    // Destroy the session
+    if (req.session) {
+      req.session.destroy((e) => {
+        if (e) {
+          next(ApiError.internal('Unable to logout properly'));
+        } else {
+          res.sendStatus(StatusCode.OK);
+        }
+      });
+    }
+  });
 };
 
 /**

@@ -2,8 +2,8 @@
  * All the middleware functions related to admin users
  */
 import express from 'express';
-import ApiError from '../config/apiError';
-import { IUser } from '../models/user';
+import ApiError from '../util/apiError';
+import { IUser } from '../models/user.model';
 
 /**
  * Middleware to check if a user is an admin using Passport Strategy

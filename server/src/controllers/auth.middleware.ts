@@ -2,7 +2,7 @@
  * All the middleware functions related to authentication
  */
 import express from 'express';
-import ApiError from '../config/apiError';
+import ApiError from '../util/apiError';
 
 /**
  * Middleware to check if a user is authenticated using any Passport Strategy

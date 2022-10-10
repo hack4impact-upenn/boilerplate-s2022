@@ -7,9 +7,9 @@ import { Server } from 'http';
 import MongoStore from 'connect-mongo';
 import MongoConnection from '../../config/mongoConnection';
 import createExpressApp from '../../config/createExpressApp';
-import StatusCode from '../../config/statusCode';
-import { User } from '../../models/user';
-import Session from '../../models/session';
+import StatusCode from '../../util/statusCode';
+import { User } from '../../models/user.model';
+import Session from '../../models/session.model';
 
 let dbConnection: MongoConnection;
 let sessionStore: MongoStore;

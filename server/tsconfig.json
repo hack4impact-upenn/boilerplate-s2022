@@ -2,9 +2,9 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "dist",
-    "target": "esnext",
+    "target": "ES6",
     "lib": ["es2021", "DOM"],
-    "module": "CommonJS",
+    "module": "commonjs",
     "moduleResolution": "Node",
     "strict": true,
     "noImplicitOverride": true,
@@ -12,11 +12,10 @@
     "allowSyntheticDefaultImports": true,
     //
     "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact",
     //
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true // enables importers to jump to source
-  }
+  },
+  "include": ["src/**/*"]
 }

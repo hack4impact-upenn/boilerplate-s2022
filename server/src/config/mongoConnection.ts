@@ -107,7 +107,7 @@ class MongoConnection {
   }
 
   /**
-   * @returns A new {@link MongoStore} instance for storing user sesssions in
+   * @returns A new {@link MongoStore} instance for storing user sessions in
    * the instance's database
    */
   public createSessionStore(): MongoStore {
