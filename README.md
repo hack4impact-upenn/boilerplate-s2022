@@ -114,10 +114,13 @@ $ yarn format
 ## Common Problems
 
 Fill in with problem scenario + solution as they arise
+
 ### Incorrect Node Version
+
 If you see an error message similar to this one:
+
 ```
 The engine "node" is incompatible with this module. Expected version ">=12.0.0". Got "11.15.0"
 ```
-This means you are using the wrong node version. This boilerplate relies on using node version 14.8. If you are using any other version of node, please use `nvm` to set node version to `14.8.3` as referenced [here](https://blog.logrocket.com/how-switch-node-js-versions-nvm/).
 
+This means you are using the wrong node version. This boilerplate relies on using node version 14.8. If you are using any other version of node, please use `nvm` to set node version to `14.8.3` as referenced [here](https://blog.logrocket.com/how-switch-node-js-versions-nvm/).
