@@ -4,7 +4,7 @@
   "exports": "./index.js",
   "license": "MIT",
   "scripts": {
-    "test": "NODE_ENV=test jest --runInBand --verbose --detectOpenHandles --forceExit",
+    "test": "cross-env NODE_ENV=test jest --runInBand --verbose --detectOpenHandles --forceExit",
     "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
     "start": "yarn server",
     "clean": "rm -rf node_modules",
