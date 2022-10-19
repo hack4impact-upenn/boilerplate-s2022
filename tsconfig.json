@@ -67,13 +67,5 @@
     /* Advanced Options */
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
-  },
-  "references": [
-    {
-      "path": "./client/tsconfig.ref.json"
-    },
-    {
-      "path": "./server/tsconfig.ref.json"
-    }
-  ]
+  }
 }
