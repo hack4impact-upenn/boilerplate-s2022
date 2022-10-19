@@ -239,7 +239,7 @@ const sendResetPasswordEmail = async (
       res.status(StatusCode.CREATED).send({
         message: `Reset link has been sent to ${lowercaseEmail}`,
       }),
-    ) // TODO: should this code be OK?
+    )
     .catch(() => {
       next(ApiError.internal('Failed to email reset password link.'));
     });
@@ -265,6 +265,10 @@ const resetPassword = async (
     return;
   }
 
+  if (Date.now() > user.resetPasswordTokenExpiryDate!.getTime()) {
+    next(ApiError.forbidden('Reset password token has expired.'));
+    return;
+  }
   // Hash the password before storing
   let hashedPassword: string | undefined;
   try {
