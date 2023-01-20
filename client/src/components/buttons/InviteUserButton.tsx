@@ -31,10 +31,10 @@ function InviteUserButton() {
       if (res.error) {
         setError(res.error.message);
       } else {
+        setAlert(`${email} successfully invited!`, AlertType.SUCCESS);
         setOpen(false);
       }
       setLoading(false);
-      setAlert(`${email} successfully invited!`, AlertType.SUCCESS);
     });
   };
 
