@@ -20,6 +20,11 @@ import {
   emailVerificationLink,
 } from '../services/mail.service';
 import ApiError from '../util/apiError';
+import {
+  getInviteByToken,
+  removeInviteByToken,
+} from '../services/invite.service';
+import { IInvite } from '../models/invite.model';
 
 /**
  * A controller function to login a user and create a session with Passport.
@@ -290,6 +295,82 @@ const resetPassword = async (
   }
 };
 
+const registerInvite = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { firstName, lastName, email, password, inviteToken } = req.body;
+  if (!firstName || !lastName || !email || !password) {
+    next(
+      ApiError.missingFields([
+        'firstName',
+        'lastName',
+        'email',
+        'password',
+        'inviteToken',
+      ]),
+    );
+    return;
+  }
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+
+  const passwordRegex = /^[a-zA-Z0-9!?$%^*)(+=._-]{6,61}$/;
+
+  const nameRegex = /^[a-z ,.'-]+/i;
+
+  if (
+    !email.match(emailRegex) ||
+    !password.match(passwordRegex) ||
+    !firstName.match(nameRegex) ||
+    !lastName.match(nameRegex)
+  ) {
+    next(ApiError.badRequest('Invalid email, password, or name.'));
+    return;
+  }
+
+  if (req.isAuthenticated()) {
+    next(ApiError.badRequest('Already logged in.'));
+    return;
+  }
+
+  // Check if invite exists
+  const invite: IInvite | null = await getInviteByToken(inviteToken);
+  if (!invite || invite.email !== email) {
+    next(ApiError.badRequest(`Invalid invite`));
+    return;
+  }
+
+  const lowercaseEmail = email.toLowerCase();
+  // Check if user exists
+  const existingUser: IUser | null = await getUserByEmail(lowercaseEmail);
+  if (existingUser) {
+    next(
+      ApiError.badRequest(
+        `An account with email ${lowercaseEmail} already exists.`,
+      ),
+    );
+    return;
+  }
+
+  // Create user
+  try {
+    const user = await createUser(
+      firstName,
+      lastName,
+      lowercaseEmail,
+      password,
+    );
+    user!.verified = true;
+    await user?.save();
+    await removeInviteByToken(inviteToken);
+    res.sendStatus(StatusCode.CREATED);
+  } catch (err) {
+    next(ApiError.internal('Unable to register user.'));
+  }
+};
+
 export {
   login,
   logout,
@@ -298,4 +379,5 @@ export {
   verifyAccount,
   sendResetPasswordEmail,
   resetPassword,
+  registerInvite,
 };

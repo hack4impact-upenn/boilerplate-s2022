@@ -21,6 +21,7 @@ import LoginPage from './Authentication/LoginPage';
 import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage';
 import ResetPasswordPage from './Authentication/ResetPasswordPage';
 import AlertPopup from './components/AlertPopup';
+import InviteRegisterPage from './Authentication/InviteRegisterPage';
 
 function App() {
   return (
@@ -49,6 +50,10 @@ function App() {
                       element={<ResetPasswordPage />}
                     />
                   </Route>
+                  <Route
+                    path="/invite/:token"
+                    element={<InviteRegisterPage />}
+                  />
                   {/* Routes accessed only if user is authenticated */}
                   <Route element={<ProtectedRoutesWrapper />}>
                     <Route path="/home" element={<HomePage />} />

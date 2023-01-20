@@ -27,7 +27,6 @@ function DeleteUserButton({ admin, email, removeRow }: DeleteUserButtonProps) {
     setLoading(true);
     if (await deleteUser(email)) {
       removeRow(email);
-      console.log('here');
       setAlert(`User ${email} has been deleted.`, AlertType.SUCCESS);
     } else {
       setLoading(false);

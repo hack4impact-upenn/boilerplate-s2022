@@ -8,6 +8,8 @@ import {
   getAllUsers,
   upgradePrivilege,
   deleteUser,
+  inviteUser,
+  verifyToken,
 } from '../controllers/admin.controller';
 import { isAuthenticated } from '../controllers/auth.middleware';
 import { approve } from '../controllers/auth.controller';
@@ -50,5 +52,17 @@ router.put('/autopromote', upgradePrivilege);
  * email (string) - The email of the user to be deleted
  */
 router.delete('/:email', isAuthenticated, isAdmin, deleteUser);
+
+/**
+ * A POST route to invite a new user
+ * Expects a JSON body with the following fields:
+ * - email (string) - The email to invite the user from
+ */
+router.post('/invite', isAuthenticated, isAdmin, inviteUser);
+
+/**
+ * A GET route to verify the user invite is valid
+ */
+router.get('/invite/:token', verifyToken);
 
 export default router;

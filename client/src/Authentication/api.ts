@@ -92,10 +92,41 @@ async function resetPassword(password: string, token: string) {
   }
 }
 
+/**
+ * Sends a request to the server to register a new user via an invite
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @param inviteToken
+ * @throws An {@link Error} with a `messsage` field describing the issue in
+ * resetting the password
+ */
+async function registerInvite(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  inviteToken: string,
+) {
+  const lowercaseEmail = email.toLowerCase();
+  const res = await postData('auth/register-invite', {
+    firstName,
+    lastName,
+    email: lowercaseEmail,
+    password,
+    inviteToken,
+  });
+  if (res.error) {
+    throw Error(res.error.message);
+  }
+}
+
 export {
   register,
   loginUser,
   verifyAccount,
   sendResetPasswordEmail,
   resetPassword,
+  registerInvite,
 };
