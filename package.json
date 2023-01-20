@@ -9,6 +9,7 @@
     "server"
   ],
   "scripts": {
+    "start": "node server/index.ts",
     "setup": "yarn install",
     "clean": "rm -rf node_modules && cd client && yarn clean && cd ../server && yarn clean",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
@@ -20,7 +21,8 @@
     "lint": "eslint --quiet --fix --ext .js,.ts,.tsx .",
     "prettier-check": "prettier --check .",
     "format": "prettier --write .",
-    "test": "cd server && yarn test"
+    "test": "cd server && yarn test",
+    "heroku-postbuild": "cd client && yarn install && yarn build"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
