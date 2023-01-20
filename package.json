@@ -4,6 +4,9 @@
   "repository": "https://github.com/hack4impact-upenn/boilerplate-s2022.git",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "14.8.x"
+  },
   "workspaces": [
     "client",
     "server"
