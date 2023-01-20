@@ -3,6 +3,8 @@ import Button from '@mui/material/Button';
 import { deleteUser } from './api';
 import LoadingButton from '../components/buttons/LoadingButton';
 import ConfirmationModal from '../components/ConfirmationModal';
+import AlertType from '../util/types/alert';
+import useAlert from '../util/hooks/useAlert';
 
 interface DeleteUserButtonProps {
   admin: boolean;
@@ -19,11 +21,14 @@ interface DeleteUserButtonProps {
  * function is called upon successfully deletion of user from the database.
  */
 function DeleteUserButton({ admin, email, removeRow }: DeleteUserButtonProps) {
+  const { setAlert } = useAlert();
   const [isLoading, setLoading] = useState(false);
   async function handleDelete() {
     setLoading(true);
     if (await deleteUser(email)) {
       removeRow(email);
+      console.log('here');
+      setAlert(`User ${email} has been deleted.`, AlertType.SUCCESS);
     } else {
       setLoading(false);
     }
