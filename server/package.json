@@ -7,6 +7,7 @@
     "test": "cross-env NODE_ENV=test jest --runInBand --verbose --detectOpenHandles --forceExit",
     "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
     "start": "yarn server",
+    "build": "tsc --build",
     "clean": "rm -rf node_modules",
     "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
     "postinstall": "echo \"Package install attempted in server directory\""
