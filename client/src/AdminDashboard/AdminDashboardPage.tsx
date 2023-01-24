@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Grid } from '@mui/material';
 import ScreenGrid from '../components/ScreenGrid';
 import UserTable from './UserTable';
+import InviteUserButton from '../components/buttons/InviteUserButton';
 
 /**
  * A page only accessible to admins that displays all users in a table and allows
@@ -10,14 +11,13 @@ import UserTable from './UserTable';
 function AdminDashboardPage() {
   return (
     <ScreenGrid>
-      <Grid
-        item
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="stretch"
-      >
+      <Grid item>
         <Typography variant="h2">Welcome to the Admin Dashboard</Typography>
-
+      </Grid>
+      <Grid item container width="60vw" justifyContent="flex-end">
+        <InviteUserButton />
+      </Grid>
+      <Grid item>
         <div style={{ height: '60vh', width: '60vw' }}>
           <UserTable />
         </div>

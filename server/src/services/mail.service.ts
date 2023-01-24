@@ -64,4 +64,29 @@ const emailVerificationLink = async (email: string, token: string) => {
   await SGmail.send(mailSettings);
 };
 
-export { emailVerificationLink, emailResetPasswordLink };
+/**
+ * Sends an email with an invite link to create an account
+ * @param email The email of the user to send the link to
+ * @param token The unique token identifying this verification attempt
+ */
+const emailInviteLink = async (email: string, token: string) => {
+  const resetLink = `${baseUrl}/invite/${token}`;
+  const mailSettings: MailDataRequired = {
+    from: {
+      email: process.env.SENDGRID_EMAIL_ADDRESS || 'missing@mail.com',
+      name: senderName,
+    },
+    to: email,
+    subject: 'Verify account',
+    html:
+      `<p> Please visit the following ` +
+      `<a href=${resetLink}>link</a> ` +
+      `to create your account for ${appName} and complete registration</p>` +
+      `<p>If you did not attempt to register an account with this email address, ` +
+      `please ignore this message.</p>`,
+  };
+  // Send the email and propogate the error up if one exists
+  await SGmail.send(mailSettings);
+};
+
+export { emailVerificationLink, emailResetPasswordLink, emailInviteLink };

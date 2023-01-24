@@ -7,6 +7,7 @@
     "test": "cross-env NODE_ENV=test jest --runInBand --verbose --detectOpenHandles --forceExit",
     "server": "cross-env NODE_ENV=development ts-node-dev --respawn index.ts",
     "start": "yarn server",
+    "build": "tsc --build",
     "clean": "rm -rf node_modules",
     "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",
     "postinstall": "echo \"Package install attempted in server directory\""
@@ -25,6 +26,7 @@
     "express-session": "^1.17.2",
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^8.2.0",
     "mongoose": "^6.1.10",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
@@ -47,7 +49,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "jest": "^29.1.2",
-    "mongodb-memory-server": "^8.2.0",
     "prettier": "^2.5.1",
     "supertest": "^6.2.2",
     "ts-jest": "^29.0.3",

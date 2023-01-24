@@ -11,6 +11,7 @@ import {
   sendResetPasswordEmail,
   resetPassword,
   verifyAccount,
+  registerInvite,
 } from '../controllers/auth.controller';
 import { isAuthenticated } from '../controllers/auth.middleware';
 import 'dotenv/config';
@@ -65,5 +66,11 @@ router.post('/reset-password', resetPassword);
  * and 401 unauthorized if the user is not authenticated.
  */
 router.get('/authstatus', isAuthenticated, approve);
+
+/**
+ * A POST register a user from an invite. If the information and invite are valid
+ * a new account is created. Otherwise a 400 bad request error is returned
+ */
+router.post('/register-invite', registerInvite);
 
 export default router;
