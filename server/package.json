@@ -16,7 +16,6 @@
     "@reduxjs/toolkit": "^1.8.1",
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
-    "client": "1.0.0",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
