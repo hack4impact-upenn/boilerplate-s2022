@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography, Grid } from '@mui/material';
-import ScreenGrid from '../components/ScreenGrid';
-import UserTable from './UserTable';
-import InviteUserButton from '../components/buttons/InviteUserButton';
+import ScreenGrid from '../components/ScreenGrid.tsx';
+import UserTable from './UserTable.tsx';
+import InviteUserButton from '../components/buttons/InviteUserButton.tsx';
 
 /**
  * A page only accessible to admins that displays all users in a table and allows

@@ -1,26 +1,14 @@
 services:
-  slackfrontend:
+  reactfrontend:
     build:
-      context: .
-      dockefile: Dockerfile.reactUI
+      context: ./client
+      dockerfile: Dockerfile.reactUI
     ports:
-      - "3000:3000"   
-    depends_on:
-      - db
+      - "3000:3000"
   nodebackend:
     build:
       context: ./server
       dockerfile: Dockerfile.node
     ports:
-      - "4000:4000"   
-    depends_on:
-      - db
-# FIGURE OUT HOW TO CONNECT MONGO
-#   db:
-#     volumes:
-#       - slack_db:/data/db
-#     image: mongo:latest
-#     ports:
-#       - "27017:27017" 
-# volumes:
-#    slack_db:
+      - "4000:4000"
+    env_file: ./server/.env

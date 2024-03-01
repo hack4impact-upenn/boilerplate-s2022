@@ -4,24 +4,24 @@ import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import theme from './assets/theme';
-import { store, persistor } from './util/redux/store';
-import NotFoundPage from './NotFound/NotFoundPage';
-import HomePage from './Home/HomePage';
-import AdminDashboardPage from './AdminDashboard/AdminDashboardPage';
+import theme from './assets/theme.ts';
+import { store, persistor } from './util/redux/store.ts';
+import NotFoundPage from './NotFound/NotFoundPage.tsx';
+import HomePage from './Home/HomePage.tsx';
+import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
   DynamicRedirect,
   AdminRoutesWrapper,
-} from './util/routes';
-import VerifyAccountPage from './Authentication/VerifyAccountPage';
-import RegisterPage from './Authentication/RegisterPage';
-import LoginPage from './Authentication/LoginPage';
-import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage';
-import ResetPasswordPage from './Authentication/ResetPasswordPage';
-import AlertPopup from './components/AlertPopup';
-import InviteRegisterPage from './Authentication/InviteRegisterPage';
+} from './util/routes.ts';
+import VerifyAccountPage from './Authentication/VerifyAccountPage.tsx';
+import RegisterPage from './Authentication/RegisterPage.tsx';
+import LoginPage from './Authentication/LoginPage.tsx';
+import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx';
+import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
+import AlertPopup from './components/AlertPopup.tsx';
+import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 
 function App() {
   return (
