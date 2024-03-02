@@ -15,6 +15,7 @@ module.exports = {
       'off',
       { allowAfterThis: true, allow: ['_instance'] },
     ],
+    'import/extensions': [{ tsx: 'always' }, { ts: 'always' }],
   },
   env: {
     node: true,

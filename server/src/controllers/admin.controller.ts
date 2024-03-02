@@ -4,23 +4,23 @@
  */
 import express from 'express';
 import crypto from 'crypto';
-import ApiError from '../util/apiError';
-import StatusCode from '../util/statusCode';
-import { IUser } from '../models/user.model';
+import ApiError from '../util/apiError.ts';
+import StatusCode from '../util/statusCode.ts';
+import { IUser } from '../models/user.model.ts';
 import {
   upgradeUserToAdmin,
   getUserByEmail,
   getAllUsersFromDB,
   deleteUserById,
-} from '../services/user.service';
+} from '../services/user.service.ts';
 import {
   createInvite,
   getInviteByEmail,
   getInviteByToken,
   updateInvite,
-} from '../services/invite.service';
-import { IInvite } from '../models/invite.model';
-import { emailInviteLink } from '../services/mail.service';
+} from '../services/invite.service.ts';
+import { IInvite } from '../models/invite.model.ts';
+import { emailInviteLink } from '../services/mail.service.ts';
 
 /**
  * Get all users from the database. Upon success, send the a list of all users in the res body with 200 OK status code.
