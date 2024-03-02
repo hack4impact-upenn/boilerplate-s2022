@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { Grid } from '@mui/material';
-import { AnyChildren } from '../../util/types/generic';
+import { AnyChildren } from '../../util/types/generic.ts';
 
 /**
  * A component for formatting columns in {@link FormGrid}

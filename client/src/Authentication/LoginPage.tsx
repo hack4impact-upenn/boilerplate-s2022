@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { TextField, Link, Typography, Grid } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { useAppDispatch } from '../util/redux/hooks';
-import { login as loginRedux } from '../util/redux/userSlice';
-import FormGrid from '../components/form/FormGrid';
-import FormCol from '../components/form/FormCol';
-import FormRow from '../components/form/FormRow';
-import { emailRegex, InputErrorMessage } from '../util/inputvalidation';
-import { loginUser } from './api';
-import AlertDialog from '../components/AlertDialog';
-import PrimaryButton from '../components/buttons/PrimaryButton';
-import ScreenGrid from '../components/ScreenGrid';
+import { useAppDispatch } from '../util/redux/hooks.ts';
+import { login as loginRedux } from '../util/redux/userSlice.ts';
+import FormGrid from '../components/form/FormGrid.tsx';
+import FormCol from '../components/form/FormCol.tsx';
+import FormRow from '../components/form/FormRow.tsx';
+import { emailRegex, InputErrorMessage } from '../util/inputvalidation.ts';
+import { loginUser } from './api.ts';
+import AlertDialog from '../components/AlertDialog.tsx';
+import PrimaryButton from '../components/buttons/PrimaryButton.tsx';
+import ScreenGrid from '../components/ScreenGrid.tsx';
 
 /**
  * A page allowing users to input their email and password to login. The default

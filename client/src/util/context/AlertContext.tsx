@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { AnyChildren } from '../types/generic';
-import AlertType from '../types/alert';
+import { AnyChildren } from '../types/generic.ts';
+import AlertType from '../types/alert.ts';
 
 interface Alert {
   type: AlertType | undefined;
