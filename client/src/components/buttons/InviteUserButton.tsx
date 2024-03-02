@@ -5,9 +5,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import useAlert from '../../util/hooks/useAlert';
-import AlertType from '../../util/types/alert';
-import { postData } from '../../util/api';
+import useAlert from '../../util/hooks/useAlert.tsx';
+import AlertType from '../../util/types/alert.ts';
+import { postData } from '../../util/api.tsx';
 
 function InviteUserButton() {
   const [open, setOpen] = useState(false);

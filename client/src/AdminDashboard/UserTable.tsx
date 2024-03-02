@@ -4,13 +4,13 @@
  */
 import React, { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PaginationTable, TColumn } from '../components/PaginationTable';
-import DeleteUserButton from './DeleteUserButton';
-import PromoteUserButton from './PromoteUserButton';
-import { useData } from '../util/api';
-import { useAppSelector } from '../util/redux/hooks';
-import { selectUser } from '../util/redux/userSlice';
-import IUser from '../util/types/user';
+import { PaginationTable, TColumn } from '../components/PaginationTable.tsx';
+import DeleteUserButton from './DeleteUserButton.tsx';
+import PromoteUserButton from './PromoteUserButton.tsx';
+import { useData } from '../util/api.tsx';
+import { useAppSelector } from '../util/redux/hooks.tsx';
+import { selectUser } from '../util/redux/userSlice.tsx';
+import IUser from '../util/types/user.ts';
 
 interface AdminDashboardRow {
   key: string;

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from './store';
+import type { RootState } from './store.ts';
 
 export interface UserState {
   email: string | null;

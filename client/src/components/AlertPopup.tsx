@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Snackbar } from '@mui/material';
-import useAlert from '../util/hooks/useAlert';
+import useAlert from '../util/hooks/useAlert.tsx';
 
 function AlertPopup() {
   const { type, text } = useAlert();

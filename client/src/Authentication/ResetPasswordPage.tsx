@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { TextField, Link, Typography, Grid } from '@mui/material';
 import { useNavigate, useParams, Link as RouterLink } from 'react-router-dom';
-import { resetPassword } from './api';
-import FormGrid from '../components/form/FormGrid';
-import { InputErrorMessage, passwordRegex } from '../util/inputvalidation';
-import AlertDialog from '../components/AlertDialog';
-import PrimaryButton from '../components/buttons/PrimaryButton';
-import ScreenGrid from '../components/ScreenGrid';
-import FormCol from '../components/form/FormCol';
+import { resetPassword } from './api.ts';
+import FormGrid from '../components/form/FormGrid.tsx';
+import { InputErrorMessage, passwordRegex } from '../util/inputvalidation.ts';
+import AlertDialog from '../components/AlertDialog.tsx';
+import PrimaryButton from '../components/buttons/PrimaryButton.tsx';
+import ScreenGrid from '../components/ScreenGrid.tsx';
+import FormCol from '../components/form/FormCol.tsx';
 
 /**
  * A page that allows users to reset their password by inputting a new password

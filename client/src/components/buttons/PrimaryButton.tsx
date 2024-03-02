@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import COLORS from '../../assets/colors';
+import COLORS from '../../assets/colors.ts';
 
 /**
  * The {@link Button} used for most action items.
