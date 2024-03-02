@@ -1,6 +1,6 @@
 import express from 'express';
-import ApiError from './apiError';
-import StatusCode from './statusCode';
+import ApiError from './apiError.ts';
+import StatusCode from './statusCode.ts';
 
 /**
  * The final error handler for all errors encountered in the server. Responsible
