@@ -14,7 +14,7 @@ import {
   ProtectedRoutesWrapper,
   DynamicRedirect,
   AdminRoutesWrapper,
-} from './util/routes.ts';
+} from './util/routes.tsx';
 import VerifyAccountPage from './Authentication/VerifyAccountPage.tsx';
 import RegisterPage from './Authentication/RegisterPage.tsx';
 import LoginPage from './Authentication/LoginPage.tsx';

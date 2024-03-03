@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { deleteUser } from './api.tsx';
 import LoadingButton from '../components/buttons/LoadingButton.tsx';
 import ConfirmationModal from '../components/ConfirmationModal.tsx';
-import AlertType from '../util/types/alert.tsx';
+import AlertType from '../util/types/alert.ts';
 import useAlert from '../util/hooks/useAlert.tsx';
 
 interface DeleteUserButtonProps {

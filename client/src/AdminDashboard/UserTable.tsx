@@ -8,8 +8,8 @@ import { PaginationTable, TColumn } from '../components/PaginationTable.tsx';
 import DeleteUserButton from './DeleteUserButton.tsx';
 import PromoteUserButton from './PromoteUserButton.tsx';
 import { useData } from '../util/api.tsx';
-import { useAppSelector } from '../util/redux/hooks.tsx';
-import { selectUser } from '../util/redux/userSlice.tsx';
+import { useAppSelector } from '../util/redux/hooks.ts';
+import { selectUser } from '../util/redux/userSlice.ts';
 import IUser from '../util/types/user.ts';
 
 interface AdminDashboardRow {
