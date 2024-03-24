@@ -25,10 +25,17 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - name: Build and push Docker image
+      - name: Build and push client Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./client
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:client
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push server Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./server
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:server
           labels: ${{ steps.meta.outputs.labels }}
