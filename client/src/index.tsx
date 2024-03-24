@@ -1,8 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
-import App from './App';
-import { AlertProvider } from './util/context/AlertContext';
+import reportWebVitals from './reportWebVitals.ts';
+import App from './App.tsx';
+import { AlertProvider } from './util/context/AlertContext.tsx';
 
 const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

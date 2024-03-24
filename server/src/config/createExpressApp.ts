@@ -5,11 +5,11 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import MongoStore from 'connect-mongo';
-import routers from '../routes/routers';
-import initializePassport from './configPassport';
+import routers from '../routes/routers.ts';
+import initializePassport from './configPassport.ts';
 import 'dotenv/config';
-import apiErrorResponder from '../util/apiErrorResponder';
-import ApiError from '../util/apiError';
+import apiErrorResponder from '../util/apiErrorResponder.ts';
+import ApiError from '../util/apiError.ts';
 
 /**
  * Creates an express instance with the appropriate routes and middleware

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { Typography, Grid } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../util/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../util/redux/hooks.ts';
 import {
   logout as logoutAction,
   toggleAdmin,
   selectUser,
-} from '../util/redux/userSlice';
-import { logout as logoutApi, selfUpgrade } from './api';
-import ScreenGrid from '../components/ScreenGrid';
-import PrimaryButton from '../components/buttons/PrimaryButton';
+} from '../util/redux/userSlice.ts';
+import { logout as logoutApi, selfUpgrade } from './api.tsx';
+import ScreenGrid from '../components/ScreenGrid.tsx';
+import PrimaryButton from '../components/buttons/PrimaryButton.tsx';
 
 interface PromoteButtonProps {
   admin: boolean | null;

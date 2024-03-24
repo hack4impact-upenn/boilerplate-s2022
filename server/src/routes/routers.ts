@@ -7,8 +7,8 @@ The prefix should be of the form '/api/ROUTERNAME'
 3) Add an entry with the prefix and imported router to prefixToRouterMap
 */
 import { Router } from 'express';
-import adminRouter from './admin.route';
-import authRouter from './auth.route';
+import adminRouter from './admin.route.ts';
+import authRouter from './auth.route.ts';
 
 const prefixToRouterMap: { prefix: string; router: Router }[] = [
   {

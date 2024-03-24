@@ -1,0 +1,7 @@
+FROM node:20.0.0
+WORKDIR /
+COPY ./package.json ./package.json
+COPY ./src ./src
+RUN yarn install
+EXPOSE 4000
+CMD ["yarn", "server"]

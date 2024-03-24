@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgress, Grid, Typography, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { verifyAccount } from './api';
-import ScreenGrid from '../components/ScreenGrid';
+import { verifyAccount } from './api.ts';
+import ScreenGrid from '../components/ScreenGrid.tsx';
 
 /**
  * A page users visit to verify their account. Page should be accessed via

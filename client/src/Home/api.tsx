@@ -1,4 +1,4 @@
-import { postData, putData } from '../util/api';
+import { postData, putData } from '../util/api.tsx';
 
 /**
  * Makes a request to the server to logout a user from the current session

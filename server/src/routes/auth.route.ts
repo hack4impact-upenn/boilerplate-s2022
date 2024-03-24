@@ -12,8 +12,8 @@ import {
   resetPassword,
   verifyAccount,
   registerInvite,
-} from '../controllers/auth.controller';
-import { isAuthenticated } from '../controllers/auth.middleware';
+} from '../controllers/auth.controller.ts';
+import { isAuthenticated } from '../controllers/auth.middleware.ts';
 import 'dotenv/config';
 
 const router = express.Router();

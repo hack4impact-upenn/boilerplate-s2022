@@ -2,7 +2,7 @@
  * A file for defining the global MUI theme used in the project.
  */
 import { createTheme } from '@mui/material/styles';
-import COLORS from './colors';
+import COLORS from './colors.ts';
 import 'typeface-hk-grotesk';
 
 // https://github.com/hack4impact/chapter-website-template/blob/main/public/style.css

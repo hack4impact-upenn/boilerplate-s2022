@@ -1,4 +1,4 @@
-import StatusCode from './statusCode';
+import StatusCode from './statusCode.ts';
 
 /**
  * A custom class extending {@link Error} for defining and handling errors

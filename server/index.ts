@@ -1,5 +1,5 @@
-import MongoConnection from './src/config/mongoConnection';
-import createExpressApp from './src/config/createExpressApp';
+import MongoConnection from './src/config/mongoConnection.ts';
+import createExpressApp from './src/config/createExpressApp.ts';
 import 'dotenv/config';
 
 const main = async () => {
