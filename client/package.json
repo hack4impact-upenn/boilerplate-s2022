@@ -37,6 +37,7 @@
     "@mui/system": "^5.5.2",
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^1.1.2",
+    "cross-env": "^7.0.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -50,6 +51,7 @@
     "web-vitals": "^3.0.3"
   },
   "devDependencies": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -59,7 +61,6 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@types/styled-components": "^5.1.23",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "eslint": "^8.8.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
