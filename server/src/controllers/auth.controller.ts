@@ -3,6 +3,7 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
+import mixpanel from 'mixpanel-browser';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
@@ -26,8 +27,7 @@ import {
 } from '../services/invite.service.ts';
 import { IInvite } from '../models/invite.model.ts';
 
-//mixpanel analytics
-var mixpanel = require('mixpanel').init(process.env.MIXPANEL_TOKEN);
+mixpanel.init(process.env.MIXPANEL_TOKEN);
 
 /**
  * A controller function to login a user and create a session with Passport.
@@ -68,11 +68,11 @@ const login = async (
           next(ApiError.internal('Failed to log in user'));
           return;
         }
-        res.status(StatusCode.OK).send(user);
         mixpanel.track('User Logged In', {
           distinct_id: user._id,
           email: user.email,
         });
+        res.status(StatusCode.OK).send(user);
       });
     },
   )(req, res, next);
