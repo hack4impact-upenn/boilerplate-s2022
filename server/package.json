@@ -26,6 +26,7 @@
     "express-session": "^1.17.2",
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mixpanel": "^0.18.0",
     "mongodb-memory-server": "^8.2.0",
     "mongoose": "^6.1.10",
     "passport": "^0.6.0",
