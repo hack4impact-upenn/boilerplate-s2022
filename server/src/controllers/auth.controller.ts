@@ -26,6 +26,9 @@ import {
 } from '../services/invite.service.ts';
 import { IInvite } from '../models/invite.model.ts';
 
+//mixpanel analytics
+var mixpanel = require('mixpanel').init(process.env.MIXPANEL_TOKEN);
+
 /**
  * A controller function to login a user and create a session with Passport.
  * On success, the user's information is returned.
@@ -66,6 +69,10 @@ const login = async (
           return;
         }
         res.status(StatusCode.OK).send(user);
+        mixpanel.track('User Logged In', {
+          distinct_id: user._id,
+          email: user.email,
+        });
       });
     },
   )(req, res, next);
