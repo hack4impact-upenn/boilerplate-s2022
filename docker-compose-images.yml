@@ -1,0 +1,10 @@
+services:
+  frontend:
+    image: ghcr.io/hack4impact-upenn/boilerplate-s2022:client
+    ports:
+      - "3000:3000"
+  backend:
+    image: ghcr.io/hack4impact-upenn/boilerplate-s2022:server
+    ports:
+      - "4000:4000"
+    env_file: ./server/.env
