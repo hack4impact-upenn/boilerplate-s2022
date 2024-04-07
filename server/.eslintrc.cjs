@@ -15,7 +15,24 @@ module.exports = {
       'off',
       { allowAfterThis: true, allow: ['_instance'] },
     ],
-    'import/extensions': [{ tsx: 'always' }, { ts: 'always' }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'always',
+        tsx: 'always',
+      },
+    ],
   },
   env: {
     node: true,

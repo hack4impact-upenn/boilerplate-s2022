@@ -1,11 +1,11 @@
 services:
-  reactfrontend:
+  frontend:
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-  nodebackend:
+  backend:
     build:
       context: ./server
       dockerfile: Dockerfile
