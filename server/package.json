@@ -28,7 +28,6 @@
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
     "mixpanel": "^0.18.0",
-    "mixpanel-browser": "^2.49.0",
     "mongodb-memory-server": "^8.2.0",
     "mongoose": "^6.1.10",
     "passport": "^0.6.0",
