@@ -1,13 +1,11 @@
-variable "client_image_tag" {
-  default     = "your_frontend_image_repository:tag"
-  type        = string
-  description = "Name of the repository and tag for the client (frontend) image"
+variable "github_repo_owner" {
+  default = "hack4impact-upenn"
+  type    = string
 }
 
-variable "server_image_tag" {
-  default     = "your_server_image_repository:tag"
-  type        = string
-  description = "Name of the repository and tag for the server (backend) image"
+variable "github_repo_name" {
+  default = "boilerplate-s2022"
+  type    = string
 }
 
 variable "region" {
@@ -21,3 +19,4 @@ variable "cluster_name" {
   type        = string
   description = "Name of the ECS cluster"
 }
+
