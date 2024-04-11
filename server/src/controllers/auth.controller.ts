@@ -27,7 +27,8 @@ import {
 } from '../services/invite.service.ts';
 import { IInvite } from '../models/invite.model.ts';
 
-mixpanel.init(process.env.MIXPANEL_TOKEN);
+const mixpanelToken = process.env.MIXPANEL_TOKEN || 'DEFAULT_TOKEN';
+mixpanel.init(mixpanelToken);
 
 /**
  * A controller function to login a user and create a session with Passport.
@@ -68,6 +69,7 @@ const login = async (
           next(ApiError.internal('Failed to log in user'));
           return;
         }
+        console.log('Mixpanel tracking login');
         mixpanel.track('User Logged In', {
           distinct_id: user._id,
           email: user.email,
