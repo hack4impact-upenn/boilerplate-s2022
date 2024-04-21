@@ -18,15 +18,6 @@ locals {
 provider "aws" {
   region = var.region
 }
-
-data "aws_secretsmanager_secret" "github_pat" {
-  name = "github-pat"
-}
-
-data "aws_secretsmanager_secret_version" "current_github_pat" {
-  secret_id = data.aws_secretsmanager_secret.github_pat.id
-}
-
 resource "aws_ecs_cluster" "cluster" {
   name = var.cluster_name
 
@@ -49,7 +40,7 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"  # Adjust based on your needs
   memory                   = "2048" # Adjust based on your needs
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([
     {
@@ -88,7 +79,7 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment = [
-        { "name" : "ATLAS_URI", "value" : "<fill in>" },
+        { "name" : "ATLAS_URI", "value" : var.atlas_uri },
         { "name" : "COOKIE_SECRET", "value" : "any-string" },
         { "name" : "SENDGRID_API_KEY", "value" : "SG.sendgrid-api-key-from-above" },
         { "name" : "SENDGRID_EMAIL_ADDRESS", "value" : "sendgrid-sender-identity-email-from-above" }
@@ -113,67 +104,78 @@ resource "aws_ecs_service" "app_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = ["fill in", "fill in"]
+    subnets          = ["subnet here", "subnet here"]
     assign_public_ip = true
   }
 }
 
 # So that the ECS role can execute tasks
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs_task_execution_role"
+# For CREATING a role
+# resource "aws_iam_role" "ecs_task_execution_role" {
+#   name = "ecs_task_execution_role"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ecs-tasks.amazonaws.com"
-        }
-      },
-    ]
-  })
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Action = "sts:AssumeRole"
+#         Effect = "Allow"
+#         Principal = {
+#           Service = "ecs-tasks.amazonaws.com"
+#         }
+#       },
+#     ]
+#   })
+# }
+
+# For CREATING a policy
+# resource "aws_iam_policy" "cloudwatch_logs_policy" {
+#   name        = "ECSLogsPolicy"
+#   description = "Allow ECS Task Execution Role to push logs to CloudWatch"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Effect = "Allow",
+#         Action = [
+#           "logs:CreateLogStream",
+#           "logs:CreateLogGroup"
+#         ],
+#         Resource = "arn:aws:logs:*:*:*"
+#       },
+#       {
+#         Effect = "Allow",
+#         Action = [
+#           "logs:PutLogEvents"
+#         ],
+#         Resource = [
+#           "arn:aws:logs:*:*:log-group:/ecs/*:log-stream:*",
+#           "arn:aws:logs:*:*:log-group:/ecs/*"
+#         ]
+#       }
+#     ]
+#   })
+# }
+
+# existing role/policy
+data "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecs_task_execution_role"
 }
 
-resource "aws_iam_policy" "cloudwatch_logs_policy" {
-  name        = "ECSLogsPolicy"
-  description = "Allow ECS Task Execution Role to push logs to CloudWatch"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:CreateLogStream",
-          "logs:CreateLogGroup"
-        ],
-        Resource = "arn:aws:logs:*:*:*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:PutLogEvents"
-        ],
-        Resource = [
-          "arn:aws:logs:*:*:log-group:/ecs/*:log-stream:*",
-          "arn:aws:logs:*:*:log-group:/ecs/*"
-        ]
-      }
-    ]
-  })
+data "aws_iam_policy" "cloudwatch_logs_policy" {
+  arn = "arn:aws:iam::${var.aws_account_id}:policy/ECSLogsPolicy"
 }
 
 
 
 # Attach the policies to the role
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
-  role       = aws_iam_role.ecs_task_execution_role.name
+  role       = data.aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
+  role       = data.aws_iam_role.ecs_task_execution_role.name
+  policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
 }

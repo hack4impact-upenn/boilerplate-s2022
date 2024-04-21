@@ -9,7 +9,7 @@ variable "github_repo_name" {
 }
 
 variable "region" {
-  default     = "us-east-2"
+  default     = "us-east-1"
   type        = string
   description = "Launch region for the ECS cluster"
 }
@@ -20,3 +20,10 @@ variable "cluster_name" {
   description = "Name of the ECS cluster"
 }
 
+variable "atlas_uri" {
+  type = string
+}
+
+variable "aws_account_id" {
+  type = string
+}

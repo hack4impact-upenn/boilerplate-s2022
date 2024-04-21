@@ -97,7 +97,7 @@ To run all the tests in the project, run the following from the root folder
 $ yarn test
 ```
 
-### Running lintint/formatting
+### Running linting/formatting
 
 To check for linting issues from ESLint and fix what's possible, from the root folder run the following
 
@@ -110,6 +110,28 @@ To format the code appropriately with Prettier (don't need this if format on sav
 ```
 $ yarn format
 ```
+
+## Deployment (WIP)
+
+The boilerplate is designed to be easily deployed on [AWS ECS](https://aws.amazon.com/ecs/) using [Terraform](https://www.terraform.io).
+
+You will need to [install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) first. For Mac users, we recommend following the Homebrew installation.
+
+You will then need to create a file called `.auto.tfvars`, and you can follow the format as in the `.auto.tfvars.example` file. Variables in here correspond to the same environment variables in the `server` folder, except for `aws_account_id` which is the account ID for your AWS account (can be found by clicking your username in the top-right of the AWS console).
+
+To deploy, run
+
+```
+./deploy.sh
+```
+
+To tear down all infrastructure, run
+
+```
+terraform destroy
+```
+
+Due to the new (as of early 2024) nature of this AWS configuration, if you are encountering issues with deploying the project on AWS, then please use the old boilerplate and deploy on Heroku or another cloud platform as we have done in the past.
 
 ## Common Problems
 
