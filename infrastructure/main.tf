@@ -96,6 +96,19 @@ resource "aws_ecs_task_definition" "app" {
   ])
 }
 
+// VPC configuration
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+
 resource "aws_ecs_service" "app_service" {
   name            = "app-service"
   cluster         = aws_ecs_cluster.cluster.id
@@ -104,7 +117,7 @@ resource "aws_ecs_service" "app_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = ["subnet here", "subnet here"]
+    subnets          = data.aws_subnets.default.ids
     assign_public_ip = true
   }
 }
