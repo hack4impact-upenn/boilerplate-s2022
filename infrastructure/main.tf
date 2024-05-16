@@ -205,3 +205,125 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
   policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
 }
 
+# Create IAM Groups
+resource "aws_iam_group" "pmtl_group" {
+  name = "PMTLGroup"
+}
+
+resource "aws_iam_group" "devops_chair_group" {
+  name = "DevopsChairGroup"
+}
+
+resource "aws_iam_group" "client_group" {
+  name = "ClientGroup"
+}
+
+# Attach IAM Roles to Groups
+resource "aws_iam_group_membership" "pmtl_group_membership" {
+  name  = "PMTLGroupMembership"
+  users = [] // Add user names here if available
+  group = aws_iam_group.pmtl_group.name
+}
+
+resource "aws_iam_group_membership" "devops_chair_group_membership" {
+  name  = "DevopsChairGroupMembership"
+  users = [] // Add user names here if available
+  group = aws_iam_group.devops_chair_group.name
+}
+
+resource "aws_iam_group_membership" "client_group_membership" {
+  name  = "ClientGroupMembership"
+  users = [] // Add user names here if available
+  group = aws_iam_group.client_group.name
+}
+
+# Define IAM Roles
+resource "aws_iam_role" "pmtl_role" {
+  name = "PMTLSystemAdministratorRole"
+  assume_role_policy = jsonencode({
+    Version   = "2024-05-16"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = {
+        AWS = "arn:aws:iam::${var.aws_account_id}:group/PMTLGroup"
+      }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role" "devops_chair_role" {
+  name = "DevopsChairDatabaseAdministratorRole"
+  assume_role_policy = jsonencode({
+    Version   = "2024-05-16"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = {
+        AWS = "arn:aws:iam::${var.aws_account_id}:group/DevopsChairGroup"
+      }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role" "client_role" {
+  name = "ClientRole"
+  assume_role_policy = jsonencode({
+    Version   = "2024-05-16"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = {
+        AWS = "arn:aws:iam::${var.aws_account_id}:group/ClientGroup"
+      }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+# PMTL Role
+resource "aws_iam_role_policy_attachment" "pmtl_policy_attachment" {
+  role       = aws_iam_role.pmtl_role.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/SystemAdministrator"
+}
+
+resource "aws_iam_role_policy_attachment" "pmtl_policy_attachment" {
+  role       = aws_iam_role.pmtl_role.name
+  policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
+}
+
+# Devops Chair Role
+resource "aws_iam_role_policy_attachment" "devops_chair_policy_attachment" {
+  role       = aws_iam_role.devops_chair_role.name
+  policy_arn = "arn:aws:iam::aws:policy/job-function/DatabaseAdministrator"
+}
+
+resource "aws_iam_role_policy_attachment" "pmtl_policy_attachment" {
+  role       = aws_iam_role.devops_chair_role.name
+  policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
+}
+
+# Client Role
+data "aws_iam_policy_document" "client_policy" {
+  statement {
+    actions   = ["ec2:Describe*"]
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["ec2:StartInstances", "ec2:StopInstances", "ec2:RebootInstances"] // Adjust actions as needed
+    resources = ["arn:aws:ec2:region:account-id:instance/instance-id"] // Specific instance ARN
+  }
+}
+
+resource "aws_iam_policy" "client_policy" {
+  name        = "ClientPolicy"
+  description = "Client IAM policy"
+  policy      = data.aws_iam_policy_document.client_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "client_policy_attachment" {
+  role       = aws_iam_role.client_role.name
+  policy_arn = aws_iam_policy.client_policy.arn
+}
+
+
