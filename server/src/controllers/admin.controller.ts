@@ -212,7 +212,7 @@ const inviteUser = async (
 
     const emailInviteList = lowercaseEmailList.filter((email) => {
       if (existingUserEmails.includes(email)) {
-        next(ApiError.badRequest(`User with email ${email} already exists`));
+        throw ApiError.badRequest(`User with email ${email} already exists`);
       }
       return !existingUserEmails.includes(email);
     });
