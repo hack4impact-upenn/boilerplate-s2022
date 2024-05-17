@@ -151,7 +151,7 @@ const inviteUser = async (
 
   function validateEmail(email: string) {
     if (!email.match(emailRegex)) {
-      throw new Error('Invalid email');
+      next(ApiError.badRequest(`Invalid email: ${email}`));
     }
   }
 
@@ -171,7 +171,7 @@ const inviteUser = async (
         await createInvite(email, verificationToken);
       }
     } catch (err: any) {
-      throw new Error('Error creating invite');
+      next(ApiError.internal(`Error creating invite: ${err.message}`));
     }
   }
 
@@ -183,7 +183,7 @@ const inviteUser = async (
       emailInviteLink(email, verificationToken);
       return;
     } catch (err: any) {
-      throw new Error('Error sending invite');
+      next(ApiError.internal(`Error sending invite: ${err.message}`));
     }
   }
 
@@ -212,7 +212,7 @@ const inviteUser = async (
 
     const emailInviteList = lowercaseEmailList.filter((email) => {
       if (existingUserEmails.includes(email)) {
-        throw new Error(`An account with email ${email} already exists.`);
+        next(ApiError.badRequest(`User with email ${email} already exists`));
       }
       return !existingUserEmails.includes(email);
     });
