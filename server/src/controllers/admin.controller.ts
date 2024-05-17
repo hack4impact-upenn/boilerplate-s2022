@@ -21,7 +21,6 @@ import {
 } from '../services/invite.service';
 import { IInvite } from '../models/invite.model';
 import { emailInviteLink } from '../services/mail.service';
-import { batchMultiInput } from '../services/batch.service';
 
 /**
  * Get all users from the database. Upon success, send the a list of all users in the res body with 200 OK status code.
@@ -141,12 +140,12 @@ const inviteUser = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const { email, role } = req.body;
-  if (!email) {
+  const { emails } = req.body;
+  if (!emails) {
     next(ApiError.missingFields(['email']));
     return;
   }
-  let emailList = email.replaceAll(' ', '').split(',');
+  const emailList = emails.replaceAll(' ', '').split(',');
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 
@@ -154,14 +153,6 @@ const inviteUser = async (
     if (!email.match(emailRegex)) {
       throw new Error('Invalid email');
     }
-    return;
-  }
-
-  function validateNewUser(user: IUser) {
-    if (user) {
-      throw new Error(`An account with email ${user.email} already exists.`);
-    }
-    return;
   }
 
   function combineEmailToken(email: string, invite: IInvite | null) {
@@ -197,40 +188,50 @@ const inviteUser = async (
   }
 
   try {
-    await batchMultiInput(validateEmail, 10, emailList);
-    const lowercaseEmailList: string[] | null = await batchMultiInput(
-      async (email: string) => {
-        return email.toLowerCase();
-      },
-      10,
-      emailList,
+    if (emailList.length === 0) {
+      next(ApiError.missingFields(['email']));
+      return;
+    }
+    emailList.forEach(validateEmail);
+    const lowercaseEmailList: string[] = emailList.map((email: string) =>
+      email.toLowerCase(),
     );
 
-    const existingUserList: any[] | null = await batchMultiInput(
-      getUserByEmail,
-      10,
-      lowercaseEmailList,
-    );
-    await batchMultiInput(validateNewUser, 10, existingUserList);
+    const userPromises = lowercaseEmailList.map(getUserByEmail);
+    const existingUserList = await Promise.all(userPromises);
 
-    const existingInviteList: any[] | null = await batchMultiInput(
-      getInviteByEmail,
-      10,
-      lowercaseEmailList,
+    const invitePromises = lowercaseEmailList.map(getInviteByEmail);
+    const existingInviteList = await Promise.all(invitePromises);
+
+    const existingUserEmails = existingUserList.map((user) =>
+      user ? user.email : '',
     );
-    const emailInviteList: any[] = await batchMultiInput(
-      combineEmailToken,
-      10,
-      lowercaseEmailList,
-      existingInviteList,
+    const existingInviteEmails = existingInviteList.map((invite) =>
+      invite ? invite.email : '',
     );
 
-    await batchMultiInput(makeInvite, 10, emailInviteList);
-    await batchMultiInput(sendInvite, 10, emailInviteList);
+    const emailInviteList = lowercaseEmailList.filter((email) => {
+      if (existingUserEmails.includes(email)) {
+        throw new Error(`An account with email ${email} already exists.`);
+      }
+      return !existingUserEmails.includes(email);
+    });
+
+    const combinedList = emailInviteList.map((email) => {
+      const existingInvite =
+        existingInviteList[existingInviteEmails.indexOf(email)];
+      return combineEmailToken(email, existingInvite);
+    });
+
+    const makeInvitePromises = combinedList.map(makeInvite);
+    await Promise.all(makeInvitePromises);
+
+    const sendInvitePromises = combinedList.map(sendInvite);
+    await Promise.all(sendInvitePromises);
 
     res.sendStatus(StatusCode.CREATED);
   } catch (err: any) {
-    next(ApiError.internal('Unable to invite user: ' + err.message));
+    next(ApiError.internal(`Unable to invite user: ${err.message}`));
   }
 };
 
