@@ -53,9 +53,9 @@ resource "aws_ecs_task_definition" "app" {
       ],
       environment = [
         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
-        { "name" : "COOKIE_SECRET", "value" : "any-string" },
-        { "name" : "SENDGRID_API_KEY", "value" : "SG.sendgrid-api-key-from-above" },
-        { "name" : "SENDGRID_EMAIL_ADDRESS", "value" : "sendgrid-sender-identity-email-from-above" }
+        { "name" : "COOKIE_SECRET", "value" : var.cookie_secret },
+        { "name" : "SENDGRID_API_KEY", "value" : var.sendgrid_api_key },
+        { "name" : "SENDGRID_EMAIL_ADDRESS", "value" : var.sendgrid_email_address }
       ],
       logConfiguration = {
         logDriver = "awslogs"

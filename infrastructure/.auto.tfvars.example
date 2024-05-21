@@ -1,2 +1,6 @@
-atlas_uri = ""
-aws_account_id = ""
+atlas_uri              = "mongodb+srv://OOO"
+cookie_secret          = "any-string"
+sendgrid_api_key       = "SG.OOO"
+sendgrid_email_address = "OOO"
+
+aws_account_id = "524180002245"
