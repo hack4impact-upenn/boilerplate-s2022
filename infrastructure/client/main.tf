@@ -106,10 +106,67 @@ resource "aws_s3_object" "website_files" {
   ]
 }
 
+# CloudFront Distribution
+resource "aws_cloudfront_distribution" "cdn" {
+  origin {
+    domain_name = aws_s3_bucket.static_website.bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.static_website.bucket
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  default_cache_behavior {
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = aws_s3_bucket.static_website.bucket
+    viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  # Handle 403 errors by serving index.html with a 200 status code
+  custom_error_response {
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+  }
+
+  # Default root object
+  default_root_object = "index.html"
+
+  enabled             = true
+  is_ipv6_enabled     = true
+  price_class         = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+
+  depends_on = [
+    aws_s3_object.website_files,
+  ]
+}
+
 output "s3_bucket_name" {
   value = aws_s3_bucket.static_website.bucket
 }
 
-# output "cloudfront_domain_name" {
-#   value = aws_cloudfront_distribution.cdn.domain_name
-# }
+output "cloudfront_domain_name" {
+  value = aws_cloudfront_distribution.cdn.domain_name
+}
