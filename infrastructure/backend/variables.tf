@@ -10,14 +10,8 @@ variable "github_repo_name" {
   description = "Name of the GH repo, used to pull the docker images"
 }
 
-variable "hosted_zone_name" {
-  default     = "hackboilerplate.com"
-  type        = string
-  description = "Domain name"
-}
-
 variable "region" {
-  default     = "us-east-1"
+  default     = "us-west-1"
   type        = string
   description = "Launch region for the ECS cluster"
 }

@@ -26,10 +26,10 @@ resource "aws_ecs_cluster" "cluster" {
 
 # TODO: this only needs to be created once; should we keep it in here or create
 # it manually?
-# resource "aws_cloudwatch_log_group" "ecs_app_family_log_group" {
-#   name = "/ecs/app-family"
-#   // retention_in_days = 90
-# }
+resource "aws_cloudwatch_log_group" "ecs_app_family_log_group" {
+  name = "/ecs/app-family"
+  // retention_in_days = 90
+}
 
 resource "aws_ecs_task_definition" "app" {
   family                   = "app-family"
@@ -174,45 +174,69 @@ resource "aws_ecs_service" "app_service" {
 
 
 # Get existing IAM info
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecs_task_execution_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action    = "sts:AssumeRole",
+        Effect    = "Allow",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_policy" "cloudwatch_logs_policy" {
+  name        = "ECSLogsPolicy"
+  description = "Allow ECS Task Execution Role to push logs to CloudWatch"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup"
+        ],
+        Resource = "arn:aws:logs:*:*:*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:PutLogEvents"
+        ],
+        Resource = [
+          "arn:aws:logs:*:*:log-group:/ecs/*:log-stream:*",
+          "arn:aws:logs:*:*:log-group:/ecs/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
+}
+
+
 data "aws_iam_role" "ecs_task_execution_role" {
   name = "ecs_task_execution_role"
+  depends_on = [aws_iam_role.ecs_task_execution_role]
 }
 
 data "aws_iam_policy" "cloudwatch_logs_policy" {
   arn = "arn:aws:iam::${var.aws_account_id}:policy/ECSLogsPolicy"
+  depends_on = [aws_iam_policy.cloudwatch_logs_policy]
 }
-
-# Attach the policies to the role
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
-  role       = data.aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
-  role       = data.aws_iam_role.ecs_task_execution_role.name
-  policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
-}
-
-// ALB IP routing
-resource "aws_route53_zone" "main" {
-  name = var.hosted_zone_name
-}
-
-# resource "aws_route53_record" "backend" {
-#   zone_id = aws_route53_zone.main.zone_id
-#   name    = "api.${var.hosted_zone_name}"
-#   type    = "A"
-#   ttl     = "300"
-#   records = [aws_eip.nlb_eip_1.public_ip, aws_eip.nlb_eip_2.public_ip]
-# }
-
-# resource "aws_route53_record" "main" {
-#   zone_id = aws_route53_zone.main.zone_id
-#   name    = "hackboilerplate.com"
-#   type    = "A"
-
-#   alias {
-#     name                   = aws_lb.app.dns_name
-#     zone_id                = aws_lb.app.zone_id
-#     evaluate_target_health = true
-#   }
-# }
