@@ -44,7 +44,7 @@ The boilerplate uses [SendGrid](https://sendgrid.com) to send emails to users in
 
 - Create a SendGrid Account
 - Register a [Sender Identity](https://docs.sendgrid.com/for-developers/sending-email/sender-identity) (Single Sender recommended for most)
-- Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key
+- Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key)
 
 ### Environment Variables
 

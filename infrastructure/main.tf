@@ -25,6 +25,8 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
+# TODO: this only needs to be created once; should we keep it in here or create
+# it manually?
 # resource "aws_cloudwatch_log_group" "ecs_app_family_log_group" {
 #   name = "/ecs/app-family"
 #   // retention_in_days = 90
@@ -34,10 +36,39 @@ resource "aws_ecs_task_definition" "app" {
   family                   = "app-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "256"
-  memory                   = "1024"
+  cpu                      = "512"
+  memory                   = "2048"
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
+    {
+      name      = "frontend"
+      image     = local.client_image_tag
+      cpu       = 256
+      memory    = 1024
+      essential = true
+      portMappings = [
+        {
+          containerPort = 3000
+          hostPort      = 3000
+          protocol      = "tcp"
+        }
+      ],
+      environment = [
+        {
+          name  = "REACT_APP_API_URL"
+          value = "http://${aws_lb.app.dns_name}/api"
+        }
+      ],
+      // TODO: add env vars
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/app-family"
+          awslogs-region        = var.region
+          awslogs-stream-prefix = "frontend"
+        }
+      }
+    },
     {
       name      = "backend"
       image     = local.server_image_tag
@@ -70,8 +101,14 @@ resource "aws_ecs_task_definition" "app" {
 }
 
 // VPC configuration
+// TODO: decide if we should use a different VPC
 data "aws_vpc" "default" {
   default = true
+}
+
+data "aws_security_group" "default" {
+  vpc_id = data.aws_vpc.default.id
+  name   = "default"
 }
 
 data "aws_subnets" "default" {
@@ -81,67 +118,172 @@ data "aws_subnets" "default" {
   }
 }
 
-// Elastic IPs for NLB
-resource "aws_eip" "nlb_eip_1" {
-  vpc = true
-}
+resource "aws_acm_certificate" "cert" {
+  domain_name       = "hackboilerplate.com"
+  validation_method = "DNS"
 
-resource "aws_eip" "nlb_eip_2" {
-  vpc = true
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 // Load balancer configuration
-resource "aws_lb" "nlb" {
-  name               = "${var.cluster_name}-nlb"
+resource "aws_lb" "app" {
+  name               = "${var.cluster_name}-alb"
   internal           = false
-  load_balancer_type = "network"
-
-  subnet_mapping {
-    subnet_id     = data.aws_subnets.default.ids[0]
-    allocation_id = aws_eip.nlb_eip_1.id
-  }
-
-  subnet_mapping {
-    subnet_id     = data.aws_subnets.default.ids[1]
-    allocation_id = aws_eip.nlb_eip_2.id
-  }
+  load_balancer_type = "application"
+  security_groups    = [data.aws_security_group.default.id]
+  subnets            = data.aws_subnets.default.ids
 
   enable_deletion_protection = false
 }
 
-resource "aws_lb_target_group" "app_tg" {
-  name        = "${var.cluster_name}-tg"
-  port        = 4000
-  protocol    = "TCP"
+resource "aws_lb_target_group" "frontend_tg" {
+  name        = "${var.cluster_name}-frontend-tg"
+  port        = 3000
+  protocol    = "HTTP"
   vpc_id      = data.aws_vpc.default.id
   target_type = "ip"
 
   health_check {
-    interval            = 30
-    protocol            = "TCP"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-    timeout             = 10
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
   }
 }
+
+resource "aws_lb_target_group" "backend_tg" {
+  name        = "${var.cluster_name}-backend-tg"
+  port        = 4000
+  protocol    = "HTTP"
+  vpc_id      = data.aws_vpc.default.id
+  target_type = "ip"
+
+  health_check {
+    path                = "/" # TODO: add a health check endpoint
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200"
+  }
+}
+
+# resource "aws_lb_listener" "app_listener_https" {
+#   load_balancer_arn = aws_lb.app.arn
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   certificate_arn   = aws_acm_certificate.cert.arn
+
+#   default_action {
+#     type = "fixed-response"
+#     fixed_response {
+#       content_type = "text/plain"
+#       message_body = "Not Found"
+#       status_code  = "404"
+#     }
+#   }
+# }
+
 
 resource "aws_lb_listener" "app_listener" {
-  load_balancer_arn = aws_lb.nlb.arn
-  port              = 80
-  protocol          = "TCP"
+  load_balancer_arn = aws_lb.app.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  # default_action {
+  #   type = "redirect"
+  #   redirect {
+  #     port        = "443"
+  #     protocol    = "HTTPS"
+  #     status_code = "HTTP_301"
+  #   }
+  # }
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app_tg.arn
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not Found"
+      status_code  = "404"
+    }
   }
 }
+
+resource "aws_lb_listener_rule" "frontend" {
+  listener_arn = aws_lb_listener.app_listener.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+  }
+
+  condition {
+    host_header {
+      values = ["hackboilerplate.com"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "backend" {
+  listener_arn = aws_lb_listener.app_listener.arn
+  priority     = 200
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.backend_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
+    }
+  }
+}
+
+# resource "aws_lb_listener_rule" "frontend_https" {
+#   listener_arn = aws_lb_listener.app_listener_https.arn
+#   priority     = 100
+
+#   action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.frontend_tg.arn
+#   }
+
+#   condition {
+#     host_header {
+#       values = ["hackboilerplate.com"]
+#     }
+#   }
+# }
+
+# resource "aws_lb_listener_rule" "backend_https" {
+#   listener_arn = aws_lb_listener.app_listener_https.arn
+#   priority     = 200
+
+#   action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.backend_tg.arn
+#   }
+
+#   condition {
+#     path_pattern {
+#       values = ["/api/*"]
+#     }
+#   }
+# }
 
 // ECS service
 resource "aws_ecs_service" "app_service" {
   name            = "app-service"
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.app.arn
-  desired_count   = 1 # Example count
+  desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
@@ -150,7 +292,13 @@ resource "aws_ecs_service" "app_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.app_tg.arn
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+    container_name   = "frontend"
+    container_port   = 3000
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.backend_tg.arn
     container_name   = "backend"
     container_port   = 4000
   }
@@ -176,21 +324,29 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
   policy_arn = data.aws_iam_policy.cloudwatch_logs_policy.arn
 }
 
-// NLB IP routing
+// ALB IP routing
 resource "aws_route53_zone" "main" {
   name = var.hosted_zone_name
 }
 
-resource "aws_route53_record" "backend" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "api.${var.hosted_zone_name}"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_eip.nlb_eip_1.public_ip, aws_eip.nlb_eip_2.public_ip]
-}
+# resource "aws_route53_record" "backend" {
+#   zone_id = aws_route53_zone.main.zone_id
+#   name    = "api.${var.hosted_zone_name}"
+#   type    = "A"
+#   ttl     = "300"
+#   records = [aws_eip.nlb_eip_1.public_ip, aws_eip.nlb_eip_2.public_ip]
+# }
 
-data "aws_route53_zone" "main" {
-  name = var.hosted_zone_name
+resource "aws_route53_record" "main" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "hackboilerplate.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.app.dns_name
+    zone_id                = aws_lb.app.zone_id
+    evaluate_target_health = true
+  }
 }
 
 # So that the ECS role can execute tasks
