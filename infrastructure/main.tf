@@ -54,10 +54,8 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment = [
-        {
-          name  = "REACT_APP_API_URL"
-          value = "http://${aws_lb.app.dns_name}/api"
-        }
+        { "name" : "BACKEND_URL", "value" : "http://${aws_lb.app.dns_name}/api" },
+        { "name" : "TEST_ENV", "value" : "12345" },
       ],
       // TODO: add env vars
       logConfiguration = {
@@ -83,6 +81,7 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment = [
+        { "name" : "FRONTEND_URL", "value" : "http://${aws_lb.app.dns_name}/" },
         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
         { "name" : "COOKIE_SECRET", "value" : var.cookie_secret },
         { "name" : "SENDGRID_API_KEY", "value" : var.sendgrid_api_key },

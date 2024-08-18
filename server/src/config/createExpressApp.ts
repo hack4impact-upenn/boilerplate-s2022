@@ -18,6 +18,9 @@ import ApiError from '../util/apiError.ts';
  * @returns The configured {@link express.Express} instance
  */
 const createExpressApp = (sessionStore: MongoStore): express.Express => {
+  const FRONTEND_URL = process.env.FRONTEND_URL || 'frontend url not found';
+  console.log(FRONTEND_URL);
+
   const app = express();
 
   // Set up passport and strategies
@@ -34,7 +37,7 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
     }),
   );
   // Gives express the ability accept origins outside its own to accept requests from
-  app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+  app.use(cors({ credentials: true, origin: FRONTEND_URL }));
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
 

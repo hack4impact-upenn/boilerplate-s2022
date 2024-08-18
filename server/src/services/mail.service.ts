@@ -6,7 +6,8 @@ import SGmail, { MailDataRequired } from '@sendgrid/mail';
 
 const appName = 'Boilerplate'; // Replace with a relevant project name
 const senderName = 'Hack4Impact UPenn'; // Replace with a relevant project sender
-const baseUrl = 'http://localhost:3000'; // TODO: figure out better place to put this
+const baseUrl = process.env.FRONTEND_URL || 'frontend url not found'; // TODO: figure out better place to put this
+console.log(baseUrl);
 
 // eslint-disable-next-line no-useless-concat
 SGmail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
