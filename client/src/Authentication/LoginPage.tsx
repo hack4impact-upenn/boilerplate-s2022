@@ -113,6 +113,7 @@ function LoginPage() {
     if (validateInputs()) {
       loginUser(values.email, values.password)
         .then((user) => {
+          console.log('navigating to home!');
           dispatchUser(
             user.email!,
             user.firstName!,
@@ -122,6 +123,7 @@ function LoginPage() {
           navigate('/home');
         })
         .catch((e) => {
+          console.log('failed to login...');
           setShowError('alert', true);
           setErrorMessage('alert', e.message);
         });

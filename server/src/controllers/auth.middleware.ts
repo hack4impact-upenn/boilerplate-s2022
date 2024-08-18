@@ -13,6 +13,8 @@ const isAuthenticated = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  // TODO: remove this in prod
+  console.log(isAuthenticated);
   if (req.isAuthenticated()) {
     next(); // Go to the next non-error-handling middleware
     return;

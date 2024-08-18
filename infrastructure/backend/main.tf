@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "app" {
         // alb url (for cors), and one for the redirect (the actual domain name)
         // - Right now we're just using `FRONTEND_URL` in the same places in
         //   the backend
-        { "name" : "FRONTEND_URL", "value" : "http://localhost:3000" },
+        { "name" : "FRONTEND_URL", "value" : "https://hackboilerplate.com" },
         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
         { "name" : "COOKIE_SECRET", "value" : var.cookie_secret },
         { "name" : "SENDGRID_API_KEY", "value" : var.sendgrid_api_key },

@@ -19,7 +19,7 @@ import ApiError from '../util/apiError.ts';
  */
 const createExpressApp = (sessionStore: MongoStore): express.Express => {
   const FRONTEND_URL = process.env.FRONTEND_URL || 'frontend url not found';
-  console.log(FRONTEND_URL);
+  console.log(`FRONTEND_URL: ${FRONTEND_URL}`);
 
   const app = express();
 
@@ -40,7 +40,13 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
   // app.use(cors({ credentials: true, origin: FRONTEND_URL }));
   app.use(
     cors({
-      origin: [FRONTEND_URL, 'http://localhost:3000'],
+      origin: [
+        FRONTEND_URL,
+        'http://localhost:3000',
+        'hackboilerplate.com',
+        'https://hackboilerplate.com',
+        'http://hackboilerplate.com',
+      ],
       credentials: true,
     }),
   );
