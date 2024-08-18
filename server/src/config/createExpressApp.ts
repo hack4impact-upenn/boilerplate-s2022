@@ -40,8 +40,8 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
   // app.use(cors({ credentials: true, origin: FRONTEND_URL }));
   app.use(
     cors({
-      origin: '*',
-      credentials: false,
+      origin: [FRONTEND_URL, 'http://localhost:3000'],
+      credentials: true,
     }),
   );
   // Gives express the ability to parse client cookies and add them to req.cookies
