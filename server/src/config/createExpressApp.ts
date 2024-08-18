@@ -37,7 +37,13 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
     }),
   );
   // Gives express the ability accept origins outside its own to accept requests from
-  app.use(cors({ credentials: true, origin: FRONTEND_URL }));
+  // app.use(cors({ credentials: true, origin: FRONTEND_URL }));
+  app.use(
+    cors({
+      origin: '*',
+      credentials: false,
+    }),
+  );
   // Gives express the ability to parse client cookies and add them to req.cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
 

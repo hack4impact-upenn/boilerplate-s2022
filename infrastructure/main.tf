@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment = [
-        { "name" : "BACKEND_URL", "value" : "http://${aws_lb.app.dns_name}/api" },
+        { "name" : "REACT_APP_BACKEND_URL", "value" : "http://${aws_lb.app.dns_name}/api" },
         { "name" : "TEST_ENV", "value" : "12345" },
       ],
       // TODO: add env vars
@@ -81,6 +81,10 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       environment = [
+        // TODO: we may end up needing to have two env vars here, one for the
+        // alb url (for cors), and one for the redirect (the actual domain name)
+        // - Right now we're just using `FRONTEND_URL` in the same places in
+        //   the backend
         { "name" : "FRONTEND_URL", "value" : "http://${aws_lb.app.dns_name}/" },
         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
         { "name" : "COOKIE_SECRET", "value" : var.cookie_secret },
