@@ -7,7 +7,7 @@ resource "local_file" "dotenv" {
 }
 
 provider "aws" {
-  region     = "us-west-1"  # Set your desired region
+  region     = "us-west-1" # Set your desired region
   access_key = var.aws_access_key_id
   secret_key = var.aws_secret_access_key
 }
@@ -121,17 +121,17 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   # Handle 403 errors by serving index.html with a 200 status code
   custom_error_response {
-    error_code            = 403
-    response_code         = 200
-    response_page_path    = "/index.html"
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
   }
 
   # Default root object
   default_root_object = "index.html"
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  price_class         = "PriceClass_100"
+  enabled         = true
+  is_ipv6_enabled = true
+  price_class     = "PriceClass_100"
 
   restrictions {
     geo_restriction {
