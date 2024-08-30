@@ -152,6 +152,37 @@ resource "aws_lb_listener_rule" "backend" {
   }
 }
 
+resource "aws_lb_listener" "app_listener_secure" {
+  load_balancer_arn = aws_lb.app.arn
+  port              = "443"
+  protocol          = "HTTPS"
+
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not Found"
+      status_code  = "404"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "backend_secure" {
+  listener_arn = aws_lb_listener.app_listener_secure.arn
+  priority     = 200
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.backend_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
+    }
+  }
+}
+
 // ECS service
 resource "aws_ecs_service" "app_service" {
   name            = "app-service"
@@ -181,8 +212,8 @@ resource "aws_iam_role" "ecs_task_execution_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Action    = "sts:AssumeRole",
-        Effect    = "Allow",
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
         Principal = {
           Service = "ecs-tasks.amazonaws.com"
         }
@@ -232,11 +263,11 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
 
 
 data "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs_task_execution_role"
+  name       = "ecs_task_execution_role"
   depends_on = [aws_iam_role.ecs_task_execution_role]
 }
 
 data "aws_iam_policy" "cloudwatch_logs_policy" {
-  arn = "arn:aws:iam::${var.aws_account_id}:policy/ECSLogsPolicy"
+  arn        = "arn:aws:iam::${var.aws_account_id}:policy/ECSLogsPolicy"
   depends_on = [aws_iam_policy.cloudwatch_logs_policy]
 }
