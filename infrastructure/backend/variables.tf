@@ -45,3 +45,7 @@ variable "sendgrid_api_key" {
 variable "sendgrid_email_address" {
   type = string
 }
+
+variable "frontend_url" {
+  type = string
+}
