@@ -11,7 +11,7 @@ variable "github_repo_name" {
 }
 
 variable "region" {
-  default     = "us-west-1"
+  default     = "us-east-1"
   type        = string
   description = "Launch region for the ECS cluster"
 }

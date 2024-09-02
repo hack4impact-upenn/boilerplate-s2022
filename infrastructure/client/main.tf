@@ -1,15 +1,6 @@
 # Load environment variables from the .env file
-provider "local" {}
-
-resource "local_file" "dotenv" {
-  content  = file("${path.module}/.env")
-  filename = "${path.module}/.terraform.env"
-}
-
 provider "aws" {
-  region     = "us-west-1" # Set your desired region
-  access_key = var.aws_access_key_id
-  secret_key = var.aws_secret_access_key
+  region = var.region
 }
 
 # S3 Bucket
@@ -137,6 +128,13 @@ resource "aws_cloudfront_distribution" "cdn" {
   # Handle 403 errors by serving index.html with a 200 status code
   custom_error_response {
     error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+  }
+
+  # Handle 404 errors by serving index.html with a 200 status code
+  custom_error_response {
+    error_code            = 404
     response_code         = 200
     response_page_path    = "/index.html"
   }
