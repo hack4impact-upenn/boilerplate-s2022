@@ -11,7 +11,7 @@ import { postData } from '../../util/api.tsx';
 
 function InviteUserButton() {
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState('');
+  const [emails, setEmails] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,11 +27,11 @@ function InviteUserButton() {
 
   const handleInvite = async () => {
     setLoading(true);
-    postData('admin/invite', { email }).then((res) => {
+    postData('admin/invite', { emails }).then((res) => {
       if (res.error) {
         setError(res.error.message);
       } else {
-        setAlert(`${email} successfully invited!`, AlertType.SUCCESS);
+        setAlert(`${emails} successfully invited!`, AlertType.SUCCESS);
         setOpen(false);
       }
       setLoading(false);
@@ -40,7 +40,7 @@ function InviteUserButton() {
 
   const updateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
-    setEmail(event.target.value);
+    setEmails(event.target.value);
   };
 
   return (
@@ -51,13 +51,14 @@ function InviteUserButton() {
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           <DialogContentText>
-            Please enter the email address of the user you would like to invite.
+            Please enter one or more email addresses separated by commas. (ex.
+            a@gmail.com, b@outlook.com)
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
+            label="Email Addresses"
             type="email"
             fullWidth
             variant="standard"

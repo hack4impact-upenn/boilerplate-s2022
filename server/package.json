@@ -15,6 +15,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@sendgrid/mail": "^7.7.0",
+    "@types/mixpanel-browser": "^2.49.0",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
@@ -26,6 +27,7 @@
     "express-session": "^1.17.2",
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mixpanel": "^0.18.0",
     "mongodb-memory-server": "^8.2.0",
     "mongoose": "^6.1.10",
     "passport": "^0.6.0",

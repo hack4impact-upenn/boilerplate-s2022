@@ -140,37 +140,98 @@ const inviteUser = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const { email } = req.body;
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-  if (!email.match(emailRegex)) {
-    next(ApiError.badRequest('Invalid email'));
-  }
-  const lowercaseEmail = email.toLowerCase();
-  const existingUser: IUser | null = await getUserByEmail(lowercaseEmail);
-  if (existingUser) {
-    next(
-      ApiError.badRequest(
-        `An account with email ${lowercaseEmail} already exists.`,
-      ),
-    );
+  const { emails } = req.body;
+  if (!emails) {
+    next(ApiError.missingFields(['email']));
     return;
   }
+  const emailList = emails.replaceAll(' ', '').split(',');
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 
-  const existingInvite: IInvite | null = await getInviteByEmail(lowercaseEmail);
+  function validateEmail(email: string) {
+    if (!email.match(emailRegex)) {
+      next(ApiError.badRequest(`Invalid email: ${email}`));
+    }
+  }
+
+  function combineEmailToken(email: string, invite: IInvite | null) {
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    return [email, invite, verificationToken];
+  }
+
+  async function makeInvite(combinedList: any[]) {
+    try {
+      const email = combinedList[0];
+      const existingInvite = combinedList[1];
+      const verificationToken = combinedList[2];
+      if (existingInvite) {
+        await updateInvite(existingInvite, verificationToken);
+      } else {
+        await createInvite(email, verificationToken);
+      }
+    } catch (err: any) {
+      next(ApiError.internal(`Error creating invite: ${err.message}`));
+    }
+  }
+
+  function sendInvite(combinedList: any[]) {
+    try {
+      const email = combinedList[0];
+      const verificationToken = combinedList[2];
+
+      emailInviteLink(email, verificationToken);
+      return;
+    } catch (err: any) {
+      next(ApiError.internal(`Error sending invite: ${err.message}`));
+    }
+  }
 
   try {
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    if (existingInvite) {
-      await updateInvite(existingInvite, verificationToken);
-    } else {
-      await createInvite(lowercaseEmail, verificationToken);
+    if (emailList.length === 0) {
+      next(ApiError.missingFields(['email']));
+      return;
     }
+    emailList.forEach(validateEmail);
+    const lowercaseEmailList: string[] = emailList.map((email: string) =>
+      email.toLowerCase(),
+    );
 
-    await emailInviteLink(lowercaseEmail, verificationToken);
+    const userPromises = lowercaseEmailList.map(getUserByEmail);
+    const existingUserList = await Promise.all(userPromises);
+
+    const invitePromises = lowercaseEmailList.map(getInviteByEmail);
+    const existingInviteList = await Promise.all(invitePromises);
+
+    const existingUserEmails = existingUserList.map((user) =>
+      user ? user.email : '',
+    );
+    const existingInviteEmails = existingInviteList.map((invite) =>
+      invite ? invite.email : '',
+    );
+
+    const emailInviteList = lowercaseEmailList.filter((email) => {
+      if (existingUserEmails.includes(email)) {
+        throw ApiError.badRequest(`User with email ${email} already exists`);
+      }
+      return !existingUserEmails.includes(email);
+    });
+
+    const combinedList = emailInviteList.map((email) => {
+      const existingInvite =
+        existingInviteList[existingInviteEmails.indexOf(email)];
+      return combineEmailToken(email, existingInvite);
+    });
+
+    const makeInvitePromises = combinedList.map(makeInvite);
+    await Promise.all(makeInvitePromises);
+
+    const sendInvitePromises = combinedList.map(sendInvite);
+    await Promise.all(sendInvitePromises);
+
     res.sendStatus(StatusCode.CREATED);
-  } catch (err) {
-    next(ApiError.internal('Unable to invite user.'));
+  } catch (err: any) {
+    next(ApiError.internal(`Unable to invite user: ${err.message}`));
   }
 };
 

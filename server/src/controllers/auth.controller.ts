@@ -25,6 +25,7 @@ import {
   removeInviteByToken,
 } from '../services/invite.service.ts';
 import { IInvite } from '../models/invite.model.ts';
+import mixpanel from '../config/configMixpanel.ts';
 
 /**
  * A controller function to login a user and create a session with Passport.
@@ -65,6 +66,10 @@ const login = async (
           next(ApiError.internal('Failed to log in user'));
           return;
         }
+        mixpanel.track('Login', {
+          distinct_id: user._id,
+          email: user.email,
+        });
         res.status(StatusCode.OK).send(user);
       });
     },
@@ -95,6 +100,11 @@ const logout = async (
         }
       });
     }
+    // mixpanel tracking
+    mixpanel.track('Logout', {
+      distinct_id: req.user ? (req.user as IUser)._id : undefined,
+      email: req.user ? (req.user as IUser).email : undefined,
+    });
   });
 };
 
@@ -164,6 +174,11 @@ const register = async (
       await user!.save();
       await emailVerificationLink(lowercaseEmail, verificationToken);
     }
+    // mixpanel tracking
+    mixpanel.track('Register', {
+      distinct_id: user?._id,
+      email: user?.email,
+    });
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
     next(ApiError.internal('Unable to register user.'));
@@ -200,6 +215,11 @@ const verifyAccount = async (
   user!.verified = true;
   try {
     await user!.save();
+    // mixpanel tracking
+    mixpanel.track('Verify Account', {
+      distinct_id: user._id,
+      email: user.email,
+    });
     res.sendStatus(StatusCode.OK);
   } catch (err) {
     next(ApiError.internal('Unable to verify the account.'));
