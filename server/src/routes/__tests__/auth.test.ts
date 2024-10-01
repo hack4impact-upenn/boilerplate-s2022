@@ -5,11 +5,11 @@ import express from 'express';
 import request from 'supertest';
 import { Server } from 'http';
 import MongoStore from 'connect-mongo';
-import MongoConnection from '../../config/mongoConnection';
-import createExpressApp from '../../config/createExpressApp';
-import StatusCode from '../../util/statusCode';
-import { User } from '../../models/user.model';
-import Session from '../../models/session.model';
+import MongoConnection from '../../config/mongoConnection.ts';
+import createExpressApp from '../../config/createExpressApp.ts';
+import StatusCode from '../../util/statusCode.ts';
+import { User } from '../../models/user.model.ts';
+import Session from '../../models/session.model.ts';
 
 let dbConnection: MongoConnection;
 let sessionStore: MongoStore;

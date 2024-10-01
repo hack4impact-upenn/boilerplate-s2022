@@ -181,7 +181,6 @@ const inviteUser = async (
       const verificationToken = combinedList[2];
 
       emailInviteLink(email, verificationToken);
-      return;
     } catch (err: any) {
       next(ApiError.internal(`Error sending invite: ${err.message}`));
     }
