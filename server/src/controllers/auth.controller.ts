@@ -3,6 +3,7 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
+import { logger_info } from '../config/configDatadog.ts';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
@@ -32,6 +33,7 @@ import mixpanel from '../config/configMixpanel.ts';
  * On success, the user's information is returned.
  * Else, send an appropriate error message.
  */
+
 const login = async (
   req: express.Request,
   res: express.Response,
@@ -66,10 +68,15 @@ const login = async (
           next(ApiError.internal('Failed to log in user'));
           return;
         }
+
+        // Mixpanel login tracking
         mixpanel.track('Login', {
           distinct_id: user._id,
           email: user.email,
         });
+
+        // Datadog login
+        logger_info.log('Login');
         res.status(StatusCode.OK).send(user);
       });
     },
@@ -100,7 +107,10 @@ const logout = async (
         }
       });
     }
-    // mixpanel tracking
+    // Datadog logout
+    logger_info.log('Logout');
+
+    // Mixpanel logout tracking
     mixpanel.track('Logout', {
       distinct_id: req.user ? (req.user as IUser)._id : undefined,
       email: req.user ? (req.user as IUser).email : undefined,
@@ -174,11 +184,12 @@ const register = async (
       await user!.save();
       await emailVerificationLink(lowercaseEmail, verificationToken);
     }
-    // mixpanel tracking
+    // Mixpanel Register tracking
     mixpanel.track('Register', {
       distinct_id: user?._id,
       email: user?.email,
     });
+
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
     next(ApiError.internal('Unable to register user.'));
