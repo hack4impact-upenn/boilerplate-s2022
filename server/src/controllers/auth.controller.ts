@@ -3,6 +3,7 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
+import { tracer, logger_info } from '../config/configDatadog.ts';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
@@ -32,6 +33,15 @@ import mixpanel from '../config/configMixpanel.ts';
  * On success, the user's information is returned.
  * Else, send an appropriate error message.
  */
+
+// Start a new span for the authentication process
+const span = tracer.startSpan('authentication', {
+  tags: {
+    // 'user.username': username,
+    'span.kind': 'server',
+  },
+});
+
 const login = async (
   req: express.Request,
   res: express.Response,
@@ -66,14 +76,21 @@ const login = async (
           next(ApiError.internal('Failed to log in user'));
           return;
         }
+
+        // Mixpanel login tracking
         mixpanel.track('Login', {
           distinct_id: user._id,
           email: user.email,
         });
+
+        // Datadog login
+        logger_info.log('info', 'Login');
+        span.setTag('http.status_code', 200);
         res.status(StatusCode.OK).send(user);
       });
     },
   )(req, res, next);
+  span.finish();
 };
 
 /**
@@ -100,12 +117,17 @@ const logout = async (
         }
       });
     }
-    // mixpanel tracking
+    // Datadog logout
+    logger_info.log('info', 'Logout');
+    span.setTag('http.status_code', 200);
+
+    // Mixpanel logout tracking
     mixpanel.track('Logout', {
       distinct_id: req.user ? (req.user as IUser)._id : undefined,
       email: req.user ? (req.user as IUser).email : undefined,
     });
   });
+  span.finish();
 };
 
 /**
@@ -174,11 +196,12 @@ const register = async (
       await user!.save();
       await emailVerificationLink(lowercaseEmail, verificationToken);
     }
-    // mixpanel tracking
+    // Mixpanel Register tracking
     mixpanel.track('Register', {
       distinct_id: user?._id,
       email: user?.email,
     });
+
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
     next(ApiError.internal('Unable to register user.'));
