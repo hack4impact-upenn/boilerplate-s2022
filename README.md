@@ -22,7 +22,7 @@ These are necessary to build and run the project at full functionality
 
 ## Recommended tools
 
-To take full advantage of the linting/formatting, recommend adding the [Prettier](https://prettier.io) and [ESLint](https://eslint.org) VSCode extensions and configuring them as shown [here](https://levelup.gitconnected.com/setting-up-eslint-with-prettier-typescript-and-visual-studio-code-d113bbec9857#:~:text=Install%20the%20following%20Visual%20Studio%20Code%20extensions) for code highlighting and formatting on save. Skip to the section labeled "Add the following to your VS Code settings.json". To access your settings.json, follow what is linked [here](https://stackoverflow.com/questions/65908987/how-can-i-open-visual-studio-codes-settings-json-file). See [here](https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier) for the differences between the two tools and how they work together.
+To take full advantage of the linting/formatting, we recommend adding the [Prettier](https://prettier.io) and [ESLint](https://eslint.org) VSCode extensions and configuring them as shown [here](https://levelup.gitconnected.com/setting-up-eslint-with-prettier-typescript-and-visual-studio-code-d113bbec9857#:~:text=Install%20the%20following%20Visual%20Studio%20Code%20extensions) for code highlighting and formatting on save. Skip to the section labeled "Add the following to your VS Code settings.json". To access your settings.json, follow what is linked [here](https://stackoverflow.com/questions/65908987/how-can-i-open-visual-studio-codes-settings-json-file). See [here](https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier) for the differences between the two tools and how they work together.
 
 Finally, we also recommend downloading the [Live Share](https://visualstudio.microsoft.com/services/live-share/) extension by Microsoft for improved Collaboration. This allows for easy peer programming on one shared repository instance.
 
@@ -46,6 +46,16 @@ The boilerplate uses [SendGrid](https://sendgrid.com) to send emails to users in
 - Register a [Sender Identity](https://docs.sendgrid.com/for-developers/sending-email/sender-identity) (Single Sender recommended for most)
 - Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key)
 
+### Mixpanel
+
+[Mixpanel](https://mixpanel.com) is an analytics tool that helps us collect data on how users use our applications.
+To set up Mixpanel:
+
+- Create a Mixpanel account
+- Create a project (there may be one created by default)
+- Go to Settings (top-right) > Project Settings
+- Look for "Project Token"
+
 ### Environment Variables
 
 Create a file named `.env` in the root of the `server` folder and add the following variables with the appropriate values. PM/TLs should provide this to their developers.
@@ -55,6 +65,7 @@ ATLAS_URI=mongodb-connection-uri-from-above
 COOKIE_SECRET=any-string
 SENDGRID_API_KEY=sendgrid-api-key-from-above
 SENDGRID_EMAIL_ADDRESS=sendgrid-sender-identity-email-from-above
+MIXPANEL_TOKEN=mixpanel-token-from-above
 ```
 
 ## Usage
