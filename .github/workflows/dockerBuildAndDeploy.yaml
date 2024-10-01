@@ -1,7 +1,7 @@
 name: Create and publish the Docker image
 on:
   push:
-    branches: ['devops/main']
+    branches: ['main']
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
