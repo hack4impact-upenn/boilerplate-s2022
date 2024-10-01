@@ -42,12 +42,7 @@ async function resolve(promise: Promise<any>) {
  * To UPDATE DURING DEPLOYMENT USING ENVIRONMENT VARIABLES
  */
 const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL || 'backend url not found';
-
-console.log(`BACKEND_URL: ${BACKEND_URL}`);
-
-// const BACKEND_URL = 'api.hackboilerplate.com';
-
+  process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 const URLPREFIX = `${BACKEND_URL}/api`;
 
 /**

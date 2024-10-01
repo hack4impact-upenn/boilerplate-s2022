@@ -18,9 +18,7 @@ import ApiError from '../util/apiError.ts';
  * @returns The configured {@link express.Express} instance
  */
 const createExpressApp = (sessionStore: MongoStore): express.Express => {
-  const FRONTEND_URL = process.env.FRONTEND_URL || 'frontend url not found';
-  console.log(`FRONTEND_URL: ${FRONTEND_URL}`);
-
+  const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
   const app = express();
 
   // Set up passport and strategies
