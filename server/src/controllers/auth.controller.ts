@@ -3,7 +3,7 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
-import { tracer, logger_info } from '../config/configDatadog.ts';
+import { logger_info } from '../config/configDatadog.ts';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
@@ -33,14 +33,6 @@ import mixpanel from '../config/configMixpanel.ts';
  * On success, the user's information is returned.
  * Else, send an appropriate error message.
  */
-
-// Start a new span for the authentication process
-const span = tracer.startSpan('authentication', {
-  tags: {
-    // 'user.username': username,
-    'span.kind': 'server',
-  },
-});
 
 const login = async (
   req: express.Request,
@@ -84,13 +76,11 @@ const login = async (
         });
 
         // Datadog login
-        logger_info.log('info', 'Login');
-        span.setTag('http.status_code', 200);
+        logger_info.log('Login');
         res.status(StatusCode.OK).send(user);
       });
     },
   )(req, res, next);
-  span.finish();
 };
 
 /**
@@ -118,8 +108,7 @@ const logout = async (
       });
     }
     // Datadog logout
-    logger_info.log('info', 'Logout');
-    span.setTag('http.status_code', 200);
+    logger_info.log('Logout');
 
     // Mixpanel logout tracking
     mixpanel.track('Logout', {
@@ -127,7 +116,6 @@ const logout = async (
       email: req.user ? (req.user as IUser).email : undefined,
     });
   });
-  span.finish();
 };
 
 /**

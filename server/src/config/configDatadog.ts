@@ -44,6 +44,6 @@ const logger_error = winston.createLogger({
   transports: [new winston.transports.Console()],
 });
 
-logger_warn.warn('Logger Initialized');
+logger_info.info('Logger Initialized');
 
 export { tracer, logger_info, logger_warn, logger_error };
