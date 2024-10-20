@@ -31,7 +31,15 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   },
   typeOfMealsServed: {
     type: String,
-    enum: ['Childcare Meals', 'School Meals', 'Soup Kitchen (onsite)', 'Shelter Meals (offsite)', 'Meals for Supportive/Transitional Housing', 'Meals For Seniors', 'Medically Tailored Meals'],
+    enum: [
+      'Childcare Meals',
+      'School Meals',
+      'Soup Kitchen (onsite)',
+      'Shelter Meals (offsite)',
+      'Meals for Supportive/Transitional Housing',
+      'Meals For Seniors',
+      'Medically Tailored Meals',
+    ],
   },
   costPerMeal: {
     type: Number,
@@ -110,7 +118,13 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   },
   capitalExpansionProjects: {
     type: String,
-    enum: ['We are in early stages of planning a capital expansion', 'We have a capital expansion plan and are fundraising', 'We have a fully funded capital expansion plan', 'We have recently completed or will soon complete the project', 'We have no future plans or projects underway'],
+    enum: [
+      'We are in early stages of planning a capital expansion',
+      'We have a capital expansion plan and are fundraising',
+      'We have a fully funded capital expansion plan',
+      'We have recently completed or will soon complete the project',
+      'We have no future plans or projects underway',
+    ],
   },
   capitalProjectSize: {
     type: Number,
@@ -120,34 +134,84 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   },
   capitalExpansionProjectNeeds: {
     type: String,
-    enum: ['How do we even start?', 'Planning cost expenses', 'Creating fundraising strategy', 'Construction costs', 'Equipment (heavy or small)', 'Operating expenses', 'Other'],
+    enum: [
+      'How do we even start?',
+      'Planning cost expenses',
+      'Creating fundraising strategy',
+      'Construction costs',
+      'Equipment (heavy or small)',
+      'Operating expenses',
+      'Other',
+    ],
   },
   retailSocialEnterpriseRevenue: {
     type: Number,
   },
   grossRevenueCafe: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
   grossRevenueRestaurant: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
   grossRevenueCatering: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
   grossRevenueFoodTruck: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
   grossRevenueWholesale: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
   grossRevenueFoodSubscription: {
     type: String,
-    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
+    enum: [
+      'Less than $100K',
+      '$100K to $250K',
+      '$250K to $500K',
+      '$500K to $1M',
+      'Over $1M',
+      'No Enterprise',
+    ],
   },
 });
 
@@ -199,6 +263,9 @@ interface IKitchenOutcomes extends mongoose.Document {
   grossRevenueFoodSubscription: string;
 }
 
-const KitchenOutcomes = mongoose.model<IKitchenOutcomes>('KitchenOutcomes', KitchenOutcomesSchema);
+const KitchenOutcomes = mongoose.model<IKitchenOutcomes>(
+  'KitchenOutcomes',
+  KitchenOutcomesSchema,
+);
 
 export { IKitchenOutcomes, KitchenOutcomes };
