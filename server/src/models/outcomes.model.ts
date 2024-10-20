@@ -30,8 +30,8 @@ const KitchenOutcomesSchema = new mongoose.Schema({
     type: Number,
   },
   typeOfMealsServed: {
-    type: [String], // Assuming multiple meal types can be selected
-    enum: ['value1', 'value2'], // Replace with actual options
+    type: String,
+    enum: ['Childcare Meals', 'School Meals', 'Soup Kitchen (onsite)', 'Shelter Meals (offsite)', 'Meals for Supportive/Transitional Housing', 'Meals For Seniors', 'Medically Tailored Meals'],
   },
   costPerMeal: {
     type: Number,
@@ -110,7 +110,7 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   },
   capitalExpansionProjects: {
     type: String,
-    enum: ['value1', 'value2'], // Replace with actual options
+    enum: ['We are in early stages of planning a capital expansion', 'We have a capital expansion plan and are fundraising', 'We have a fully funded capital expansion plan', 'We have recently completed or will soon complete the project', 'We have no future plans or projects underway'],
   },
   capitalProjectSize: {
     type: Number,
@@ -120,34 +120,34 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   },
   capitalExpansionProjectNeeds: {
     type: String,
-    enum: ['value1', 'value2'], // Replace with actual options
+    enum: ['How do we even start?', 'Planning cost expenses', 'Creating fundraising strategy', 'Construction costs', 'Equipment (heavy or small)', 'Operating expenses', 'Other'],
   },
   retailSocialEnterpriseRevenue: {
     type: Number,
   },
   grossRevenueCafe: {
     type: String,
-    enum: ['value1', 'value2'], // Replace with actual categories
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
   grossRevenueRestaurant: {
     type: String,
-    enum: ['value1', 'value2'],
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
   grossRevenueCatering: {
     type: String,
-    enum: ['value1', 'value2'],
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
   grossRevenueFoodTruck: {
     type: String,
-    enum: ['value1', 'value2'],
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
   grossRevenueWholesale: {
     type: String,
-    enum: ['value1', 'value2'],
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
   grossRevenueFoodSubscription: {
     type: String,
-    enum: ['value1', 'value2'],
+    enum: ['Less than $100K', '$100K to $250K', '$250K to $500K', '$500K to $1M', 'Over $1M', 'No Enterprise'],
   },
 });
 
