@@ -1,6 +1,7 @@
-import React from 'react';
+/* eslint-disable */
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { LngLat, LngLatBounds} from 'mapbox-gl';
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -9,20 +10,22 @@ const Map = ReactMapboxGl({
 // mapboxAccessToken="sk.eyJ1IjoiZGhydXZndXAiLCJhIjoiY20yZjRycWQ4MDVjaTJsb283azNpY2NtbyJ9._03wsEghyp5zca-e7RTexg"
 
 function MapDashboard() {
+
   return (
     <>
       hi
       <Map
         // eslint-disable-next-line
         style="mapbox://styles/mapbox/streets-v9"
+        maxBounds = {[
+          [-74.700000, 39.200000],
+          [-73.894883, 40.500000],
+        ]}
         containerStyle={{
           height: '100vh',
           width: '100vw',
         }}
       >
-        <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-        </Layer>
       </Map>
     </>
   );
