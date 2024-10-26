@@ -16,6 +16,9 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Select,
+  MenuItem,
+  InputLabel,
 } from '@mui/material';
 
 export default function KitchenOutcome() {
@@ -80,6 +83,10 @@ export default function KitchenOutcome() {
       operatingExpenses: boolean;
     };
     categoryState: Record<CategoryKey, string>;
+    capitalExpansionProject: string;
+    capitalProjectSize: number;
+    capitalExpansionMonth: string;
+    capitalExpansionYear: number;
   };
 
   // Define the type for category keys
@@ -159,6 +166,10 @@ export default function KitchenOutcome() {
       wholesale: '',
       foodSubscription: '',
     },
+    capitalExpansionProject: '',
+    capitalProjectSize: 0,
+    capitalExpansionMonth: '',
+    capitalExpansionYear: new Date().getFullYear(),
   });
 
   // Update the categories object
@@ -179,6 +190,26 @@ export default function KitchenOutcome() {
     { label: 'Over $1M', value: 'over1M' },
     { label: 'No Enterprise', value: 'noEnterprise' },
   ];
+
+  const months = [
+    { label: 'January', value: '01' },
+    { label: 'February', value: '02' },
+    { label: 'March', value: '03' },
+    { label: 'April', value: '04' },
+    { label: 'May', value: '05' },
+    { label: 'June', value: '06' },
+    { label: 'July', value: '07' },
+    { label: 'August', value: '08' },
+    { label: 'September', value: '09' },
+    { label: 'October', value: '10' },
+    { label: 'November', value: '11' },
+    { label: 'December', value: '12' },
+  ];
+
+  const years = Array.from(
+    { length: 20 },
+    (_, i) => new Date().getFullYear() - i,
+  );
 
   function handleCategoryChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
@@ -920,13 +951,170 @@ export default function KitchenOutcome() {
           }}
         />
       </Box>
+      <h4>Capital Expansion Projects</h4>
+      <p>
+        Do you have any capital expansion projects related to your foodservice
+        operations or workforce training program? Select the response that best
+        describes the current state of any expansion plan
+      </p>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">
+          Capital Expansion Project Status
+        </FormLabel>
+        <RadioGroup
+          name="capitalExpansionProject"
+          value={formState.capitalExpansionProject}
+          onChange={(e) =>
+            setFormState({
+              ...formState,
+              capitalExpansionProject: e.target.value,
+            })
+          }
+        >
+          <FormControlLabel
+            value="earlyStages"
+            control={<Radio />}
+            label="We are in early stages of planning a capital expansion"
+          />
+          <FormControlLabel
+            value="fundraising"
+            control={<Radio />}
+            label="We have a capital expansion plan and are fundraising"
+          />
+          <FormControlLabel
+            value="fullyFunded"
+            control={<Radio />}
+            label="We have a fully funded capital expansion plan"
+          />
+          <FormControlLabel
+            value="completed"
+            control={<Radio />}
+            label="We have recently completed or will soon complete the project"
+          />
+          <FormControlLabel
+            value="noPlans"
+            control={<Radio />}
+            label="We have no future plans or projects underway"
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <h4>Capital Project Size</h4>
+      <p>
+        What is the size in dollars of the project plan or completed project
+        referenced above, regardless of the current state of the project?
+        Estimate is OK
+      </p>
+      <Box mb={2}>
+        <TextField
+          id="outlined-basic"
+          label="Capital Project Size"
+          variant="outlined"
+          type="number"
+          fullWidth
+          onChange={(e) => {
+            setFormState({
+              ...formState,
+              capitalProjectSize: Number(e.target.value),
+            });
+          }}
+        />
+      </Box>
+
+      <h4>Capital Project Date</h4>
+      <p>
+        What is the projected month and year by which you want to have this
+        project completed? Estimate is OK.
+      </p>
+      <div>
+        <FormControl component="fieldset" fullWidth margin="normal">
+          <FormLabel component="legend">
+            Capital Expansion Project Status
+          </FormLabel>
+          <RadioGroup
+            name="capitalExpansionProject"
+            value={formState.capitalExpansionProject}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                capitalExpansionProject: e.target.value,
+              })
+            }
+          >
+            <FormControlLabel
+              value="earlyStages"
+              control={<Radio />}
+              label="We are in early stages of planning a capital expansion"
+            />
+            <FormControlLabel
+              value="fundraising"
+              control={<Radio />}
+              label="We have a capital expansion plan and are fundraising"
+            />
+            <FormControlLabel
+              value="fullyFunded"
+              control={<Radio />}
+              label="We have a fully funded capital expansion plan"
+            />
+            <FormControlLabel
+              value="completed"
+              control={<Radio />}
+              label="We have recently completed or will soon complete the project"
+            />
+            <FormControlLabel
+              value="noPlans"
+              control={<Radio />}
+              label="We have no future plans or projects underway"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Month</InputLabel>
+          <Select
+            label="Month"
+            value={formState.capitalExpansionMonth}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                capitalExpansionMonth: e.target.value,
+              })
+            }
+          >
+            {months.map((month) => (
+              <MenuItem key={month.value} value={month.value}>
+                {month.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Year</InputLabel>
+          <Select
+            label="Year"
+            value={formState.capitalExpansionYear}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                capitalExpansionYear: parseInt(e.target.value.toString(), 10),
+              })
+            }
+          >
+            {years.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
 
       <h4>Capital Expansion Project Needs</h4>
       <p>
         What support do you need in planning or executing your capital expansion
         project? Checkall that apply
       </p>
-
       <FormControl component="fieldset">
         <FormLabel component="legend">
           Select the forms of support you need
