@@ -7,7 +7,7 @@ const KitchenOutcomesSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: Number,
+    type: Date,
     required: true,
   },
   shareSurvey: {
@@ -218,7 +218,7 @@ const KitchenOutcomesSchema = new mongoose.Schema({
 interface IKitchenOutcomes extends mongoose.Document {
   _id: string;
   org_id: string;
-  year: number;
+  year: Date;
   shareSurvey: string;
   organizationName: string;
   responderName: string;
