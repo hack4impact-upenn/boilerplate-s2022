@@ -139,8 +139,6 @@ function SignUpPage() {
     return isValid;
   };
 
-  async function handleSubmit() {}
-
   const title = 'Create Account';
   return (
     <div style={{ backgroundColor: 'black', color: 'white' }}>
