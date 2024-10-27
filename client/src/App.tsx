@@ -23,6 +23,7 @@ import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import KitchenOutcome from './components/forms/KitchenOutcome.tsx';
+import ProgramOutcome from './components/forms/ProgramOutcome.tsx';
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
                     <Route
                       path="/kitchen-outcome-test"
                       element={<KitchenOutcome />}
+                    />
+                    <Route
+                      path="/program-outcome-test"
+                      element={<ProgramOutcome />}
                     />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
