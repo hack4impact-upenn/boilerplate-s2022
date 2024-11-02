@@ -3,10 +3,10 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
-import { logger_info } from '../config/configDatadog.ts';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
+import { logger_info } from '../config/configDatadog.ts';
 import { IUser } from '../models/user.model.ts';
 import StatusCode from '../util/statusCode.ts';
 import {
@@ -76,7 +76,7 @@ const login = async (
         });
 
         // Datadog login
-        logger_info.log('Login');
+        logger_info.info('Login');
         res.status(StatusCode.OK).send(user);
       });
     },
