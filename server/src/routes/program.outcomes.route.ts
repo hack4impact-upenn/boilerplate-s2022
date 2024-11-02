@@ -5,6 +5,6 @@ import { getOneProgramOutcomesController } from '../controllers/program.outcomes
 
 const router = express.Router();
 
-router.get('/:year/:orgName', getOneProgramOutcomesController); // no authentication for now
+router.get('/:year/:orgId', getOneProgramOutcomesController); // no authentication for now
 
 export default router;

@@ -10,20 +10,20 @@ const getOneKitchenOutcomesController = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const { year, orgName } = req.params;
-  if (!year || !orgName) {
-    next(ApiError.missingFields(['year', 'orgName']));
+  const { year, orgId } = req.params;
+  if (!year || !orgId) {
+    next(ApiError.missingFields(['year', 'orgId']));
     return;
   }
   const yearDate = new Date(year);
-  return getOneKitchenOutcomes(yearDate, orgName)
+  return getOneKitchenOutcomes(yearDate, orgId)
     .then((kitchenOutcomes: unknown) => {
       res.status(StatusCode.OK).send(kitchenOutcomes);
     })
     .catch(() => {
       next(
         ApiError.internal(
-          'Unable to retrieve kitchen outcomes by year and orgName',
+          'Unable to retrieve kitchen outcomes by year and orgId',
         ),
       );
     });

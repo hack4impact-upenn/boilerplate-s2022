@@ -6,6 +6,6 @@ import { getOneKitchenOutcomesController } from '../controllers/kitchen.outcomes
 const router = express.Router();
 
 // router.get('/:year/:orgName', isAuthenticated, getOneKitchenOutcomesController);
-router.get('/:year/:orgName', getOneKitchenOutcomesController); // no authentication for now
+router.get('/:year/:orgId', getOneKitchenOutcomesController); // no authentication for now
 
 export default router;
