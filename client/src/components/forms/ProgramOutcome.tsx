@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Box,
@@ -21,7 +21,6 @@ import {
   MenuItem,
   InputLabel,
 } from '@mui/material';
-import { useState } from 'react';
 
 export default function ProgramOutcome() {
   enum YouthEnrollmentStructure {
@@ -258,7 +257,6 @@ export default function ProgramOutcome() {
     alumniHiredByOrg: undefined,
   });
 
-
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h1>Submit Program Outcomes</h1>
@@ -369,7 +367,10 @@ export default function ProgramOutcome() {
               id="outlined-youth-trained"
               type="number"
               onChange={(e) =>
-                setFormState({ ...formState, youthTrained: Number(e.target.value) })
+                setFormState({
+                  ...formState,
+                  youthTrained: Number(e.target.value),
+                })
               }
               label="Youth Trained"
               variant="outlined"
@@ -411,7 +412,10 @@ export default function ProgramOutcome() {
               id="outlined-youth-wage"
               type="number"
               onChange={(e) =>
-                setFormState({ ...formState, youthWage: Number(e.target.value) })
+                setFormState({
+                  ...formState,
+                  youthWage: Number(e.target.value),
+                })
               }
               label="Youth Wage"
               variant="outlined"
@@ -529,7 +533,9 @@ export default function ProgramOutcome() {
                 <MenuItem value={YouthEnrollmentStructure.Staggered}>
                   Staggered
                 </MenuItem>
-                <MenuItem value={YouthEnrollmentStructure.Single}>Single</MenuItem>
+                <MenuItem value={YouthEnrollmentStructure.Single}>
+                  Single
+                </MenuItem>
                 <MenuItem value={YouthEnrollmentStructure.Both}>Both</MenuItem>
               </Select>
             </FormControl>
@@ -655,340 +661,338 @@ export default function ProgramOutcome() {
             </FormControl>
           </Box>
         </div>
-        )
-      }
+      )}
       <Box mb={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formState.adultProgram}
-                    onChange={(e) => {
-                      setFormState({
-                        ...formState,
-                        adultProgram: e.target.checked,
-                      });
-                    }}
-                  />
-                }
-                label="Adult Program"
-              />
-            </Box>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={formState.adultProgram}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultProgram: e.target.checked,
+                });
+              }}
+            />
+          }
+          label="Adult Program"
+        />
+      </Box>
       {formState.adultProgram && (
-          <div id="adultProgramFields">
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Trained"
-                value={formState.adultsTrained || ''}
+        <div id="adultProgramFields">
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Trained"
+              value={formState.adultsTrained || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsTrained: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Graduated"
+              value={formState.adultsGraduated || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsGraduated: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Positive Outcome"
+              value={formState.adultsPositiveOutcome || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsPositiveOutcome: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Job Placement Graduates"
+              value={formState.adultsJobPlacementGraduates || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsJobPlacementGraduates: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Wage"
+              value={formState.adultsWage || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsWage: e.target.value
+                    ? parseFloat(e.target.value)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Job Retention (3 Months)"
+              value={formState.adultsJobRetention3Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsJobRetention3Months: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Job Retention (6 Months)"
+              value={formState.adultsJobRetention6Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsJobRetention6Months: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Wage (6 Months)"
+              value={formState.adultsWage6Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsWage6Months: e.target.value
+                    ? parseFloat(e.target.value)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Job Retention (12 Months)"
+              value={formState.adultsJobRetention12Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsJobRetention12Months: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Wage (12 Months)"
+              value={formState.adultsWage12Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsWage12Months: e.target.value
+                    ? parseFloat(e.target.value)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Job Retention (24 Months)"
+              value={formState.adultsJobRetention24Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsJobRetention24Months: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adults Wage (24 Months)"
+              value={formState.adultsWage24Months || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultsWage24Months: e.target.value
+                    ? parseFloat(e.target.value)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adult Program Weeks"
+              value={formState.adultProgramWeeks || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultProgramWeeks: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Adult Program Hours"
+              value={formState.adultProgramHours || ''}
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  adultProgramHours: e.target.value
+                    ? parseInt(e.target.value, 10)
+                    : undefined,
+                });
+              }}
+            />
+          </Box>
+          <Box mb={2}>
+            <FormControl fullWidth>
+              <InputLabel id="adults-enrollment-structure-label">
+                Adults Enrollment Structure
+              </InputLabel>
+              <Select
+                labelId="adults-enrollment-structure-label"
+                value={formState.adultsEnrollmentStructure || ''}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    adultsTrained: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
+                    adultsEnrollmentStructure: e.target.value as
+                      | 'Single Cohort'
+                      | 'Staggered'
+                      | undefined,
                   });
                 }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Graduated"
-                value={formState.adultsGraduated || ''}
+                label="Adults Enrollment Structure"
+              >
+                <MenuItem value="Single Cohort">Single Cohort</MenuItem>
+                <MenuItem value="Staggered">Staggered</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box mb={2}>
+            <FormControl fullWidth>
+              <InputLabel id="adults-compensation-label">
+                Adults Compensation
+              </InputLabel>
+              <Select
+                labelId="adults-compensation-label"
+                value={formState.adultsCompensation || ''}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    adultsGraduated: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
+                    adultsCompensation: e.target.value as
+                      | 'Hourly'
+                      | 'Stipend'
+                      | 'None',
                   });
                 }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Positive Outcome"
-                value={formState.adultsPositiveOutcome || ''}
+                label="Adults Compensation"
+              >
+                <MenuItem value="Hourly">Hourly</MenuItem>
+                <MenuItem value="Stipend">Stipend</MenuItem>
+                <MenuItem value="None">None</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box mb={2}>
+            <FormControl fullWidth>
+              <InputLabel id="adult-trained-definition-label">
+                Adult Trained Definition
+              </InputLabel>
+              <Select
+                labelId="adult-trained-definition-label"
+                value={formState.adultTrainedDefinition || ''}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    adultsPositiveOutcome: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
+                    adultTrainedDefinition: e.target.value as
+                      | 'The first day of program'
+                      | '2-4 day provisional period'
+                      | 'One week provisional period'
+                      | 'Two week provisional period'
+                      | 'Other'
+                      | undefined,
                   });
                 }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Job Placement Graduates"
-                value={formState.adultsJobPlacementGraduates || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsJobPlacementGraduates: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Wage"
-                value={formState.adultsWage || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsWage: e.target.value
-                      ? parseFloat(e.target.value)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Job Retention (3 Months)"
-                value={formState.adultsJobRetention3Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsJobRetention3Months: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Job Retention (6 Months)"
-                value={formState.adultsJobRetention6Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsJobRetention6Months: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Wage (6 Months)"
-                value={formState.adultsWage6Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsWage6Months: e.target.value
-                      ? parseFloat(e.target.value)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Job Retention (12 Months)"
-                value={formState.adultsJobRetention12Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsJobRetention12Months: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Wage (12 Months)"
-                value={formState.adultsWage12Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsWage12Months: e.target.value
-                      ? parseFloat(e.target.value)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Job Retention (24 Months)"
-                value={formState.adultsJobRetention24Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsJobRetention24Months: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adults Wage (24 Months)"
-                value={formState.adultsWage24Months || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultsWage24Months: e.target.value
-                      ? parseFloat(e.target.value)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adult Program Weeks"
-                value={formState.adultProgramWeeks || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultProgramWeeks: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <TextField
-                fullWidth
-                type="number"
-                label="Adult Program Hours"
-                value={formState.adultProgramHours || ''}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    adultProgramHours: e.target.value
-                      ? parseInt(e.target.value, 10)
-                      : undefined,
-                  });
-                }}
-              />
-            </Box>
-            <Box mb={2}>
-              <FormControl fullWidth>
-                <InputLabel id="adults-enrollment-structure-label">
-                  Adults Enrollment Structure
-                </InputLabel>
-                <Select
-                  labelId="adults-enrollment-structure-label"
-                  value={formState.adultsEnrollmentStructure || ''}
-                  onChange={(e) => {
-                    setFormState({
-                      ...formState,
-                      adultsEnrollmentStructure: e.target.value as
-                        | 'Single Cohort'
-                        | 'Staggered'
-                        | undefined,
-                    });
-                  }}
-                  label="Adults Enrollment Structure"
-                >
-                  <MenuItem value="Single Cohort">Single Cohort</MenuItem>
-                  <MenuItem value="Staggered">Staggered</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box mb={2}>
-              <FormControl fullWidth>
-                <InputLabel id="adults-compensation-label">
-                  Adults Compensation
-                </InputLabel>
-                <Select
-                  labelId="adults-compensation-label"
-                  value={formState.adultsCompensation || ''}
-                  onChange={(e) => {
-                    setFormState({
-                      ...formState,
-                      adultsCompensation: e.target.value as
-                        | 'Hourly'
-                        | 'Stipend'
-                        | 'None',
-                    });
-                  }}
-                  label="Adults Compensation"
-                >
-                  <MenuItem value="Hourly">Hourly</MenuItem>
-                  <MenuItem value="Stipend">Stipend</MenuItem>
-                  <MenuItem value="None">None</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box mb={2}>
-              <FormControl fullWidth>
-                <InputLabel id="adult-trained-definition-label">
-                  Adult Trained Definition
-                </InputLabel>
-                <Select
-                  labelId="adult-trained-definition-label"
-                  value={formState.adultTrainedDefinition || ''}
-                  onChange={(e) => {
-                    setFormState({
-                      ...formState,
-                      adultTrainedDefinition: e.target.value as
-                        | 'The first day of program'
-                        | '2-4 day provisional period'
-                        | 'One week provisional period'
-                        | 'Two week provisional period'
-                        | 'Other'
-                        | undefined,
-                    });
-                  }}
-                  label="Adult Trained Definition"
-                >
-                  <MenuItem value="The first day of program">
-                    The first day of program
-                  </MenuItem>
-                  <MenuItem value="2-4 day provisional period">
-                    2-4 day provisional period
-                  </MenuItem>
-                  <MenuItem value="One week provisional period">
-                    One week provisional period
-                  </MenuItem>
-                  <MenuItem value="Two week provisional period">
-                    Two week provisional period
-                  </MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
-        )
-      }
+                label="Adult Trained Definition"
+              >
+                <MenuItem value="The first day of program">
+                  The first day of program
+                </MenuItem>
+                <MenuItem value="2-4 day provisional period">
+                  2-4 day provisional period
+                </MenuItem>
+                <MenuItem value="One week provisional period">
+                  One week provisional period
+                </MenuItem>
+                <MenuItem value="Two week provisional period">
+                  Two week provisional period
+                </MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
+      )}
 
       <Box mb={2}>
         <TextField
@@ -1562,24 +1566,23 @@ export default function ProgramOutcome() {
         />
       </Box>
       {formState.internshipOrExternship && (
-          <div id="internshipOrExternship">
-            <Box mb={2}>
-              <TextField
-                label="Internship Description"
-                value={formState.internshipDescription}
-                onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    internshipDescription: e.target.value,
-                  })
-                }
-                fullWidth
-                disabled={!formState.internshipOrExternship}
-              />
-            </Box>
-          </div>
-        )
-      }
+        <div id="internshipOrExternship">
+          <Box mb={2}>
+            <TextField
+              label="Internship Description"
+              value={formState.internshipDescription}
+              onChange={(e) =>
+                setFormState({
+                  ...formState,
+                  internshipDescription: e.target.value,
+                })
+              }
+              fullWidth
+              disabled={!formState.internshipOrExternship}
+            />
+          </Box>
+        </div>
+      )}
       {/* Other Fields */}
       <Box mb={2}>
         <TextField
