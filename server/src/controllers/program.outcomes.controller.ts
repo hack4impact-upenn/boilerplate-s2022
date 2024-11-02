@@ -6,27 +6,27 @@ import { IProgramOutcomes } from '../models/program.outcomes.model.ts';
 import { getOneProgramOutcomes } from '../services/program.outcomes.service.ts';
 
 const getOneProgramOutcomesController = async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
 ) => {
-    const { year, orgName } = req.params;
-    if (!year || !orgName) {
-        next(ApiError.missingFields(['year', 'orgName']));
-        return;
-    }
-    const yearDate = new Date(year);
-    return getOneProgramOutcomes(yearDate, orgName)
-        .then((kitchenOutcomes: unknown) => {
-            res.status(StatusCode.OK).send(kitchenOutcomes);
-        })
-        .catch(() => {
-            next(
-                ApiError.internal(
-                    'Unable to retrieve program outcomes by year and orgName',
-                ),
-            );
-        });
+  const { year, orgId } = req.params;
+  if (!year || !orgId) {
+    next(ApiError.missingFields(['year', 'orgId']));
+    return;
+  }
+  const yearDate = new Date(year);
+  return getOneProgramOutcomes(yearDate, orgId)
+    .then((kitchenOutcomes: unknown) => {
+      res.status(StatusCode.OK).send(kitchenOutcomes);
+    })
+    .catch(() => {
+      next(
+        ApiError.internal(
+          'Unable to retrieve program outcomes by year and orgId',
+        ),
+      );
+    });
 };
 
 export { getOneProgramOutcomesController };
