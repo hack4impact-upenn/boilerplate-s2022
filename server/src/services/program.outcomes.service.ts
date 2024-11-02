@@ -20,4 +20,14 @@ const getOneProgramOutcomes = async (year: Date, orgId: string) => {
   return outcomes;
 };
 
-export { getProgramOutcomesByOrgId, getOneProgramOutcomes };
+// Get all program outcomes of a given year
+const getAllProgramOutcomesByYear = async (year: Date) => {
+  const outcomes = await ProgramOutcomes.find({ year }).exec();
+  return outcomes;
+};
+
+export {
+  getProgramOutcomesByOrgId,
+  getOneProgramOutcomes,
+  getAllProgramOutcomesByYear,
+};
