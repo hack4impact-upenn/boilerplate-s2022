@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const KitchenOutcomesSchema = new mongoose.Schema({
-  org_id: {
+  orgId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'MemberOrganization',
     required: true,
@@ -217,7 +217,7 @@ const KitchenOutcomesSchema = new mongoose.Schema({
 
 interface IKitchenOutcomes extends mongoose.Document {
   _id: string;
-  org_id: string;
+  orgId: string;
   year: Date;
   shareSurvey: string;
   organizationName: string;
