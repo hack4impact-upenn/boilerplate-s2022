@@ -8,13 +8,20 @@ import {
   Typography,
   Container,
   Box,
+  Tabs,
+  Tab,
+  MenuItem,
 } from '@mui/material';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { getData } from '../util/api';
 
-function KitchenOutcomeViz() {
-  // create type for kitchenOutcomeData
+function KitchenOutcomesVisualization() {
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleTabChange = (event: any, newValue: number) => {
+    setTabValue(newValue);
+  };
   interface SurveyData {
     org_id: string;
     year: Date;
@@ -22,7 +29,7 @@ function KitchenOutcomeViz() {
     organizationName: string;
     responderName: string;
     responderTitle: string;
-    hungerReliefsMealsServed?: number;
+    hungerReliefMealsServed?: number;
     typeOfMealsServed?:
       | 'Childcare Meals'
       | 'School Meals'
@@ -119,21 +126,57 @@ function KitchenOutcomeViz() {
 
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
 
+  const [orgList, setOrgList] = useState<string[] | null>(null);
+  const [yearList, setYearList] = useState<number[]>([]);
+
   const [orgName, setOrgName] = useState('');
   const [year, setYear] = useState<number | ''>('');
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const tabNames = [
+    'Hunger Relief',
+    'Social Enterprise',
+    'Capital Projects',
+    'Organization Info',
+  ];
 
-    if (!year || !orgName) {
-      alert('Please enter both organization name and year.');
-      return;
-    }
+  useEffect(() => {
+    const fetchOrgList = async () => {
+      try {
+        const response = await getData(`kitchen_outcomes/organizations`);
+        setOrgList(response.data);
+      } catch (error) {
+        console.error('Error fetching organization data:', error);
+      }
+    };
+
+    fetchOrgList();
+  }, []);
+
+  useEffect(() => {
+    const fetchOutcomes = async () => {
+      try {
+        const response = await getData(`kitchen_outcomes/${year}/${orgName}`);
+        setSurveyData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchOutcomes();
+  }, [orgName, year]);
+
+  const handleOrgSelection = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    event.preventDefault();
+    const selectedOrg = event.target.value;
+    setOrgName(selectedOrg);
 
     try {
-      const response = await getData(`kitchen_outcomes/${year}/${orgName}`);
-      setSurveyData(response.data);
-      console.log(response.data);
+      const response = await getData(
+        `kitchen_outcomes/get/years/${selectedOrg}`,
+      );
+      setYearList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -219,60 +262,161 @@ function KitchenOutcomeViz() {
   };
 
   return (
-    <div>
-      <h1>Kitchen Outcome Viz</h1>
-      <Container maxWidth="sm">
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          gap={2}
-        >
+    <Container maxWidth="md">
+      <Typography variant="h4" align="left" sx={{ my: 4 }}>
+        Kitchen Outcomes Visualization
+      </Typography>
+
+      {/* Year and Organization Selectors */}
+      <Grid
+        container
+        spacing={2}
+        justifyContent="left"
+        style={{ marginBottom: '20px' }}
+      >
+        <Grid item xs={3}>
           <TextField
-            label="Organization Name"
+            label="Organization"
             variant="outlined"
+            select
+            fullWidth
             value={orgName}
-            onChange={(e) => setOrgName(e.target.value)}
-          />
+            onChange={handleOrgSelection}
+          >
+            {orgList?.map((org) => (
+              <MenuItem key={org} value={org}>
+                {org}
+              </MenuItem>
+            )) ?? []}
+          </TextField>
+        </Grid>
+        <Grid item xs={3}>
           <TextField
             label="Year"
-            type="number"
             variant="outlined"
+            select
+            fullWidth
             value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Get Data
-          </Button>
-        </Box>
-      </Container>
-      <div>
-        <Doughnut data={chartData} options={options} />
-      </div>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6">Important Figures</Typography>
-            <Typography> Cost per Meal: {surveyData?.costPerMeal}</Typography>
-            <Typography>
-              {' '}
-              Food Cost Percentage: {surveyData?.foodCostPercentage}{' '}
-            </Typography>
-            <Typography>
-              {' '}
-              Meal Reimbursement: {surveyData?.mealReimbursement}
-            </Typography>
-            <Typography>
-              {' '}
-              Hunger Relief Meals Served: {surveyData?.hungerReliefsMealsServed}
-            </Typography>
-          </CardContent>
-        </Card>
+            onChange={(event) => {
+              setYear(Number(event.target.value));
+            }}
+            disabled={!orgName || yearList.length === 0} // Disable if no organization is selected
+          >
+            {yearList.map((availableYear) => (
+              <MenuItem key={availableYear} value={availableYear}>
+                {availableYear}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
       </Grid>
-    </div>
+      <Box
+        sx={{
+          backgroundColor: '#555',
+          padding: '4px',
+          borderRadius: '8px',
+          width: '80%',
+          marginLeft: '0',
+        }}
+      >
+        <Tabs
+          value={tabValue}
+          onChange={handleTabChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth" // Tabs take full width within the container
+          sx={{
+            '.MuiTabs-flexContainer': {
+              gap: 1, // Spacing between tabs
+              backgroundColor: '#555',
+            },
+          }}
+          TabIndicatorProps={{
+            style: {
+              display: 'none', // Hide default underline indicator
+            },
+          }}
+        >
+          {[...tabNames].map((name, index) => (
+            <Tab
+              key={name}
+              label={name}
+              sx={{
+                color: tabValue === index ? 'black' : 'white',
+                backgroundColor: tabValue === index ? 'white' : '#555',
+                borderRadius: '4px',
+                textTransform: 'none',
+                fontWeight: tabValue === index ? 'bold' : 'normal',
+                '&.Mui-selected': {
+                  color: 'black', // Ensures selected text is black
+                },
+                '&:hover': {
+                  backgroundColor: '#999',
+                },
+              }}
+            />
+          ))}
+        </Tabs>
+      </Box>
+      {/* Content for each tab */}
+      <Box sx={{ padding: 2 }}>
+        {tabValue === 0 && (
+          <Box>
+            <Typography variant="h6">Hunger Relief</Typography>
+            <div>
+              <Doughnut data={chartData} options={options} />
+              <Grid item xs={12}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">Important Figures</Typography>
+                    <Typography>
+                      {' '}
+                      Cost per Meal: {surveyData?.costPerMeal}
+                    </Typography>
+                    <Typography>
+                      {' '}
+                      Food Cost Percentage: {
+                        surveyData?.foodCostPercentage
+                      }{' '}
+                    </Typography>
+                    <Typography>
+                      {' '}
+                      Meal Reimbursement: {surveyData?.mealReimbursement}
+                    </Typography>
+                    <Typography>
+                      {' '}
+                      Hunger Relief Meals Served:{' '}
+                      {surveyData?.hungerReliefMealsServed}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </div>
+          </Box>
+        )}
+        {tabValue === 1 && (
+          <Box>
+            <Typography variant="h6">Social Enterprise</Typography>
+            {/* Add content for Social Enterprise */}
+          </Box>
+        )}
+        {tabValue === 2 && (
+          <Box>
+            <Typography variant="h6">Capital Projects</Typography>
+            {/* Add content for Capital Projects */}
+          </Box>
+        )}
+        {tabValue === 3 && (
+          <Box>
+            <Typography variant="h6">Organization Info</Typography>
+            {/* Add content for Organization Info */}
+          </Box>
+        )}
+      </Box>
+    </Container>
   );
 }
 
-export default KitchenOutcomeViz;
+export default KitchenOutcomesVisualization;
+
+// create type for kitchenOutcomeData
