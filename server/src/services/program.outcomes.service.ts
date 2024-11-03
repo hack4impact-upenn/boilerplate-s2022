@@ -6,7 +6,7 @@ import {
 // Get a list of project outcomes data points by org_id
 const getProgramOutcomesByOrgId = async (orgId: string) => {
   const outcomes = await ProgramOutcomes.find({
-    org_id: orgId,
+    orgId,
   }).exec();
   return outcomes;
 };
@@ -14,7 +14,7 @@ const getProgramOutcomesByOrgId = async (orgId: string) => {
 // Get a singular project outcomes data point by org_id and year
 const getOneProgramOutcomes = async (year: Date, orgId: string) => {
   const outcomes = await ProgramOutcomes.findOne({
-    org_id: orgId,
+    orgId,
     year,
   }).exec();
   return outcomes;

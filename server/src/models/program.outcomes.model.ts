@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const ProgramOutcomesSchema = new mongoose.Schema({
-  org_id: {
+  orgId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'MemberOrganization',
     required: true,
@@ -390,7 +390,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   internshipOrExternshipDescription: {
     type: String,
   },
-  minimumWageIn23: {
+  minimumWage: {
     type: Number,
     require: true,
   },
@@ -424,7 +424,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
 });
 
 interface IProgramOutcomes {
-  org_id: mongoose.Schema.Types.ObjectId;
+  orgId: mongoose.Schema.Types.ObjectId;
   year: Date;
   programCostPerTrainee?: number;
   programDesignedForYouthAndAdults?: boolean;
@@ -506,7 +506,7 @@ interface IProgramOutcomes {
   otherParticipantCertifications?: string;
   internshipOrExternship?: boolean;
   internshipOrExternshipDescription?: string;
-  minimumWageIn23: number;
+  minimumWage: number;
   jobType: string;
   jobCategory?: string;
   alumniHiredByOrg?: number;
