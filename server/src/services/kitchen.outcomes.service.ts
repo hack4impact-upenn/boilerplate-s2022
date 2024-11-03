@@ -5,7 +5,7 @@ import {
 
 const getOneKitchenOutcomes = async (year: Date, orgId: string) => {
   const outcomes = await KitchenOutcomes.findOne({
-    org_id: orgId,
+    orgId,
     year,
   }).exec();
   return outcomes;
