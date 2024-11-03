@@ -11,4 +11,10 @@ const getOneKitchenOutcomes = async (year: Date, orgId: string) => {
   return outcomes;
 };
 
-export { getOneKitchenOutcomes };
+const addKitchenOutcomes = async (obj: IKitchenOutcomes) => {
+  const newOutcomes = new KitchenOutcomes(obj);
+  const outcomes = await newOutcomes.save();
+  return outcomes;
+};
+
+export { getOneKitchenOutcomes, addKitchenOutcomes };
