@@ -1,0 +1,7 @@
+{
+  // .vscode/settings.json
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": ".yarn/sdks"
+  // If using Prettier + ESLint
+  // "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+}

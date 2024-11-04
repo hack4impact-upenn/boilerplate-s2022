@@ -76,7 +76,7 @@ const login = async (
         });
 
         // Datadog login
-        logger_info.log('Login');
+        logger_info.info('Login');
         res.status(StatusCode.OK).send(user);
       });
     },
