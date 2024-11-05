@@ -3,9 +3,9 @@ import {
   KitchenOutcomes,
 } from '../models/kitchen.outcomes.model.ts';
 
-const getOneKitchenOutcomes = async (year: Date, orgName: string) => {
+const getOneKitchenOutcomes = async (year: Date, orgId: string) => {
   const outcomes = await KitchenOutcomes.findOne({
-    organization_name: orgName,
+    orgId,
     year,
   }).exec();
   return outcomes;

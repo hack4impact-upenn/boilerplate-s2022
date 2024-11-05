@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 // router.get('/:year/:orgName', isAuthenticated, getOneKitchenOutcomesController);
-router.get('/:year/:orgName', getOneKitchenOutcomesController); // no authentication for now
+router.get('/:year/:orgId', getOneKitchenOutcomesController); // no authentication for now
 
 router.get('/', getAllKitchenOutcomesController);
 // Route to get all unique organization names
