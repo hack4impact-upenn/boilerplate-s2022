@@ -26,8 +26,15 @@ const getAllProgramOutcomesByYear = async (year: Date) => {
   return outcomes;
 };
 
+const addProgramOutcomes = async (obj: IProgramOutcomes) => {
+  const newOutcomes = new ProgramOutcomes(obj);
+  const outcomes = await newOutcomes.save();
+  return outcomes;
+};
+
 export {
   getProgramOutcomesByOrgId,
   getOneProgramOutcomes,
   getAllProgramOutcomesByYear,
+  addProgramOutcomes,
 };

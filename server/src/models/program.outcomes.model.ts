@@ -70,17 +70,33 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   youthTrainedDefinition: {
     type: String,
-    enum: ['The first day of program', '2-4 day provisional period', 'One week provisional period', 'Two week provisional period'],
+    enum: [
+      'The first day of program',
+      '2-4 day provisional period',
+      'One week provisional period',
+      'Two week provisional period',
+    ],
     required: false,
   },
   youthGraduatedDefinition: {
     type: String,
-    enum: ['All weeks of program', 'Early exit for employment allowed', 'Other'],
+    enum: [
+      'All weeks of program',
+      'Early exit for employment allowed',
+      'Other',
+    ],
     required: false,
   },
   youthOutcomesMeasure: {
     type: String,
-    enum: ['High School Graduation', 'Return to School', 'Family Reunificiation', 'Non-Recidivism', 'Stable Housing', 'Other'],
+    enum: [
+      'High School Graduation',
+      'Return to School',
+      'Family Reunificiation',
+      'Non-Recidivism',
+      'Stable Housing',
+      'Other',
+    ],
     required: false,
   },
   programsThatServeAdults: {
@@ -145,15 +161,21 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   adultEnrollmentStructure: {
     type: String,
-    enum: ['Single Cohort', 'Staggered']
+    enum: ['Single Cohort', 'Staggered'],
   },
   adultCompensation: {
     type: String,
-    enum: ['Hourly', 'Stipend', 'None']
+    enum: ['Hourly', 'Stipend', 'None'],
   },
   adultTrainedDefinition: {
     type: String,
-    enum: ['The first day of program', '2-4 day provisional period', 'One week provisional period', 'Two week provisional period', 'Other']
+    enum: [
+      'The first day of program',
+      '2-4 day provisional period',
+      'One week provisional period',
+      'Two week provisional period',
+      'Other',
+    ],
   },
   adultGraduatedDefinition: {
     type: Number,
@@ -253,7 +275,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
 
   wrapAroundServicesLifeSkillsOrSocialEmotionalLearning: {
@@ -262,7 +284,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesCaseManagement: {
     type: String,
@@ -270,7 +292,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesJobSearchAndPlacement: {
     type: String,
@@ -278,7 +300,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesRecoveryTreatment: {
     type: String,
@@ -286,7 +308,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesMentalHealthServices: {
     type: String,
@@ -294,7 +316,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesHealthcareAllOther: {
     type: String,
@@ -302,7 +324,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesChildcare: {
     type: String,
@@ -310,7 +332,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   wrapAroundServicesTransportation: {
     type: String,
@@ -318,7 +340,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'You mostly facilitate access through partner agency',
       'Your program does not provide or facilitate access',
       'You mostly provide in-house',
-    ]
+    ],
   },
   otherPleaseSpecifyOtherWrapAroundServices: {
     type: String,
@@ -334,26 +356,15 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   SNAPEAndT: {
     type: String,
-    enum: [
-      'Yes',
-      'No But',
-      'No And',
-    ]
+    enum: ['Yes', 'No But', 'No And'],
   },
   WIOA: {
     type: String,
-    enum: [
-      'Yes',
-      'No But',
-      'No And',
-    ]
+    enum: ['Yes', 'No But', 'No And'],
   },
   curriculum: {
     type: String,
-    enum: [
-      'All',
-      'Part',
-    ]
+    enum: ['All', 'Part'],
   },
   programCertifications: {
     type: String,
@@ -363,7 +374,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'State Association apprenticeship',
       'Local or State Dept. of Education or Community College',
       'Other',
-    ]
+    ],
   },
   otherProgramCertifications: {
     type: String,
@@ -396,12 +407,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   jobType: {
     type: String,
-    enum: [
-      '1-25%',
-      '26-50%',
-      '51-75%',
-      '76-100%',
-    ],
+    enum: ['1-25%', '26-50%', '51-75%', '76-100%'],
     require: true,
   },
   jobCategory: {
@@ -415,7 +421,7 @@ const ProgramOutcomesSchema = new mongoose.Schema({
       'healthcare & social ssistance',
       'safety & maintenance',
       'Construction',
-      'Other'
+      'Other',
     ],
   },
   alumniHiredByOrg: {

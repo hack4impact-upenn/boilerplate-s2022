@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Button,
   Box,
@@ -152,7 +153,7 @@ export default function ProgramOutcome() {
     otherParticipantCertifications?: string;
     internshipOrExternship?: boolean;
     internshipDescription?: string;
-    minimumWage2023?: number;
+    minimumWage?: number;
     jobTypeFoodService?: '1-25%' | '26-50%' | '51-75%' | '76-100%';
     jobCategory?:
       | 'Food Service: restaurant, cafe'
@@ -166,7 +167,7 @@ export default function ProgramOutcome() {
       | 'Other';
     alumniHiredByOrg?: number;
   };
-  const [formState, setFormState] = React.useState<FormState>({
+  const noState: FormState = {
     emailAddress: '',
     shareSurvey: false,
     organizationName: '',
@@ -251,12 +252,31 @@ export default function ProgramOutcome() {
     otherParticipantCertifications: undefined,
     internshipOrExternship: false,
     internshipDescription: undefined,
-    minimumWage2023: undefined,
+    minimumWage: undefined,
     jobTypeFoodService: undefined,
     jobCategory: undefined,
     alumniHiredByOrg: undefined,
-  });
-
+  };
+  const [formState, setFormState] = React.useState<FormState>(noState);
+  const validateInputs = () => {
+    const { adultProgram, minimumWage, jobTypeFoodService } = formState;
+    if (!adultProgram || !minimumWage || !jobTypeFoodService) {
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit = async () => {
+    if (validateInputs()) {
+      axios
+        .post('http://localhost:4000/api/program.outcomes/', formState)
+        .then((response) => {
+          console.log('successfully submitted!');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h1>Submit Program Outcomes</h1>
@@ -1588,11 +1608,11 @@ export default function ProgramOutcome() {
         <TextField
           label="Minimum Wage 2023"
           type="number"
-          value={formState.minimumWage2023}
+          value={formState.minimumWage}
           onChange={(e) =>
             setFormState({
               ...formState,
-              minimumWage2023: Number(e.target.value),
+              minimumWage: Number(e.target.value),
             })
           }
           fullWidth
@@ -1637,11 +1657,7 @@ export default function ProgramOutcome() {
         />
       </Box>
       <Box mt={3}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => console.log(formState)}
-        >
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
         </Button>
       </Box>
