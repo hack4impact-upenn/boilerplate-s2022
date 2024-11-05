@@ -24,6 +24,7 @@ import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import SignUpPage from './SignUp/SignUpPage.tsx';
 import KitchenOutcome from './components/forms/KitchenOutcome.tsx';
+import KitchenOutcomeViz from './components/KitchenOutcomeViz.tsx';
 import ProgramOutcome from './components/forms/ProgramOutcome.tsx';
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
                     <Route
                       path="/kitchen-outcome-test"
                       element={<KitchenOutcome />}
+                    />
+                    <Route
+                      path="/kitchen-outcome-viz-test"
+                      element={<KitchenOutcomeViz />}
                     />
                     <Route
                       path="/program-outcome-test"
