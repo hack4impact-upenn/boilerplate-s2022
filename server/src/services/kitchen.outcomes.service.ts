@@ -11,14 +11,10 @@ const getOneKitchenOutcomes = async (year: Date, orgId: string) => {
   return outcomes;
 };
 
-export { getOneKitchenOutcomes };
-
 const getAllKitchenOutcomes = async () => {
   const outcomes = await KitchenOutcomes.find().exec();
   return outcomes;
 };
-
-export { getAllKitchenOutcomes };
 
 const getAllOrganizations = async () => {
   try {
@@ -31,12 +27,12 @@ const getAllOrganizations = async () => {
   }
 };
 
-export { getAllOrganizations };
-
-const getAllYearsForOrganization = async (organizationName: string) => {
+const getAllYearsForOrganization = async (organizationId: string) => {
   try {
     // Use aggregation to filter by organization name and extract unique years from the date field
-    const results = await KitchenOutcomes.find({ organizationName }).exec();
+    const results = await KitchenOutcomes.find({
+      orgId: organizationId,
+    }).exec();
 
     // Extract years from the aggregation result
     if (results != null) {
@@ -49,4 +45,9 @@ const getAllYearsForOrganization = async (organizationName: string) => {
   }
 };
 
-export { getAllYearsForOrganization };
+export {
+  getOneKitchenOutcomes,
+  getAllYearsForOrganization,
+  getAllKitchenOutcomes,
+  getAllOrganizations,
+};

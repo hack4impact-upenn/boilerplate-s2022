@@ -71,15 +71,15 @@ const getAllYearsForOrganizationController = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const { orgName } = req.params;
+  const { orgId } = req.params;
 
-  if (!orgName) {
-    next(ApiError.missingFields(['organizationName']));
+  if (!orgId) {
+    next(ApiError.missingFields(['organization ID']));
     return;
   }
 
   try {
-    const years = await getAllYearsForOrganization(orgName);
+    const years = await getAllYearsForOrganization(orgId);
     res.status(StatusCode.OK).send(years);
   } catch (error) {
     next(ApiError.internal('Unable to retrieve years for the organization'));

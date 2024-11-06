@@ -11,6 +11,7 @@ import {
   Tabs,
   Tab,
   MenuItem,
+  Popper,
 } from '@mui/material';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -131,8 +132,9 @@ function KitchenOutcomesVisualization() {
 
   const [orgList, setOrgList] = useState<string[] | null>(null);
   const [yearList, setYearList] = useState<number[]>([]);
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [orgName, setOrgName] = useState('');
+  const [orgId, setOrgId] = useState('');
   const [year, setYear] = useState<number | ''>('');
 
   const tabNames = [
@@ -141,12 +143,26 @@ function KitchenOutcomesVisualization() {
     'Capital Projects',
     'Organization Info',
   ];
-
+  useEffect(() => {
+    const findOrgId = async () => {
+      try {
+        const response = await getData(`organization/name/${orgName}`);
+        // eslint-disable-next-line no-underscore-dangle
+        setOrgId(response.data._id);
+      } catch (error) {
+        console.error('Error fetching specific organization id', error);
+      }
+    };
+    findOrgId();
+  }, [orgName]);
   useEffect(() => {
     const fetchOrgList = async () => {
       try {
-        const response = await getData(`kitchen_outcomes/organizations`);
-        setOrgList(response.data);
+        const response = await getData(`organization/organizations`);
+        const organizationNames = response.data.map(
+          (org: { organizationName: string }) => org.organizationName,
+        );
+        setOrgList(organizationNames);
       } catch (error) {
         console.error('Error fetching organization data:', error);
       }
@@ -157,10 +173,9 @@ function KitchenOutcomesVisualization() {
 
   useEffect(() => {
     const fetchOutcomes = async () => {
-      if (!year || !orgName) return;
-
+      if (!orgId) return;
       try {
-        const response = await getData(`kitchen_outcomes/${year}/${orgName}`);
+        const response = await getData(`kitchen_outcomes/${year}/${orgId}`);
         setSurveyData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -168,25 +183,26 @@ function KitchenOutcomesVisualization() {
     };
 
     fetchOutcomes();
-  }, [orgName, year]);
-
+  }, [year, orgId]);
+  useEffect(() => {
+    const settingYearList = async () => {
+      if (!orgId) return;
+      try {
+        const response = await getData(`kitchen_outcomes/get/years/${orgId}`);
+        setYearList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    settingYearList();
+  }, [orgId]);
   const handleOrgSelection = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     event.preventDefault();
     const selectedOrg = event.target.value;
     setOrgName(selectedOrg);
-
-    try {
-      const response = await getData(
-        `kitchen_outcomes/get/years/${selectedOrg}`,
-      );
-      setYearList(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
   };
-
   const [chartData, setChartData] = useState<{
     ageData: {
       labels: string[];
@@ -384,8 +400,9 @@ function KitchenOutcomesVisualization() {
 
           // Make the color box translucent when hidden
           if (isHidden) {
-            meta.data[index].options.backgroundColor =
-              `${meta.data[index].options.backgroundColor}40`;
+            meta.data[
+              index
+            ].options.backgroundColor = `${meta.data[index].options.backgroundColor}40`;
           } else {
             meta.data[index].options.backgroundColor = meta.data[
               index
@@ -447,8 +464,9 @@ function KitchenOutcomesVisualization() {
 
               // Make the color box translucent when hidden
               if (isHidden) {
-                meta.data[index].options.backgroundColor =
-                  `${meta.data[index].options.backgroundColor}40`;
+                meta.data[
+                  index
+                ].options.backgroundColor = `${meta.data[index].options.backgroundColor}40`;
               } else {
                 meta.data[index].options.backgroundColor = meta.data[
                   index
@@ -531,7 +549,6 @@ function KitchenOutcomesVisualization() {
       },
     },
   };
-
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" align="left" sx={{ my: 4 }}>

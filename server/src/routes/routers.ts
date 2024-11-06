@@ -11,6 +11,7 @@ import adminRouter from './admin.route.ts';
 import authRouter from './auth.route.ts';
 import kitchenOutcomesRouter from './kitchen.outcomes.route.ts';
 import programOutcomesRouter from './program.outcomes.route.ts';
+import organizationRouter from './organization.route.ts';
 
 const prefixToRouterMap: { prefix: string; router: Router }[] = [
   {
@@ -28,6 +29,10 @@ const prefixToRouterMap: { prefix: string; router: Router }[] = [
   {
     prefix: '/api/program.outcomes',
     router: programOutcomesRouter,
+  },
+  {
+    prefix: '/api/organization',
+    router: organizationRouter,
   },
 ];
 
