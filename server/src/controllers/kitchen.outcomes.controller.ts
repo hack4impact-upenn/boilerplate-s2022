@@ -8,6 +8,7 @@ import {
   getAllKitchenOutcomes,
   getAllOrganizations,
   getAllYearsForOrganization,
+  getAllKitchenOutcomesByOrg,
 } from '../services/kitchen.outcomes.service.ts';
 
 const getOneKitchenOutcomesController = async (
@@ -36,6 +37,26 @@ const getOneKitchenOutcomesController = async (
 
 export { getOneKitchenOutcomesController };
 
+const getKitchenOutcomesByOrg = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { orgId } = req.params;
+  return getAllKitchenOutcomesByOrg(orgId)
+    .then((kitchenOutcomes: unknown) => {
+      res.status(StatusCode.OK).send(kitchenOutcomes);
+    })
+    .catch(() => {
+      next(
+        ApiError.internal(
+          'Unable to return all kitchen outcomes for this organization',
+        ),
+      );
+    });
+};
+
+export { getKitchenOutcomesByOrg };
 const getAllKitchenOutcomesController = async (
   req: express.Request,
   res: express.Response,

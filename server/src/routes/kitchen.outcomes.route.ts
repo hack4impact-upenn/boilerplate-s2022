@@ -6,6 +6,7 @@ import {
   getAllKitchenOutcomesController,
   getAllOrganizationsController,
   getAllYearsForOrganizationController,
+  getKitchenOutcomesByOrg,
 } from '../controllers/kitchen.outcomes.controller.ts';
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.get('/organizations', getAllOrganizationsController);
 
 // Route to get all unique years for a specified organization
 router.get('/get/years/:orgId', getAllYearsForOrganizationController);
+
+router.get('/get/all/:orgId', getKitchenOutcomesByOrg);
 
 export default router;

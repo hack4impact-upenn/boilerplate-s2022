@@ -20,6 +20,13 @@ const getOneProgramOutcomes = async (year: Date, orgId: string) => {
   return outcomes;
 };
 
+const getAllProgramOutcomesByOrg = async (orgId: string) => {
+  const outcomes = await ProgramOutcomes.find({ orgId }, [
+    '_id',
+    'year',
+  ]).exec();
+  return outcomes;
+};
 // Get all program outcomes of a given year
 const getAllProgramOutcomesByYear = async (year: Date) => {
   const outcomes = await ProgramOutcomes.find({ year }).exec();
@@ -37,4 +44,5 @@ export {
   getOneProgramOutcomes,
   getAllProgramOutcomesByYear,
   addProgramOutcomes,
+  getAllProgramOutcomesByOrg,
 };

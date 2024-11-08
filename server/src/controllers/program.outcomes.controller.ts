@@ -7,6 +7,7 @@ import {
   getOneProgramOutcomes,
   getAllProgramOutcomesByYear,
   addProgramOutcomes,
+  getAllProgramOutcomesByOrg,
 } from '../services/program.outcomes.service.ts';
 
 const getOneProgramOutcomesController = async (
@@ -46,7 +47,6 @@ const addProgramOutcomesController = async (
       next(ApiError.internal('Unable to add program outcomes'));
     });
 };
-
 const getAllProgramOutcomesByYearController = async (
   req: express.Request,
   res: express.Response,
@@ -67,8 +67,30 @@ const getAllProgramOutcomesByYearController = async (
     });
 };
 
+const getAllProgramOutcomesByOrgController = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { orgId } = req.params;
+  if (!orgId) {
+    next(ApiError.missingFields(['orgId']));
+  }
+  return getAllProgramOutcomesByOrg(orgId)
+    .then((programOutcomes: unknown) => {
+      res.status(StatusCode.OK).send(programOutcomes);
+    })
+    .catch(() => {
+      next(
+        ApiError.internal(
+          'Unable to retrieve program outcomes for specific org Id',
+        ),
+      );
+    });
+};
 export {
   getOneProgramOutcomesController,
   getAllProgramOutcomesByYearController,
   addProgramOutcomesController,
+  getAllProgramOutcomesByOrgController,
 };

@@ -11,6 +11,16 @@ const getOneKitchenOutcomes = async (year: Date, orgId: string) => {
   return outcomes;
 };
 
+const getAllKitchenOutcomesByOrg = async (orgId: string) => {
+  const outcomes = await KitchenOutcomes.find(
+    {
+      orgId,
+    },
+    ['_id', 'year'],
+  ).exec();
+  return outcomes;
+};
+
 const getAllKitchenOutcomes = async () => {
   const outcomes = await KitchenOutcomes.find().exec();
   return outcomes;
@@ -50,4 +60,5 @@ export {
   getAllYearsForOrganization,
   getAllKitchenOutcomes,
   getAllOrganizations,
+  getAllKitchenOutcomesByOrg,
 };
