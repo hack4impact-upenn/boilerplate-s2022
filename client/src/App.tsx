@@ -53,7 +53,6 @@ function App() {
                       element={<ProgramOutcome />}
                     />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
                     <Route
                       path="/verify-account/:token"
                       element={<VerifyAccountPage />}
