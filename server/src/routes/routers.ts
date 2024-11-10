@@ -27,7 +27,7 @@ const prefixToRouterMap: { prefix: string; router: Router }[] = [
     router: kitchenOutcomesRouter,
   },
   {
-    prefix: '/api/program.outcomes',
+    prefix: '/api/program_outcomes',
     router: programOutcomesRouter,
   },
   {

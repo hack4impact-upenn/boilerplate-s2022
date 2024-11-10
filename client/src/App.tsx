@@ -26,6 +26,7 @@ import SignUpPage from './SignUp/SignUpPage.tsx';
 import KitchenOutcome from './components/forms/KitchenOutcome.tsx';
 import KitchenOutcomeViz from './components/KitchenOutcomeViz.tsx';
 import ProgramOutcome from './components/forms/ProgramOutcome.tsx';
+import OrgAdminPage from './AdminDashboard/OrgAdminPage.tsx';
 
 function App() {
   return (
@@ -76,6 +77,7 @@ function App() {
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
                     <Route path="/users" element={<AdminDashboardPage />} />
+                    <Route path="/organizations" element={<OrgAdminPage />} />
                   </Route>
 
                   {/* Route which redirects to a different page depending on if the user is an authenticated or not by utilizing the DynamicRedirect component */}
