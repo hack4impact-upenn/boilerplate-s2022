@@ -9,6 +9,7 @@ import {
   getAllOrganizations,
   getAllYearsForOrganization,
   getAllKitchenOutcomesByOrg,
+  deleteKitchenOutcomeById,
 } from '../services/kitchen.outcomes.service.ts';
 
 const getOneKitchenOutcomesController = async (
@@ -108,3 +109,24 @@ const getAllYearsForOrganizationController = async (
 };
 
 export { getAllYearsForOrganizationController };
+
+const deleteKitchenOutcomeByIdController = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { id } = req.params;
+  if (!id) {
+    next(ApiError.missingFields(['id']));
+    return;
+  }
+
+  try {
+    const result = await deleteKitchenOutcomeById(id);
+    res.status(StatusCode.OK).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { deleteKitchenOutcomeByIdController };

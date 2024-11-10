@@ -39,10 +39,24 @@ const addProgramOutcomes = async (obj: IProgramOutcomes) => {
   return outcomes;
 };
 
+const deleteProgramOutcomeById = async (id: string) => {
+  try {
+    const result = await ProgramOutcomes.findByIdAndDelete(id);
+    if (!result) {
+      throw new Error('Program outcome not found');
+    }
+    return { message: 'Program outcome successfully deleted' };
+  } catch (error) {
+    console.error('Error deleting program outcome:', error);
+    throw new Error('Unable to delete program outcome');
+  }
+};
+
 export {
   getProgramOutcomesByOrgId,
   getOneProgramOutcomes,
   getAllProgramOutcomesByYear,
   addProgramOutcomes,
   getAllProgramOutcomesByOrg,
+  deleteProgramOutcomeById,
 };

@@ -55,10 +55,24 @@ const getAllYearsForOrganization = async (organizationId: string) => {
   }
 };
 
+const deleteKitchenOutcomeById = async (id: string) => {
+  try {
+    const result = await KitchenOutcomes.findByIdAndDelete(id);
+    if (!result) {
+      throw new Error('Kitchen outcome not found');
+    }
+    return { message: 'Kitchen outcome successfully deleted' };
+  } catch (error) {
+    console.error('Error deleting kitchen outcome:', error);
+    throw new Error('Unable to delete kitchen outcome');
+  }
+};
+
 export {
   getOneKitchenOutcomes,
   getAllYearsForOrganization,
   getAllKitchenOutcomes,
   getAllOrganizations,
   getAllKitchenOutcomesByOrg,
+  deleteKitchenOutcomeById,
 };

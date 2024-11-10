@@ -8,6 +8,7 @@ import {
   getAllProgramOutcomesByYear,
   addProgramOutcomes,
   getAllProgramOutcomesByOrg,
+  deleteProgramOutcomeById,
 } from '../services/program.outcomes.service.ts';
 
 const getOneProgramOutcomesController = async (
@@ -88,9 +89,30 @@ const getAllProgramOutcomesByOrgController = async (
       );
     });
 };
+
+const deleteProgramOutcomeByIdController = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { id } = req.params;
+  if (!id) {
+    next(ApiError.missingFields(['id']));
+    return;
+  }
+
+  try {
+    const result = await deleteProgramOutcomeById(id);
+    res.status(StatusCode.OK).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getOneProgramOutcomesController,
   getAllProgramOutcomesByYearController,
   addProgramOutcomesController,
   getAllProgramOutcomesByOrgController,
+  deleteProgramOutcomeByIdController,
 };

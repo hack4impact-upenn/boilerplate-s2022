@@ -7,6 +7,7 @@ import {
   getAllOrganizationsController,
   getAllYearsForOrganizationController,
   getKitchenOutcomesByOrg,
+  deleteKitchenOutcomeByIdController,
 } from '../controllers/kitchen.outcomes.controller.ts';
 
 const router = express.Router();
@@ -22,5 +23,7 @@ router.get('/organizations', getAllOrganizationsController);
 router.get('/get/years/:orgId', getAllYearsForOrganizationController);
 
 router.get('/get/all/:orgId', getKitchenOutcomesByOrg);
+
+router.delete('/delete/:id', deleteKitchenOutcomeByIdController);
 
 export default router;

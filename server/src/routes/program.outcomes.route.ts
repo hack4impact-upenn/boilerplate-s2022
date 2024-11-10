@@ -6,6 +6,7 @@ import {
   getAllProgramOutcomesByYearController,
   addProgramOutcomesController,
   getAllProgramOutcomesByOrgController,
+  deleteProgramOutcomeByIdController,
 } from '../controllers/program.outcomes.controller.ts';
 
 const router = express.Router();
@@ -14,4 +15,6 @@ router.get('/:year/:orgId', getOneProgramOutcomesController); // no authenticati
 router.get('/:year', getAllProgramOutcomesByYearController); // no authentication for now
 router.post('/', addProgramOutcomesController); // no auth for now
 router.get('/get/all/:orgId', getAllProgramOutcomesByOrgController);
+router.delete('/delete/:id', deleteProgramOutcomeByIdController);
+
 export default router;
