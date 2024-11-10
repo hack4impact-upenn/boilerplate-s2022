@@ -15,6 +15,7 @@ import {
   getUserByEmail,
   getUserByResetPasswordToken,
   getUserByVerificationToken,
+  getUserById,
 } from '../services/user.service.ts';
 import {
   emailResetPasswordLink,
@@ -101,20 +102,22 @@ const logout = async (
     if (req.session) {
       req.session.destroy((e) => {
         if (e) {
+          console.error(e);
           next(ApiError.internal('Unable to logout properly'));
         } else {
           res.sendStatus(StatusCode.OK);
+          // Datadog logout
+          logger_info.log('Logout');
+
+          // Mixpanel logout tracking
+          mixpanel.track('Logout', {
+            distinct_id: req.user ? (req.user as IUser)._id : undefined,
+            email: req.user ? (req.user as IUser).email : undefined,
+          });
+          return;
         }
       });
     }
-    // Datadog logout
-    logger_info.log('Logout');
-
-    // Mixpanel logout tracking
-    mixpanel.track('Logout', {
-      distinct_id: req.user ? (req.user as IUser)._id : undefined,
-      email: req.user ? (req.user as IUser).email : undefined,
-    });
   });
 };
 
@@ -126,10 +129,23 @@ const register = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const { firstName, lastName, email, password } = req.body;
-  if (!firstName || !lastName || !email || !password) {
+  const { firstName, lastName, email, password, admin } = req.body;
+
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !password ||
+    !(admin === true || admin === false)
+  ) {
     next(
-      ApiError.missingFields(['firstName', 'lastName', 'email', 'password']),
+      ApiError.missingFields([
+        'firstName',
+        'lastName',
+        'email',
+        'password',
+        'admin',
+      ]),
     );
     return;
   }
@@ -173,11 +189,13 @@ const register = async (
       lastName,
       lowercaseEmail,
       password,
+      admin,
     );
     // Don't need verification email if testing
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('User created without verification email');
       user!.verified = true;
-      await user?.save();
+      await user!.save();
     } else {
       const verificationToken = crypto.randomBytes(32).toString('hex');
       user!.verificationToken = verificationToken;
@@ -391,6 +409,7 @@ const registerInvite = async (
       lastName,
       lowercaseEmail,
       password,
+      false,
     );
     user!.verified = true;
     await user?.save();
@@ -398,6 +417,36 @@ const registerInvite = async (
     res.sendStatus(StatusCode.CREATED);
   } catch (err) {
     next(ApiError.internal('Unable to register user.'));
+  }
+};
+
+/*
+Add a user to an organization
+*/
+const addUserToOrganization = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { userId, organizationId } = req.body;
+  if (!userId || !organizationId) {
+    next(ApiError.missingFields(['userId', 'organizationId']));
+    return;
+  }
+  try {
+    const user = await getUserById(userId);
+    if (!user) {
+      next(ApiError.notFound('User not found'));
+      return;
+    }
+    user!.organization = organizationId;
+    await user.save();
+    res.send({
+      message: `User <${user.firstName} ${user.lastName}> added to organization succesfully`,
+      status: StatusCode.OK,
+    });
+  } catch (err) {
+    next(ApiError.internal('Unable to add user to organization'));
   }
 };
 
@@ -410,4 +459,5 @@ export {
   sendResetPasswordEmail,
   resetPassword,
   registerInvite,
+  addUserToOrganization,
 };
