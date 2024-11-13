@@ -22,6 +22,7 @@ import {
   MenuItem,
   InputLabel,
 } from '@mui/material';
+import { postData } from '../../util/api';
 
 export default function ProgramOutcome() {
   enum YouthEnrollmentStructure {
@@ -267,14 +268,17 @@ export default function ProgramOutcome() {
   };
   const handleSubmit = async () => {
     if (validateInputs()) {
-      axios
-        .post('http://localhost:4000/api/program.outcomes/', formState)
-        .then((response) => {
-          console.log('successfully submitted!');
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const response = await postData('program.outcomes/', formState);
+        console.log('Program outcome submitted successfully:', response);
+        // Handle success (e.g., show a success message, reset form, etc.)
+      } catch (error) {
+        console.error('Error submitting program outcome:', error);
+        // Handle error (e.g., show an error message)
+      }
+    } else {
+      console.error('Validation failed: Please fill out all required fields.');
+      // Handle validation failure (e.g., show a validation error message)
     }
   };
   return (
