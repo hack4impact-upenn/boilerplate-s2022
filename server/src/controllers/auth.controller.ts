@@ -108,7 +108,7 @@ const logout = async (
       });
     }
     // Datadog logout
-    logger_info.log('Logout');
+    logger_info.info('Logout');
 
     // Mixpanel logout tracking
     mixpanel.track('Logout', {
