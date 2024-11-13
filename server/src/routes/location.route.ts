@@ -4,9 +4,9 @@
  */
 import express from 'express';
 import {
-    getLocations,
-    addLocation,
-    deleteLocation,
+  getLocations,
+  addLocation,
+  deleteLocation,
 } from '../controllers/location.controller.ts';
 import 'dotenv/config';
 
