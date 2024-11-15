@@ -178,7 +178,7 @@ export default function KitchenOutcome() {
     Restaurant: 'restaurant',
     Catering: 'catering',
     'Food Truck': 'foodTruck',
-    'Wholesale, Co-Packing, or White Labeling': 'wholesale',
+    'Consumer Packaged Goods': 'wholesale',
     'Food or Meal Subscription Services': 'foodSubscription',
   };
 
