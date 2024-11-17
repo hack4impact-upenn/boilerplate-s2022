@@ -29,18 +29,20 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   hungerReliefsMealsServed: {
     type: Number,
   },
-  typeOfMealsServed: {
-    type: String,
-    enum: [
-      'Childcare Meals',
-      'School Meals',
-      'Soup Kitchen (onsite)',
-      'Shelter Meals (offsite)',
-      'Meals for Supportive/Transitional Housing',
-      'Meals For Seniors',
-      'Medically Tailored Meals',
-    ],
-  },
+  typeOfMealsServed: [
+    {
+      type: String,
+      enum: [
+        'Childcare Meals',
+        'School Meals',
+        'Soup Kitchen (onsite)',
+        'Shelter Meals (offsite)',
+        'Meals for Supportive/Transitional Housing',
+        'Meals For Seniors',
+        'Medically Tailored Meals',
+      ],
+    },
+  ],
   costPerMeal: {
     type: Number,
   },
@@ -132,86 +134,40 @@ const KitchenOutcomesSchema = new mongoose.Schema({
   capitalProjectDate: {
     type: Date,
   },
-  capitalExpansionProjectNeeds: {
-    type: String,
-    enum: [
-      'How do we even start?',
-      'Planning cost expenses',
-      'Creating fundraising strategy',
-      'Construction costs',
-      'Equipment (heavy or small)',
-      'Operating expenses',
-      'Other',
-    ],
-  },
+  capitalExpansionProjectNeeds: [
+    {
+      type: String,
+      enum: [
+        'How do we even start?',
+        'Planning cost expenses',
+        'Creating fundraising strategy',
+        'Construction costs',
+        'Equipment (heavy or small)',
+        'Operating expenses',
+        'Other',
+      ],
+    },
+  ],
   retailSocialEnterpriseRevenue: {
     type: Number,
   },
   grossRevenueCafe: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
   grossRevenueRestaurant: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
   grossRevenueCatering: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
   grossRevenueFoodTruck: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
   grossRevenueWholesale: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
   grossRevenueFoodSubscription: {
-    type: String,
-    enum: [
-      'Less than $100K',
-      '$100K to $250K',
-      '$250K to $500K',
-      '$500K to $1M',
-      'Over $1M',
-      'No Enterprise',
-    ],
+    type: Number,
   },
 });
 
@@ -253,14 +209,14 @@ interface IKitchenOutcomes extends mongoose.Document {
   capitalExpansionProjects: string;
   capitalProjectSize: number;
   capitalProjectDate: Date;
-  capitalExpansionProjectNeeds: string;
+  capitalExpansionProjectNeeds: string[];
   retailSocialEnterpriseRevenue: number;
-  grossRevenueCafe: string;
-  grossRevenueRestaurant: string;
-  grossRevenueCatering: string;
-  grossRevenueFoodTruck: string;
-  grossRevenueWholesale: string;
-  grossRevenueFoodSubscription: string;
+  grossRevenueCafe: number;
+  grossRevenueRestaurant: number;
+  grossRevenueCatering: number;
+  grossRevenueFoodTruck: number;
+  grossRevenueWholesale: number;
+  grossRevenueFoodSubscription: number;
 }
 
 const KitchenOutcomes = mongoose.model<IKitchenOutcomes>(

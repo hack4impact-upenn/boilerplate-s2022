@@ -24,13 +24,14 @@ import PrimaryButton from '../components/buttons/PrimaryButton.tsx';
 import ScreenGrid from '../components/ScreenGrid.tsx';
 import FormRow from '../components/form/FormRow.tsx';
 import FormGrid from '../components/form/FormGrid.tsx';
+import { postData } from '../util/api.tsx';
 
 function SignUpPage() {
   const navigate = useNavigate();
 
   // Default values for state
   const defaultValues = {
-    role: 'admin',
+    role: 'member',
     firstName: '',
     lastName: '',
     email: '',
@@ -140,6 +141,39 @@ function SignUpPage() {
   };
 
   const title = 'Create Account';
+  const handleSubmit = async () => {
+    if (validateInputs()) {
+      console.log(values.role === 'admin');
+      try {
+        const res = await postData('auth/register', {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+          admin: values.role === 'admin',
+        });
+
+        if (res.data !== 'Created') {
+          console.log(res);
+          throw new Error('Registration failed');
+        } else {
+          setRegistered(true);
+          setAlertTitle('Success');
+          setErrorMessage('alert', 'Registration successful!');
+          setShowError('alert', true);
+        }
+      } catch (error) {
+        console.log(error);
+        setAlertTitle('Error');
+        setErrorMessage('alert', 'Registration failed. Please try again.');
+        setShowError('alert', true);
+      }
+    } else {
+      setAlertTitle('Error');
+      setErrorMessage('alert', 'Please fix the errors in the form.');
+      setShowError('alert', true);
+    }
+  };
   return (
     <div style={{ backgroundColor: 'black', color: 'white' }}>
       <ScreenGrid>

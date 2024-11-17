@@ -12,9 +12,11 @@ import {
   resetPassword,
   verifyAccount,
   registerInvite,
+  addUserToOrganization,
 } from '../controllers/auth.controller.ts';
 import { isAuthenticated } from '../controllers/auth.middleware.ts';
 import 'dotenv/config';
+import { isAdmin } from '../controllers/admin.middleware.ts';
 
 const router = express.Router();
 
@@ -72,5 +74,12 @@ router.get('/authstatus', isAuthenticated, approve);
  * a new account is created. Otherwise a 400 bad request error is returned
  */
 router.post('/register-invite', registerInvite);
+
+/**
+ * PUT route to modify a users organization property. Expects a JSON body with the following fields:
+ * - org_id (string) - The id of the organization to add the user to
+ * - user_id (string) - The id of the user to add to the organization
+ */
+router.put('/add-user-to-org', isAdmin, addUserToOrganization);
 
 export default router;

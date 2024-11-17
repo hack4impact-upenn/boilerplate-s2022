@@ -1294,7 +1294,7 @@ export default function ProgramOutcome() {
         <TextField
           fullWidth
           type="number"
-          label="Barrier Intellectual Disability"
+          label="Barriers for Neurodiverse Individuals"
           value={formState.barrierIntellectualDisability || ''}
           onChange={(e) => {
             setFormState({
@@ -1390,6 +1390,150 @@ export default function ProgramOutcome() {
             });
           }}
         />
+      </Box>
+      {/* wrapAroundHousing?: 'Partner agency' | 'In-house' | 'Not provided';
+    wrapAroundLifeSkills?: 'Partner agency' | 'In-house' | 'Not provided';
+    wrapAroundCaseManagement?: 'Partner agency' | 'In-house' | 'Not provided';
+    wrapAroundJobSearch?: 'Partner agency' | 'In-house' | 'Not provided';
+    wrapAroundRecoveryTreatment?:
+      | 'Partner agency'
+      | 'In-house'
+      | 'Not provided';
+    wrapAroundMentalHealthServices?:
+      | 'Partner agency'
+      | 'In-house'
+      | 'Not provided'; */}
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wraparound Housing</InputLabel>
+          <Select
+            name="wrapAroundHousing"
+            value={formState.wrapAroundHousing}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundHousing: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wraparound Lifeskills</InputLabel>
+          <Select
+            name="wrapAroundLifeSkills"
+            value={formState.wrapAroundLifeSkills}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundLifeSkills: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wraparound Case Management</InputLabel>
+          <Select
+            name="wrapAroundCaseManagement"
+            value={formState.wrapAroundCaseManagement}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundCaseManagement: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wraparound Job Search</InputLabel>
+          <Select
+            name="wrapAroundJobSearch"
+            value={formState.wrapAroundJobSearch}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundJobSearch: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wrap Around Recovery Treatment</InputLabel>
+          <Select
+            name="wrapAroundRecoveryTreatment"
+            value={formState.wrapAroundRecoveryTreatment}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundRecoveryTreatment: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box mb={2}>
+        <FormControl fullWidth>
+          <InputLabel>Wrap Around Mental Health Services</InputLabel>
+          <Select
+            name="wrapAroundMentalHealthServices"
+            value={formState.wrapAroundMentalHealthServices}
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                wrapAroundMentalHealthServices: e.target.value as
+                  | 'Partner agency'
+                  | 'In-house'
+                  | 'Not provided',
+              })
+            }
+          >
+            <MenuItem value="Partner agency">Partner agency</MenuItem>
+            <MenuItem value="In-house">In-house</MenuItem>
+            <MenuItem value="Not provided">Not provided</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
       <Box mb={2}>
         <FormControl fullWidth>
