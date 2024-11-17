@@ -37,15 +37,15 @@ export default function ProgramOutcome() {
     responderName: string;
     responderTitle: string;
     programCostPerTrainee: number;
-    youthProgram: boolean;
+    programDesignedForYouthAndAdults: boolean;
     youthTrained?: number;
     youthProgramRetentionRate?: number;
     youthPositiveOutcomes?: number;
     youthWage?: number;
-    youthJobRetention3Months?: number;
-    youthJobRetention6Months?: number;
-    youthJobRetention12Months?: number;
-    youthJobRetention2Years?: number;
+    youthJobRetentionThreeMonths?: number;
+    youthJobRetentionSixMonths?: number;
+    youthJobRetentionTwelveMonths?: number;
+    youthJobRetentionTwentyFourMonths?: number;
     youthProgramWeeks?: number;
     youthProgramHours?: number;
     youthEnrollmentStructure?: YouthEnrollmentStructure;
@@ -59,7 +59,7 @@ export default function ProgramOutcome() {
       | 'All weeks of program'
       | 'Early exit for employment allowed'
       | 'Other';
-    measureYouthOutcomes?: (
+    youthOutcomesMeasure?: (
       | 'High School Graduation'
       | 'Return to School'
       | 'Family Reunification'
@@ -67,95 +67,114 @@ export default function ProgramOutcome() {
       | 'Stable Housing'
       | 'Other'
     )[];
-    adultProgram: boolean;
+    programsThatServeAdults: boolean;
     adultsTrained?: number;
     adultsGraduated?: number;
-    adultsPositiveOutcome?: number;
-    adultsJobPlacementGraduates?: number;
-    adultsWage?: number;
-    adultsJobRetention3Months?: number;
-    adultsJobRetention6Months?: number;
-    adultsWage6Months?: number;
-    adultsJobRetention12Months?: number;
-    adultsWage12Months?: number;
-    adultsJobRetention24Months?: number;
-    adultsWage24Months?: number;
+    adultPositiveOutcome?: number;
+    adultJobPlacement?: number;
+    adultWage?: number;
+    adultJobRetentionThreeMonths?: number;
+    adultJobRetentionSixMonths?: number;
+    adultWageAtSixMonths?: number;
+    adultJobRetentionTwelveMonths?: number;
+    adultWageAtTwelveMonths?: number;
+    adultJobRetentionTwentyFourMonths?: number;
+    adultWageTwentyFourMonths?: number;
     adultProgramWeeks?: number;
     adultProgramHours?: number;
-    adultsEnrollmentStructure?: 'Single Cohort' | 'Staggered';
-    adultsCompensation?: 'Hourly' | 'Stipend' | 'None';
+    adultEnrollmentStructure?: 'Single Cohort' | 'Staggered';
+    adultCompensation?: 'Hourly' | 'Stipend' | 'None';
     adultTrainedDefinition?:
       | 'The first day of program'
       | '2-4 day provisional period'
       | 'One week provisional period'
       | 'Two week provisional period'
       | 'Other';
-    traineesAge?: number;
-    traineesPercentFemale?: number;
-    traineesPercentMale?: number;
-    traineesPercentNonBinary?: number;
-    traineesPercentTransgender?: number;
-    traineesPercentAmericanIndian?: number;
-    traineesPercentAsian?: number;
-    traineesPercentBlack?: number;
-    traineesPercentLatinx?: number;
-    traineesPercentNativeHawaiian?: number;
-    traineesPercentMultiRacial?: number;
-    traineesPercentWhite?: number;
-    traineesPercentOtherRace?: number;
-    traineesPercentRaceUnknown?: number;
-    barrierReturningCitizens?: number;
+    traineeAge?: number;
+    traineePercentFemale?: number;
+    traineePercentMale?: number;
+    traineePercentNonBinary?: number;
+    traineePercentTransgender?: number;
+    traineePercentAmericanIndian?: number;
+    traineePercentAsianOrAsianAmerican?: number;
+    traineePercentBlackOrAfricanAmerican?: number;
+    traineePercentLatinaLatinoLatinx?: number;
+    traineePercentNativeHawaiianPacificIslander?: number;
+    traineeMultiracial?: number;
+    traineeWhite?: number;
+    traineeOtherRace?: number;
+    traineeRaceUnknown?: number;
+    barrierReturningCitizensOrFormerlyIncarceratedPersons?: number;
     barrierPhysicalDisability?: number;
-    barrierIntellectualDisability?: number;
+    barrierIntellectualOrDevelopmentalDisability?: number;
     barrierUnhoused?: number;
     barrierMentalHealth?: number;
     barrierNewAmericans?: number;
     barrierInRecovery?: number;
     barrierVeteran?: number;
-    wrapAroundHousing?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundLifeSkills?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundCaseManagement?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundJobSearch?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundRecoveryTreatment?:
-      | 'Partner agency'
-      | 'In-house'
-      | 'Not provided';
-    wrapAroundMentalHealthServices?:
-      | 'Partner agency'
-      | 'In-house'
-      | 'Not provided';
-    wrapAroundHealthcare?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundChildcare?: 'Partner agency' | 'In-house' | 'Not provided';
-    wrapAroundTransportation?: 'Partner agency' | 'In-house' | 'Not provided';
-    otherWrapAroundServices?: string;
-    fundingPublic?: number;
-    fundingPrivate?: number;
-    fundingSocialEnterprise?: number;
-    snapET?: 'Yes' | 'No But' | 'No And';
-    wioa?: 'Yes' | 'No But' | 'No And';
+    wrapAroundServicesHousing?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesLifeSkillsOrSocialEmotionalLearning?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesCaseManagement?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesJobSearchAndPlacement?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesRecoveryTreatment?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesMentalHealthServices?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesHealthcareAllOther?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesChildcare?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    wrapAroundServicesTransportation?:
+      | 'You mostly facilitate access through partner agency'
+      | 'You mostly provide in-house'
+      | 'Your program does not provide or facilitate access';
+    otherPleaseSpecifyOtherWrapAroundServices?: string;
+    fundingPercentFromPublicFunding?: number;
+    fundingPercentFromPrivateFunding?: number;
+    fundingPercentFromSocialEnterpriseOrGeneratedRevenue?: number;
+    SNAPEAndT?: 'Yes' | 'No But' | 'No And';
+    WIOA?: 'Yes' | 'No But' | 'No And';
     curriculum?: 'All' | 'Part';
-    programCertifications?: (
+    programCertifications?:
       | 'ACF Quality/Approved Program'
       | 'DOL approved apprenticeship'
       | 'State Association apprenticeship'
       | 'Local or State Dept. of Education or Community College'
-      | 'Other'
-    )[];
+      | 'Other';
     otherProgramCertifications?: string;
-    participantCertifications?: (
+    participantCertifications?:
       | 'Basic Food Safety'
       | 'Advanced Food Safety'
       | 'Credit toward Comm College'
       | 'ACF Certification'
       | 'NRA'
       | 'AHLEI'
-      | 'Other'
-    )[];
+      | 'Other';
     otherParticipantCertifications?: string;
     internshipOrExternship?: boolean;
-    internshipDescription?: string;
+    internshipOrExternshipDescription?: string;
     minimumWage?: number;
-    jobTypeFoodService?: '1-25%' | '26-50%' | '51-75%' | '76-100%';
+    jobType?: '1-25%' | '26-50%' | '51-75%' | '76-100%';
     jobCategory?:
       | 'Food Service: restaurant, cafe'
       | 'Food Service: institutional'
@@ -174,102 +193,111 @@ export default function ProgramOutcome() {
     organizationName: '',
     responderName: '',
     responderTitle: '',
-    programCostPerTrainee: 0.0,
-    youthProgram: false,
+    programCostPerTrainee: 0,
+    programDesignedForYouthAndAdults: false,
     youthTrained: undefined,
     youthProgramRetentionRate: undefined,
     youthPositiveOutcomes: undefined,
     youthWage: undefined,
-    youthJobRetention3Months: undefined,
-    youthJobRetention6Months: undefined,
-    youthJobRetention12Months: undefined,
-    youthJobRetention2Years: undefined,
+    youthJobRetentionThreeMonths: undefined,
+    youthJobRetentionSixMonths: undefined,
+    youthJobRetentionTwelveMonths: undefined,
+    youthJobRetentionTwentyFourMonths: undefined,
     youthProgramWeeks: undefined,
     youthProgramHours: undefined,
     youthEnrollmentStructure: undefined,
     youthCompensation: undefined,
     youthTrainedDefinition: undefined,
-    youthGraduatedDefinition: 'All weeks of program',
-    measureYouthOutcomes: [], // Empty array for multiple choice
-    adultProgram: false,
+    youthGraduatedDefinition: undefined,
+    youthOutcomesMeasure: undefined,
+    programsThatServeAdults: false,
     adultsTrained: undefined,
     adultsGraduated: undefined,
-    adultsPositiveOutcome: undefined,
-    adultsJobPlacementGraduates: undefined,
-    adultsWage: undefined,
-    adultsJobRetention3Months: undefined,
-    adultsJobRetention6Months: undefined,
-    adultsWage6Months: undefined,
-    adultsJobRetention12Months: undefined,
-    adultsWage12Months: undefined,
-    adultsJobRetention24Months: undefined,
-    adultsWage24Months: undefined,
+    adultPositiveOutcome: undefined,
+    adultJobPlacement: undefined,
+    adultWage: undefined,
+    adultJobRetentionThreeMonths: undefined,
+    adultJobRetentionSixMonths: undefined,
+    adultWageAtSixMonths: undefined,
+    adultJobRetentionTwelveMonths: undefined,
+    adultWageAtTwelveMonths: undefined,
+    adultJobRetentionTwentyFourMonths: undefined,
+    adultWageTwentyFourMonths: undefined,
     adultProgramWeeks: undefined,
     adultProgramHours: undefined,
-    adultsEnrollmentStructure: undefined,
-    adultsCompensation: undefined,
+    adultEnrollmentStructure: undefined,
+    adultCompensation: undefined,
     adultTrainedDefinition: undefined,
-    traineesAge: undefined,
-    traineesPercentFemale: undefined,
-    traineesPercentMale: undefined,
-    traineesPercentNonBinary: undefined,
-    traineesPercentTransgender: undefined,
-    traineesPercentAmericanIndian: undefined,
-    traineesPercentAsian: undefined,
-    traineesPercentBlack: undefined,
-    traineesPercentLatinx: undefined,
-    traineesPercentNativeHawaiian: undefined,
-    traineesPercentMultiRacial: undefined,
-    traineesPercentWhite: undefined,
-    traineesPercentOtherRace: undefined,
-    traineesPercentRaceUnknown: undefined,
-    barrierReturningCitizens: undefined,
+    traineeAge: undefined,
+    traineePercentFemale: undefined,
+    traineePercentMale: undefined,
+    traineePercentNonBinary: undefined,
+    traineePercentTransgender: undefined,
+    traineePercentAmericanIndian: undefined,
+    traineePercentAsianOrAsianAmerican: undefined,
+    traineePercentBlackOrAfricanAmerican: undefined,
+    traineePercentLatinaLatinoLatinx: undefined,
+    traineePercentNativeHawaiianPacificIslander: undefined,
+    traineeMultiracial: undefined,
+    traineeWhite: undefined,
+    traineeOtherRace: undefined,
+    traineeRaceUnknown: undefined,
+    barrierReturningCitizensOrFormerlyIncarceratedPersons: undefined,
     barrierPhysicalDisability: undefined,
-    barrierIntellectualDisability: undefined,
-    barrierUnhoused: 0,
-    barrierMentalHealth: 0,
-    barrierNewAmericans: 0,
-    barrierInRecovery: 0,
-    barrierVeteran: 0,
-    wrapAroundHousing: undefined,
-    wrapAroundLifeSkills: undefined,
-    wrapAroundCaseManagement: undefined,
-    wrapAroundJobSearch: undefined,
-    wrapAroundRecoveryTreatment: undefined,
-    wrapAroundMentalHealthServices: undefined,
-    wrapAroundHealthcare: undefined,
-    wrapAroundChildcare: undefined,
-    wrapAroundTransportation: undefined,
-    otherWrapAroundServices: '',
-    fundingPublic: undefined,
-    fundingPrivate: undefined,
-    fundingSocialEnterprise: undefined,
-    snapET: undefined,
-    wioa: undefined,
+    barrierIntellectualOrDevelopmentalDisability: undefined,
+    barrierUnhoused: undefined,
+    barrierMentalHealth: undefined,
+    barrierNewAmericans: undefined,
+    barrierInRecovery: undefined,
+    barrierVeteran: undefined,
+    wrapAroundServicesHousing: undefined,
+    wrapAroundServicesLifeSkillsOrSocialEmotionalLearning: undefined,
+    wrapAroundServicesCaseManagement: undefined,
+    wrapAroundServicesJobSearchAndPlacement: undefined,
+    wrapAroundServicesRecoveryTreatment: undefined,
+    wrapAroundServicesMentalHealthServices: undefined,
+    wrapAroundServicesHealthcareAllOther: undefined,
+    wrapAroundServicesChildcare: undefined,
+    wrapAroundServicesTransportation: undefined,
+    otherPleaseSpecifyOtherWrapAroundServices: '',
+    fundingPercentFromPublicFunding: undefined,
+    fundingPercentFromPrivateFunding: undefined,
+    fundingPercentFromSocialEnterpriseOrGeneratedRevenue: undefined,
+    SNAPEAndT: undefined,
+    WIOA: undefined,
     curriculum: undefined,
-    programCertifications: [], // Empty array for multiple choice
-    otherProgramCertifications: undefined,
-    participantCertifications: [], // Empty array for multiple choice
-    otherParticipantCertifications: undefined,
+    programCertifications: undefined,
+    otherProgramCertifications: '',
+    participantCertifications: undefined,
+    otherParticipantCertifications: '',
     internshipOrExternship: false,
-    internshipDescription: undefined,
+    internshipOrExternshipDescription: '',
     minimumWage: undefined,
-    jobTypeFoodService: undefined,
+    jobType: undefined,
     jobCategory: undefined,
     alumniHiredByOrg: undefined,
   };
   const [formState, setFormState] = React.useState<FormState>(noState);
   const validateInputs = () => {
-    const { adultProgram, minimumWage, jobTypeFoodService } = formState;
-    if (!adultProgram || !minimumWage || !jobTypeFoodService) {
-      return false;
-    }
+    // Add validation logic here:
+    // ex:
+    // const { adultProgram, minimumWage, jobTypeFoodService } = formState;
+    // if (!adultProgram || !minimumWage || !jobTypeFoodService) {
+    //   return false;
+    // }
+
     return true;
   };
   const handleSubmit = async () => {
     if (validateInputs()) {
       try {
-        const response = await postData('program.outcomes/', formState);
+        const formData = {
+          ...formState,
+          youthOutcomesMeasure:
+            formState.youthOutcomesMeasure?.join(', ') || '',
+        };
+
+        const response = await postData('program_outcomes/', formData);
         console.log('Program outcome submitted successfully:', response);
         // Handle success (e.g., show a success message, reset form, etc.)
       } catch (error) {
@@ -375,16 +403,19 @@ export default function ProgramOutcome() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formState.youthProgram}
+              checked={formState.programDesignedForYouthAndAdults}
               onChange={(e) =>
-                setFormState({ ...formState, youthProgram: e.target.checked })
+                setFormState({
+                  ...formState,
+                  programDesignedForYouthAndAdults: e.target.checked,
+                })
               }
             />
           }
           label="Youth Program"
         />
       </Box>
-      {formState.youthProgram && (
+      {formState.programDesignedForYouthAndAdults && (
         <div id="youthProgramFields">
           <Box mb={2}>
             <TextField
@@ -453,7 +484,7 @@ export default function ProgramOutcome() {
               onChange={(e) =>
                 setFormState({
                   ...formState,
-                  youthJobRetention3Months: Number(e.target.value),
+                  youthJobRetentionThreeMonths: Number(e.target.value),
                 })
               }
               label="Youth Job Retention (3 Months)"
@@ -468,7 +499,7 @@ export default function ProgramOutcome() {
               onChange={(e) =>
                 setFormState({
                   ...formState,
-                  youthJobRetention6Months: Number(e.target.value),
+                  youthJobRetentionSixMonths: Number(e.target.value),
                 })
               }
               label="Youth Job Retention (6 Months)"
@@ -483,7 +514,7 @@ export default function ProgramOutcome() {
               onChange={(e) =>
                 setFormState({
                   ...formState,
-                  youthJobRetention12Months: Number(e.target.value),
+                  youthJobRetentionTwelveMonths: Number(e.target.value),
                 })
               }
               label="Youth Job Retention (12 Months)"
@@ -498,7 +529,7 @@ export default function ProgramOutcome() {
               onChange={(e) =>
                 setFormState({
                   ...formState,
-                  youthJobRetention2Years: Number(e.target.value),
+                  youthJobRetentionTwentyFourMonths: Number(e.target.value),
                 })
               }
               label="Youth Job Retention (2 Years)"
@@ -659,12 +690,12 @@ export default function ProgramOutcome() {
               <Select
                 labelId="measure-youth-outcomes-label"
                 multiple
-                value={formState.measureYouthOutcomes || []}
+                value={formState.youthOutcomesMeasure || []}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    measureYouthOutcomes: e.target.value as Array<
-                      keyof (typeof formState)['measureYouthOutcomes']
+                    youthOutcomesMeasure: e.target.value as Array<
+                      keyof (typeof formState)['youthOutcomesMeasure']
                     >,
                   });
                 }}
@@ -690,11 +721,11 @@ export default function ProgramOutcome() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formState.adultProgram}
+              checked={formState.programsThatServeAdults}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultProgram: e.target.checked,
+                  programsThatServeAdults: e.target.checked,
                 });
               }}
             />
@@ -702,7 +733,7 @@ export default function ProgramOutcome() {
           label="Adult Program"
         />
       </Box>
-      {formState.adultProgram && (
+      {formState.programsThatServeAdults && (
         <div id="adultProgramFields">
           <Box mb={2}>
             <TextField
@@ -741,11 +772,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Positive Outcome"
-              value={formState.adultsPositiveOutcome || ''}
+              value={formState.adultPositiveOutcome || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsPositiveOutcome: e.target.value
+                  adultPositiveOutcome: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -757,11 +788,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Job Placement Graduates"
-              value={formState.adultsJobPlacementGraduates || ''}
+              value={formState.adultJobPlacement || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsJobPlacementGraduates: e.target.value
+                  adultJobPlacement: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -773,11 +804,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Wage"
-              value={formState.adultsWage || ''}
+              value={formState.adultWage || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsWage: e.target.value
+                  adultWage: e.target.value
                     ? parseFloat(e.target.value)
                     : undefined,
                 });
@@ -789,11 +820,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Job Retention (3 Months)"
-              value={formState.adultsJobRetention3Months || ''}
+              value={formState.adultJobRetentionThreeMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsJobRetention3Months: e.target.value
+                  adultJobRetentionThreeMonths: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -805,11 +836,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Job Retention (6 Months)"
-              value={formState.adultsJobRetention6Months || ''}
+              value={formState.adultJobRetentionSixMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsJobRetention6Months: e.target.value
+                  adultJobRetentionSixMonths: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -821,11 +852,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Wage (6 Months)"
-              value={formState.adultsWage6Months || ''}
+              value={formState.adultWageAtSixMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsWage6Months: e.target.value
+                  adultWageAtSixMonths: e.target.value
                     ? parseFloat(e.target.value)
                     : undefined,
                 });
@@ -837,11 +868,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Job Retention (12 Months)"
-              value={formState.adultsJobRetention12Months || ''}
+              value={formState.adultJobRetentionTwelveMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsJobRetention12Months: e.target.value
+                  adultJobRetentionTwelveMonths: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -853,11 +884,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Wage (12 Months)"
-              value={formState.adultsWage12Months || ''}
+              value={formState.adultWageAtTwelveMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsWage12Months: e.target.value
+                  adultWageAtTwelveMonths: e.target.value
                     ? parseFloat(e.target.value)
                     : undefined,
                 });
@@ -869,11 +900,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Job Retention (24 Months)"
-              value={formState.adultsJobRetention24Months || ''}
+              value={formState.adultJobRetentionTwentyFourMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsJobRetention24Months: e.target.value
+                  adultJobRetentionTwentyFourMonths: e.target.value
                     ? parseInt(e.target.value, 10)
                     : undefined,
                 });
@@ -885,11 +916,11 @@ export default function ProgramOutcome() {
               fullWidth
               type="number"
               label="Adults Wage (24 Months)"
-              value={formState.adultsWage24Months || ''}
+              value={formState.adultWageTwentyFourMonths || ''}
               onChange={(e) => {
                 setFormState({
                   ...formState,
-                  adultsWage24Months: e.target.value
+                  adultWageTwentyFourMonths: e.target.value
                     ? parseFloat(e.target.value)
                     : undefined,
                 });
@@ -935,11 +966,11 @@ export default function ProgramOutcome() {
               </InputLabel>
               <Select
                 labelId="adults-enrollment-structure-label"
-                value={formState.adultsEnrollmentStructure || ''}
+                value={formState.adultEnrollmentStructure || ''}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    adultsEnrollmentStructure: e.target.value as
+                    adultEnrollmentStructure: e.target.value as
                       | 'Single Cohort'
                       | 'Staggered'
                       | undefined,
@@ -959,11 +990,11 @@ export default function ProgramOutcome() {
               </InputLabel>
               <Select
                 labelId="adults-compensation-label"
-                value={formState.adultsCompensation || ''}
+                value={formState.adultCompensation || ''}
                 onChange={(e) => {
                   setFormState({
                     ...formState,
-                    adultsCompensation: e.target.value as
+                    adultCompensation: e.target.value as
                       | 'Hourly'
                       | 'Stipend'
                       | 'None',
@@ -1023,11 +1054,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Age"
-          value={formState.traineesAge || ''}
+          value={formState.traineeAge || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesAge: e.target.value
+              traineeAge: e.target.value
                 ? parseInt(e.target.value, 10)
                 : undefined,
             });
@@ -1040,11 +1071,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Female"
-          value={formState.traineesPercentFemale || ''}
+          value={formState.traineePercentFemale || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentFemale: e.target.value
+              traineePercentFemale: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1057,11 +1088,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Male"
-          value={formState.traineesPercentMale || ''}
+          value={formState.traineePercentMale || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentMale: e.target.value
+              traineePercentMale: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1074,11 +1105,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Non-Binary"
-          value={formState.traineesPercentNonBinary || ''}
+          value={formState.traineePercentNonBinary || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentNonBinary: e.target.value
+              traineePercentNonBinary: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1091,11 +1122,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Transgender"
-          value={formState.traineesPercentTransgender || ''}
+          value={formState.traineePercentTransgender || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentTransgender: e.target.value
+              traineePercentTransgender: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1108,11 +1139,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent American Indian"
-          value={formState.traineesPercentAmericanIndian || ''}
+          value={formState.traineePercentAmericanIndian || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentAmericanIndian: e.target.value
+              traineePercentAmericanIndian: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1125,11 +1156,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Asian"
-          value={formState.traineesPercentAsian || ''}
+          value={formState.traineePercentAsianOrAsianAmerican || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentAsian: e.target.value
+              traineePercentAsianOrAsianAmerican: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1142,11 +1173,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Black"
-          value={formState.traineesPercentBlack || ''}
+          value={formState.traineePercentBlackOrAfricanAmerican || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentBlack: e.target.value
+              traineePercentBlackOrAfricanAmerican: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1159,11 +1190,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Latinx"
-          value={formState.traineesPercentLatinx || ''}
+          value={formState.traineePercentLatinaLatinoLatinx || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentLatinx: e.target.value
+              traineePercentLatinaLatinoLatinx: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1176,11 +1207,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Native Hawaiian"
-          value={formState.traineesPercentNativeHawaiian || ''}
+          value={formState.traineePercentNativeHawaiianPacificIslander || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentNativeHawaiian: e.target.value
+              traineePercentNativeHawaiianPacificIslander: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1193,11 +1224,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Multi-Racial"
-          value={formState.traineesPercentMultiRacial || ''}
+          value={formState.traineeMultiracial || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentMultiRacial: e.target.value
+              traineeMultiracial: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1210,11 +1241,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent White"
-          value={formState.traineesPercentWhite || ''}
+          value={formState.traineeWhite || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentWhite: e.target.value
+              traineeWhite: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1227,11 +1258,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Other Race"
-          value={formState.traineesPercentOtherRace || ''}
+          value={formState.traineeOtherRace || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentOtherRace: e.target.value
+              traineeOtherRace: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1244,11 +1275,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Trainees Percent Race Unknown"
-          value={formState.traineesPercentRaceUnknown || ''}
+          value={formState.traineeRaceUnknown || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              traineesPercentRaceUnknown: e.target.value
+              traineeRaceUnknown: e.target.value
                 ? parseFloat(e.target.value)
                 : undefined,
             });
@@ -1261,11 +1292,15 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Barrier Returning Citizens"
-          value={formState.barrierReturningCitizens || ''}
+          value={
+            formState.barrierReturningCitizensOrFormerlyIncarceratedPersons ||
+            ''
+          }
           onChange={(e) => {
             setFormState({
               ...formState,
-              barrierReturningCitizens: e.target.value
+              barrierReturningCitizensOrFormerlyIncarceratedPersons: e.target
+                .value
                 ? parseInt(e.target.value, 10)
                 : undefined,
             });
@@ -1295,11 +1330,11 @@ export default function ProgramOutcome() {
           fullWidth
           type="number"
           label="Barriers for Neurodiverse Individuals"
-          value={formState.barrierIntellectualDisability || ''}
+          value={formState.barrierIntellectualOrDevelopmentalDisability || ''}
           onChange={(e) => {
             setFormState({
               ...formState,
-              barrierIntellectualDisability: e.target.value
+              barrierIntellectualOrDevelopmentalDisability: e.target.value
                 ? parseInt(e.target.value, 10)
                 : undefined,
             });
@@ -1408,20 +1443,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Housing</InputLabel>
           <Select
             name="wrapAroundHousing"
-            value={formState.wrapAroundHousing}
+            value={formState.wrapAroundServicesHousing}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundHousing: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesHousing: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1430,20 +1469,27 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Lifeskills</InputLabel>
           <Select
             name="wrapAroundLifeSkills"
-            value={formState.wrapAroundLifeSkills}
+            value={
+              formState.wrapAroundServicesLifeSkillsOrSocialEmotionalLearning
+            }
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundLifeSkills: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesLifeSkillsOrSocialEmotionalLearning: e.target
+                  .value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1452,20 +1498,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Case Management</InputLabel>
           <Select
             name="wrapAroundCaseManagement"
-            value={formState.wrapAroundCaseManagement}
+            value={formState.wrapAroundServicesCaseManagement}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundCaseManagement: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesCaseManagement: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1474,20 +1524,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Job Search</InputLabel>
           <Select
             name="wrapAroundJobSearch"
-            value={formState.wrapAroundJobSearch}
+            value={formState.wrapAroundServicesJobSearchAndPlacement}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundJobSearch: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesJobSearchAndPlacement: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1496,20 +1550,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wrap Around Recovery Treatment</InputLabel>
           <Select
             name="wrapAroundRecoveryTreatment"
-            value={formState.wrapAroundRecoveryTreatment}
+            value={formState.wrapAroundServicesRecoveryTreatment}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundRecoveryTreatment: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesRecoveryTreatment: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1518,20 +1576,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wrap Around Mental Health Services</InputLabel>
           <Select
             name="wrapAroundMentalHealthServices"
-            value={formState.wrapAroundMentalHealthServices}
+            value={formState.wrapAroundServicesMentalHealthServices}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundMentalHealthServices: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesMentalHealthServices: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1540,20 +1602,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Healthcare</InputLabel>
           <Select
             name="wrapAroundHealthcare"
-            value={formState.wrapAroundHealthcare}
+            value={formState.wrapAroundServicesHealthcareAllOther}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundHealthcare: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesHealthcareAllOther: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1562,20 +1628,24 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Childcare</InputLabel>
           <Select
             name="wrapAroundChildcare"
-            value={formState.wrapAroundChildcare}
+            value={formState.wrapAroundServicesChildcare}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundChildcare: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesChildcare: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -1584,31 +1654,35 @@ export default function ProgramOutcome() {
           <InputLabel>Wraparound Transportation</InputLabel>
           <Select
             name="wrapAroundTransportation"
-            value={formState.wrapAroundTransportation}
+            value={formState.wrapAroundServicesTransportation}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wrapAroundTransportation: e.target.value as
-                  | 'Partner agency'
-                  | 'In-house'
-                  | 'Not provided',
+                wrapAroundServicesTransportation: e.target.value as
+                  | 'You mostly facilitate access through partner agency'
+                  | 'You mostly provide in-house'
+                  | 'Your program does not provide or facilitate access',
               })
             }
           >
-            <MenuItem value="Partner agency">Partner agency</MenuItem>
-            <MenuItem value="In-house">In-house</MenuItem>
-            <MenuItem value="Not provided">Not provided</MenuItem>
+            <MenuItem value="You mostly facilitate access through partner agency">
+              Partner agency
+            </MenuItem>
+            <MenuItem value="You mostly provide in-house">In-house</MenuItem>
+            <MenuItem value="Your program does not provide or facilitate access">
+              Not provided
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
       <Box mb={2}>
         <TextField
           label="Other Wraparound Services"
-          value={formState.otherWrapAroundServices}
+          value={formState.otherPleaseSpecifyOtherWrapAroundServices}
           onChange={(e) =>
             setFormState({
               ...formState,
-              otherWrapAroundServices: e.target.value,
+              otherPleaseSpecifyOtherWrapAroundServices: e.target.value,
             })
           }
           fullWidth
@@ -1619,11 +1693,11 @@ export default function ProgramOutcome() {
         <TextField
           label="Public Funding"
           type="number"
-          value={formState.fundingPublic}
+          value={formState.fundingPercentFromPublicFunding}
           onChange={(e) =>
             setFormState({
               ...formState,
-              fundingPublic: Number(e.target.value),
+              fundingPercentFromPublicFunding: Number(e.target.value),
             })
           }
           fullWidth
@@ -1633,11 +1707,11 @@ export default function ProgramOutcome() {
         <TextField
           label="Private Funding"
           type="number"
-          value={formState.fundingPrivate}
+          value={formState.fundingPercentFromPrivateFunding}
           onChange={(e) =>
             setFormState({
               ...formState,
-              fundingPrivate: Number(e.target.value),
+              fundingPercentFromPrivateFunding: Number(e.target.value),
             })
           }
           fullWidth
@@ -1647,11 +1721,13 @@ export default function ProgramOutcome() {
         <TextField
           label="Social Enterprise Funding"
           type="number"
-          value={formState.fundingSocialEnterprise}
+          value={formState.fundingPercentFromSocialEnterpriseOrGeneratedRevenue}
           onChange={(e) =>
             setFormState({
               ...formState,
-              fundingSocialEnterprise: Number(e.target.value),
+              fundingPercentFromSocialEnterpriseOrGeneratedRevenue: Number(
+                e.target.value,
+              ),
             })
           }
           fullWidth
@@ -1663,11 +1739,11 @@ export default function ProgramOutcome() {
           <InputLabel>SNAP E&T</InputLabel>
           <Select
             name="snapET"
-            value={formState.snapET}
+            value={formState.SNAPEAndT}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                snapET: e.target.value as 'Yes' | 'No But' | 'No And',
+                SNAPEAndT: e.target.value as 'Yes' | 'No But' | 'No And',
               })
             }
           >
@@ -1682,11 +1758,11 @@ export default function ProgramOutcome() {
           <InputLabel>WIOA</InputLabel>
           <Select
             name="wioa"
-            value={formState.wioa}
+            value={formState.WIOA}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                wioa: e.target.value as 'Yes' | 'No But' | 'No And' | undefined,
+                WIOA: e.target.value as 'Yes' | 'No But' | 'No And' | undefined,
               })
             }
           >
@@ -1738,11 +1814,11 @@ export default function ProgramOutcome() {
           <Box mb={2}>
             <TextField
               label="Internship Description"
-              value={formState.internshipDescription}
+              value={formState.internshipOrExternshipDescription}
               onChange={(e) =>
                 setFormState({
                   ...formState,
-                  internshipDescription: e.target.value,
+                  internshipOrExternshipDescription: e.target.value,
                 })
               }
               fullWidth
@@ -1771,11 +1847,11 @@ export default function ProgramOutcome() {
           <InputLabel>Job Type in Food Service</InputLabel>
           <Select
             name="jobTypeFoodService"
-            value={formState.jobTypeFoodService}
+            value={formState.jobType}
             onChange={(e) =>
               setFormState({
                 ...formState,
-                jobTypeFoodService: e.target.value as
+                jobType: e.target.value as
                   | '1-25%'
                   | '26-50%'
                   | '51-75%'

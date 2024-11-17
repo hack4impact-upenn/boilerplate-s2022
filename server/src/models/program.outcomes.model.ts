@@ -4,11 +4,11 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   orgId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'MemberOrganization',
-    required: true,
+    required: false,
   },
   year: {
     type: Date,
-    required: true,
+    required: false,
   },
   programCostPerTrainee: {
     type: Number,
@@ -89,19 +89,19 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   youthOutcomesMeasure: {
     type: String,
-    enum: [
-      'High School Graduation',
-      'Return to School',
-      'Family Reunificiation',
-      'Non-Recidivism',
-      'Stable Housing',
-      'Other',
-    ],
+    // enum: [
+    //   'High School Graduation',
+    //   'Return to School',
+    //   'Family Reunificiation',
+    //   'Non-Recidivism',
+    //   'Stable Housing',
+    //   'Other',
+    // ],
     required: false,
   },
   programsThatServeAdults: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   adultsTrained: {
     type: Number,
@@ -403,12 +403,12 @@ const ProgramOutcomesSchema = new mongoose.Schema({
   },
   minimumWage: {
     type: Number,
-    require: true,
+    required: false,
   },
   jobType: {
     type: String,
     enum: ['1-25%', '26-50%', '51-75%', '76-100%'],
-    require: true,
+    required: false,
   },
   jobCategory: {
     type: String,
@@ -430,8 +430,8 @@ const ProgramOutcomesSchema = new mongoose.Schema({
 });
 
 interface IProgramOutcomes {
-  orgId: mongoose.Schema.Types.ObjectId;
-  year: Date;
+  orgId?: mongoose.Schema.Types.ObjectId;
+  year?: Date;
   programCostPerTrainee?: number;
   programDesignedForYouthAndAdults?: boolean;
   youthTrained?: number;
@@ -449,7 +449,7 @@ interface IProgramOutcomes {
   youthTrainedDefinition?: string;
   youthGraduatedDefinition?: string;
   youthOutcomesMeasure?: string;
-  programsThatServeAdults: boolean;
+  programsThatServeAdults?: boolean;
   adultsTrained?: number;
   adultsGraduated?: number;
   adultPositiveOutcome?: number;
@@ -512,8 +512,8 @@ interface IProgramOutcomes {
   otherParticipantCertifications?: string;
   internshipOrExternship?: boolean;
   internshipOrExternshipDescription?: string;
-  minimumWage: number;
-  jobType: string;
+  minimumWage?: number;
+  jobType?: string;
   jobCategory?: string;
   alumniHiredByOrg?: number;
 }

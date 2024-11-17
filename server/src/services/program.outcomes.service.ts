@@ -35,7 +35,12 @@ const getAllProgramOutcomesByYear = async (year: Date) => {
 
 const addProgramOutcomes = async (obj: IProgramOutcomes) => {
   const newOutcomes = new ProgramOutcomes(obj);
-  const outcomes = await newOutcomes.save();
+  let outcomes = newOutcomes;
+  try {
+    outcomes = await newOutcomes.save();
+  } catch (error) {
+    throw new Error('Unable to add program outcome');
+  }
   return outcomes;
 };
 
