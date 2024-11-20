@@ -59,7 +59,10 @@ function App() {
                   {/* Routes accessed only if user is authenticated */}
                   <Route element={<ProtectedRoutesWrapper />}>
                     <Route path="/home" element={<HomePage />} />
-                    <Route path="/dashboard" element={<MapDashboard addressList={addresses}/>} />
+                    <Route
+                      path="/dashboard"
+                      element={<MapDashboard addressList={addresses} />}
+                    />
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
                     <Route path="/users" element={<AdminDashboardPage />} />
