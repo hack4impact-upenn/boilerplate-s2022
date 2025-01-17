@@ -144,6 +144,45 @@ terraform destroy
 
 Due to the new (as of early 2024) nature of this AWS configuration, if you are encountering issues with deploying the project on AWS, then please use the old boilerplate and deploy on Heroku or another cloud platform as we have done in the past.
 
+## Setting Up Datadog
+
+Datadog allows for post-deployment logs and traces. Here is a guide to set it up.
+
+1. Create a Datadog account.
+
+2. Add environment variables to the env file.
+
+```
+DD_AGENT_MAJOR_VERSION=7
+DD_API_KEY=<key>
+DD_SITE="us5.datadoghq.com"
+DD_ENV=<project_name>
+DD_LOGS_INJECTION=true
+DD_TRACE_AGENT_URL=http://localhost:4000
+```
+
+In Datadog Agent, search “API Keys” and generate a New Key. Use the key to paste into <key>
+Name your DD_ENV in <project_name>. This will be useful when querying logs.
+
+3. If not already installed, install the following dependencies.
+
+```
+npm install --save dd-trace
+npm install winston
+```
+
+4. The configDatadog.ts file exports three variables: `logger_info`, `logger_warn `, and `logger_error`. These variables represent different log statuses. Simply add one of these log variables within each function in the format below.
+
+```
+logger_info.log('Account Verified');
+logger_warn.warn('Logger Initialized');
+logger_error.error('Logout');
+```
+
+Some examples are shown in login() and logout() functions in auth.controller.ts.
+
+5. Access "Logs" in Datadog Agent and search "env:<project_name>" to find the logs and their timeline.
+
 ## Common Problems
 
 Fill in with problem scenario + solution as they arise
