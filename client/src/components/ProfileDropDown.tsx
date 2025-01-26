@@ -35,7 +35,7 @@ function ProfileDropDown({sx}: ProfileDropDownProps) {
                 onClick={handleMenu}
             >
                 <AccountCircle sx={{ ...sx, marginRight: '4px' }} />
-                <Typography sx={{ color: 'black', fontSize: '14px' }}>Khoi Dinh</Typography>
+                <Typography sx={{ color: 'black', fontSize: '14px' }}>Khoi Ding Dong</Typography>
             </Box>
             <Menu
                 id="menu-appbar"
