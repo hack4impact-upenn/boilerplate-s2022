@@ -43,6 +43,20 @@
     transition: background-color 0.3s ease;
   }
 
+  .sidebar-logo {
+    margin-bottom: 2rem;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+  
+  .sidebar-logo-image {
+    width: 180px; 
+    height: auto;
+    object-fit: contain;
+  }
+  
   
   .sidebar-button:hover {
     background-color: #d6cdcd;
