@@ -4,7 +4,7 @@ import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import theme from './assets/theme.ts';
+// import theme from './assets/theme.ts';
 import { store, persistor } from './util/redux/store.ts';
 import NotFoundPage from './NotFound/NotFoundPage.tsx';
 import HomePage from './Home/HomePage.tsx';
@@ -17,6 +17,7 @@ import {
 } from './util/routes.tsx';
 import VerifyAccountPage from './Authentication/VerifyAccountPage.tsx';
 import RegisterPage from './Authentication/RegisterPage.tsx';
+import Sidebar from './sidebar/Sidebar.tsx';
 import LoginPage from './Authentication/LoginPage.tsx';
 import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx';
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
@@ -36,11 +37,12 @@ function App() {
       <BrowserRouter>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider theme={theme}>
+            {/* <ThemeProvider theme={theme}> */}
               <CssBaseline>
                 <AlertPopup />
                 <TopBar />
                 <Routes>
+                  <Route path="/test-sidebar" element={<Sidebar />} />
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
                     <Route path="/login" element={<LoginPage />} />
@@ -84,7 +86,7 @@ function App() {
                   <Route path="/cardtest" element={<CardTest />} />
                 </Routes>
               </CssBaseline>
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
           </PersistGate>
         </Provider>
       </BrowserRouter>
