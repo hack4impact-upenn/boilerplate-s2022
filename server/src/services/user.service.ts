@@ -3,6 +3,8 @@
  */
 import { hash } from 'bcrypt';
 import { User } from '../models/user.model.ts';
+import { getSpeakerByUserId } from './speaker.service.ts';
+import { getTeacherByUserId } from './teacher.service.ts';
 
 const passwordHashSaltRounds = 10;
 const removeSensitiveDataQuery = [
@@ -141,6 +143,30 @@ const deleteUserById = async (id: string) => {
   return user;
 };
 
+/**
+ * Gets a user's role-specific profile data
+ * @param userId - The ID of the user
+ * @param role - The role to get profile data for
+ * @returns The role-specific profile data or null if not found
+ */
+const getUserRoleProfile = async (userId: string) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    return null;
+  }
+
+  switch (user.role) {
+    case 'speaker':
+      return getSpeakerByUserId(userId);
+    case 'teacher':
+      return getTeacherByUserId(userId);
+    case 'admin':
+      return null; // Admin role doesn't have additional profile data
+    default:
+      return null;
+  }
+};
+
 export {
   passwordHashSaltRounds,
   createUser,
@@ -152,4 +178,5 @@ export {
   getAllUsersFromDB,
   upgradeUserToAdmin,
   deleteUserById,
+  getUserRoleProfile,
 };
