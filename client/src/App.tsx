@@ -22,6 +22,7 @@ import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx'
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
+import CardTest from './CardTest/CardTest.tsx';
 import SearchBar from './components/search_bar/SearchBar.tsx';
 
 function App() {
@@ -77,6 +78,8 @@ function App() {
 
                   {/* Route which is accessed if no other route is matched */}
                   <Route path="*" element={<NotFoundPage />} />
+                  {/* TODO: delete */}
+                  <Route path="/cardtest" element={<CardTest />} />
                 </Routes>
               </CssBaseline>
             </ThemeProvider>
