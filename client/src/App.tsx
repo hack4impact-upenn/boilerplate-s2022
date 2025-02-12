@@ -22,10 +22,15 @@ import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx'
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
+import SearchBar from './components/search_bar/SearchBar.tsx';
 
 function App() {
+  const handleSearch = (query: string) => {
+    console.log("Searching for:", query);
+  };
   return (
     <div className="App">
+      {/* <SearchBar onSearch={handleSearch} placeholder="Type your search..." /> */}
       <BrowserRouter>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
