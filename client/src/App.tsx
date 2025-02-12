@@ -24,6 +24,7 @@ import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import CardTest from './CardTest/CardTest.tsx';
 import SearchBar from './components/search_bar/SearchBar.tsx';
+import RequestPage from './RequestPage.tsx';
 
 function App() {
   const handleSearch = (query: string) => {
@@ -43,6 +44,7 @@ function App() {
                   <Route element={<UnauthenticatedRoutesWrapper />}>
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/requestpage" element={<RequestPage />} />
                     <Route
                       path="/verify-account/:token"
                       element={<VerifyAccountPage />}
