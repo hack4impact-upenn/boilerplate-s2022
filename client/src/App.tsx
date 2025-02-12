@@ -23,10 +23,16 @@ import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import TopBar from './components/TopBar.tsx';
+import CardTest from './CardTest/CardTest.tsx';
+import SearchBar from './components/search_bar/SearchBar.tsx';
 
 function App() {
+  const handleSearch = (query: string) => {
+    console.log("Searching for:", query);
+  };
   return (
     <div className="App">
+      {/* <SearchBar onSearch={handleSearch} placeholder="Type your search..." /> */}
       <BrowserRouter>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
@@ -74,6 +80,8 @@ function App() {
 
                   {/* Route which is accessed if no other route is matched */}
                   <Route path="*" element={<NotFoundPage />} />
+                  {/* TODO: delete */}
+                  <Route path="/cardtest" element={<CardTest />} />
                 </Routes>
               </CssBaseline>
             </ThemeProvider>
