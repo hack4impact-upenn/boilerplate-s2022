@@ -18,6 +18,10 @@ const SpeakerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  inperson: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 interface ISpeaker extends mongoose.Document {
@@ -26,6 +30,7 @@ interface ISpeaker extends mongoose.Document {
   organization: string;
   bio: string;
   location: string;
+  inperson: boolean;
 }
 
 const Speaker = mongoose.model<ISpeaker>('Speaker', SpeakerSchema);

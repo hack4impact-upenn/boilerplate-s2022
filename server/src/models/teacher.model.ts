@@ -6,7 +6,11 @@ const TeacherSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  subject: {
+  school: {
+    type: String,
+    required: true,
+  },
+  location: {
     type: String,
     required: true,
   },
@@ -15,7 +19,8 @@ const TeacherSchema = new mongoose.Schema({
 interface ITeacher extends mongoose.Document {
   _id: string;
   userId: string;
-  subject: string;
+  school: string;
+  location: string;
 }
 
 const Teacher = mongoose.model<ITeacher>('Teacher', TeacherSchema);
