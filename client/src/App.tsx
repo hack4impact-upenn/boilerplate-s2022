@@ -22,6 +22,7 @@ import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx'
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
+import TopBar from './components/TopBar.tsx';
 import CardTest from './CardTest/CardTest.tsx';
 import SearchBar from './components/search_bar/SearchBar.tsx';
 
@@ -38,6 +39,7 @@ function App() {
             <ThemeProvider theme={theme}>
               <CssBaseline>
                 <AlertPopup />
+                <TopBar />
                 <Routes>
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
