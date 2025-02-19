@@ -22,7 +22,7 @@ import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx'
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
-import LoginSelectPage from './Home/login.tsx';
+import LoginSelectPage from './Home/LoginSelect.tsx';
 
 function App() {
   return (

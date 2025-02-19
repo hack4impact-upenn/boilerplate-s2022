@@ -180,7 +180,7 @@ function LoginPage() {
               </Link>
             </Grid>
             <Grid item>
-              <Link component={RouterLink} to="/register">
+              <Link component={RouterLink} to="/loginselect">
                 Sign up
               </Link>
             </Grid>
