@@ -43,6 +43,7 @@ function App() {
                 <AlertPopup />
                 <TopBar />
                 <Routes>
+                  <Route path="/home" element={<HomePage />} />
                   <Route path="/test-sidebar" element={<Sidebar />} />
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
