@@ -2,7 +2,7 @@
  * All the functions for interacting with user data in the MongoDB database
  */
 import { hash } from 'bcrypt';
-import { User } from '../models/user.model.ts';
+import { IUser, User } from '../models/user.model.ts';
 import { getSpeakerByUserId } from './speaker.service.ts';
 import { getTeacherByUserId } from './teacher.service.ts';
 
@@ -32,7 +32,7 @@ const createUser = async (
   firstName: string,
   lastName: string,
   email: string,
-  password: string,
+  password: string
 ) => {
   const hashedPassword = await hash(password, passwordHashSaltRounds);
   if (!hashedPassword) {
@@ -134,6 +134,19 @@ const upgradeUserToAdmin = async (id: string) => {
 };
 
 /**
+ * Updates a user's information
+ * @param userId - The userId of the user to update
+ * @param updateData - Object containing the fields to update
+ * @returns The updated user
+ */
+const updateUser = async (userId: string, updateData: Partial<IUser>) => {
+  const user = await User.findOneAndUpdate({ userId }, updateData, {
+    new: true,
+  }).exec();
+  return user;
+};
+
+/**
  * A function that deletes a user from the database.
  * @param id The id of the user to delete.
  * @returns The deleted {@link User}
@@ -179,4 +192,5 @@ export {
   upgradeUserToAdmin,
   deleteUserById,
   getUserRoleProfile,
+  updateUser,
 };
