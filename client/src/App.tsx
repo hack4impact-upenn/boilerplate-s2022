@@ -25,8 +25,10 @@ import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import TopBar from './components/TopBar.tsx';
 import CardTest from './CardTest/CardTest.tsx';
-// import SearchBar from './components/search_bar/SearchBar.tsx';
-import SearchSpeaker from './SearchSpeaker.tsx';
+
+import SearchBar from './components/search_bar/SearchBar.tsx';
+import RequestPage from './RequestPage.tsx';
+
 
 function App() {
   return (
@@ -36,16 +38,32 @@ function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             {/* <ThemeProvider theme={theme}> */}
-            <CssBaseline>
-              <AlertPopup />
-              <TopBar />
-              <Routes>
-                <Route path="/test-sidebar" element={<Sidebar />} />
-                {/* Routes accessed only if user is not authenticated */}
-                <Route element={<UnauthenticatedRoutesWrapper />}>
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/search-speakers" element={<SearchSpeaker />} />
+
+              <CssBaseline>
+                <AlertPopup />
+                <TopBar />
+                <Routes>
+                  <Route path="/home" element={<HomePage />} />
+                  <Route path="/test-sidebar" element={<Sidebar />} />
+                  {/* Routes accessed only if user is not authenticated */}
+                  <Route element={<UnauthenticatedRoutesWrapper />}>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/requestpage" element={<RequestPage />} />
+                    <Route
+                      path="/verify-account/:token"
+                      element={<VerifyAccountPage />}
+                    />
+                    <Route
+                      path="/email-reset"
+                      element={<EmailResetPasswordPage />}
+                    />
+                    <Route
+                      path="/reset-password/:token"
+                      element={<ResetPasswordPage />}
+                    />
+                  </Route>
+
                   <Route
                     path="/verify-account/:token"
                     element={<VerifyAccountPage />}
