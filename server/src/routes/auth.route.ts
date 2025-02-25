@@ -43,7 +43,7 @@ router.post('/login', login);
 /**
  * A POST route to log out a user.
  */
-router.post('/logout', isAuthenticated, logout);
+router.post('/logout', logout);
 
 /**
  * A POST route to send a password reset email to a user. Expects a JSON body

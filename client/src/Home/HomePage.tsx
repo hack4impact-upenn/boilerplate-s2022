@@ -55,9 +55,16 @@ function HomePage() {
   const [admin, setAdmin] = useState(user.admin);
   const logoutDispatch = () => dispatch(logoutAction());
   const handleLogout = async () => {
-    if (await logoutApi()) {
-      logoutDispatch();
-      navigator('/login', { replace: true });
+    try {
+      const success = await logoutApi();
+      if (success) {
+        logoutDispatch();
+        navigator('/login', { replace: true });
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
     }
   };
 

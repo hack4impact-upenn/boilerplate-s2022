@@ -1,7 +1,7 @@
 import React from 'react';
 // import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 // import theme from './assets/theme.ts';
@@ -29,6 +29,22 @@ import CardTest from './CardTest/CardTest.tsx';
 import SearchBar from './components/search_bar/SearchBar.tsx';
 import RequestPage from './RequestPage.tsx';
 
+function TopBarWrapper() {
+  const location = useLocation();
+  const unauthenticatedPaths = [
+    '/login',
+    '/register',
+    '/verify-account',
+    '/email-reset',
+    '/reset-password',
+    '/invite',
+  ];
+  const shouldShowTopBar = !unauthenticatedPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
+
+  return shouldShowTopBar ? <TopBar /> : null;
+}
 
 function App() {
   return (
@@ -38,32 +54,17 @@ function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             {/* <ThemeProvider theme={theme}> */}
-
-              <CssBaseline>
-                <AlertPopup />
-                <TopBar />
-                <Routes>
-                  <Route path="/home" element={<HomePage />} />
-                  <Route path="/test-sidebar" element={<Sidebar />} />
-                  {/* Routes accessed only if user is not authenticated */}
-                  <Route element={<UnauthenticatedRoutesWrapper />}>
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/requestpage" element={<RequestPage />} />
-                    <Route
-                      path="/verify-account/:token"
-                      element={<VerifyAccountPage />}
-                    />
-                    <Route
-                      path="/email-reset"
-                      element={<EmailResetPasswordPage />}
-                    />
-                    <Route
-                      path="/reset-password/:token"
-                      element={<ResetPasswordPage />}
-                    />
-                  </Route>
-
+            <CssBaseline>
+              <AlertPopup />
+              <TopBarWrapper />
+              <Routes>
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/test-sidebar" element={<Sidebar />} />
+                {/* Routes accessed only if user is not authenticated */}
+                <Route element={<UnauthenticatedRoutesWrapper />}>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/requestpage" element={<RequestPage />} />
                   <Route
                     path="/verify-account/:token"
                     element={<VerifyAccountPage />}
@@ -77,8 +78,10 @@ function App() {
                     element={<ResetPasswordPage />}
                   />
                 </Route>
+
                 <Route path="/invite/:token" element={<InviteRegisterPage />} />
-                <Route path="/search" element={<SearchSpeaker />} />
+                {/* Remove or import SearchSpeaker component */}
+                {/* <Route path="/search" element={<SearchSpeaker />} /> */}
                 {/* Routes accessed only if user is authenticated */}
                 <Route element={<ProtectedRoutesWrapper />}>
                   <Route path="/home" element={<HomePage />} />
@@ -87,7 +90,6 @@ function App() {
                   <Route path="/users" element={<AdminDashboardPage />} />
                 </Route>
 
-                {/* Route which redirects to a different page depending on if the user is an authenticated or not by utilizing the DynamicRedirect component */}
                 <Route
                   path="/"
                   element={
@@ -95,10 +97,8 @@ function App() {
                   }
                 />
 
-                {/* Route which is accessed if no other route is matched */}
                 <Route path="*" element={<NotFoundPage />} />
-                {/* TODO: delete */}
-                <Route path="/cardtest" element={<CardTest />} />
+                <Route path="/cardtest" element={<CardTest requests={[]} />} />
               </Routes>
             </CssBaseline>
             {/* </ThemeProvider> */}

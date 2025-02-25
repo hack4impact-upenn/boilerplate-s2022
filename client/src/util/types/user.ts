@@ -6,6 +6,7 @@ interface IUser {
   firstName: string;
   lastName: string;
   email: string;
+  role: 'teacher' | 'admin' | 'speaker';
   admin: boolean;
 }
 

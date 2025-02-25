@@ -19,7 +19,7 @@ interface Request {
   speaker: Speaker;
   status: string;
 }
-function CardTest({ requests }) {
+function CardTest({ requests }: { requests: Request[] }) {
   return (
     <CardContainer>
       {requests.map((request: Request) => (
@@ -27,6 +27,7 @@ function CardTest({ requests }) {
           key={request.id}
           speaker={request.speaker}
           status={request.status}
+          id=""
         />
       ))}
     </CardContainer>
