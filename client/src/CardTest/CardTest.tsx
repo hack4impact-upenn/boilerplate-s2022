@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SpeakerCard from '../components/SpeakerCard';
+import SpeakerRequestCard from '../components/cards/SpeakerRequestCard';
 
 const CardContainer = styled.div`
   display: flex;
@@ -8,6 +8,7 @@ const CardContainer = styled.div`
   gap: 20px;
   justify-items: space-around;
 `;
+
 interface Speaker {
   id: string;
   name: string;
@@ -23,7 +24,7 @@ function CardTest({ requests }: { requests: Request[] }) {
   return (
     <CardContainer>
       {requests.map((request: Request) => (
-        <SpeakerCard
+        <SpeakerRequestCard
           key={request.id}
           speaker={request.speaker}
           status={request.status}

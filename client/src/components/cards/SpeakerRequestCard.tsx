@@ -23,7 +23,7 @@ interface Request {
 
 const DEFAULT_IMAGE = '/defaultprofile.jpg';
 
-function SpeakerCard({ id, speaker, status }: Request) {
+function SpeakerRequestCard({ id, speaker, status }: Request) {
   return (
     <MuiCard sx={{ width: 300, height: 300, display: 'flex', flexDirection: 'column' }}>
       <CardMedia sx={{ height: 140 }} image={DEFAULT_IMAGE} title={speaker.name} />
@@ -42,4 +42,4 @@ function SpeakerCard({ id, speaker, status }: Request) {
   );
 }
 
-export default SpeakerCard;
+export default SpeakerRequestCard;
