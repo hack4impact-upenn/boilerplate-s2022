@@ -49,3 +49,7 @@ variable "sendgrid_email_address" {
 variable "frontend_url" {
   type = string
 }
+
+variable "mixpanel_token" {
+  type = string
+}
