@@ -23,6 +23,9 @@ import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
 import LoginSelectPage from './Home/LoginSelect.tsx';
+import SpeakerRegisterPage from './Authentication/SpeakerRegister.tsx';
+import TeacherRegisterPage from './Authentication/TeacherRegister.tsx';
+import AdminRegisterPage from './Authentication/AdminRegister.tsx';
 
 function App() {
   return (
@@ -36,11 +39,13 @@ function App() {
                 <Routes>
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
-                    <Route path="/loginselect" element={<LoginSelectPage />} />
+                    <Route path="/login-select" element={<LoginSelectPage />} />
+                    <Route path="/admin-register" element={<AdminRegisterPage/>} />
+                    <Route path="/teacher-register" element={<TeacherRegisterPage/>} />
+                    <Route path="/speaker-register" element={<SpeakerRegisterPage/>} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
                     <Route
-                      path="/verify-account/:token"
+                      path="/verify-account/:token" 
                       element={<VerifyAccountPage />}
                     />
                     <Route

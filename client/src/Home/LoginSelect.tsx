@@ -4,6 +4,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useRadioGroup } from '@mui/material';
 
 const ItemButton = styled(ButtonBase)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -42,13 +43,13 @@ function LoginSelectPage() {
   const navigate = useNavigate();
   const handleClick = (role: string) => {
     if (role == "Teacher"){
-      navigate("/teacher");
+      navigate("/teacher-register");
     }
-    else if (role == "Student"){
-      navigate("/student");
+    else if (role == "Speaker"){
+      navigate("/speaker-register");
     }
     else if (role == "Admin"){
-      navigate("/admin")
+      navigate("/admin-register")
     }
   };
 
