@@ -12,7 +12,7 @@ import { IUser } from '../models/user.model.ts';
 const isAdmin = (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  next: express.NextFunction
 ) => {
   // Get User
   const user: IUser | null = req.user as IUser;
