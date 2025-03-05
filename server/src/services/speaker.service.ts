@@ -72,10 +72,19 @@ const deleteSpeaker = async (userId: string) => {
   return speaker;
 };
 
+const getfilterSpeakeredList = async (filteredParams: Record<string, any>) => {
+  const speakers = await Speaker.find(filteredParams)
+    .populate('userId', 'firstName lastName email')
+    .exec();
+  console.log(speakers);
+  return speakers;
+};
+
 export {
   createSpeaker,
   getSpeakerByUserId,
   getAllSpeakers,
   updateSpeaker,
   deleteSpeaker,
+  getfilterSpeakeredList,
 };

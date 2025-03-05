@@ -8,6 +8,7 @@ import {
   getAllSpeakers,
   updateSpeaker,
   deleteSpeaker,
+  getfilterSpeakeredList,
 } from '../services/speaker.service.ts';
 
 /**
@@ -150,10 +151,37 @@ const deleteSpeakerProfile = async (
   }
 };
 
+const filterSpeaker = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const { location, organization, inperson } = req.query;
+  
+  const filterParams: Record<string, any> = {};
+  
+  if (location) filterParams.location = location;
+  if (organization) filterParams.organization = organization;
+  if (inperson !== undefined) filterParams.inperson = inperson === 'true';
+
+  try {
+    const speakerList = await getfilterSpeakeredList(filterParams);
+    if (!speakerList || speakerList.length === 0) {
+      next(ApiError.notFound('No speakers found matching the criteria'));
+      return;
+    }
+    res.status(StatusCode.OK).json(speakerList);
+  } catch (error) {
+    console.log(error);
+    next(ApiError.internal('Unable to fetch speakers'));
+  }
+};
+
 export {
   getAllSpeakersHandler as getAllSpeakers,
   getSpeaker,
   createSpeakerProfile,
   updateSpeakerProfile,
   deleteSpeakerProfile,
+  filterSpeaker,
 }; 
