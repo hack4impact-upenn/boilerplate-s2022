@@ -9,7 +9,7 @@ import {
   import React from 'react';
   
   interface Speakers {
-    id: string;
+    id: number;
     name: string;
     bio: string;
   }

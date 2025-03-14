@@ -9,13 +9,14 @@ import {
 import React from 'react';
 
 interface Speaker {
-  id: string;
+  id: number;
   name: string;
   bio: string;
 }
 
+/* TODO: CHANGE TO SPEAKER ID */
 interface Request {
-  id: string;
+  id: number;
   speaker: Speaker;
   status: string;
 }

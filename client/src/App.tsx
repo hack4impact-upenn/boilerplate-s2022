@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './util/redux/store.ts';
 import NotFoundPage from './NotFound/NotFoundPage.tsx';
 import HomePage from './Home/HomePage.tsx';
-import SearchSpeakerPage from './SearchSpeaker.tsx';
+import TeacherSearchSpeakerPage from './TeacherPage/TeacherSearchSpeakerPage.tsx';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
 import {
   UnauthenticatedRoutesWrapper,
@@ -18,34 +18,17 @@ import {
 } from './util/routes.tsx';
 import VerifyAccountPage from './Authentication/VerifyAccountPage.tsx';
 import RegisterPage from './Authentication/RegisterPage.tsx';
-import Sidebar from './sidebar/Sidebar.tsx';
+import Sidebar from './components/sidebar/Sidebar.tsx';
 import LoginPage from './Authentication/LoginPage.tsx';
 import EmailResetPasswordPage from './Authentication/EmailResetPasswordPage.tsx';
 import ResetPasswordPage from './Authentication/ResetPasswordPage.tsx';
 import AlertPopup from './components/AlertPopup.tsx';
 import InviteRegisterPage from './Authentication/InviteRegisterPage.tsx';
-import TopBar from './components/TopBar.tsx';
+import TopBar from './components/top_bar/TopBar.tsx';
 import CardTest from './CardTest/CardTest.tsx';
 
 import SearchBar from './components/search_bar/SearchBar.tsx';
 import RequestPage from './RequestPage.tsx';
-
-function TopBarWrapper() {
-  const location = useLocation();
-  const unauthenticatedPaths = [
-    '/login',
-    '/register',
-    '/verify-account',
-    '/email-reset',
-    '/reset-password',
-    '/invite',
-  ];
-  const shouldShowTopBar = !unauthenticatedPaths.some((path) =>
-    location.pathname.startsWith(path)
-  );
-
-  return shouldShowTopBar ? <TopBar /> : null;
-}
 
 function App() {
   return (
@@ -57,16 +40,15 @@ function App() {
             {/* <ThemeProvider theme={theme}> */}
             <CssBaseline>
               <AlertPopup />
-              <TopBarWrapper />
               <Routes>
                 {/* <Route path="/home" element={<HomePage />} /> */}
-                <Route path="/test-sidebar" element={<Sidebar />} />
                 {/* Routes accessed only if user is not authenticated */}
                 <Route element={<UnauthenticatedRoutesWrapper />}>
+                  {/* TODO: REMOVE TEST ROUTE */}
+                  <Route path="/teacher-search-speaker" element={<TeacherSearchSpeakerPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/requestpage" element={<RequestPage />} />
-                  <Route path="/search" element={<SearchSpeakerPage />} />
                   <Route
                     path="/verify-account/:token"
                     element={<VerifyAccountPage />}
