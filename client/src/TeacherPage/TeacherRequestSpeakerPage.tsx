@@ -6,7 +6,7 @@ import TopBar from '../components/top_bar/TopBar';
 import './TeacherPage.css';
 
 interface Speaker {
-  id: number;
+  id: string;
   name: string;
   bio: string;
 }
@@ -45,10 +45,10 @@ const Content = styled('main')(({ theme }) => ({
 }));
 
 const speakers: Speaker[] = [
-  { id: 1, name: 'Alice Johnson', bio: 'Expert in AI and ML' }, 
-  { id: 2, name: 'Khoi', bio: 'hi pmtls' },
-  { id: 3, name: 'Edward', bio: 'hello pmtls' },
-  { id: 4, name: 'Evelyn', bio: 'meow' },
+  { id: 'aj', name: 'Alice Johnson', bio: 'Expert in AI and ML' }, 
+  { id: 'kd', name: 'Khoi', bio: 'hi pmtls' },
+  { id: 'ez', name: 'Edward', bio: 'hello pmtls' },
+  { id: '67abfdb64fdf51a6a823d617', name: 'Evelyn', bio: 'meow' },
 ];
 
 const requests = [
@@ -72,7 +72,7 @@ function TeacherRequestSpeakerPage() {
                 <SpeakerRequestCard 
                   id={req.id} 
                   status={req.status} 
-                  speaker={req.speaker} 
+                  speakerid={req.speaker.id} 
                 />
               ))}
             </CardContainer>
@@ -85,7 +85,7 @@ function TeacherRequestSpeakerPage() {
                 <SpeakerRequestCard 
                   id={req.id} 
                   status={req.status} 
-                  speaker={req.speaker} 
+                  speakerid={req.speaker.id} 
                 />
               ))}
             </CardContainer>
@@ -98,7 +98,7 @@ function TeacherRequestSpeakerPage() {
                 <SpeakerRequestCard 
                   id={req.id} 
                   status={req.status} 
-                  speaker={req.speaker} 
+                  speakerid={req.speaker.id} 
                 />
               ))}
             </CardContainer>
