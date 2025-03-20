@@ -1,4 +1,5 @@
 .main-window {
     margin-top: 60px;   /* Height of top bar */
-    margin-left: 240px; /* Width of sidebar */
-}
+    margin-left: 17%; /* percnegtage like sidebar */
+    width: 83%; /* 100% - margibn left */
+  }

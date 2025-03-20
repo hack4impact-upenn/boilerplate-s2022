@@ -9,6 +9,7 @@ import { store, persistor } from './util/redux/store.ts';
 import NotFoundPage from './NotFound/NotFoundPage.tsx';
 import HomePage from './Home/HomePage.tsx';
 import TeacherSearchSpeakerPage from './TeacherPage/TeacherSearchSpeakerPage.tsx';
+import TeacherRequestSpeakerPage from './TeacherPage/TeacherRequestSpeakerPage.tsx';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
 import {
   UnauthenticatedRoutesWrapper,
@@ -28,7 +29,6 @@ import TopBar from './components/top_bar/TopBar.tsx';
 import CardTest from './CardTest/CardTest.tsx';
 
 import SearchBar from './components/search_bar/SearchBar.tsx';
-import RequestPage from './RequestPage.tsx';
 
 function App() {
   return (
@@ -45,10 +45,8 @@ function App() {
                 {/* Routes accessed only if user is not authenticated */}
                 <Route element={<UnauthenticatedRoutesWrapper />}>
                   {/* TODO: REMOVE TEST ROUTE */}
-                  <Route path="/teacher-search-speaker" element={<TeacherSearchSpeakerPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/requestpage" element={<RequestPage />} />
                   <Route
                     path="/verify-account/:token"
                     element={<VerifyAccountPage />}
@@ -69,6 +67,9 @@ function App() {
                 {/* Routes accessed only if user is authenticated */}
                 <Route element={<ProtectedRoutesWrapper />}>
                   <Route path="/home" element={<HomePage />} />
+                  <Route path="/teacher-search-speaker" element={<TeacherSearchSpeakerPage />} />
+                  <Route path="/teacher-speaker-requests" element={<TeacherRequestSpeakerPage />} 
+                  />
                 </Route>
                 <Route element={<AdminRoutesWrapper />}>
                   <Route path="/users" element={<AdminDashboardPage />} />

@@ -19,7 +19,7 @@ import {
   
   function SpeakerCard({ id, name, bio }: Speakers) {
     return (
-      <MuiCard sx={{ width: 300, height: 300, display: 'flex', flexDirection: 'column' }}>
+      <MuiCard sx={{ width: 300, height: 300, display: 'flex', flexDirection: 'column', borderRadius: '16px', boxShadow: 3 }}>
         <CardMedia sx={{ height: 140 }} image={DEFAULT_IMAGE} title={name} />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div">
