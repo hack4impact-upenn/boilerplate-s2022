@@ -1,6 +1,6 @@
 .sidebar-container {
   height: 100vh;
-  width: 16rem;
+  width: 15%;
   background-color: #f2f2f2; /* Dark gray */
   color: white;
   display: flex;
@@ -8,13 +8,13 @@
   align-items: center;
   padding: 1rem;
   position: fixed;
-  z-index: 1200; /* Ensure sidebar is above other content (top bar z-index 1100 default)*/
+  z-index: 1200; 
 }
 
 .sidebar-logo {
   margin-bottom: 2rem;
   display: flex;
-  width: 14rem;
+  width: 100%;
   height: auto;
   justify-content: center;
 }

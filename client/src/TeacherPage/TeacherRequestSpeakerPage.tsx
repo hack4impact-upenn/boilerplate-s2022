@@ -19,7 +19,7 @@ const CardContainer = styled('div')({
   display: 'flex',
   flexWrap: 'wrap', // Corrected property name
   gap: '20px',
-  justifyContent: 'space-around', // Changed from `justify-items`
+  justifyContent: 'flex-start', // Changed from `justify-items`
 });
 
 const InputInput = styled('input')(({ theme }) => ({
@@ -36,7 +36,7 @@ const Section = styled('div')({
 });
 
 const SectionTitle = styled('h2')({
-  textAlign: 'center',
+  textAlign: 'left',
 });
 
 const Content = styled('main')(({ theme }) => ({
@@ -48,12 +48,14 @@ const speakers: Speaker[] = [
   { id: 1, name: 'Alice Johnson', bio: 'Expert in AI and ML' }, 
   { id: 2, name: 'Khoi', bio: 'hi pmtls' },
   { id: 3, name: 'Edward', bio: 'hello pmtls' },
+  { id: 4, name: 'Evelyn', bio: 'meow' },
 ];
 
 const requests = [
   { id: 1, speaker: speakers[0], status: 'upcoming' }, 
   { id: 2, speaker: speakers[1], status: 'pending' },
-  { id: 3, speaker: speakers[2], status: 'archived' }
+  { id: 3, speaker: speakers[2], status: 'archived' }, 
+  { id: 4, speaker: speakers[3], status: 'upcoming' },
 ];
 
 function TeacherRequestSpeakerPage() {
