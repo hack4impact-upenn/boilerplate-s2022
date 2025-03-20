@@ -14,20 +14,22 @@ interface Speaker {
   bio: string;
 }
 
-/* TODO: CHANGE TO SPEAKER ID */
 interface Request {
   id: number;
   speaker: Speaker;
   status: string;
 }
 
-
 const DEFAULT_IMAGE = '/defaultprofile.jpg';
 
-function SpeakerRequestCard({ id, speaker, status }: Request) {
+function SpeakerRequestCard({ speaker, status }: Request) {
   return (
-    <MuiCard sx={{ width: 300, height: 300, display: 'flex', flexDirection: 'column' }}>
-      <CardMedia sx={{ height: 140 }} image={DEFAULT_IMAGE} title={speaker.name} />
+    <MuiCard sx={{ width: 300, height: 320, display: 'flex', flexDirection: 'column', borderRadius: '16px', boxShadow: 3 }}>
+      <CardMedia 
+        sx={{ height: 140, borderTopLeftRadius: '16px', borderTopRightRadius: '16px' }} 
+        image={DEFAULT_IMAGE} 
+        title={speaker.name} 
+      />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="div">
           {speaker.name}
@@ -37,7 +39,7 @@ function SpeakerRequestCard({ id, speaker, status }: Request) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">{status}</Button>
+        <Button variant="contained" sx={{ borderRadius: '8px' }}>{status}</Button>
       </CardActions>
     </MuiCard>
   );
