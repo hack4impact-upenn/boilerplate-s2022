@@ -2,9 +2,13 @@ import React from 'react';
 import { styled } from '@mui/system';
 import SearchBar from '../components/search_bar/SearchBar';
 import SpeakerCard from '../components/cards/SpeakerCard';
-import Sidebar from '../components/sidebar/Sidebar';
+import AdminSidebar from '../components/admin_sidebar/AdminSidebar';
 import TopBar from '../components/top_bar/TopBar';
-import './TeacherPage.css';
+import './AdminDashboard.css';
+import { Typography, Grid } from '@mui/material';
+import ScreenGrid from '../components/ScreenGrid.tsx';
+import UserTable from './UserTable.tsx';
+import InviteUserButton from '../components/buttons/InviteUserButton.tsx';
 
 interface Speaker {
   id: number;
@@ -53,8 +57,6 @@ const CardContainer = styled('div')({
   justifyContent: 'space-around', // Changed from `justify-items`
 });
 
-
-
 const InputInput = styled('input')(({ theme }) => ({
   padding: theme.spacing(1, 1, 1, 0),
   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
@@ -69,39 +71,28 @@ const Content = styled('main')(({ theme }) => ({
   padding: theme.spacing(3),
 }));
 
-// TODO: REMOVE THIS TEST DATA
-const speakers = [
-  { id: 1, name: 'Alice Johnson', bio: 'Expert in AI and ML' }, 
-  { id: 2, name: 'Khoi', bio: 'hi pmtls' },
-  { id: 3, name: 'Edward', bio: 'hello pmtls' }
-];
-
-
 
 function AdminUsersPage() {
-  const handleSearch = (query: string) => {
-    console.log('Searching for:', query);
-  };
-
-  return (
+return (
     <FlexDiv>
       <TopBar />
-      <Sidebar />
+      <AdminSidebar />
       <div className='main-window'>
-        <SearchBar onSearch={handleSearch} placeholder="Type your search..." />
-        <div className="max-width-wrapper">
-          <CardContainer>
-            {speakers.length > 0 ? (
-              speakers.map((speaker) => (
-                <SpeakerCard key={speaker.id} id={speaker.id} name={speaker.name} bio={speaker.bio} />
-              ))
-            ) : (
-              <p>No speakers found</p>
-            )}
-            </CardContainer>
-        </div>
+        <Grid container direction="column" spacing={4}>
+          <Grid item>
+            <Typography variant="h2">Welcome to the Admin Dashboard</Typography>
+          </Grid>
+          <Grid item container width="60vw" justifyContent="flex-end">
+            <InviteUserButton />
+          </Grid>
+          <Grid item>
+            <div style={{ height: '60vh', width: '60vw' }}>
+              <UserTable />
+            </div>
+          </Grid>
+        </Grid>
       </div>
-      </FlexDiv>
+    </FlexDiv>
   );
 }
 

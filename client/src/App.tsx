@@ -29,6 +29,7 @@ import TopBar from './components/top_bar/TopBar.tsx';
 import CardTest from './CardTest/CardTest.tsx';
 
 import SearchBar from './components/search_bar/SearchBar.tsx';
+import AdminUsersPage from './AdminDashboard/AdminUsersPage.tsx';
 
 function App() {
   return (
@@ -72,7 +73,7 @@ function App() {
                   />
                 </Route>
                 <Route element={<AdminRoutesWrapper />}>
-                  <Route path="/users" element={<AdminDashboardPage />} />
+                  <Route path="/users" element={<AdminUsersPage />} />
                 </Route>
 
                 <Route
