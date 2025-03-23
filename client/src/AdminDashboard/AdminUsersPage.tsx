@@ -78,7 +78,7 @@ const speakers = [
 
 
 
-function TeacherSearchSpeakerPage() {
+function AdminUsersPage() {
   const handleSearch = (query: string) => {
     console.log('Searching for:', query);
   };
