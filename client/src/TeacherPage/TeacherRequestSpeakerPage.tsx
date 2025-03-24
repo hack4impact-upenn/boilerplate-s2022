@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/system';
 import SpeakerRequestCard from '../components/cards/SpeakerRequestCard';
-import Sidebar from '../components/sidebar/Sidebar';
+import Sidebar from '../components/teacher_sidebar/Sidebar';
 import TopBar from '../components/top_bar/TopBar';
 import './TeacherPage.css';
 
@@ -11,9 +11,6 @@ interface Speaker {
   bio: string;
 }
 
-const FlexDiv = styled('div')({
-  display: 'flex',
-});
 
 const CardContainer = styled('div')({
   display: 'flex',
@@ -22,15 +19,6 @@ const CardContainer = styled('div')({
   justifyContent: 'flex-start', // Changed from `justify-items`
 });
 
-const InputInput = styled('input')(({ theme }) => ({
-  padding: theme.spacing(1, 1, 1, 0),
-  paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-  width: '100%',
-  [theme.breakpoints.up('md')]: {
-    width: '20ch',
-  },
-}));
-
 const Section = styled('div')({
   marginBottom: '40px',
 });
@@ -38,11 +26,6 @@ const Section = styled('div')({
 const SectionTitle = styled('h2')({
   textAlign: 'left',
 });
-
-const Content = styled('main')(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-}));
 
 const speakers: Speaker[] = [
   { id: 'aj', name: 'Alice Johnson', bio: 'Expert in AI and ML' }, 
@@ -60,7 +43,7 @@ const requests = [
 
 function TeacherRequestSpeakerPage() {
   return (
-    <FlexDiv>
+    <div className="flex-div">
       <TopBar />
       <Sidebar />
       <div className="main-window">
@@ -105,7 +88,7 @@ function TeacherRequestSpeakerPage() {
           </Section>
         </div>
       </div>
-    </FlexDiv>
+    </div>
   );
 }
 

@@ -25,18 +25,26 @@ const Sidebar = () => {
       <div className="sidebar-card">
         <button 
           className="sidebar-button"
-          onClick={() => handleNavigation('/users')}
+          onClick={() => handleNavigation('/admin-dashboard')}
         >
-          <span>Users</span>
+          <span>All Users</span>
         </button>
       </div>
 
       <div className="sidebar-card">
         <button 
           className="sidebar-button"
-          onClick={() => handleNavigation('/speakers')}
+          onClick={() => handleNavigation('/admin-all-speakers')}
         >
-          <span>Speakers</span>
+          <span>All Speakers</span>
+        </button>
+      </div>
+      <div className="sidebar-card">
+        <button 
+          className="sidebar-button"
+          onClick={() => handleNavigation('/admin-add-speakers')}
+        >
+          <span>Add Speakers</span>
         </button>
       </div>
 
