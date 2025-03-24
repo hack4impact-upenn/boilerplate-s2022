@@ -1,0 +1,10 @@
+.main-window {
+    margin-top: 60px;   /* Height of top bar */
+    margin-left: 17%; /* percnegtage like sidebar */
+    width: 83%; /* 100% - margibn left */
+}
+
+.flex-div {
+    display: flex;
+}
+  

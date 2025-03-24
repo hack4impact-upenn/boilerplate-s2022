@@ -1,25 +1,27 @@
 .sidebar-container {
   height: 100vh;
-  width: 16rem;
+  width: 15%;
   background-color: #f2f2f2; /* Dark gray */
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  position: fixed;
+  z-index: 1200; 
 }
 
 .sidebar-logo {
   margin-bottom: 2rem;
   display: flex;
-  width: 14rem;
+  max-width: 100%;
   height: auto;
   justify-content: center;
 }
 
-.sidebar-logo h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
+.sidebar-logo-image {
+  max-width: 100%;
+  height: auto;
 }
 
 .sidebar-card {
@@ -43,20 +45,6 @@
   transition: background-color 0.3s ease;
 }
 
-.sidebar-logo {
-  margin-bottom: 2rem;
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  padding-left: 1rem;
-}
-
-.sidebar-logo-image {
-  width: 180px;
-  height: auto;
-  object-fit: contain;
-}
-
 .sidebar-button:hover {
   background-color: #d6cdcd;
 }
@@ -65,3 +53,4 @@
   margin-right: 0.75rem;
   font-size: 1.25rem;
 }
+

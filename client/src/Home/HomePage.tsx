@@ -39,7 +39,7 @@ function PromoteButton({
   ) : (
     <PrimaryButton
       variant="contained"
-      onClick={() => navigator('/users', { replace: true })}
+      onClick={() => navigator('/admin-dashboard', { replace: true })}
     >
       View all users
     </PrimaryButton>

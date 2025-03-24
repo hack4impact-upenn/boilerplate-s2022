@@ -36,6 +36,7 @@ const getSpeaker = async (
   next: express.NextFunction,
 ) => {
   const { userId } = req.params;
+  console.log(userId);
   if (!userId) {
     next(ApiError.missingFields(['userId']));
     return;

@@ -21,6 +21,7 @@ const getUser = async (
 
   try {
     const user = await getUserById(userId);
+    console.log(user);
     if (!user) {
       next(ApiError.notFound('User not found'));
       return;

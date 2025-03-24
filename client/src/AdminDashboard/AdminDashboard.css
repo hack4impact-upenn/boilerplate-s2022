@@ -1,0 +1,35 @@
+.main-window {
+    margin-top: 60px;   /* Height of top bar */
+    margin-left: 17%; /* percnegtage like sidebar */
+    width: 83%; /* 100% - margin left */
+    padding-top: 20px;
+    padding-bottom: 50px;
+    padding-right: 20px;
+  }
+
+  /* Flex container for the entire page layout */
+.flex-div {
+  display: flex;
+}
+
+/* Parent container for both the invite button and table */
+.admin-container {
+  width: 90%;
+  margin: 0 auto; /* centers the container on the page */
+}
+
+/* Align the "Invite User" button to the right within the container */
+.invite-button-grid {
+  display: flex;
+  justify-content: flex-end;
+  /* No additional margin needed because .admin-container is centered */
+}
+
+/* Container around the user table for sizing or styling */
+.table-container {
+  width: 100%; /* fill the entire width of .admin-container */
+  height: 40%;
+  border: 1px solid #ccc; /* optional styling */
+  border-radius: 8px;     /* optional rounded corners */
+  padding: 1rem;          /* optional padding */
+}
