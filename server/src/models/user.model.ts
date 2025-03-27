@@ -22,6 +22,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    enum: ['teacher', 'admin', 'speaker'],
+    default: 'speaker',
+  },
   verified: {
     type: Boolean,
     required: true,
@@ -56,6 +62,7 @@ interface IUser extends mongoose.Document {
   lastName: string;
   email: string;
   password: string;
+  role: 'teacher' | 'admin' | 'speaker';
   verified: boolean;
   verificationToken: string | null | undefined;
   resetPasswordToken: string | null | undefined;

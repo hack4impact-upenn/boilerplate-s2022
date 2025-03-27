@@ -2,7 +2,9 @@
  * All the functions for interacting with user data in the MongoDB database
  */
 import { hash } from 'bcrypt';
-import { User } from '../models/user.model.ts';
+import { IUser, User } from '../models/user.model.ts';
+import { getSpeakerByUserId } from './speaker.service.ts';
+import { getTeacherByUserId } from './teacher.service.ts';
 
 const passwordHashSaltRounds = 10;
 const removeSensitiveDataQuery = [
@@ -30,7 +32,7 @@ const createUser = async (
   firstName: string,
   lastName: string,
   email: string,
-  password: string,
+  password: string
 ) => {
   const hashedPassword = await hash(password, passwordHashSaltRounds);
   if (!hashedPassword) {
@@ -132,6 +134,19 @@ const upgradeUserToAdmin = async (id: string) => {
 };
 
 /**
+ * Updates a user's information
+ * @param userId - The userId of the user to update
+ * @param updateData - Object containing the fields to update
+ * @returns The updated user
+ */
+const updateUser = async (userId: string, updateData: Partial<IUser>) => {
+  const user = await User.findOneAndUpdate({ userId }, updateData, {
+    new: true,
+  }).exec();
+  return user;
+};
+
+/**
  * A function that deletes a user from the database.
  * @param id The id of the user to delete.
  * @returns The deleted {@link User}
@@ -139,6 +154,30 @@ const upgradeUserToAdmin = async (id: string) => {
 const deleteUserById = async (id: string) => {
   const user = await User.findByIdAndDelete(id).exec();
   return user;
+};
+
+/**
+ * Gets a user's role-specific profile data
+ * @param userId - The ID of the user
+ * @param role - The role to get profile data for
+ * @returns The role-specific profile data or null if not found
+ */
+const getUserRoleProfile = async (userId: string) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    return null;
+  }
+
+  switch (user.role) {
+    case 'speaker':
+      return getSpeakerByUserId(userId);
+    case 'teacher':
+      return getTeacherByUserId(userId);
+    case 'admin':
+      return null; // Admin role doesn't have additional profile data
+    default:
+      return null;
+  }
 };
 
 export {
@@ -152,4 +191,6 @@ export {
   getAllUsersFromDB,
   upgradeUserToAdmin,
   deleteUserById,
+  getUserRoleProfile,
+  updateUser,
 };

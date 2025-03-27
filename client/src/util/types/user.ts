@@ -6,7 +6,22 @@ interface IUser {
   firstName: string;
   lastName: string;
   email: string;
+  role: 'teacher' | 'admin' | 'speaker';
   admin: boolean;
 }
 
-export default IUser;
+interface ITeacherDetails {
+  department: string;
+  subjects: string[];
+  officeHours?: string;
+  officeLocation?: string;
+}
+
+interface IStudentDetails {
+  studentId: string;
+  grade: number;
+  enrollmentDate: Date;
+  courses: string[];
+}
+
+export type { IUser, ITeacherDetails, IStudentDetails };

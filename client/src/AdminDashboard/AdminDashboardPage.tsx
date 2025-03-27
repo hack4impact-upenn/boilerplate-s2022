@@ -1,28 +1,45 @@
 import React from 'react';
+import { styled } from '@mui/system';
+import SearchBar from '../components/search_bar/SearchBar.tsx';
+import SpeakerCard from '../components/cards/SpeakerCard.tsx';
+import AdminSidebar from '../components/admin_sidebar/AdminSidebar.tsx';
+import TopBar from '../components/top_bar/TopBar.tsx';
+import './AdminDashboard.css';
 import { Typography, Grid } from '@mui/material';
 import ScreenGrid from '../components/ScreenGrid.tsx';
 import UserTable from './UserTable.tsx';
 import InviteUserButton from '../components/buttons/InviteUserButton.tsx';
 
-/**
- * A page only accessible to admins that displays all users in a table and allows
- * Admin to delete users from admin and promote users to admin.
- */
+
 function AdminDashboardPage() {
   return (
-    <ScreenGrid>
-      <Grid item>
-        <Typography variant="h2">Welcome to the Admin Dashboard</Typography>
-      </Grid>
-      <Grid item container width="60vw" justifyContent="flex-end">
-        <InviteUserButton />
-      </Grid>
-      <Grid item>
-        <div style={{ height: '60vh', width: '60vw' }}>
-          <UserTable />
-        </div>
-      </Grid>
-    </ScreenGrid>
+    <div className="flex-div">
+      <TopBar />
+      <AdminSidebar />
+
+      <div className="main-window">
+        {/* The parent Grid has a custom class for width & centering */}
+        <Grid container direction="column" spacing={4} className="admin-grid">
+          <Grid item>
+            <Typography variant="h2" align="center">
+              Welcome to the Admin Dashboard
+            </Typography>
+          </Grid>
+
+          {/* "invite-button-grid" class to align the button on the right */}
+          <Grid item container className="invite-button-grid">
+            <InviteUserButton />
+          </Grid>
+
+          <Grid item>
+            {/* "table-container" class for sizing & optional centering */}
+            <div className="table-container">
+              <UserTable />
+            </div>
+          </Grid>
+        </Grid>
+      </div>
+    </div>
   );
 }
 

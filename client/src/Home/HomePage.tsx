@@ -39,7 +39,7 @@ function PromoteButton({
   ) : (
     <PrimaryButton
       variant="contained"
-      onClick={() => navigator('/users', { replace: true })}
+      onClick={() => navigator('/admin-dashboard', { replace: true })}
     >
       View all users
     </PrimaryButton>
@@ -55,9 +55,16 @@ function HomePage() {
   const [admin, setAdmin] = useState(user.admin);
   const logoutDispatch = () => dispatch(logoutAction());
   const handleLogout = async () => {
-    if (await logoutApi()) {
-      logoutDispatch();
-      navigator('/login', { replace: true });
+    try {
+      const success = await logoutApi();
+      if (success) {
+        logoutDispatch();
+        navigator('/login', { replace: true });
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
     }
   };
 
