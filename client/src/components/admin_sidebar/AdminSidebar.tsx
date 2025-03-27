@@ -23,7 +23,7 @@ const Sidebar = () => {
 
       {/* Buttons Section */}
       <div className="sidebar-card">
-        <button 
+        <button
           className="sidebar-button"
           onClick={() => handleNavigation('/admin-dashboard')}
         >
@@ -32,7 +32,7 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar-card">
-        <button 
+        <button
           className="sidebar-button"
           onClick={() => handleNavigation('/admin-all-speakers')}
         >
@@ -40,7 +40,7 @@ const Sidebar = () => {
         </button>
       </div>
       <div className="sidebar-card">
-        <button 
+        <button
           className="sidebar-button"
           onClick={() => handleNavigation('/admin-add-speakers')}
         >
@@ -48,6 +48,14 @@ const Sidebar = () => {
         </button>
       </div>
 
+      <div className="sidebar-card">
+        <button
+          className="sidebar-button"
+          onClick={() => handleNavigation('/admin-requests')}
+        >
+          <span>Speaker Requests</span>
+        </button>
+      </div>
     </div>
   );
 };

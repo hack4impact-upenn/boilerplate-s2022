@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-eslint",
     "client": "yarn start",
     "clean": "rm -rf node_modules",
     "dev": "echo \"Please cd into the root directory to run dev \" && exit 1",

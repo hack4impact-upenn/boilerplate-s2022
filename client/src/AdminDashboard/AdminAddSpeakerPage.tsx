@@ -10,7 +10,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  FormLabel
+  FormLabel,
 } from '@mui/material';
 
 interface SpeakerFormState {
@@ -33,13 +33,13 @@ const initialFormState: SpeakerFormState = {
   speakingFormat: '',
 };
 
-
 function AdminUsersPage() {
-  const [formState, setFormState] = React.useState<SpeakerFormState>(initialFormState);
+  const [formState, setFormState] =
+    React.useState<SpeakerFormState>(initialFormState);
 
   // Update text/textarea fields
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormState((prev) => ({
@@ -67,11 +67,9 @@ function AdminUsersPage() {
     <div className="flex-div">
       <TopBar />
       <AdminSidebar />
-      
+
       {/* Main Content Area */}
-      <Box
-        className="main-window"
-      >
+      <Box className="main-window">
         <Typography variant="h4" gutterBottom>
           Speaker Submission Form
         </Typography>
@@ -149,11 +147,7 @@ function AdminUsersPage() {
               control={<Radio />}
               label="Virtual"
             />
-            <FormControlLabel
-              value="both"
-              control={<Radio />}
-              label="Both"
-            />
+            <FormControlLabel value="both" control={<Radio />} label="Both" />
           </RadioGroup>
 
           <Button

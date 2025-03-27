@@ -10,3 +10,4 @@ yarn-error.log
 .env.production.local
 .terraform.env
 .lock
+yarn.lock

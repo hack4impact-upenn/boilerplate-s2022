@@ -13,6 +13,7 @@ import TeacherRequestSpeakerPage from './TeacherPage/TeacherRequestSpeakerPage.t
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
 import AdminAddSpeakerPage from './AdminDashboard/AdminAddSpeakerPage.tsx';
 import AdminAllSpeakerPage from './AdminDashboard/AdminAllSpeakerPage.tsx';
+import AdminRequestsPage from './AdminDashboard/AdminRequestsPage';
 
 import {
   UnauthenticatedRoutesWrapper,
@@ -50,9 +51,18 @@ function App() {
                 <Route element={<UnauthenticatedRoutesWrapper />}>
                   {/* TODO: REMOVE TEST ROUTE */}
                   <Route path="/login-select" element={<LoginSelectPage />} />
-                  <Route path="/admin-register" element={<AdminRegisterPage/>} />
-                  <Route path="/teacher-register" element={<TeacherRegisterPage/>} />
-                  <Route path="/speaker-register" element={<SpeakerRegisterPage/>} />
+                  <Route
+                    path="/admin-register"
+                    element={<AdminRegisterPage />}
+                  />
+                  <Route
+                    path="/teacher-register"
+                    element={<TeacherRegisterPage />}
+                  />
+                  <Route
+                    path="/speaker-register"
+                    element={<SpeakerRegisterPage />}
+                  />
 
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
@@ -76,19 +86,32 @@ function App() {
                 {/* Routes accessed only if user is authenticated */}
                 <Route element={<ProtectedRoutesWrapper />}>
                   <Route path="/home" element={<HomePage />} />
-                  <Route path="/teacher-search-speaker"
-                   element={<TeacherSearchSpeakerPage />} />
-                  <Route path="/teacher-speaker-requests" 
-                  element={<TeacherRequestSpeakerPage />} 
+                  <Route
+                    path="/teacher-search-speaker"
+                    element={<TeacherSearchSpeakerPage />}
+                  />
+                  <Route
+                    path="/teacher-speaker-requests"
+                    element={<TeacherRequestSpeakerPage />}
                   />
                 </Route>
                 <Route element={<AdminRoutesWrapper />}>
-                  <Route path="/admin-dashboard"
-                   element={<AdminDashboardPage />} />
-                  <Route path="/admin-add-speakers"
-                   element={<AdminAddSpeakerPage />} />
-                  <Route path="/admin-all-speakers"
-                   element={<AdminAllSpeakerPage />} />
+                  <Route
+                    path="/admin-dashboard"
+                    element={<AdminDashboardPage />}
+                  />
+                  <Route
+                    path="/admin-add-speakers"
+                    element={<AdminAddSpeakerPage />}
+                  />
+                  <Route
+                    path="/admin-all-speakers"
+                    element={<AdminAllSpeakerPage />}
+                  />
+                  <Route
+                    path="/admin-requests"
+                    element={<AdminRequestsPage />}
+                  />
                 </Route>
 
                 <Route
