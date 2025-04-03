@@ -1,0 +1,1 @@
+web: NODE_ENV=production yarn --cwd server start
