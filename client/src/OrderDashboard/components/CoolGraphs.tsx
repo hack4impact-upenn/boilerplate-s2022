@@ -10,37 +10,21 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { IOrderHistory, OrderStatus } from '../../util/types/order.ts';
+import { IOrder, OrderStatus } from '../../util/types/order.ts';
 import COLORS from '../../assets/colors.ts';
 
 interface CoolGraphsProps {
-  history: IOrderHistory[];
+  orders: IOrder[];
 }
 
 /**
  * Component for displaying order statistics graphs
  */
-function CoolGraphs({ history }: CoolGraphsProps) {
+function CoolGraphs({ orders }: CoolGraphsProps) {
   // Process history data to create timeseries data
   const timeseriesData = useMemo(() => {
-    if (history.length === 0) return [];
+    if (orders.length === 0) return [];
 
-    // Group by date and count status updates per day
-    const dateMap = new Map<string, Map<OrderStatus, number>>();
-
-    history.forEach((entry) => {
-      const date = new Date(entry.statusUpdateDate);
-      const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD format
-
-      if (!dateMap.has(dateKey)) {
-        dateMap.set(dateKey, new Map<OrderStatus, number>());
-      }
-
-      const statusMap = dateMap.get(dateKey)!;
-      statusMap.set(entry.status, (statusMap.get(entry.status) || 0) + 1);
-    });
-
-    // Convert to array format for chart
     const statusTypes: OrderStatus[] = [
       'Inquiry',
       'Confirmed',
@@ -50,18 +34,97 @@ function CoolGraphs({ history }: CoolGraphsProps) {
       'Invoiced',
     ];
 
-    const chartData = Array.from(dateMap.entries())
-      .map(([date, statusMap]) => {
-        const dataPoint: any = { date };
+    const statusKeyToStatus: Record<string, OrderStatus> = {
+      inquiry: 'Inquiry',
+      confirmed: 'Confirmed',
+      inProduction: 'In Production',
+      readyToShip: 'Ready to Ship',
+      shipped: 'Shipped',
+      invoiced: 'Invoiced',
+    };
+
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    const startOfDayUtc = (date: Date) =>
+      new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+      );
+    const dateKey = (date: Date) => date.toISOString().split('T')[0];
+    const today = startOfDayUtc(new Date());
+
+    const dateMap = new Map<string, Record<OrderStatus, number>>();
+
+    const ensureDate = (key: string) => {
+      if (!dateMap.has(key)) {
+        const blank = {} as Record<OrderStatus, number>;
         statusTypes.forEach((status) => {
-          dataPoint[status] = statusMap.get(status) || 0;
+          blank[status] = 0;
         });
-        return dataPoint;
-      })
+        dateMap.set(key, blank);
+      }
+      return dateMap.get(key)!;
+    };
+
+    orders.forEach((order) => {
+      const statusEntries: Array<{ status: OrderStatus; date: Date }> = [];
+
+      if (order.statusDates) {
+        Object.entries(order.statusDates).forEach(([key, value]) => {
+          if (!value) return;
+          const status = statusKeyToStatus[key];
+          if (!status) return;
+          const parsed = new Date(value);
+          if (Number.isNaN(parsed.getTime())) return;
+          statusEntries.push({ status, date: parsed });
+        });
+      }
+
+      if (statusEntries.length === 0) {
+        const fallbackDate =
+          order.submittedAt ||
+          order.createdAt ||
+          order.updatedAt ||
+          new Date().toISOString();
+        const parsed = new Date(fallbackDate);
+        if (!Number.isNaN(parsed.getTime())) {
+          statusEntries.push({ status: order.status, date: parsed });
+        }
+      }
+
+      statusEntries.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+      statusEntries.forEach((entry, index) => {
+        const start = startOfDayUtc(entry.date);
+        const nextEntry = statusEntries[index + 1];
+        const nextStart = nextEntry ? startOfDayUtc(nextEntry.date) : null;
+        const end = nextStart
+          ? new Date(nextStart.getTime() - oneDayMs)
+          : today;
+
+        if (end.getTime() < start.getTime()) {
+          return;
+        }
+
+        for (
+          let cursor = start;
+          cursor.getTime() <= end.getTime();
+          cursor = new Date(cursor.getTime() + oneDayMs)
+        ) {
+          const key = dateKey(cursor);
+          const statusCounts = ensureDate(key);
+          statusCounts[entry.status] += 1;
+        }
+      });
+    });
+
+    const chartData = Array.from(dateMap.entries())
+      .map(([date, statusCounts]) => ({
+        date,
+        ...statusCounts,
+      }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
     return chartData;
-  }, [history]);
+  }, [orders]);
 
   const colors = {
     Inquiry: '#FF9800',

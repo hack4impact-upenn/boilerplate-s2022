@@ -24,3 +24,4 @@ const COLORS = {
   // Other colors:
 };
 export default COLORS;
+

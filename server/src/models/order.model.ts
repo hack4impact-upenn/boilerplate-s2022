@@ -49,6 +49,30 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  shippingAddress: {
+    type: String,
+    default: '',
+  },
+  shippingAddress1: {
+    type: String,
+    default: '',
+  },
+  shippingAddress2: {
+    type: String,
+    default: '',
+  },
+  shippingCity: {
+    type: String,
+    default: '',
+  },
+  shippingState: {
+    type: String,
+    default: '',
+  },
+  shippingPostalCode: {
+    type: String,
+    default: '',
+  },
   discountCode: {
     type: String,
     default: '',
@@ -74,6 +98,15 @@ const OrderSchema = new mongoose.Schema({
     ],
     required: true,
     default: 'Inquiry',
+  },
+  // Status date tracking - records when order entered each status
+  statusDates: {
+    inquiry: { type: Date, default: null },
+    confirmed: { type: Date, default: null },
+    inProduction: { type: Date, default: null },
+    readyToShip: { type: Date, default: null },
+    shipped: { type: Date, default: null },
+    invoiced: { type: Date, default: null },
   },
   popcornQuantities: {
     type: PopcornQuantitiesSchema,
@@ -114,6 +147,15 @@ interface IPopcornQuantities {
   kettle: number;
 }
 
+interface IStatusDates {
+  inquiry: Date | null;
+  confirmed: Date | null;
+  inProduction: Date | null;
+  readyToShip: Date | null;
+  shipped: Date | null;
+  invoiced: Date | null;
+}
+
 interface IOrder extends mongoose.Document {
   _id: string;
   orderId: string;
@@ -124,6 +166,12 @@ interface IOrder extends mongoose.Document {
   name: string;
   phoneNumber: string;
   company: string;
+  shippingAddress: string;
+  shippingAddress1: string;
+  shippingAddress2: string;
+  shippingCity: string;
+  shippingState: string;
+  shippingPostalCode: string;
   discountCode: string;
   discountPrice: number;
   amountPaid: number;
@@ -134,6 +182,7 @@ interface IOrder extends mongoose.Document {
     | 'Ready to Ship'
     | 'Shipped'
     | 'Invoiced';
+  statusDates: IStatusDates;
   popcornQuantities: IPopcornQuantities;
   submittedAt: Date;
   createdAt: Date;
@@ -142,4 +191,4 @@ interface IOrder extends mongoose.Document {
 
 const Order = mongoose.model<IOrder>('Order', OrderSchema);
 
-export { IOrder, Order, IPopcornQuantities };
+export { IOrder, Order, IPopcornQuantities, IStatusDates };

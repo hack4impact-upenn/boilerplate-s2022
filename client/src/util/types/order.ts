@@ -21,6 +21,18 @@ export interface PopcornQuantities {
 }
 
 /**
+ * Status dates - tracks when order entered each status
+ */
+export interface StatusDates {
+  inquiry: string | null;
+  confirmed: string | null;
+  inProduction: string | null;
+  readyToShip: string | null;
+  shipped: string | null;
+  invoiced: string | null;
+}
+
+/**
  * Order interface
  */
 export interface IOrder {
@@ -29,6 +41,7 @@ export interface IOrder {
   name: string;
   amountPaid: number;
   status: OrderStatus;
+  statusDates?: StatusDates;
   popcornQuantities: PopcornQuantities;
   submittedAt?: string;
   createdAt: string;

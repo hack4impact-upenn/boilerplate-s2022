@@ -42,6 +42,7 @@ import PrimaryButton from '../components/buttons/PrimaryButton.tsx';
 interface DiscountCode {
   id: string;
   code: string;
+  email: string;
   price: number;
   popcornPrices?: PopcornPrices;
   description: string;
@@ -58,6 +59,8 @@ interface PopcornPrices {
   cheddar: number;
   kettle: number;
 }
+
+const formatCurrency = (value: number) => `$${value.toFixed(2)}`;
 
 /**
  * Pricing Management Page - allows managing popcorn prices and discount codes
@@ -85,6 +88,7 @@ function PricingManagementPage() {
   const [useSamePrice, setUseSamePrice] = useState(true);
   const [codeForm, setCodeForm] = useState({
     code: '',
+    email: '',
     price: 5.75,
     popcornPrices: {
       caramel: 5.75,
@@ -186,6 +190,7 @@ function PricingManagementPage() {
       };
       setCodeForm({
         code: code.code,
+        email: code.email || '',
         price: code.price,
         popcornPrices: code.popcornPrices || defaultPrices,
         description: code.description,
@@ -202,6 +207,7 @@ function PricingManagementPage() {
       setEditingCode(null);
       setCodeForm({
         code: '',
+        email: '',
         price: 5.75,
         popcornPrices: {
           caramel: 5.75,
@@ -223,6 +229,7 @@ function PricingManagementPage() {
     setEditingCode(null);
     setCodeForm({
       code: '',
+      email: '',
       price: 5.75,
       popcornPrices: {
         caramel: 5.75,
@@ -257,6 +264,7 @@ function PricingManagementPage() {
       // Prepare data: if useSamePrice, send price; otherwise send popcornPrices
       const dataToSend: {
         code?: string;
+        email?: string;
         price?: number;
         popcornPrices?: {
           caramel: number;
@@ -269,6 +277,7 @@ function PricingManagementPage() {
         isActive: boolean;
       } = {
         code: codeForm.code || undefined,
+        email: codeForm.email,
         description: codeForm.description,
         isActive: codeForm.isActive,
       };
@@ -550,6 +559,7 @@ function PricingManagementPage() {
                   <TableHead>
                     <TableRow>
                       <TableCell>Code (UUID)</TableCell>
+                      <TableCell>Eligible Email</TableCell>
                       <TableCell>Price</TableCell>
                       <TableCell>Description</TableCell>
                       <TableCell>Active</TableCell>
@@ -559,7 +569,7 @@ function PricingManagementPage() {
                   <TableBody>
                     {discountCodes.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} align="center">
+                        <TableCell colSpan={6} align="center">
                           <Typography variant="body2" color="text.secondary">
                             No discount codes found. Click &quot;Add Discount
                             Code&quot; to create one.
@@ -577,23 +587,24 @@ function PricingManagementPage() {
                               {code.code}
                             </Typography>
                           </TableCell>
+                          <TableCell>{code.email || '-'}</TableCell>
                           <TableCell>
                             {code.popcornPrices ? (
                               <Box>
                                 <Typography variant="body2">
-                                  Caramel: ${code.popcornPrices.caramel.toFixed(2)}
+                                  Caramel: {formatCurrency(code.popcornPrices.caramel)}
                                 </Typography>
                                 <Typography variant="body2">
-                                  Respresso: ${code.popcornPrices.respresso.toFixed(2)}
+                                  Respresso: {formatCurrency(code.popcornPrices.respresso)}
                                 </Typography>
                                 <Typography variant="body2">
-                                  Butter: ${code.popcornPrices.butter.toFixed(2)}
+                                  Butter: {formatCurrency(code.popcornPrices.butter)}
                                 </Typography>
                                 <Typography variant="body2">
-                                  Cheddar: ${code.popcornPrices.cheddar.toFixed(2)}
+                                  Cheddar: {formatCurrency(code.popcornPrices.cheddar)}
                                 </Typography>
                                 <Typography variant="body2">
-                                  Kettle: ${code.popcornPrices.kettle.toFixed(2)}
+                                  Kettle: {formatCurrency(code.popcornPrices.kettle)}
                                 </Typography>
                               </Box>
                             ) : (
@@ -665,6 +676,19 @@ function PricingManagementPage() {
                 size="small"
                 helperText="Leave empty to auto-generate a UUID"
                 placeholder="Auto-generated if left empty"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Eligible Email (optional)"
+                type="email"
+                value={codeForm.email}
+                onChange={(e) =>
+                  setCodeForm({ ...codeForm, email: e.target.value })
+                }
+                size="small"
+                helperText="Only orders from this email can use the link"
               />
             </Grid>
             <Grid item xs={12}>
@@ -903,3 +927,4 @@ function PricingManagementPage() {
 }
 
 export default PricingManagementPage;
+

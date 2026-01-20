@@ -3,9 +3,12 @@
  * including ingesting data from Typeform.
  */
 import express from 'express';
+import { randomUUID } from 'crypto';
 import axios from 'axios';
 import mongoose from 'mongoose';
 import { Order, IOrder } from '../models/order.model.ts';
+import { DiscountCode } from '../models/discountCode.model.ts';
+import { seedSampleOrders, deleteSampleOrders } from '../scripts/seedSampleOrders.ts';
 import ApiError from '../util/apiError.ts';
 import StatusCode from '../util/statusCode.ts';
 
@@ -88,6 +91,27 @@ function findVariableByKey(
   key: string,
 ): TypeformVariable | undefined {
   return variables.find((variable) => variable.key === key);
+}
+
+/**
+ * Map status string to statusDates field key
+ */
+function getStatusDateKey(
+  status: string,
+): 'inquiry' | 'confirmed' | 'inProduction' | 'readyToShip' | 'shipped' | 'invoiced' {
+  const statusMap: Record<string, 'inquiry' | 'confirmed' | 'inProduction' | 'readyToShip' | 'shipped' | 'invoiced'> = {
+    'Inquiry': 'inquiry',
+    'Confirmed': 'confirmed',
+    'In Production': 'inProduction',
+    'Ready to Ship': 'readyToShip',
+    'Shipped': 'shipped',
+    'Invoiced': 'invoiced',
+  };
+  return statusMap[status] || 'inquiry';
+}
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -203,6 +227,14 @@ function mapTypeformResponseToOrder(
       amountPaid,
       discountPrice,
       status: 'Inquiry' as const,
+      statusDates: {
+        inquiry: new Date(submitted_at), // Set inquiry date to submission time
+        confirmed: null,
+        inProduction: null,
+        readyToShip: null,
+        shipped: null,
+        invoiced: null,
+      },
       popcornQuantities,
       submittedAt: new Date(submitted_at),
     };
@@ -472,6 +504,16 @@ const getAllOrders = async (
         kettle: 0,
       };
 
+      // Format statusDates for response
+      const statusDates = {
+        inquiry: order.statusDates?.inquiry?.toISOString() || null,
+        confirmed: order.statusDates?.confirmed?.toISOString() || null,
+        inProduction: order.statusDates?.inProduction?.toISOString() || null,
+        readyToShip: order.statusDates?.readyToShip?.toISOString() || null,
+        shipped: order.statusDates?.shipped?.toISOString() || null,
+        invoiced: order.statusDates?.invoiced?.toISOString() || null,
+      };
+
       return {
         orderId: order.uuid || '', // Use uuid as orderId
         uuid: order.uuid || '',
@@ -479,6 +521,7 @@ const getAllOrders = async (
         name: order.name || '',
         amountPaid: order.amountPaid || 0,
         status: order.status || 'Inquiry',
+        statusDates,
         popcornQuantities,
         submittedAt: order.submittedAt
           ? order.submittedAt.toISOString()
@@ -578,6 +621,16 @@ const getOrderById = async (
       kettle: 0,
     };
 
+    // Format statusDates for response
+    const statusDates = {
+      inquiry: order.statusDates?.inquiry?.toISOString() || null,
+      confirmed: order.statusDates?.confirmed?.toISOString() || null,
+      inProduction: order.statusDates?.inProduction?.toISOString() || null,
+      readyToShip: order.statusDates?.readyToShip?.toISOString() || null,
+      shipped: order.statusDates?.shipped?.toISOString() || null,
+      invoiced: order.statusDates?.invoiced?.toISOString() || null,
+    };
+
     const orderData = {
       orderId: order.orderId || order.uuid || '',
       uuid: order.uuid || '',
@@ -587,10 +640,17 @@ const getOrderById = async (
       name: order.name || '',
       phoneNumber: order.phoneNumber || '',
       company: order.company || '',
+      shippingAddress: order.shippingAddress || '',
+      shippingAddress1: order.shippingAddress1 || '',
+      shippingAddress2: order.shippingAddress2 || '',
+      shippingCity: order.shippingCity || '',
+      shippingState: order.shippingState || '',
+      shippingPostalCode: order.shippingPostalCode || '',
       discountCode: order.discountCode || '',
       discountPrice: order.discountPrice || 0,
       amountPaid: order.amountPaid || 0,
       status: order.status || 'Inquiry',
+      statusDates,
       popcornQuantities,
       submittedAt: order.submittedAt
         ? order.submittedAt.toISOString()
@@ -645,6 +705,12 @@ const updateOrder = async (
       'name',
       'phoneNumber',
       'company',
+      'shippingAddress',
+      'shippingAddress1',
+      'shippingAddress2',
+      'shippingCity',
+      'shippingState',
+      'shippingPostalCode',
       'discountCode',
       'discountPrice',
       'amountPaid',
@@ -666,6 +732,26 @@ const updateOrder = async (
       }
     }
 
+    // If status is changing, update the corresponding statusDate
+    if (updateObject.status && updateObject.status !== order.status) {
+      const statusKey = getStatusDateKey(updateObject.status);
+      // Initialize statusDates if it doesn't exist
+      if (!order.statusDates) {
+        order.statusDates = {
+          inquiry: null,
+          confirmed: null,
+          inProduction: null,
+          readyToShip: null,
+          shipped: null,
+          invoiced: null,
+        };
+      }
+      // Only set the date if it hasn't been set before (first time reaching this status)
+      if (!order.statusDates[statusKey]) {
+        order.statusDates[statusKey] = new Date();
+      }
+    }
+
     // Update the order
     Object.assign(order, updateObject);
     const updatedOrder = await order.save();
@@ -679,6 +765,16 @@ const updateOrder = async (
       kettle: 0,
     };
 
+    // Format statusDates for response
+    const statusDates = {
+      inquiry: updatedOrder.statusDates?.inquiry?.toISOString() || null,
+      confirmed: updatedOrder.statusDates?.confirmed?.toISOString() || null,
+      inProduction: updatedOrder.statusDates?.inProduction?.toISOString() || null,
+      readyToShip: updatedOrder.statusDates?.readyToShip?.toISOString() || null,
+      shipped: updatedOrder.statusDates?.shipped?.toISOString() || null,
+      invoiced: updatedOrder.statusDates?.invoiced?.toISOString() || null,
+    };
+
     const orderData = {
       orderId: updatedOrder.orderId || updatedOrder.uuid || '',
       uuid: updatedOrder.uuid || '',
@@ -688,10 +784,17 @@ const updateOrder = async (
       name: updatedOrder.name || '',
       phoneNumber: updatedOrder.phoneNumber || '',
       company: updatedOrder.company || '',
+      shippingAddress: updatedOrder.shippingAddress || '',
+      shippingAddress1: updatedOrder.shippingAddress1 || '',
+      shippingAddress2: updatedOrder.shippingAddress2 || '',
+      shippingCity: updatedOrder.shippingCity || '',
+      shippingState: updatedOrder.shippingState || '',
+      shippingPostalCode: updatedOrder.shippingPostalCode || '',
       discountCode: updatedOrder.discountCode || '',
       discountPrice: updatedOrder.discountPrice || 0,
       amountPaid: updatedOrder.amountPaid || 0,
       status: updatedOrder.status || 'Inquiry',
+      statusDates,
       popcornQuantities,
       submittedAt: updatedOrder.submittedAt
         ? updatedOrder.submittedAt.toISOString()
@@ -711,10 +814,304 @@ const updateOrder = async (
   }
 };
 
+/**
+ * Controller function to search orders by email or name and return associated codes
+ */
+const searchOrdersByCustomer = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    const query = String(req.query.query || '').trim();
+    if (!query) {
+      next(ApiError.badRequest('Query is required'));
+      return;
+    }
+
+    const isEmailQuery = query.includes('@');
+    const emailQuery = query.toLowerCase();
+    const nameRegex = new RegExp(escapeRegex(query), 'i');
+
+    const orderFilter = isEmailQuery
+      ? { email: { $regex: `^${escapeRegex(emailQuery)}$`, $options: 'i' } }
+      : { name: { $regex: nameRegex } };
+
+    const orders = await Order.find(orderFilter)
+      .sort({ submittedAt: -1 })
+      .exec();
+
+    const orderEmails = Array.from(
+      new Set(
+        orders
+          .map((order) => order.email)
+          .filter((email) => typeof email === 'string' && email.length > 0)
+          .map((email) => email.toLowerCase()),
+      ),
+    );
+
+    const discountCodes = orderEmails.length
+      ? await DiscountCode.find({
+          email: { $in: orderEmails },
+        })
+          .sort({ createdAt: -1 })
+          .exec()
+      : [];
+
+    const usedCodes = Array.from(
+      new Set(
+        orders
+          .map((order) => order.discountCode || '')
+          .filter((code) => code.length > 0),
+      ),
+    );
+
+    res.status(StatusCode.OK).json({
+      query,
+      matchedEmails: orderEmails,
+      orders: orders.map((order) => ({
+        orderId: order.orderId || order.uuid || '',
+        uuid: order.uuid || '',
+        email: order.email || '',
+        name: order.name || '',
+        status: order.status || 'Inquiry',
+        statusDates: {
+          inquiry: order.statusDates?.inquiry?.toISOString() || null,
+          confirmed: order.statusDates?.confirmed?.toISOString() || null,
+          inProduction: order.statusDates?.inProduction?.toISOString() || null,
+          readyToShip: order.statusDates?.readyToShip?.toISOString() || null,
+          shipped: order.statusDates?.shipped?.toISOString() || null,
+          invoiced: order.statusDates?.invoiced?.toISOString() || null,
+        },
+        discountCode: order.discountCode || '',
+        amountPaid: order.amountPaid || 0,
+        submittedAt: order.submittedAt
+          ? order.submittedAt.toISOString()
+          : null,
+      })),
+      discountCodes: discountCodes.map((code) => ({
+        id: code._id,
+        code: code.code,
+        email: code.email || '',
+        description: code.description || '',
+        isActive: code.isActive,
+        price: code.price,
+        popcornPrices: code.popcornPrices,
+        createdAt: code.createdAt,
+        updatedAt: code.updatedAt,
+      })),
+      usedCodes,
+    });
+  } catch (error: any) {
+    console.error('Error searching orders:', error);
+    next(ApiError.internal(`Error searching orders: ${error.message}`));
+  }
+};
+
+/**
+ * Controller function to seed sample orders with status history
+ */
+const seedSampleOrdersController = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    const result = await seedSampleOrders();
+    res.status(StatusCode.OK).json({
+      message: 'Sample orders seeded successfully',
+      ...result,
+    });
+  } catch (error: any) {
+    console.error('Error seeding sample orders:', error);
+    next(ApiError.internal(`Error seeding sample orders: ${error.message}`));
+  }
+};
+
+/**
+ * Controller function to delete sample orders
+ */
+const deleteSampleOrdersController = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    const deletedCount = await deleteSampleOrders();
+    res.status(StatusCode.OK).json({
+      message: 'Sample orders deleted successfully',
+      deletedCount,
+    });
+  } catch (error: any) {
+    console.error('Error deleting sample orders:', error);
+    next(ApiError.internal(`Error deleting sample orders: ${error.message}`));
+  }
+};
+
+/**
+ * Public controller function to create an order from the form clone
+ */
+const createPublicOrder = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      company,
+      phoneNumber,
+      email,
+      shippingAddress,
+      shippingAddress1,
+      shippingAddress2,
+      shippingCity,
+      shippingState,
+      shippingPostalCode,
+      discountCode,
+      popcornQuantities,
+    } = req.body;
+
+    if (!firstName || !lastName || !email) {
+      next(ApiError.badRequest('First name, last name, and email are required'));
+      return;
+    }
+    if (!phoneNumber || !shippingAddress1 || !shippingCity || !shippingState || !shippingPostalCode) {
+      next(
+        ApiError.badRequest(
+          'Phone number, street address, city, state, and postal code are required',
+        ),
+      );
+      return;
+    }
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const defaultPrices = {
+      caramel: 5.75,
+      respresso: 5.75,
+      butter: 5.75,
+      cheddar: 5.75,
+      kettle: 5.75,
+    };
+    let discount = null;
+
+    if (discountCode) {
+      discount = await DiscountCode.findOne({
+        code: discountCode,
+        isActive: true,
+      }).exec();
+
+      if (!discount) {
+        next(ApiError.badRequest('Invalid or inactive discount code'));
+        return;
+      }
+
+      if (discount.email && discount.email !== normalizedEmail) {
+        next(ApiError.badRequest('Email does not match discount code'));
+        return;
+      }
+    }
+
+    const quantities = {
+      caramel: Number(popcornQuantities?.caramel || 0),
+      respresso: Number(popcornQuantities?.respresso || 0),
+      butter: Number(popcornQuantities?.butter || 0),
+      cheddar: Number(popcornQuantities?.cheddar || 0),
+      kettle: Number(popcornQuantities?.kettle || 0),
+    };
+
+    const flavors = ['caramel', 'respresso', 'butter', 'cheddar', 'kettle'];
+    for (const flavor of flavors) {
+      if (Number.isNaN(quantities[flavor as keyof typeof quantities])) {
+        next(ApiError.badRequest(`Invalid quantity for ${flavor}`));
+        return;
+      }
+      if (quantities[flavor as keyof typeof quantities] < 0) {
+        next(ApiError.badRequest(`Quantity for ${flavor} must be >= 0`));
+        return;
+      }
+    }
+
+    const prices = discount?.popcornPrices || {
+      caramel: discount?.price || defaultPrices.caramel,
+      respresso: discount?.price || defaultPrices.respresso,
+      butter: discount?.price || defaultPrices.butter,
+      cheddar: discount?.price || defaultPrices.cheddar,
+      kettle: discount?.price || defaultPrices.kettle,
+    };
+
+    const amountPaid =
+      quantities.caramel * (prices.caramel || 0) +
+      quantities.respresso * (prices.respresso || 0) +
+      quantities.butter * (prices.butter || 0) +
+      quantities.cheddar * (prices.cheddar || 0) +
+      quantities.kettle * (prices.kettle || 0);
+
+    const now = new Date();
+    const uuid = randomUUID();
+    const combinedShippingAddress = [
+      String(shippingAddress1 || '').trim(),
+      String(shippingAddress2 || '').trim(),
+      `${String(shippingCity || '').trim()}, ${String(shippingState || '').trim()} ${String(
+        shippingPostalCode || '',
+      ).trim()}`.trim(),
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    const orderData: Partial<IOrder> = {
+      orderId: uuid,
+      uuid,
+      email: normalizedEmail,
+      firstName: String(firstName).trim(),
+      lastName: String(lastName).trim(),
+      name: `${String(firstName).trim()} ${String(lastName).trim()}`.trim(),
+      phoneNumber: String(phoneNumber).trim(),
+      company: String(company || '').trim(),
+      shippingAddress: combinedShippingAddress,
+      shippingAddress1: String(shippingAddress1 || '').trim(),
+      shippingAddress2: String(shippingAddress2 || '').trim(),
+      shippingCity: String(shippingCity || '').trim(),
+      shippingState: String(shippingState || '').trim(),
+      shippingPostalCode: String(shippingPostalCode || '').trim(),
+      discountCode: discountCode || '',
+      discountPrice: discount?.price || defaultPrices.caramel,
+      amountPaid,
+      status: 'Inquiry',
+      statusDates: {
+        inquiry: now,
+        confirmed: null,
+        inProduction: null,
+        readyToShip: null,
+        shipped: null,
+        invoiced: null,
+      },
+      popcornQuantities: quantities,
+      submittedAt: now,
+    };
+
+    const order = new Order(orderData);
+    const savedOrder = await order.save();
+
+    res.status(StatusCode.CREATED).json({
+      uuid: savedOrder.uuid,
+      orderId: savedOrder.orderId,
+      amountPaid: savedOrder.amountPaid,
+    });
+  } catch (error: any) {
+    console.error('Error creating public order:', error);
+    next(ApiError.internal(`Error creating order: ${error.message}`));
+  }
+};
+
 export {
   ingestTypeformOrders,
   getAllOrders,
   deleteAllOrders,
   getOrderById,
   updateOrder,
+  createPublicOrder,
+  searchOrdersByCustomer,
+  seedSampleOrdersController,
+  deleteSampleOrdersController,
 };

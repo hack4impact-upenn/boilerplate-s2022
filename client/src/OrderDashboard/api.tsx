@@ -70,6 +70,16 @@ export async function fetchOrderById(id: string) {
 }
 
 /**
+ * Search orders by email or name
+ */
+export async function searchOrdersByCustomer(query: string) {
+  const response = await getData(
+    `orders/search?query=${encodeURIComponent(query)}`,
+  );
+  return response;
+}
+
+/**
  * Update an order by ID
  * @param id - The order ID (orderId/uuid) to update
  * @param orderData - The order data to update
@@ -79,3 +89,20 @@ export async function updateOrder(id: string, orderData: any) {
   const response = await putData(`orders/${id}`, orderData);
   return response;
 }
+
+/**
+ * Seed sample orders with status history for testing/demos
+ */
+export async function seedSampleOrders() {
+  const response = await postData('orders/seed-sample', {});
+  return response;
+}
+
+/**
+ * Delete sample orders (those with uuid starting with 'sample-')
+ */
+export async function deleteSampleOrders() {
+  const response = await deleteData('orders/seed-sample', {});
+  return response;
+}
+

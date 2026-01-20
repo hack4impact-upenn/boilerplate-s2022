@@ -106,21 +106,9 @@ function OrderTable({ orders, filters }: OrderTableProps) {
 
   // Limit to 6 rows max
   const displayRows = rows.slice(0, 6);
-  const rowCount = displayRows.length;
-
-  // Calculate height: header (53px) + rows (53px each)
-  // If less than 6 rows, only show what's needed
-  const tableHeight = rowCount > 0 ? 53 + rowCount * 53 : 53; // Just header if no rows
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        width: '100%',
-        height: `${tableHeight}px`,
-        overflow: 'hidden',
-      }}
-    >
+    <TableContainer component={Paper} sx={{ width: '100%', pb: '2rem' }}>
       <Table stickyHeader aria-label="orders table" size="small">
         <TableHead>
           <TableRow>

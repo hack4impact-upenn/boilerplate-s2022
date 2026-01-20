@@ -29,38 +29,16 @@ function DashboardHeader() {
             to="/dashboard"
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 'bold',
-                  color: COLORS.white,
-                  lineHeight: 1.2,
-                }}
-              >
-                POPCORN
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 'bold',
-                  color: COLORS.white,
-                  lineHeight: 1.2,
-                }}
-              >
-                FOR THE
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 'bold',
-                  color: COLORS.white,
-                  lineHeight: 1.2,
-                }}
-              >
-                people
-              </Typography>
-            </Box>
+            <Box
+              component="img"
+              src="/popcorn.avif"
+              alt="Popcorn for the People"
+              sx={{
+                height: 60,
+                width: 'auto',
+                objectFit: 'contain',
+              }}
+            />
           </Link>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -76,6 +54,19 @@ function DashboardHeader() {
             }}
           >
             Order Management
+          </Button>
+          <Button
+            component={Link}
+            to="/customer-lookup"
+            sx={{
+              color: COLORS.white,
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+            }}
+          >
+            Customer Lookup
           </Button>
           <Button
             component={Link}
@@ -106,7 +97,7 @@ function DashboardHeader() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Typography sx={{ color: 'text.secondary' }}>🔍</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>????</Typography>
                 </InputAdornment>
               ),
             }}
@@ -118,3 +109,4 @@ function DashboardHeader() {
 }
 
 export default DashboardHeader;
+

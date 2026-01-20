@@ -262,9 +262,22 @@ function OrderManagementPage() {
                       }
                     }}
                     renderInput={(params) => {
+                      const {
+                        InputLabelProps,
+                        InputProps,
+                        id,
+                        inputRef,
+                      } = params;
+                      const combinedInputProps = {
+                        ...InputProps,
+                        inputProps: params.inputProps,
+                      };
                       return (
                         <TextField
-                          {...params}
+                          id={id}
+                          inputRef={inputRef}
+                          InputLabelProps={InputLabelProps}
+                          InputProps={combinedInputProps}
                           label="Order ID or Name"
                           placeholder="Enter order ID (UUID) or customer name"
                           fullWidth
@@ -703,18 +716,18 @@ function OrderManagementPage() {
             )}
 
             {!selectedOrder && !loading && (
-        <Paper
-          sx={{
-            p: 4,
-            backgroundColor: COLORS.white,
-            borderRadius: 2,
+              <Paper
+                sx={{
+                  p: 4,
+                  backgroundColor: COLORS.white,
+                  borderRadius: 2,
                   textAlign: 'center',
-          }}
-        >
-          <Typography variant="body1" color="text.secondary">
+                }}
+              >
+                <Typography variant="body1" color="text.secondary">
                   Search for an order by ID or name to begin editing
-          </Typography>
-        </Paper>
+                </Typography>
+              </Paper>
             )}
           </Grid>
         </Grid>
@@ -724,3 +737,4 @@ function OrderManagementPage() {
 }
 
 export default OrderManagementPage;
+

@@ -19,6 +19,12 @@ const DiscountCodeSchema = new mongoose.Schema({
     unique: true,
     index: true,
   },
+  email: {
+    type: String,
+    default: '',
+    lowercase: true,
+    trim: true,
+  },
   price: {
     type: Number,
     required: false,
@@ -67,6 +73,7 @@ interface IPopcornPrices {
 interface IDiscountCode extends mongoose.Document {
   _id: string;
   code: string;
+  email: string;
   price: number;
   popcornPrices?: IPopcornPrices;
   description: string;

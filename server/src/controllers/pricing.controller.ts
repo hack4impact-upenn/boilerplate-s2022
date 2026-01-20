@@ -57,7 +57,9 @@ const createDiscountCode = async (
   next: express.NextFunction,
 ) => {
   try {
-    const { code, price, popcornPrices, description, isActive } = req.body;
+    const { code, price, popcornPrices, description, isActive, email } = req.body;
+    const isValidNumber = (value: unknown) =>
+      typeof value === 'number' && Number.isFinite(value);
 
     // Generate UUID if code not provided
     const discountCode = code || randomUUID();
@@ -83,6 +85,7 @@ const createDiscountCode = async (
       for (const flavor of flavors) {
         if (
           popcornPrices[flavor] === undefined ||
+          !isValidNumber(popcornPrices[flavor]) ||
           popcornPrices[flavor] < 0
         ) {
           next(
@@ -98,7 +101,7 @@ const createDiscountCode = async (
       const prices = Object.values(popcornPrices) as number[];
       finalPrice = prices.reduce((sum, p) => sum + p, 0) / prices.length;
     } else if (price !== undefined) {
-      if (price < 0) {
+      if (!isValidNumber(price) || price < 0) {
         next(ApiError.badRequest('Price must be >= 0'));
         return;
       }
@@ -124,6 +127,7 @@ const createDiscountCode = async (
 
     const newCode = new DiscountCode({
       code: discountCode,
+      email: typeof email === 'string' ? email.trim().toLowerCase() : '',
       price: finalPrice,
       popcornPrices: finalPopcornPrices,
       description: description || '',
@@ -152,7 +156,9 @@ const updateDiscountCode = async (
 ) => {
   try {
     const { id } = req.params;
-    const { code, price, popcornPrices, description, isActive } = req.body;
+    const { code, price, popcornPrices, description, isActive, email } = req.body;
+    const isValidNumber = (value: unknown) =>
+      typeof value === 'number' && Number.isFinite(value);
 
     const discountCode = await DiscountCode.findById(id).exec();
     if (!discountCode) {
@@ -180,6 +186,7 @@ const updateDiscountCode = async (
       for (const flavor of flavors) {
         if (
           popcornPrices[flavor] === undefined ||
+          !isValidNumber(popcornPrices[flavor]) ||
           popcornPrices[flavor] < 0
         ) {
           next(
@@ -195,7 +202,7 @@ const updateDiscountCode = async (
       const prices = Object.values(popcornPrices) as number[];
       discountCode.price = prices.reduce((sum, p) => sum + p, 0) / prices.length;
     } else if (price !== undefined) {
-      if (price < 0) {
+      if (!isValidNumber(price) || price < 0) {
         next(ApiError.badRequest('Price must be >= 0'));
         return;
       }
@@ -223,6 +230,10 @@ const updateDiscountCode = async (
     }
     if (isActive !== undefined) {
       discountCode.isActive = isActive;
+    }
+    if (email !== undefined) {
+      discountCode.email =
+        typeof email === 'string' ? email.trim().toLowerCase() : '';
     }
 
     const updatedCode = await discountCode.save();
@@ -349,12 +360,79 @@ const updatePopcornPrices = async (
   }
 };
 
+/**
+ * Public controller function to get popcorn prices
+ */
+const getPopcornPricesPublic = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    let prices = await PopcornPrice.findOne({}).sort({ updatedAt: -1 }).exec();
+
+    if (!prices) {
+      prices = new PopcornPrice({
+        caramel: 5.75,
+        respresso: 5.75,
+        butter: 5.75,
+        cheddar: 5.75,
+        kettle: 5.75,
+      });
+      await prices.save();
+    }
+
+    res.status(StatusCode.OK).json(prices);
+  } catch (error: any) {
+    console.error('Error fetching public popcorn prices:', error);
+    next(ApiError.internal(`Error fetching popcorn prices: ${error.message}`));
+  }
+};
+
+/**
+ * Public controller function to fetch a discount code by its code string
+ */
+const getDiscountCodeByCodePublic = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  try {
+    const { code } = req.params;
+    const discountCode = await DiscountCode.findOne({
+      code,
+      isActive: true,
+    }).exec();
+
+    if (!discountCode) {
+      next(ApiError.notFound(`Discount code "${code}" not found`));
+      return;
+    }
+
+    res.status(StatusCode.OK).json({
+      code: discountCode.code,
+      price: discountCode.price,
+      popcornPrices: discountCode.popcornPrices,
+      description: discountCode.description,
+      isActive: discountCode.isActive,
+      requiresEmail: Boolean(discountCode.email),
+    });
+  } catch (error: any) {
+    console.error('Error fetching discount code by code:', error);
+    next(
+      ApiError.internal(`Error fetching discount code: ${error.message}`),
+    );
+  }
+};
+
 export {
   getAllDiscountCodes,
   getDiscountCodeById,
   createDiscountCode,
   updateDiscountCode,
   deleteDiscountCode,
+  getDiscountCodeByCodePublic,
   getPopcornPrices,
+  getPopcornPricesPublic,
   updatePopcornPrices,
 };

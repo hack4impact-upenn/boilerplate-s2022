@@ -11,6 +11,7 @@ import HomePage from './Home/HomePage.tsx';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
 import DashboardPage from './OrderDashboard/DashboardPage.tsx';
 import OrderManagementPage from './OrderDashboard/OrderManagementPage.tsx';
+import CustomerLookupPage from './OrderDashboard/CustomerLookupPage.tsx';
 import PricingManagementPage from './DiscountCodes/PricingManagementPage.tsx';
 import {
   UnauthenticatedRoutesWrapper,
@@ -64,6 +65,10 @@ function App() {
                     <Route
                       path="/order-management"
                       element={<OrderManagementPage />}
+                    />
+                    <Route
+                      path="/customer-lookup"
+                      element={<CustomerLookupPage />}
                     />
                     <Route
                       path="/pricing-management"
