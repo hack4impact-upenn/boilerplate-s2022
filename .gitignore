@@ -1,5 +1,7 @@
 yarn-error.log
 /node_modules
+form/node_modules
+client/node_modules
 /bin
 .env
 /.env
