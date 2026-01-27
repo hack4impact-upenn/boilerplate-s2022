@@ -5,7 +5,6 @@ This is a simple boilerplate designed to serve as robust template for quickly st
 ## Features
 
 - Session based authentication with [Passport](https://www.passportjs.org)
-- Emailing for account verification and resetting password with [SendGrid](https://sendgrid.com)
 - Admin functionality for viewing/deleting/promoting other users
 - Clean authentication pages built with [Material UI](https://mui.com)
 - In memory database testing with [Jest](https://jestjs.io) and [Supertest](https://www.npmjs.com/package/supertest)
@@ -38,14 +37,6 @@ The boilerplate uses [MongoDB](https://www.mongodb.com) as the database to store
 
 Recommend downloading [MongoDB Compass](https://www.mongodb.com/docs/compass/current/) for easy viewing and management of data.
 
-### SendGrid
-
-The boilerplate uses [SendGrid](https://sendgrid.com) to send emails to users in order to verify their account, and also to reset their passwords. To have email functionality available for use, the PM/TL should do the following
-
-- Create a SendGrid Account
-- Register a [Sender Identity](https://docs.sendgrid.com/for-developers/sending-email/sender-identity) (Single Sender recommended for most)
-- Create an [API Key](https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key)
-
 ### Mixpanel
 
 [Mixpanel](https://mixpanel.com) is an analytics tool that helps us collect data on how users use our applications.
@@ -63,8 +54,6 @@ Create a file named `.env` in the root of the `server` folder and add the follow
 ```
 ATLAS_URI=mongodb-connection-uri-from-above
 COOKIE_SECRET=any-string
-SENDGRID_API_KEY=sendgrid-api-key-from-above
-SENDGRID_EMAIL_ADDRESS=sendgrid-sender-identity-email-from-above
 MIXPANEL_TOKEN=mixpanel-token-from-above
 ```
 

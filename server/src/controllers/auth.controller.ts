@@ -3,10 +3,10 @@
  * user's authentication such as login, logout, and registration.
  */
 import express from 'express';
-import { logger_info } from '../config/configDatadog.ts';
 import passport from 'passport';
 import crypto from 'crypto';
 import { hash } from 'bcrypt';
+import { logger_info } from '../config/configDatadog.ts';
 import { IUser } from '../models/user.model.ts';
 import StatusCode from '../util/statusCode.ts';
 import {
@@ -16,10 +16,6 @@ import {
   getUserByResetPasswordToken,
   getUserByVerificationToken,
 } from '../services/user.service.ts';
-import {
-  emailResetPasswordLink,
-  emailVerificationLink,
-} from '../services/mail.service.ts';
 import ApiError from '../util/apiError.ts';
 import {
   getInviteByToken,
@@ -57,10 +53,6 @@ const login = async (
       }
       if (!user) {
         next(ApiError.unauthorized('Incorrect credentials'));
-        return;
-      }
-      if (!user!.verified) {
-        next(ApiError.unauthorized('Need to verify account by email'));
         return;
       }
       req.logIn(user, (error) => {
@@ -166,7 +158,7 @@ const register = async (
     return;
   }
 
-  // Create user and send verification email
+  // Create user and auto-verify (no email required)
   try {
     const user = await createUser(
       firstName,
@@ -174,16 +166,10 @@ const register = async (
       lowercaseEmail,
       password,
     );
-    // Don't need verification email if testing
-    if (process.env.NODE_ENV === 'test') {
-      user!.verified = true;
-      await user?.save();
-    } else {
-      const verificationToken = crypto.randomBytes(32).toString('hex');
-      user!.verificationToken = verificationToken;
-      await user!.save();
-      await emailVerificationLink(lowercaseEmail, verificationToken);
-    }
+    // Auto-verify all users
+    user!.verified = true;
+    await user?.save();
+
     // Mixpanel Register tracking
     mixpanel.track('Register', {
       distinct_id: user?._id,
@@ -268,16 +254,10 @@ const sendResetPasswordEmail = async (
   ); // Expires in an hour
   await user!.save();
 
-  // Send the email and return an appropriate response
-  emailResetPasswordLink(lowercaseEmail, token)
-    .then(() =>
-      res.status(StatusCode.CREATED).send({
-        message: `Reset link has been sent to ${lowercaseEmail}`,
-      }),
-    )
-    .catch(() => {
-      next(ApiError.internal('Failed to email reset password link.'));
-    });
+  // Return success (email sending disabled)
+  res.status(StatusCode.CREATED).send({
+    message: `Password reset token generated for ${lowercaseEmail}. Token: ${token}`,
+  });
 };
 
 /**

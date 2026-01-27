@@ -19,6 +19,18 @@ import ApiError from '../util/apiError.ts';
  */
 const createExpressApp = (sessionStore: MongoStore): express.Express => {
   const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const FORM_URL = process.env.FORM_URL || '';
+  const corsOrigins = [
+    FRONTEND_URL,
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'hackboilerplate.com',
+    'https://hackboilerplate.com',
+    'http://hackboilerplate.com',
+  ];
+  if (FORM_URL) {
+    corsOrigins.unshift(FORM_URL);
+  }
   const app = express();
 
   // Set up passport and strategies
@@ -38,13 +50,7 @@ const createExpressApp = (sessionStore: MongoStore): express.Express => {
   // app.use(cors({ credentials: true, origin: FRONTEND_URL }));
   app.use(
     cors({
-      origin: [
-        FRONTEND_URL,
-        'http://localhost:3000',
-        'hackboilerplate.com',
-        'https://hackboilerplate.com',
-        'http://hackboilerplate.com',
-      ],
+      origin: corsOrigins,
       credentials: true,
     }),
   );

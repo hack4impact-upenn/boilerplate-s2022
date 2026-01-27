@@ -33,7 +33,9 @@
     ]
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.5.3",
     "@mui/system": "^5.5.2",
     "@reduxjs/toolkit": "^1.8.1",
@@ -45,6 +47,7 @@
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "recharts": "^3.5.1",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.5",

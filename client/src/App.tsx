@@ -9,6 +9,10 @@ import { store, persistor } from './util/redux/store.ts';
 import NotFoundPage from './NotFound/NotFoundPage.tsx';
 import HomePage from './Home/HomePage.tsx';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage.tsx';
+import DashboardPage from './OrderDashboard/DashboardPage.tsx';
+import OrderManagementPage from './OrderDashboard/OrderManagementPage.tsx';
+import CustomerLookupPage from './OrderDashboard/CustomerLookupPage.tsx';
+import PricingManagementPage from './DiscountCodes/PricingManagementPage.tsx';
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
@@ -57,6 +61,19 @@ function App() {
                   {/* Routes accessed only if user is authenticated */}
                   <Route element={<ProtectedRoutesWrapper />}>
                     <Route path="/home" element={<HomePage />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route
+                      path="/order-management"
+                      element={<OrderManagementPage />}
+                    />
+                    <Route
+                      path="/customer-lookup"
+                      element={<CustomerLookupPage />}
+                    />
+                    <Route
+                      path="/pricing-management"
+                      element={<PricingManagementPage />}
+                    />
                   </Route>
                   <Route element={<AdminRoutesWrapper />}>
                     <Route path="/users" element={<AdminDashboardPage />} />

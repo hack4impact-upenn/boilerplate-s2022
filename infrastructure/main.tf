@@ -87,9 +87,7 @@ resource "aws_ecs_task_definition" "app" {
         //   the backend
         { "name" : "FRONTEND_URL", "value" : "http://${aws_lb.app.dns_name}/" },
         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
-        { "name" : "COOKIE_SECRET", "value" : var.cookie_secret },
-        { "name" : "SENDGRID_API_KEY", "value" : var.sendgrid_api_key },
-        { "name" : "SENDGRID_EMAIL_ADDRESS", "value" : var.sendgrid_email_address }
+        { "name" : "COOKIE_SECRET", "value" : var.cookie_secret }
       ],
       logConfiguration = {
         logDriver = "awslogs"
@@ -528,9 +526,7 @@ resource "aws_route53_record" "main" {
 #       ],
 #       environment = [
 #         { "name" : "ATLAS_URI", "value" : var.atlas_uri },
-#         { "name" : "COOKIE_SECRET", "value" : "any-string" },
-#         { "name" : "SENDGRID_API_KEY", "value" : "SG.sendgrid-api-key-from-above" },
-#         { "name" : "SENDGRID_EMAIL_ADDRESS", "value" : "sendgrid-sender-identity-email-from-above" }
+#         { "name" : "COOKIE_SECRET", "value" : "any-string" }
 #       ],
 #       logConfiguration = {
 #         logDriver = "awslogs"

@@ -38,14 +38,6 @@ variable "cookie_secret" {
   type = string
 }
 
-variable "sendgrid_api_key" {
-  type = string
-}
-
-variable "sendgrid_email_address" {
-  type = string
-}
-
 variable "frontend_url" {
   type = string
 }

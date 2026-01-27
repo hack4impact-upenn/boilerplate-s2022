@@ -20,7 +20,6 @@ import {
   updateInvite,
 } from '../services/invite.service.ts';
 import { IInvite } from '../models/invite.model.ts';
-import { emailInviteLink } from '../services/mail.service.ts';
 
 /**
  * Get all users from the database. Upon success, send the a list of all users in the res body with 200 OK status code.
@@ -176,14 +175,7 @@ const inviteUser = async (
   }
 
   function sendInvite(combinedList: any[]) {
-    try {
-      const email = combinedList[0];
-      const verificationToken = combinedList[2];
-
-      emailInviteLink(email, verificationToken);
-    } catch (err: any) {
-      next(ApiError.internal(`Error sending invite: ${err.message}`));
-    }
+    // Email sending disabled - invites are created but not sent via email
   }
 
   try {

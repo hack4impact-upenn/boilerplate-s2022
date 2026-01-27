@@ -17,6 +17,11 @@ const COLORS = {
   lightGray: '#ebeff2', // Gray-subsection
   actionBlue: '#155da1', // Action button
 
+  // Dashboard colors
+  primaryRed: '#d32f2f', // Main red color
+  lightRed: '#ef5350', // Light red
+  darkRed: '#b71c1c', // Dark red
   // Other colors:
 };
 export default COLORS;
+
